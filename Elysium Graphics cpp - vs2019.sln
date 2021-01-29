@@ -1,0 +1,109 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - libraries", "01 - libraries", "{4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{042249AB-7C55-47A3-BC50-D88CFF4BE246}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Windows", "02 - Windows", "{F59FE63F-419A-4710-829D-D7C332363EF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Linux", "03 - Linux", "{F0F689DC-C77F-4F48-B7FF-A26190FEF5AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{F7C0072C-B3AD-4DE1-BB3B-4FEA10ABA448}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - unit tests", "10 - unit tests", "{7D97FC81-170D-4E80-B728-728A7586B0C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "11 - test applications", "11 - test applications", "{70EC776F-19C5-4DF2-8AC7-41054A206FE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - samples", "20 - samples", "{C72E020C-054A-4077-AAC8-4ED90D177A48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{6BE1C479-32DC-4876-9E33-6CF54D6C72B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Windows", "02 - Windows", "{51A8EEBB-BA02-4A86-9114-20B17B7D1D6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Linux", "03 - Linux", "{94D61158-BBE7-4716-B692-01D15A33E540}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{89086286-BA07-45E5-B18C-ED2FE2F4FAE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{05E6820F-EA16-495A-9913-BA7CFDA16E77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Windows", "02 - Windows", "{CCA0D5BE-F6C2-48C7-9619-780C25CC42C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Linux", "03 - Linux", "{723643BE-6AD4-4E28-B42D-DD1B82F1556F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{84045F76-6DFF-4AB0-BB57-08F011920D14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{5B992CDF-A748-4D5F-A6F5-92B4B349C83D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Windows", "02 - Windows", "{90C6FBB9-E434-4625-AC59-FE5A61B7AD07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Linux", "03 - Linux", "{BC9064B3-429A-46FC-B046-29AB908D159F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{325AA601-7AE0-44CD-BC5D-E09B6E1C256B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics", "Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems", "{521FE574-B2FF-4EC0-BFCE-CE78157C588E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Platform.GLFW", "Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems", "{71109BE5-77B0-47DE-8219-6433FD47ACF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.Vulkan", "Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems", "{464C658F-C8F2-49F0-90C2-9CCA11B6C3C8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1Elysium.Graphics.Rendering.DirectX12", "Libraries\01-Shared\Project1Elysium.Graphics.Rendering.DirectX12\Project1Elysium.Graphics.Rendering.DirectX12.vcxitems", "{E56120E1-EE4F-4292-8F63-F9FCBB39CD4D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics", "Libraries\02-Windows\Elysium.Graphics\Elysium.Graphics.vcxproj", "{206291A0-5E5E-42D6-9DFA-F9B583C27092}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems*{206291a0-5e5e-42d6-9dfa-f9b583c27092}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems*{464c658f-c8f2-49f0-90c2-9cca11b6c3c8}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems*{521fe574-b2ff-4ec0-bfce-ce78157c588e}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems*{71109be5-77b0-47de-8219-6433fd47acf5}*SharedItemsImports = 9
+		Libraries\01-Shared\Project1Elysium.Graphics.Rendering.DirectX12\Project1Elysium.Graphics.Rendering.DirectX12.vcxitems*{e56120e1-ee4f-4292-8f63-f9fcbb39cd4d}*SharedItemsImports = 9
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Debug|x64.ActiveCfg = Debug|x64
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Debug|x64.Build.0 = Debug|x64
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Debug|x86.ActiveCfg = Debug|Win32
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Debug|x86.Build.0 = Debug|Win32
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x64.ActiveCfg = Release|x64
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x64.Build.0 = Release|x64
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x86.ActiveCfg = Release|Win32
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{042249AB-7C55-47A3-BC50-D88CFF4BE246} = {4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}
+		{F59FE63F-419A-4710-829D-D7C332363EF3} = {4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}
+		{F0F689DC-C77F-4F48-B7FF-A26190FEF5AD} = {4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}
+		{F7C0072C-B3AD-4DE1-BB3B-4FEA10ABA448} = {4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}
+		{6BE1C479-32DC-4876-9E33-6CF54D6C72B2} = {7D97FC81-170D-4E80-B728-728A7586B0C0}
+		{51A8EEBB-BA02-4A86-9114-20B17B7D1D6B} = {7D97FC81-170D-4E80-B728-728A7586B0C0}
+		{94D61158-BBE7-4716-B692-01D15A33E540} = {7D97FC81-170D-4E80-B728-728A7586B0C0}
+		{89086286-BA07-45E5-B18C-ED2FE2F4FAE6} = {7D97FC81-170D-4E80-B728-728A7586B0C0}
+		{05E6820F-EA16-495A-9913-BA7CFDA16E77} = {70EC776F-19C5-4DF2-8AC7-41054A206FE1}
+		{CCA0D5BE-F6C2-48C7-9619-780C25CC42C1} = {70EC776F-19C5-4DF2-8AC7-41054A206FE1}
+		{723643BE-6AD4-4E28-B42D-DD1B82F1556F} = {70EC776F-19C5-4DF2-8AC7-41054A206FE1}
+		{84045F76-6DFF-4AB0-BB57-08F011920D14} = {70EC776F-19C5-4DF2-8AC7-41054A206FE1}
+		{5B992CDF-A748-4D5F-A6F5-92B4B349C83D} = {C72E020C-054A-4077-AAC8-4ED90D177A48}
+		{90C6FBB9-E434-4625-AC59-FE5A61B7AD07} = {C72E020C-054A-4077-AAC8-4ED90D177A48}
+		{BC9064B3-429A-46FC-B046-29AB908D159F} = {C72E020C-054A-4077-AAC8-4ED90D177A48}
+		{325AA601-7AE0-44CD-BC5D-E09B6E1C256B} = {C72E020C-054A-4077-AAC8-4ED90D177A48}
+		{521FE574-B2FF-4EC0-BFCE-CE78157C588E} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
+		{71109BE5-77B0-47DE-8219-6433FD47ACF5} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
+		{464C658F-C8F2-49F0-90C2-9CCA11B6C3C8} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
+		{E56120E1-EE4F-4292-8F63-F9FCBB39CD4D} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
+		{206291A0-5E5E-42D6-9DFA-F9B583C27092} = {F59FE63F-419A-4710-829D-D7C332363EF3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4F5FD85-E528-400F-8D3F-C4509B0EACBA}
+	EndGlobalSection
+EndGlobal
