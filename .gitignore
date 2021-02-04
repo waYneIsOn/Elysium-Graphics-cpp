@@ -3,3 +3,12 @@
 /Libraries/02-Windows/Elysium.Graphics/Debugbin
 /Libraries/02-Windows/Elysium.Graphics/x64/Release
 /Libraries/02-Windows/Elysium.Graphics/Releasebin/x64
+
+/Libraries/02-Windows/Elysium.Graphics.Platform.GLFW/Debugbin/x64
+/Libraries/02-Windows/Elysium.Graphics.Platform.GLFW/Releasebin/x64
+
+/Libraries/02-Windows/Elysium.Graphics.Rendering.DirectX12/Debugbin/x64
+/Libraries/02-Windows/Elysium.Graphics.Rendering.Vulkan/Debugbin/x64
+
+/TestApplications/02-Windows/SimpleTest/Debugbin/x64
+/TestApplications/02-Windows/SimpleTest/Releasebin/x64

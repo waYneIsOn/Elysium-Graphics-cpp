@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_IGAMEWINDOW
-#define ELYSIUM_GRAPHICS_PLATFORM_IGAMEWINDOW
+#ifndef ELYSIUM_GRAPHICS_RENDERING_IQUEUE
+#define ELYSIUM_GRAPHICS_RENDERING_IQUEUE
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,15 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-namespace Elysium::Graphics::Platform
+namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API IGameWindow
+	class ELYSIUM_GRAPHICS_API IQueue
 	{
 	public:
-		virtual ~IGameWindow() { }
-
-		virtual void Show() = 0;
-		virtual void Close() = 0;
+		virtual ~IQueue() { }
 	};
 }
 #endif

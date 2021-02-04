@@ -4,6 +4,7 @@
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{521fe574-b2ff-4ec0-bfce-ce78157c588e}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Graphics</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -15,15 +16,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IGameHost.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IGameWindow.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Canvas.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ILogicalDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IPhysicalDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Canvas.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
   </ItemGroup>
 </Project>

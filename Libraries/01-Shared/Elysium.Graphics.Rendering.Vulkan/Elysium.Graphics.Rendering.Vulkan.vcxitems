@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{464c658f-c8f2-49f0-90c2-9cca11b6c3c8}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Graphics::Rendering::Vulkan</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -12,5 +13,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IncludeVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDevicePropertiesVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceTypeVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParametersVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LayerPropertyVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)QueueCapabilitiesVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)QueueVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDevicePropertiesVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParametersVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LayerPropertyVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)QueueVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
   </ItemGroup>
 </Project>

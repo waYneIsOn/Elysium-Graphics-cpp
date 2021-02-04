@@ -49,17 +49,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Platform.G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.Vulkan", "Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems", "{464C658F-C8F2-49F0-90C2-9CCA11B6C3C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1Elysium.Graphics.Rendering.DirectX12", "Libraries\01-Shared\Project1Elysium.Graphics.Rendering.DirectX12\Project1Elysium.Graphics.Rendering.DirectX12.vcxitems", "{E56120E1-EE4F-4292-8F63-F9FCBB39CD4D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics", "Libraries\02-Windows\Elysium.Graphics\Elysium.Graphics.vcxproj", "{206291A0-5E5E-42D6-9DFA-F9B583C27092}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.DirectX12", "Libraries\01-Shared\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxitems", "{AD7CA2D1-4A60-49B2-8E37-CC0F76A4B99C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Platform.GLFW", "Libraries\02-Windows\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxproj", "{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleTest", "TestApplications\02-Windows\SimpleTest\SimpleTest.vcxproj", "{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.Vulkan", "Libraries\02-Windows\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxproj", "{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.DirectX12", "Libraries\02-Windows\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxproj", "{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems*{171e6b64-7dde-4dea-8620-d2a2f967dce9}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems*{206291a0-5e5e-42d6-9dfa-f9b583c27092}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxitems*{3f4af807-0f51-48d3-8ca4-19ff4e67cc01}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems*{464c658f-c8f2-49f0-90c2-9cca11b6c3c8}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems*{521fe574-b2ff-4ec0-bfce-ce78157c588e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems*{71109be5-77b0-47de-8219-6433fd47acf5}*SharedItemsImports = 9
-		Libraries\01-Shared\Project1Elysium.Graphics.Rendering.DirectX12\Project1Elysium.Graphics.Rendering.DirectX12.vcxitems*{e56120e1-ee4f-4292-8f63-f9fcbb39cd4d}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxitems*{ad7ca2d1-4a60-49b2-8e37-cc0f76a4b99c}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems*{b010f920-aede-4afd-8020-6bf0f55fa38a}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -76,6 +87,38 @@ Global
 		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x64.Build.0 = Release|x64
 		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x86.ActiveCfg = Release|Win32
 		{206291A0-5E5E-42D6-9DFA-F9B583C27092}.Release|x86.Build.0 = Release|Win32
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Debug|x64.ActiveCfg = Debug|x64
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Debug|x64.Build.0 = Debug|x64
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Debug|x86.ActiveCfg = Debug|Win32
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Debug|x86.Build.0 = Debug|Win32
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Release|x64.ActiveCfg = Release|x64
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Release|x64.Build.0 = Release|x64
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Release|x86.ActiveCfg = Release|Win32
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9}.Release|x86.Build.0 = Release|Win32
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Debug|x64.ActiveCfg = Debug|x64
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Debug|x64.Build.0 = Debug|x64
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Debug|x86.ActiveCfg = Debug|Win32
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Debug|x86.Build.0 = Debug|Win32
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Release|x64.ActiveCfg = Release|x64
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Release|x64.Build.0 = Release|x64
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Release|x86.ActiveCfg = Release|Win32
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3}.Release|x86.Build.0 = Release|Win32
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Debug|x64.ActiveCfg = Debug|x64
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Debug|x64.Build.0 = Debug|x64
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Debug|x86.ActiveCfg = Debug|Win32
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Debug|x86.Build.0 = Debug|Win32
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Release|x64.ActiveCfg = Release|x64
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Release|x64.Build.0 = Release|x64
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Release|x86.ActiveCfg = Release|Win32
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A}.Release|x86.Build.0 = Release|Win32
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Debug|x64.ActiveCfg = Debug|x64
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Debug|x64.Build.0 = Debug|x64
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Debug|x86.ActiveCfg = Debug|Win32
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Debug|x86.Build.0 = Debug|Win32
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Release|x64.ActiveCfg = Release|x64
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Release|x64.Build.0 = Release|x64
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Release|x86.ActiveCfg = Release|Win32
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,8 +143,12 @@ Global
 		{521FE574-B2FF-4EC0-BFCE-CE78157C588E} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
 		{71109BE5-77B0-47DE-8219-6433FD47ACF5} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
 		{464C658F-C8F2-49F0-90C2-9CCA11B6C3C8} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
-		{E56120E1-EE4F-4292-8F63-F9FCBB39CD4D} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
 		{206291A0-5E5E-42D6-9DFA-F9B583C27092} = {F59FE63F-419A-4710-829D-D7C332363EF3}
+		{AD7CA2D1-4A60-49B2-8E37-CC0F76A4B99C} = {042249AB-7C55-47A3-BC50-D88CFF4BE246}
+		{171E6B64-7DDE-4DEA-8620-D2A2F967DCE9} = {F59FE63F-419A-4710-829D-D7C332363EF3}
+		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3} = {CCA0D5BE-F6C2-48C7-9619-780C25CC42C1}
+		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A} = {F59FE63F-419A-4710-829D-D7C332363EF3}
+		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01} = {F59FE63F-419A-4710-829D-D7C332363EF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4F5FD85-E528-400F-8D3F-C4509B0EACBA}

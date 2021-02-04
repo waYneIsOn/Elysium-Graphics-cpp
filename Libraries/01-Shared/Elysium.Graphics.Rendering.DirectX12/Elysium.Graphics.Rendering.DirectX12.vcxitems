@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{ad7ca2d1-4a60-49b2-8e37-cc0f76a4b99c}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Graphics::Rendering::DirectX12</ItemsRootNamespace>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IncludeDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParametersDX12.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceDX12.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceDX12.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParametersDX12.cpp" />
+  </ItemGroup>
+</Project>
