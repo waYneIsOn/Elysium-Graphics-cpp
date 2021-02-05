@@ -16,8 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DEVICEQUEUECREATINFOS
+#include "DeviceQueueCreateInfos.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_ILOGICALDEVICE
 #include "ILogicalDevice.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
+#include "PresentationParameters.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
@@ -28,7 +36,8 @@ namespace Elysium::Graphics::Rendering
 		virtual ~IPhysicalDevice() { }
 
 		virtual const Elysium::Core::String GetName() const = 0;
-		//virtual ILogicalDevice CreateLogicalDevice() = 0;
+
+		//virtual ILogicalDevice& CreateLogicalDevice(const PresentationParameters& PresentationParameters, const DeviceQueueCreateInfos& QueueCreateInfo) = 0;
 	};
 }
 #endif

@@ -39,6 +39,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IPhysicalDevice.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ISwapchain.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -54,5 +58,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
   </ItemGroup>
 </Project>

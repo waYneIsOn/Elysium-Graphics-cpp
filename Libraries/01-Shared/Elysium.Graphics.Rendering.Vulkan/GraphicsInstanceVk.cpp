@@ -32,6 +32,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GraphicsInstanceVk()
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 {
+	DisableDebugging();
 	if (_NativeInstanceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroyInstance(_NativeInstanceHandle, nullptr);
@@ -48,21 +49,14 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<VkExtensionProperties> ExtensionProperties = 
-		Elysium::Core::Collections::Template::Array<VkExtensionProperties>(ExtensionCount);
-	if ((Result = vkEnumerateInstanceExtensionProperties(nullptr, &ExtensionCount, &ExtensionProperties[0])) != VK_SUCCESS)
+	Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> Extensions =
+		Elysium::Core::Collections::Template::Array<ExtensionPropertyVk>(ExtensionCount);
+	if ((Result = vkEnumerateInstanceExtensionProperties(nullptr, &ExtensionCount, (VkExtensionProperties*)&Extensions[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> WrappedExtensionProperties =
-		Elysium::Core::Collections::Template::Array<ExtensionPropertyVk>(ExtensionCount);
-	for (size_t i = 0; i < ExtensionCount; i++)
-	{
-		WrappedExtensionProperties[i]._NativeProperty = ExtensionProperties[i];
-	}
-	
-	return WrappedExtensionProperties;
+	return Extensions;
 }
 
 const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetAvailableLayers()
@@ -75,28 +69,21 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<VkLayerProperties> LayerProperties =
-		Elysium::Core::Collections::Template::Array<VkLayerProperties>(LayerCount);
-	if ((Result = vkEnumerateInstanceLayerProperties(&LayerCount, &LayerProperties[0])) != VK_SUCCESS)
+	Elysium::Core::Collections::Template::Array<LayerPropertyVk> Layers =
+		Elysium::Core::Collections::Template::Array<LayerPropertyVk>(LayerCount);
+	if ((Result = vkEnumerateInstanceLayerProperties(&LayerCount, (VkLayerProperties*)&Layers[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<LayerPropertyVk> WrappedLayerProperties =
-		Elysium::Core::Collections::Template::Array<LayerPropertyVk>(LayerCount);
-	for (size_t i = 0; i < LayerCount; i++)
-	{
-		WrappedLayerProperties[i]._NativeProperty = LayerProperties[i];
-	}
-
-	return WrappedLayerProperties;
+	return Layers;
 }
 
 const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalGraphicsDevices()
 {
 	if (_NativeInstanceHandle == VK_NULL_HANDLE)
 	{
-		throw Elysium::Core::InvalidOperationException(u8"Physical graphics devices can only be retrieved after initialization.");
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
 	}
 
 	VkResult Result;
@@ -132,9 +119,55 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return PhysicalGraphicsDevices;
 }
 
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::EnableDebugging()
+{
+	if (_NativeInstanceHandle == VK_NULL_HANDLE)
+	{
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
+	}
+
+	VkDebugUtilsMessengerCreateInfoEXT CreateInfo = VkDebugUtilsMessengerCreateInfoEXT();
+	CreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	CreateInfo.pNext = nullptr;
+	CreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	CreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	CreateInfo.pfnUserCallback = DebugCallback;
+
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkCreateDebugUtilsMessengerEXT");
+	if (func != nullptr)
+	{
+		VkResult Result;
+		if ((Result = func(_NativeInstanceHandle, &CreateInfo, nullptr, &_NativeDebugUtilsMessengerHandle)) != VK_SUCCESS)
+		{
+			throw ExceptionVk(Result);
+		}
+	}
+	else
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DisableDebugging()
+{
+	if (_NativeInstanceHandle == VK_NULL_HANDLE)
+	{
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
+	}
+
+	if (_NativeDebugUtilsMessengerHandle != VK_NULL_HANDLE)
+	{
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr)
+		{
+			func(_NativeInstanceHandle, _NativeDebugUtilsMessengerHandle, nullptr);
+		}
+	}
+}
+
 void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::Initialize(const PresentationParametersVk & PresentationParameters)
 {
-	const Core::Collections::Template::List<char*> ExtensionProperties = PresentationParameters._ExtensionPropertyNames;
+	const Core::Collections::Template::List<char*> ExtensionProperties = PresentationParameters._InstanceExtensionPropertyNames;
 	const Core::Collections::Template::List<char*> LayerProperties = PresentationParameters._LayerPropertyNames;
 
 	VkApplicationInfo ApplicationInfo = VkApplicationInfo();
@@ -169,11 +202,18 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::Initialize(const 
 
 Elysium::Graphics::Rendering::Vulkan::SurfaceVk Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateSurface(const PresentationParametersVk& PresentationParameters)
 {
+	if (_NativeInstanceHandle == VK_NULL_HANDLE)
+	{
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
+	}
+
 	VkResult Result;
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	VkWin32SurfaceCreateInfoKHR SurfaceCreateInfo = VkWin32SurfaceCreateInfoKHR();
 	SurfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	SurfaceCreateInfo.pNext = nullptr;
+	SurfaceCreateInfo.flags = 0;
 	SurfaceCreateInfo.hwnd = (HWND)PresentationParameters.GetCanvas().GetHandle();
 	SurfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 
@@ -193,4 +233,24 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk Elysium::Graphics::Rendering::Vu
 #endif
 
 	return SurfaceVk(_NativeInstanceHandle, NativeSurfaceHandle);
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DebugCallback(
+	VkDebugUtilsMessageSeverityFlagBitsEXT MessageSeverity, VkDebugUtilsMessageTypeFlagsEXT MessageType,
+	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+{
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	OutputDebugStringA("validation layer: ");
+	OutputDebugStringA(pCallbackData->pMessage);
+	OutputDebugStringA("\r\n");
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+
+#elif defined(ELYSIUM_CORE_OS_MAC)
+
+#else
+#error "unsupported os"
+#endif
+	return VK_FALSE;
 }

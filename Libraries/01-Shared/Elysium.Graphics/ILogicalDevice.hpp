@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IQueue.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_ISWAPCHAIN
+#include "ISwapchain.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class ELYSIUM_GRAPHICS_API ILogicalDevice

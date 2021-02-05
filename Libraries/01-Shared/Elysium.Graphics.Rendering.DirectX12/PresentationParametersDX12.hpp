@@ -32,9 +32,8 @@ namespace Elysium::Graphics::Rendering::DirectX12
 
 		PresentationParametersDX12& operator=(const PresentationParametersDX12& Source) = delete;
 		PresentationParametersDX12& operator=(PresentationParametersDX12&& Right) noexcept = delete;
+	private:
 
-		virtual void Bla() override
-		{ }
 	};
 }
 #endif

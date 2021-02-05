@@ -36,6 +36,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "QueueVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
+#include "SurfaceVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINVK
+#include "SwapchainVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINCREATEINFOVK
+#include "SwapchainCreateInfoVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class PhysicalDeviceVk;
@@ -51,9 +63,11 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		LogicalDeviceVk& operator=(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk& operator=(LogicalDeviceVk&& Right) noexcept = delete;
 
+		SwapchainVk CreateSwapchain(const SurfaceVk& Surface, const SwapchainCreateInfoVk& SwapchainCreateInfo);
+
 		virtual QueueVk& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) override;
 	private:
-		LogicalDeviceVk(const VkDevice NativeLogicalDeviceHandle, Elysium::Core::Collections::Template::Array<QueueVk>&& NativeQueues);
+		LogicalDeviceVk(const VkDevice NativeLogicalDeviceHandle, Elysium::Core::Collections::Template::Array<QueueVk>&& Queues);
 
 		const VkDevice _NativeLogicalDeviceHandle;
 		Core::Collections::Template::Array<QueueVk> _Queues;

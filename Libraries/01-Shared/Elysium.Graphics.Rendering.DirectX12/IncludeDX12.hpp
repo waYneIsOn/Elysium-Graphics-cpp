@@ -37,6 +37,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <dxgi1_6.h>
 #endif
 
+//#include <d3dx12.h>
 
 #endif
 

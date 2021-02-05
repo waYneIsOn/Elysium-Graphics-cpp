@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -20,14 +24,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_VULKAN_PRESENTMODEVK
+#include "PresentModeVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACECAPABILITIESVK
+#include "SurfaceCapabilitiesVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEFORMATVK
+#include "SurfaceFormatVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
+	class LogicalDeviceVk;
+	class PhysicalDeviceVk;
 	class QueueVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SurfaceVk final
 	{
 		friend class GraphicsInstanceVk;
+		friend class LogicalDeviceVk;
+		friend class PhysicalDeviceVk;
 		friend class QueueVk;
 	public:
 		SurfaceVk(const SurfaceVk& Source) = delete;
@@ -36,6 +56,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		SurfaceVk& operator=(const SurfaceVk& Source) = delete;
 		SurfaceVk& operator=(SurfaceVk&& Right) noexcept = delete;
+
+		const SurfaceCapabilitiesVk GetCapabilities(const PhysicalDeviceVk& PhysicalDevice);
+		const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> GetFormats(const PhysicalDeviceVk& PhysicalDevice);
+		const Elysium::Core::Collections::Template::Array<PresentModeVk> GetPresentModes(const PhysicalDeviceVk& PhysicalDevice);
 	private:
 		SurfaceVk(const VkInstance NativeInstanceHandle, const VkSurfaceKHR NativeSurfaceHandle);
 

@@ -58,10 +58,16 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> GetPhysicalGraphicsDevices();
 
+		void EnableDebugging();
+		void DisableDebugging();
+
 		void Initialize(const PresentationParametersVk& PresentationParameters);
 		SurfaceVk CreateSurface(const PresentationParametersVk& PresentationParameters);
 	private:
 		VkInstance _NativeInstanceHandle = VK_NULL_HANDLE;
+		VkDebugUtilsMessengerEXT _NativeDebugUtilsMessengerHandle = VK_NULL_HANDLE;
+
+		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT MessageSeverity, VkDebugUtilsMessageTypeFlagsEXT MessageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	};
 }
 #endif

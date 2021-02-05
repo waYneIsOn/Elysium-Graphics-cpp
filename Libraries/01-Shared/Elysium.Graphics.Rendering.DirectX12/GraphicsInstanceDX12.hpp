@@ -46,8 +46,6 @@ namespace Elysium::Graphics::Rendering::DirectX12
 		void Initialize(const PresentationParametersDX12& PresentationParameters);
 	private:
 		IDXGIFactory2* _Factory;
-		//IDXGIAdapter4& _Adapter;
-		//ID3D12Device6& _Device;
 	};
 }
 #endif

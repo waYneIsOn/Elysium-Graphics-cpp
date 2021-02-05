@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DeviceQueueCreateInfoVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXTENSIONPROPERTYVK
+#include "ExtensionPropertyVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
@@ -52,6 +56,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "QueueFamilyPropertyVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
+#include "SurfaceVk.hpp"
+#endif
+
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
@@ -66,6 +74,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
 		friend class GraphicsInstanceVk;
+		friend class SurfaceVk;
 	public:
 		PhysicalDeviceVk(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk(PhysicalDeviceVk&& Right) noexcept = delete;
@@ -75,10 +84,13 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PhysicalDeviceVk& operator=(PhysicalDeviceVk&& Right) noexcept = delete;
 
 		virtual const Elysium::Core::String GetName() const override;
+
 		const PhysicalDevicePropertiesVk& GetProperties() const;
 		const PhysicalDeviceFeaturesVk& GetFeatures() const;
-
 		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> GetQueueFamilyProperties();
+		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
+
+		const bool SupportsPresentation(const SurfaceVk& Surface, const Elysium::Core::uint32_t FamilyIndex) const;
 
 		LogicalDeviceVk CreateLogicalDevice(const PresentationParametersVk& PresentationParameters, const Elysium::Core::Collections::Template::List<DeviceQueueCreateInfoVk>& DeviceQueueCreateInfos);
 	private:

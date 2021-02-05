@@ -24,8 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_LOGICALDEVICEDX12
+#include "LogicalDeviceDX12.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_INCLUDEDX12
 #include "IncludeDX12.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_PRESENTATIONPARAMETERSDX12
+#include "PresentationParametersDX12.hpp"
 #endif
 
 namespace Elysium::Core::Collections::Template
@@ -51,10 +59,23 @@ namespace Elysium::Graphics::Rendering::DirectX12
 		PhysicalDeviceDX12& operator=(PhysicalDeviceDX12&& Right) noexcept = delete;
 
 		virtual const Elysium::Core::String GetName() const override;
+
+		const Elysium::Core::uint32_t GetVendorId() const;
+		const Elysium::Core::uint32_t GetDeviceId() const;
+		const Elysium::Core::uint32_t GetSubSysId() const;
+		const Elysium::Core::uint32_t GetRevision() const;
+		const size_t GetDedicatedVideoMemory() const;
+		const size_t GetDedicatedSystemMemory() const;
+		const size_t GetSharedSystemMemory() const;
+
+		LogicalDeviceDX12 CreateLogicalDevice(const PresentationParametersDX12& PresentationParameters);
 	private:
 		PhysicalDeviceDX12();
 
-		DXGI_ADAPTER_DESC1 _NativeAdapter;
+		IDXGIAdapter1* _NativeAdapter;
+		DXGI_ADAPTER_DESC1 _NativeAdapterDescription;
+
+		void SetNativeAdapter(IDXGIAdapter1* NativeAdapter);
 	};
 }
 #endif

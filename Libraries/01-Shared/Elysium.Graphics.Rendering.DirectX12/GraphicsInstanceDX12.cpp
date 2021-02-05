@@ -12,7 +12,12 @@ Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::GraphicsInstanceD
 	: _Factory(nullptr)
 { }
 Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::~GraphicsInstanceDX12()
-{ }
+{
+	if (_Factory != nullptr)
+	{
+		_Factory->Release();
+	}
+}
 
 const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::DirectX12::PhysicalDeviceDX12> Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::GetPhysicalGraphicsDevices()
 {
@@ -22,17 +27,20 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	}
 
 	Elysium::Core::uint32_t DeviceCount = 0;
-	IDXGIAdapter1* _Adapter;
-	for (Elysium::Core::uint32_t i = 0; _Factory->EnumAdapters1(i, &_Adapter) != DXGI_ERROR_NOT_FOUND; ++i)
+	IDXGIAdapter1* Adapter1;
+	for (Elysium::Core::uint32_t i = 0; _Factory->EnumAdapters1(i, &Adapter1) != DXGI_ERROR_NOT_FOUND; ++i)
 	{
 		DeviceCount++;
+		Adapter1->Release();
 	}
 
 	Elysium::Core::Collections::Template::Array<PhysicalDeviceDX12> Devices =
 		Elysium::Core::Collections::Template::Array<PhysicalDeviceDX12>(DeviceCount);
-	for (Elysium::Core::uint32_t i = 0; _Factory->EnumAdapters1(i, &_Adapter) != DXGI_ERROR_NOT_FOUND; ++i)
+	//IDXGIAdapter4* _Adapter4;
+	for (Elysium::Core::uint32_t i = 0; _Factory->EnumAdapters1(i, &Adapter1) != DXGI_ERROR_NOT_FOUND; ++i)
 	{
-		_Adapter->GetDesc1(&Devices[i]._NativeAdapter);
+		//Adapter1->As(_Adapter4);
+		Devices[i].SetNativeAdapter(Adapter1);
 	}
 
 	return Devices;

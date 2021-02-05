@@ -41,6 +41,7 @@ namespace Elysium::Graphics
 
 		static const Core::uint32_t DefaultBackBufferWidth = 800;
 		static const Core::uint32_t DefaultBackBufferHeight = 480;
+		static const Core::uint32_t DefaultBackBufferCount = 3;
 	private:
 		Game& _Game;
 	};

@@ -11,14 +11,24 @@ const Elysium::Core::String& Elysium::Graphics::Rendering::Vulkan::PresentationP
 	return _ApplicationName;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
+void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
 {
-	_ExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
+	_InstanceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
 }
 
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearExtensionProperties()
+void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearInstanceExtensionProperties()
 {
-	_ExtensionPropertyNames.Clear();
+	_InstanceExtensionPropertyNames.Clear();
+}
+
+void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
+{
+	_DeviceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearDeviceExtensionProperties()
+{
+	_DeviceExtensionPropertyNames.Clear();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddLayerProperty(const LayerPropertyVk& LayerProperty)

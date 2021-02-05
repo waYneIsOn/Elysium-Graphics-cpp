@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Canvas.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_GRAPHICSDEVICEMANAGER
+#include "GraphicsDeviceManager.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class ELYSIUM_GRAPHICS_API PresentationParameters
@@ -38,12 +42,11 @@ namespace Elysium::Graphics::Rendering
 		PresentationParameters& operator=(PresentationParameters&& Right) noexcept = delete;
 
 		const Platform::Canvas& GetCanvas() const;
-
-		virtual void Bla() = 0;
 	private:
 		const Platform::Canvas& _Canvas;
-		Core::uint32_t _BackBufferWidth = 800;
-		Core::uint32_t _BackBufferHeight = 460;
+		Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
+		Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
+		Core::uint32_t _ImageBuffer = GraphicsDeviceManager::DefaultBackBufferCount;
 	};
 }
 #endif

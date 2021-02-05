@@ -52,17 +52,18 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Core::String& GetApplicationName() const;
 
-		void AddExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
-		void ClearExtensionProperties();
+		void AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
+		void ClearInstanceExtensionProperties();
+
+		void AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
+		void ClearDeviceExtensionProperties();
 
 		void AddLayerProperty(const LayerPropertyVk& LayerProperty);
 		void ClearLayerProperties();
-
-		virtual void Bla() override
-		{ }
 	private:
 		Core::String _ApplicationName = u8"Elysium Graphics Application";
-		Core::Collections::Template::List<char*> _ExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
+		Core::Collections::Template::List<char*> _InstanceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
+		Core::Collections::Template::List<char*> _DeviceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
 		Core::Collections::Template::List<char*> _LayerPropertyNames = Core::Collections::Template::List<char*>(0);
 	};
 }
