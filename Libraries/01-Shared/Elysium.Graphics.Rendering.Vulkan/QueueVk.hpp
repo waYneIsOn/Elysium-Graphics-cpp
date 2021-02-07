@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IQUEUE
-#include "../Elysium.Graphics/IQueue.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#include "../Elysium.Graphics/INativeQueue.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
@@ -42,12 +42,14 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class LogicalDeviceVk;
 	class PhysicalDeviceVk;
+	class SwapchainVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public IQueue
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public INativeQueue
 	{
 		friend class Elysium::Core::Collections::Template::Array<QueueVk>;
 		friend class LogicalDeviceVk;
 		friend class PhysicalDeviceVk;
+		friend class SwapchainVk;
 	public:
 		QueueVk(const QueueVk& Source) = delete;
 		QueueVk(QueueVk&& Right) noexcept = delete;
@@ -55,6 +57,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		QueueVk& operator=(const QueueVk& Source) = delete;
 		QueueVk& operator=(QueueVk&& Right) noexcept = delete;
+
+		virtual void Wait() override;
 	private:
 		QueueVk();
 

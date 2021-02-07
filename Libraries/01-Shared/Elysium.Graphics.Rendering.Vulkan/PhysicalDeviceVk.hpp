@@ -16,16 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IPHYSICALDEVICE
-#include "../Elysium.Graphics/IPhysicalDevice.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#include "../Elysium.Graphics/INativePhysicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEVICEQUEUECREATEINFOVK
-#include "DeviceQueueCreateInfoVk.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXTENSIONPROPERTYVK
@@ -70,7 +66,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public IPhysicalDevice
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
 		friend class GraphicsInstanceVk;
@@ -92,7 +88,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const bool SupportsPresentation(const SurfaceVk& Surface, const Elysium::Core::uint32_t FamilyIndex) const;
 
-		LogicalDeviceVk CreateLogicalDevice(const PresentationParametersVk& PresentationParameters, const Elysium::Core::Collections::Template::List<DeviceQueueCreateInfoVk>& DeviceQueueCreateInfos);
+		LogicalDeviceVk CreateLogicalDevice(const PresentationParametersVk& PresentationParameters);
 	private:
 		PhysicalDeviceVk();
 

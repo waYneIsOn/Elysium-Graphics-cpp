@@ -30,8 +30,8 @@ namespace Elysium::Graphics
 
 	class ELYSIUM_GRAPHICS_API GraphicsDeviceManager final
 	{
+		friend class Game;
 	public:
-		GraphicsDeviceManager(Game& Game);
 		GraphicsDeviceManager(const GraphicsDeviceManager& Source) = delete;
 		GraphicsDeviceManager(GraphicsDeviceManager&& Right) noexcept = delete;
 		~GraphicsDeviceManager();
@@ -43,6 +43,11 @@ namespace Elysium::Graphics
 		static const Core::uint32_t DefaultBackBufferHeight = 480;
 		static const Core::uint32_t DefaultBackBufferCount = 3;
 	private:
+		GraphicsDeviceManager(Game& Game);
+
+		const bool BeginDraw();
+		void EndDraw();
+
 		Game& _Game;
 	};
 }

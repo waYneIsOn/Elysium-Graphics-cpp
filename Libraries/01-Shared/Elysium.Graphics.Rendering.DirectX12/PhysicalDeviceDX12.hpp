@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IPHYSICALDEVICE
-#include "../Elysium.Graphics/IPhysicalDevice.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#include "../Elysium.Graphics/INativePhysicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API
@@ -46,7 +46,7 @@ namespace Elysium::Graphics::Rendering::DirectX12
 {
 	class GraphicsInstanceDX12;
 
-	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API PhysicalDeviceDX12 final : public IPhysicalDevice
+	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API PhysicalDeviceDX12 final : public INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceDX12>;
 		friend class GraphicsInstanceDX12;
@@ -72,6 +72,7 @@ namespace Elysium::Graphics::Rendering::DirectX12
 	private:
 		PhysicalDeviceDX12();
 
+		IDXGIFactory2* _Factory;
 		IDXGIAdapter1* _NativeAdapter;
 		DXGI_ADAPTER_DESC1 _NativeAdapterDescription;
 

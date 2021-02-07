@@ -33,7 +33,7 @@ namespace Elysium::Graphics::Rendering
 	class ELYSIUM_GRAPHICS_API PresentationParameters
 	{
 	public:
-		PresentationParameters(const Platform::Canvas& Canvas);
+		PresentationParameters(Platform::Canvas& Canvas);
 		PresentationParameters(const PresentationParameters& Source) = delete;
 		PresentationParameters(PresentationParameters&& Right) noexcept = delete;
 		virtual ~PresentationParameters();
@@ -41,12 +41,19 @@ namespace Elysium::Graphics::Rendering
 		PresentationParameters& operator=(const PresentationParameters& Source) = delete;
 		PresentationParameters& operator=(PresentationParameters&& Right) noexcept = delete;
 
-		const Platform::Canvas& GetCanvas() const;
-	private:
-		const Platform::Canvas& _Canvas;
-		Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
-		Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
-		Core::uint32_t _ImageBuffer = GraphicsDeviceManager::DefaultBackBufferCount;
+		Platform::Canvas& GetCanvas() const;
+		const Elysium::Core::uint32_t GetBackBufferWidth() const;
+		const Elysium::Core::uint32_t GetBackBufferHeight() const;
+		const Elysium::Core::uint32_t GetBackBufferCount() const;
+
+		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
+		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
+		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
+	protected:
+		Platform::Canvas& _Canvas;
+		Elysium::Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
+		Elysium::Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
+		Elysium::Core::uint32_t _BackBufferCount = GraphicsDeviceManager::DefaultBackBufferCount;
 	};
 }
 #endif

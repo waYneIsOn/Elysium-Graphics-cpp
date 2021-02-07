@@ -41,6 +41,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class GraphicsInstanceVk;
 	class LogicalDeviceVk;
 	class PhysicalDeviceVk;
+	class PresentationParametersVk;
 	class QueueVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SurfaceVk final
@@ -48,6 +49,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsInstanceVk;
 		friend class LogicalDeviceVk;
 		friend class PhysicalDeviceVk;
+		friend class PresentationParametersVk;
 		friend class QueueVk;
 	public:
 		SurfaceVk(const SurfaceVk& Source) = delete;

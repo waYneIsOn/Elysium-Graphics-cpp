@@ -56,6 +56,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\..\01-Shared\SimpleTest\SimpleTest.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -102,7 +103,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -121,7 +122,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,7 +138,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,19 +158,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="SimpleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxproj">
       <Project>{171e6b64-7dde-4dea-8620-d2a2f967dce9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxproj">
-      <Project>{3f4af807-0f51-48d3-8ca4-19ff4e67cc01}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxproj">
       <Project>{b010f920-aede-4afd-8020-6bf0f55fa38a}</Project>
@@ -177,9 +174,6 @@
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics\Elysium.Graphics.vcxproj">
       <Project>{206291a0-5e5e-42d6-9dfa-f9b583c27092}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MyGame.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

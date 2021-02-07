@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-    // ToDo: rename
+    // ToDo: remove and use surfaceformat + formatconvertervk
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	enum class FormatVk : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)

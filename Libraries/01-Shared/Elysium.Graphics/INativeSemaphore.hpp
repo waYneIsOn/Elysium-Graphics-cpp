@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_ILOGICALDEVICE
-#define ELYSIUM_GRAPHICS_RENDERING_ILOGICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,22 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IQUEUE
-#include "IQueue.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_ISWAPCHAIN
-#include "ISwapchain.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API ILogicalDevice
+	class ELYSIUM_GRAPHICS_API INativeSemaphore
 	{
 	public:
-		virtual ~ILogicalDevice() { }
+		virtual ~INativeSemaphore() { }
 
-		virtual IQueue& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) = 0;
+		virtual void Wait(const Elysium::Core::uint64_t Timeout) = 0;
 	};
 }
 #endif

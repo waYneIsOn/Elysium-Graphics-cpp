@@ -69,36 +69,36 @@ Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12 Elysium::Graphics::Re
 		throw 1;
 	}
 
+	Elysium::Core::Collections::Template::Array<QueueDX12> Queues =
+		Elysium::Core::Collections::Template::Array<QueueDX12>(PresentationParameters._DeviceQueueCreateInfos.GetCount());
+	for (size_t i = 0; i < PresentationParameters._DeviceQueueCreateInfos.GetCount(); i++)
+	{
+		D3D12_COMMAND_QUEUE_DESC QueueCreationInfo = D3D12_COMMAND_QUEUE_DESC();
+		QueueCreationInfo.Type = (D3D12_COMMAND_LIST_TYPE)PresentationParameters._DeviceQueueCreateInfos[i].GetType();
+		QueueCreationInfo.Flags = (D3D12_COMMAND_QUEUE_FLAGS)PresentationParameters._DeviceQueueCreateInfos[i].GetFlags();
+		QueueCreationInfo.Priority = (D3D12_COMMAND_QUEUE_PRIORITY)PresentationParameters._DeviceQueueCreateInfos[i].GetPriority();
+		QueueCreationInfo.NodeMask = PresentationParameters._DeviceQueueCreateInfos[i].GetNodeMask();
 
-
-
-
-
-	D3D12_COMMAND_QUEUE_DESC QueueCreationInfo = D3D12_COMMAND_QUEUE_DESC();
-	QueueCreationInfo.Type = D3D12_COMMAND_LIST_TYPE::D3D12_COMMAND_LIST_TYPE_DIRECT;
-	QueueCreationInfo.Flags = D3D12_COMMAND_QUEUE_FLAGS::D3D12_COMMAND_QUEUE_FLAG_NONE;
-	QueueCreationInfo.Priority = D3D12_COMMAND_QUEUE_PRIORITY::D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-	QueueCreationInfo.NodeMask = 0;
-
-	ID3D12CommandQueue* NativeQueue;
-	if (FAILED(NativeDevice->CreateCommandQueue(&QueueCreationInfo, IID_PPV_ARGS(&NativeQueue))))
-	{	// ToDo: throw specific exception
-		throw 1;
+		Queues[i]._NativeType = QueueCreationInfo.Type;
+		Queues[i]._Index = i;
+		if (FAILED(NativeDevice->CreateCommandQueue(&QueueCreationInfo, IID_PPV_ARGS(&Queues[i]._NativeQueue))))
+		{	
+			for (size_t j = 0; j < i - 1; j++)
+			{
+				Queues[i]._NativeQueue->Release();
+			}
+			NativeDevice->Release();
+			
+			// ToDo: throw specific exception
+			throw 1;
+		}
 	}
 
-	Elysium::Core::Collections::Template::Array<QueueDX12> Queues =
-		Elysium::Core::Collections::Template::Array<QueueDX12>(0);
-
-
-
-
-
-
-	return LogicalDeviceDX12(NativeDevice, std::move(Queues));
+	return LogicalDeviceDX12(_Factory, NativeDevice, std::move(Queues));
 }
 
 Elysium::Graphics::Rendering::DirectX12::PhysicalDeviceDX12::PhysicalDeviceDX12()
-	: _NativeAdapter(nullptr), _NativeAdapterDescription()
+	: _Factory(nullptr), _NativeAdapter(nullptr), _NativeAdapterDescription()
 { }
 
 void Elysium::Graphics::Rendering::DirectX12::PhysicalDeviceDX12::SetNativeAdapter(IDXGIAdapter1* NativeAdapter)

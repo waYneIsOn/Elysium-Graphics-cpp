@@ -17,7 +17,6 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
@@ -30,23 +29,53 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ILogicalDevice.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IQueue.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IPhysicalDevice.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ISwapchain.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeLogicalDevice.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage2D.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePresentationQueue.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Canvas.cpp">

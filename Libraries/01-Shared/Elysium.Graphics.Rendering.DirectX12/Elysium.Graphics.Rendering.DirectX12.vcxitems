@@ -16,18 +16,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandQueueFlagsDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandQueuePriorityDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandQueueTypeDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IncludeDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LogicalDeviceDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParametersDX12.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueDX12.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainDX12.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoDX12.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceDX12.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LogicalDeviceDX12.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceDX12.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParametersDX12.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueDX12.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainDX12.cpp" />
   </ItemGroup>
 </Project>

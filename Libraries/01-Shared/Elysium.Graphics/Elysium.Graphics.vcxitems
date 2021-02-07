@@ -21,21 +21,30 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Canvas.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ILogicalDevice.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IPhysicalDevice.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IQueue.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ISwapchain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage2D.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeLogicalDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePresentationQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Canvas.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />

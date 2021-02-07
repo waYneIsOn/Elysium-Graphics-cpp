@@ -39,6 +39,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	//IDXGIAdapter4* _Adapter4;
 	for (Elysium::Core::uint32_t i = 0; _Factory->EnumAdapters1(i, &Adapter1) != DXGI_ERROR_NOT_FOUND; ++i)
 	{
+		Devices[i]._Factory = _Factory;
+
 		//Adapter1->As(_Adapter4);
 		Devices[i].SetNativeAdapter(Adapter1);
 	}

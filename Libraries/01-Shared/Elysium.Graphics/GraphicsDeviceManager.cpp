@@ -4,8 +4,18 @@
 #include "Game.hpp"
 #endif
 
+Elysium::Graphics::GraphicsDeviceManager::~GraphicsDeviceManager()
+{ }
+
 Elysium::Graphics::GraphicsDeviceManager::GraphicsDeviceManager(Game& Game)
 	: _Game(Game)
 { }
-Elysium::Graphics::GraphicsDeviceManager::~GraphicsDeviceManager()
-{ }
+
+const bool Elysium::Graphics::GraphicsDeviceManager::BeginDraw()
+{
+	return true;
+}
+
+void Elysium::Graphics::GraphicsDeviceManager::EndDraw()
+{
+}

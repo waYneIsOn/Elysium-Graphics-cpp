@@ -61,6 +61,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Graphics.Rendering.DirectX12", "Libraries\02-Windows\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxproj", "{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleTest", "TestApplications\01-Shared\SimpleTest\SimpleTest.vcxitems", "{5EADE11A-23A7-4209-987A-F44B1AD2F57B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems*{171e6b64-7dde-4dea-8620-d2a2f967dce9}*SharedItemsImports = 4
@@ -68,6 +70,8 @@ Global
 		Libraries\01-Shared\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxitems*{3f4af807-0f51-48d3-8ca4-19ff4e67cc01}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems*{464c658f-c8f2-49f0-90c2-9cca11b6c3c8}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Graphics\Elysium.Graphics.vcxitems*{521fe574-b2ff-4ec0-bfce-ce78157c588e}*SharedItemsImports = 9
+		TestApplications\01-Shared\SimpleTest\SimpleTest.vcxitems*{5eade11a-23a7-4209-987a-f44b1ad2f57b}*SharedItemsImports = 9
+		TestApplications\01-Shared\SimpleTest\SimpleTest.vcxitems*{6060ae71-c0d3-4379-89fd-ea1394a5e1b3}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxitems*{71109be5-77b0-47de-8219-6433fd47acf5}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxitems*{ad7ca2d1-4a60-49b2-8e37-cc0f76a4b99c}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxitems*{b010f920-aede-4afd-8020-6bf0f55fa38a}*SharedItemsImports = 4
@@ -149,6 +153,7 @@ Global
 		{6060AE71-C0D3-4379-89FD-EA1394A5E1B3} = {CCA0D5BE-F6C2-48C7-9619-780C25CC42C1}
 		{B010F920-AEDE-4AFD-8020-6BF0F55FA38A} = {F59FE63F-419A-4710-829D-D7C332363EF3}
 		{3F4AF807-0F51-48D3-8CA4-19FF4E67CC01} = {F59FE63F-419A-4710-829D-D7C332363EF3}
+		{5EADE11A-23A7-4209-987A-F44B1AD2F57B} = {05E6820F-EA16-495A-9913-BA7CFDA16E77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4F5FD85-E528-400F-8D3F-C4509B0EACBA}

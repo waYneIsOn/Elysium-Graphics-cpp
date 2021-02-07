@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_ILOGICALDEVICE
-#include "../Elysium.Graphics/ILogicalDevice.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
+#include "../Elysium.Graphics/INativeLogicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
@@ -28,12 +28,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DeviceQueueCreateInfoVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FENCEVK
+#include "FenceVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PRESENTATIONPARAMETERSVK
+#include "PresentationParametersVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_QUEUEVK
 #include "QueueVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SEMAPHOREVK
+#include "SemaphoreVk.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
@@ -44,15 +56,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SwapchainVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINCREATEINFOVK
-#include "SwapchainCreateInfoVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class PhysicalDeviceVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public ILogicalDevice
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public INativeLogicalDevice
 	{
 		friend class PhysicalDeviceVk;
 	public:
@@ -63,9 +71,15 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		LogicalDeviceVk& operator=(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk& operator=(LogicalDeviceVk&& Right) noexcept = delete;
 
-		SwapchainVk CreateSwapchain(const SurfaceVk& Surface, const SwapchainCreateInfoVk& SwapchainCreateInfo);
+		SwapchainVk CreateSwapchain(const PresentationParametersVk& PresentationParameter);
 
+		virtual FenceVk& RetrieveFence() override;
+		virtual SemaphoreVk& RetrieveSemaphore() override;
 		virtual QueueVk& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) override;
+
+		virtual void Wait() override;
+		FenceVk CreateFenceTest();
+		SemaphoreVk CreateSemaphoreTest();
 	private:
 		LogicalDeviceVk(const VkDevice NativeLogicalDeviceHandle, Elysium::Core::Collections::Template::Array<QueueVk>&& Queues);
 

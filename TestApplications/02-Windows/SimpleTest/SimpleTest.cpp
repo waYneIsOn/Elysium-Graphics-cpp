@@ -1,16 +1,15 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Platform.GLFW/GLFWGameWindow.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/GraphicsInstanceDX12.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/PresentationParametersDX12.hpp"
+//#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/GraphicsInstanceDX12.hpp"
+//#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/PresentationParametersDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsInstanceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/PresentationParametersVk.hpp"
-#include "MyGame.hpp"
+#include "../../01-Shared/SimpleTest/MyGame.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Graphics;
 using namespace Elysium::Graphics::Platform::GLFW;
 using namespace Elysium::Graphics::Rendering;
-using namespace Elysium::Graphics::Rendering::DirectX12;
 using namespace Elysium::Graphics::Rendering::Vulkan;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -19,8 +18,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     GLFWGameWindow GameWindow = GLFWGameWindow();
     GameWindow.SetTitle(u8"Elysium Graphics :: GLFWGameWindow :: SimpleTest");
     
-    // create and configure presentation parmeters (some further parameters will be picked up along the way)
+    // create and configure presentation parmeters (further parameters will be picked up and set along the way)
     PresentationParametersVk PresentationParameters = PresentationParametersVk(GameWindow);
+    PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
+    PresentationParameters.SetBackBufferHeight(GraphicsDeviceManager::DefaultBackBufferHeight);
+    PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
     
     // create a vulkan instance and check for extensions and layers to be used
     GraphicsInstanceVk GraphicsInstance = GraphicsInstanceVk();
@@ -45,7 +47,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // initialize the previously created vulkan instance, create a surface, iterate physical devices and pick one
     GraphicsInstance.Initialize(PresentationParameters);
     GraphicsInstance.EnableDebugging();
+
     SurfaceVk Surface = GraphicsInstance.CreateSurface(PresentationParameters);
+    PresentationParameters.SetSurfaceHandle(Surface);
 
     const Array<PhysicalDeviceVk> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
     size_t MostSuitableGraphicsDeviceIndex = -1;
@@ -82,77 +86,79 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
 
     // check surface against physical device to retrieve required data for swapchain-creation
-    SwapchainCreateInfoVk SwapchainCreateInfo = SwapchainCreateInfoVk();
-
     const SurfaceCapabilitiesVk SurfaceCapabilities = Surface.GetCapabilities(SelectedPhysicalDevice);
     const Array<SurfaceFormatVk> AvailableSurfaceFormats = Surface.GetFormats(SelectedPhysicalDevice);
     const Array<PresentModeVk> AvailablePresentModes = Surface.GetPresentModes(SelectedPhysicalDevice);
 
-    SwapchainCreateInfo.Transform = SurfaceCapabilities.GetCurrentTransform();
-    SwapchainCreateInfo.NumberOfImages = 3; // triple buffering?
-    if (SwapchainCreateInfo.NumberOfImages > SurfaceCapabilities.GetMaxImageCount())
+    PresentationParameters.SetTransform(SurfaceCapabilities.GetCurrentTransform());
+    if (PresentationParameters.GetBackBufferCount() > SurfaceCapabilities.GetMaxImageCount())
     {
-        SwapchainCreateInfo.NumberOfImages = SurfaceCapabilities.GetMaxImageCount();
+        PresentationParameters.SetBackBufferCount(SurfaceCapabilities.GetMaxImageCount());
     }
-    SwapchainCreateInfo.Extend = SurfaceCapabilities.GetMaxImageExtent();
+    PresentationParameters.SetExtent(SurfaceCapabilities.GetMaxImageExtent());
 
-    SwapchainCreateInfo.SurfaceFormat = AvailableSurfaceFormats[0];
+    PresentationParameters.SetSurfaceFormat(AvailableSurfaceFormats[0]);
     for (size_t i = 0; i < AvailableSurfaceFormats.GetLength(); i++)
     {
         if (AvailableSurfaceFormats[i].Format == FormatVk::B8G8R8A8_SRGB && AvailableSurfaceFormats[i].ColorSpace == ColorSpaceVk::SRGBNonLinear)
         {
-            SwapchainCreateInfo.SurfaceFormat = AvailableSurfaceFormats[i];
+            PresentationParameters.SetSurfaceFormat(AvailableSurfaceFormats[i]);
             break;
         }
     }
 
-    SwapchainCreateInfo.PresentMode = PresentModeVk::Immediate;
+    PresentationParameters.SetPresentMode(PresentModeVk::Immediate);
     for (size_t i = 0; i < AvailablePresentModes.GetLength(); i++)
     {
         if (AvailablePresentModes[i] == PresentModeVk::Mailbox)
         {
-            SwapchainCreateInfo.PresentMode = AvailablePresentModes[i];
+            PresentationParameters.SetPresentMode(AvailablePresentModes[i]);
             break;
         }
     }
 
     // check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
     const Array<QueueFamilyPropertyVk> QueueFamilyProperties = SelectedPhysicalDevice.GetQueueFamilyProperties();
-    List<DeviceQueueCreateInfoVk> DeviceQueueCreateInfos = List<DeviceQueueCreateInfoVk>();
     for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
     {
         QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
 
         if ((Capabilities & QueueCapabilitiesVk::Graphics) == QueueCapabilitiesVk::Graphics)
         {
-            if (SwapchainCreateInfo.GraphicsFamilyIndex != -1)
+            if (PresentationParameters.GetGraphicsQueueFamilyIndex() == -1)
             {
-                SwapchainCreateInfo.GraphicsFamilyIndex = i;
+                PresentationParameters.SetGraphicsQueueFamilyIndex(i);
             }
-            if (SwapchainCreateInfo.PresentFamilyIndex != -1)
+            if (PresentationParameters.GetPresentationQueueFamilyIndex() == -1)
             {
                 if (SelectedPhysicalDevice.SupportsPresentation(Surface, i))
                 {
-                    SwapchainCreateInfo.PresentFamilyIndex = i;
+                    PresentationParameters.SetPresentationQueueFamilyIndex(i);
                 }
             }
-            DeviceQueueCreateInfoVk DeviceQueueCreateInfo = DeviceQueueCreateInfoVk(QueueFamilyProperties[i].GetIndex(), 1, 1.0f, Capabilities);
-            DeviceQueueCreateInfos.Add(std::move(DeviceQueueCreateInfo));
+
+            DeviceQueueCreateInfoVk QueueCreateInfo = DeviceQueueCreateInfoVk();
+            QueueCreateInfo.SetFamilyIndex(QueueFamilyProperties[i].GetIndex());
+            QueueCreateInfo.AddPriority(1.0f);
+            QueueCreateInfo.SetCapabilities(Capabilities);
+
+            PresentationParameters.AddDeviceQueueCreateInfo(std::move(QueueCreateInfo));
         }
     }
-    LogicalDeviceVk LogicalDevice = SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters, DeviceQueueCreateInfos);
+    LogicalDeviceVk LogicalDevice = SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters);
 
-    // swapchain...
-    SwapchainVk Swapchain = LogicalDevice.CreateSwapchain(Surface, SwapchainCreateInfo);
-
-    // ...
-    //QueueVk& GraphicsQueue = LogicalDevice.RetrieveQueue(GraphicsFamilyIndex, 0);
-    //QueueVk& PresentationQueue = LogicalDevice.RetrieveQueue(PresentationFamilyIndex, 0);
-
-
+    // create a vulkan swapchain
+    SwapchainVk Swapchain = LogicalDevice.CreateSwapchain(PresentationParameters);
+    FenceVk Fence = LogicalDevice.CreateFenceTest();
+    SemaphoreVk ImageAvailableSemaphore = LogicalDevice.CreateSemaphoreTest();
+    SemaphoreVk SignalSemaphore = LogicalDevice.CreateSemaphoreTest();
+    
     /*
     // create and configure presentation parmeters
     PresentationParametersDX12 PresentationParameters = PresentationParametersDX12(GameWindow);
+    PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
+    PresentationParameters.SetBackBufferHeight(GraphicsDeviceManager::DefaultBackBufferHeight);
+    PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
 
     // create a directx12 instance and ...
     GraphicsInstanceDX12 GraphicsInstance = GraphicsInstanceDX12();
@@ -160,23 +166,50 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // initialize the previously created directx12 instance, .... iterate physical devices and pick one
     GraphicsInstance.Initialize(PresentationParameters);
     const Array<PhysicalDeviceDX12> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
+    size_t MostSuitableGraphicsDeviceIndex = -1;
+    size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
     {
         const String DeviceName = PhysicalGraphicsDevices[i].GetName();
+
+        size_t Score = 0;
+        Score += PhysicalGraphicsDevices[i].GetDedicatedSystemMemory();
+        Score += PhysicalGraphicsDevices[i].GetDedicatedVideoMemory();
+        Score += PhysicalGraphicsDevices[i].GetSharedSystemMemory();
+
+        if (Score > HighestScore)
+        {
+            HighestScore = Score;
+            MostSuitableGraphicsDeviceIndex = i;
+        }
     }
-    PhysicalDeviceDX12& SelectedPhysicalDevice = PhysicalGraphicsDevices[0];
+    PhysicalDeviceDX12& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitableGraphicsDeviceIndex];
     
-    // ...
-    //LogicalDeviceDX12 LogicalDevice = SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters);
+    // create a logical device as well as queues required
+    DeviceQueueCreateInfoDX12 GraphicsQueueCreateInfo = DeviceQueueCreateInfoDX12();
+    GraphicsQueueCreateInfo.SetNodeMask(0);
+    GraphicsQueueCreateInfo.SetFlags(CommandQueueFlagsDX12::None);
+    GraphicsQueueCreateInfo.SetPriority(CommandQueuePriorityDX12::Normal);
+    GraphicsQueueCreateInfo.SetType(CommandQueueTypeDX12::Direct);
+
+    PresentationParameters.AddDeviceQueueCreateInfo(std::move(GraphicsQueueCreateInfo));
+
+    LogicalDeviceDX12 LogicalDevice = SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters);
+
+    // create a directx12 swapchain
+    SwapchainDX12 Swapchain = LogicalDevice.CreateSwapchain(PresentationParameters);
     */
 
 
-    const String DeviceName = SelectedPhysicalDevice.GetName();
-    //SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters, DeviceQueueCreateInfos());
+
+    // ...
+    INativeQueue& GraphicsQueue = LogicalDevice.RetrieveQueue(PresentationParameters.GetGraphicsQueueFamilyIndex(), 0);
+    INativeQueue& PresentationQueue = LogicalDevice.RetrieveQueue(PresentationParameters.GetPresentationQueueFamilyIndex(), 0);
+
 
 
 
     // create and run the game
-    MyGame Game = MyGame(GameWindow, SelectedPhysicalDevice);
+    MyGame Game = MyGame(PresentationParameters, SelectedPhysicalDevice, LogicalDevice, Swapchain, Fence, ImageAvailableSemaphore, SignalSemaphore, PresentationQueue);
     Game.Run();
 }

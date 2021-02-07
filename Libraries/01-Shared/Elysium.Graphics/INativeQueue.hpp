@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IQUEUE
-#define ELYSIUM_GRAPHICS_RENDERING_IQUEUE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,10 +18,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API IQueue
+	class ELYSIUM_GRAPHICS_API INativeQueue
 	{
 	public:
-		virtual ~IQueue() { }
+		virtual ~INativeQueue() { }
+
+		virtual void Wait() = 0;
 	};
 }
 #endif

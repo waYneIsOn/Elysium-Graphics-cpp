@@ -5,11 +5,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_ISWAPCHAIN
-#define ELYSIUM_GRAPHICS_RENDERING_ISWAPCHAIN
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
 
 #ifdef _MSC_VER
 #pragma once
+#endif
+
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_API
@@ -18,10 +22,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API ISwapchain
+	class ELYSIUM_GRAPHICS_API INativeCommandPool
 	{
 	public:
-		virtual ~ISwapchain() { }
+		virtual ~INativeCommandPool() { }
 	};
 }
 #endif

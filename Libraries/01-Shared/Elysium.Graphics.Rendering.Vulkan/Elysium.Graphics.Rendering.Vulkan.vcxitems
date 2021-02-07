@@ -16,13 +16,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ColorSpaceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DepthBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Extent2DVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FenceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverterVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Image2DVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IncludeVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.hpp" />
@@ -35,18 +40,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueCapabilitiesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceCapabilitiesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainCreateInfoVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainVk.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BufferVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DepthBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Extent2DVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FenceVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverterVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Image2DVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDevicePropertiesVk.cpp" />
@@ -55,10 +65,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LayerPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceCapabilitiesVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainCreateInfoVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainVk.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - ToDos.txt" />
   </ItemGroup>
 </Project>

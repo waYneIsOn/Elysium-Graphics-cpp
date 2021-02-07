@@ -72,7 +72,6 @@ namespace Elysium::Graphics::Platform
 		Core::Event<void, void*, const Core::EventArgs&> Resume;
 		Core::Event<void, void*, const Core::EventArgs&> SizeChanged;
 		Core::Event<void, void*, const Core::EventArgs&> OrientationChanged;
-		Core::Event<void, void*, const Core::EventArgs&> Idle;
 		Core::Event<void, void*, const Core::EventArgs&> Paint;
 		Core::Event<void, void*, const Core::EventArgs&> Exiting;
 	};

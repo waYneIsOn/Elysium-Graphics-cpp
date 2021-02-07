@@ -91,9 +91,9 @@ const bool Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::SupportsPrese
 	return SupportsPresentation == 1;
 }
 
-Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::CreateLogicalDevice(const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk & PresentationParameters, const Elysium::Core::Collections::Template::List<DeviceQueueCreateInfoVk> & DeviceQueueCreateInfos)
+Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::CreateLogicalDevice(const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk & PresentationParameters)
 {
-	const size_t QueueCount = DeviceQueueCreateInfos.GetCount();
+	const size_t QueueCount = PresentationParameters._DeviceQueueCreateInfos.GetCount();
 	if (QueueCount == 0)
 	{
 		throw Elysium::Core::InvalidOperationException(u8"Request at least one queue.");
@@ -104,14 +104,16 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk Elysium::Graphics::Renderi
 	Elysium::Core::uint32_t TotalQueueCount = 0;
 	for (size_t i = 0; i < QueueCount; i++)
 	{
+		const Elysium::Core::Collections::Template::List<float>& Priorities = PresentationParameters._DeviceQueueCreateInfos[i].GetPriorities();
+
 		QueueCreateInfos[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		QueueCreateInfos[i].queueFamilyIndex = DeviceQueueCreateInfos[i].FamilyIndex;
-		QueueCreateInfos[i].queueCount = DeviceQueueCreateInfos[i].Count;
-		QueueCreateInfos[i].pQueuePriorities = &DeviceQueueCreateInfos[i].Priority;
+		QueueCreateInfos[i].queueFamilyIndex = PresentationParameters._DeviceQueueCreateInfos[i].GetFamilyIndex();
+		QueueCreateInfos[i].queueCount = Priorities.GetCount();
+		QueueCreateInfos[i].pQueuePriorities = &Priorities[0];
 		QueueCreateInfos[i].pNext = nullptr;
 		QueueCreateInfos[i].flags = 0;
 
-		TotalQueueCount += DeviceQueueCreateInfos[i].Count;
+		TotalQueueCount += Priorities.GetCount();
 	}
 	
 	VkDeviceCreateInfo DeviceCreateInfo = VkDeviceCreateInfo();
@@ -146,11 +148,13 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk Elysium::Graphics::Renderi
 	TotalQueueCount = 0;
 	for (size_t i = 0; i < QueueCount; i++)
 	{
-		for (Elysium::Core::uint32_t j = 0; j < DeviceQueueCreateInfos[i].Count; j++)
+		const Elysium::Core::Collections::Template::List<float>& Priorities = PresentationParameters._DeviceQueueCreateInfos[i].GetPriorities();
+
+		for (Elysium::Core::uint32_t j = 0; j < Priorities.GetCount(); j++)
 		{
 			Queues[TotalQueueCount]._FamilyIndex = i;
 			Queues[TotalQueueCount]._Index = j;
-			vkGetDeviceQueue(NativeLogicalDeviceHandle, DeviceQueueCreateInfos[i].FamilyIndex, j, &Queues[TotalQueueCount++]._NativeQueueHandle);
+			vkGetDeviceQueue(NativeLogicalDeviceHandle, PresentationParameters._DeviceQueueCreateInfos[i].GetFamilyIndex(), j, &Queues[TotalQueueCount++]._NativeQueueHandle);
 		}
 	}
 	

@@ -59,11 +59,12 @@ void* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetHandle() const
 
 void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Show()
 {
+	Activated(this, Elysium::Core::EventArgs());
 	glfwShowWindow(_NativeWindow);
-	//Activated(*this, Elysium::Core::EventArgs());
 	while (_NativeWindow != nullptr && !glfwWindowShouldClose(_NativeWindow))
 	{
 		glfwPollEvents();
+		Paint(this, Elysium::Core::EventArgs());
 	}
 }
 
@@ -71,6 +72,7 @@ void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Close()
 {
 	if (_NativeWindow != nullptr)
 	{
+		Exiting(this, Elysium::Core::EventArgs());
 		glfwSetWindowShouldClose(_NativeWindow, GLFW_TRUE);
 		while (!glfwWindowShouldClose(_NativeWindow))
 		{ }

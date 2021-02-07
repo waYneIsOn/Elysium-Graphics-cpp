@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
@@ -38,18 +38,26 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 	public:
 		DeviceQueueCreateInfoVk();
-		DeviceQueueCreateInfoVk(Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Count, float Priority, QueueCapabilitiesVk Capabilities);
 		DeviceQueueCreateInfoVk(const DeviceQueueCreateInfoVk& Source);
 		DeviceQueueCreateInfoVk(DeviceQueueCreateInfoVk&& Right) noexcept;
 		~DeviceQueueCreateInfoVk();
 
 		DeviceQueueCreateInfoVk& operator=(const DeviceQueueCreateInfoVk& Source);
 		DeviceQueueCreateInfoVk& operator=(DeviceQueueCreateInfoVk&& Right) noexcept;
-	
-		float Priority;
-		Elysium::Core::uint32_t FamilyIndex;
-		Elysium::Core::uint32_t Count;
-		QueueCapabilitiesVk Capabilities;
+
+		const Elysium::Core::uint32_t& GetFamilyIndex() const;
+		const QueueCapabilitiesVk& GetCapabilities() const;
+		const Elysium::Core::Collections::Template::List<float>& GetPriorities() const;
+
+		const void SetFamilyIndex(const Elysium::Core::uint32_t Value);
+		const void SetCapabilities(const QueueCapabilitiesVk Value);
+
+		const void AddPriority(const float Value);
+		const void ClearPriorities();
+	private:
+		Elysium::Core::Collections::Template::List<float> _Priorities;
+		Elysium::Core::uint32_t _FamilyIndex;
+		QueueCapabilitiesVk _Capabilities;
 	};
 }
 #endif

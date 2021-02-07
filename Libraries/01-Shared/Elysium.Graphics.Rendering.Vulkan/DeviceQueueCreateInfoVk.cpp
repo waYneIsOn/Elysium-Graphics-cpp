@@ -1,20 +1,21 @@
 #include "DeviceQueueCreateInfoVk.hpp"
 
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArgumentOutOfRangeException.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk()
-	: Priority(1.0f), FamilyIndex(-1), Count(-1), Capabilities(Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None)
-{ }
-Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk(Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Count, float Priority, Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk Capabilities)
-	: Priority(Priority), FamilyIndex(FamilyIndex), Count(Count), Capabilities(Capabilities)
+	: _Priorities(), _FamilyIndex(-1), _Capabilities(Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None)
 { }
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk(const DeviceQueueCreateInfoVk & Source)
-	: Priority(Source.Priority), FamilyIndex(Source.FamilyIndex), Count(Source.Count), Capabilities(Source.Capabilities)
+	: _Priorities(Source._Priorities), _FamilyIndex(Source._FamilyIndex), _Capabilities(Source._Capabilities)
 { }
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk(DeviceQueueCreateInfoVk&& Right) noexcept
-	: Priority(1.0f), FamilyIndex(-1), Count(-1), Capabilities(Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None)
+	: _Priorities(), _FamilyIndex(-1), _Capabilities(Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None)
 {
 	*this = std::move(Right);
 }
@@ -25,10 +26,9 @@ Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk& Elysium::Graphics
 {
 	if (this != &Source)
 	{
-		Priority = Source.Priority;
-		FamilyIndex = Source.FamilyIndex;
-		Count = Source.Count;
-		Capabilities = Source.Capabilities;
+		_Priorities = Source._Priorities;
+		_FamilyIndex = Source._FamilyIndex;
+		_Capabilities = Source._Capabilities;
 	}
 	return *this;
 }
@@ -37,15 +37,53 @@ Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk& Elysium::Graphics
 {
 	if (this != &Right)
 	{
-		Priority = Right.Priority;
-		FamilyIndex = Right.FamilyIndex;
-		Count = Right.Count;
-		Capabilities = Right.Capabilities;
+		_Priorities = std::move(Right._Priorities);
+		_FamilyIndex = std::move(Right._FamilyIndex);
+		_Capabilities = std::move(Right._Capabilities);
 
-		Right.Priority = 1.0f;
-		Right.FamilyIndex = -1;
-		Right.Count = -1;
-		Right.Capabilities = Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None;
+		Right._FamilyIndex = -1;
+		Right._Capabilities = Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None;
 	}
 	return *this;
 }
+
+const Elysium::Core::uint32_t& Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::GetFamilyIndex() const
+{
+	return _FamilyIndex;
+}
+
+const Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk& Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::GetCapabilities() const
+{
+	return _Capabilities;
+}
+
+const Elysium::Core::Collections::Template::List<float>& Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::GetPriorities() const
+{
+	return _Priorities;
+}
+
+const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::SetFamilyIndex(const Elysium::Core::uint32_t Value)
+{
+	_FamilyIndex = Value;
+}
+
+const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::SetCapabilities(const QueueCapabilitiesVk Value)
+{
+	_Capabilities = Value;
+}
+
+const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::AddPriority(const float Value)
+{
+	if (Value < 0.0f || Value > 1.0f)
+	{
+		throw Elysium::Core::ArgumentOutOfRangeException(u8"Priority needs to be between 0.0f and 1.0f.");
+	}
+
+	_Priorities.Add(Value);
+}
+
+const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::ClearPriorities()
+{
+	_Priorities.Clear();
+}
+

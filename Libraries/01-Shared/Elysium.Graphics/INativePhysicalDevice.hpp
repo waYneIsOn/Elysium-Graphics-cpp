@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IPHYSICALDEVICE
-#define ELYSIUM_GRAPHICS_RENDERING_IPHYSICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DeviceQueueCreateInfos.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_ILOGICALDEVICE
-#include "ILogicalDevice.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
+#include "INativeLogicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
@@ -30,10 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API IPhysicalDevice
+	class ELYSIUM_GRAPHICS_API INativePhysicalDevice
 	{
 	public:
-		virtual ~IPhysicalDevice() { }
+		virtual ~INativePhysicalDevice() { }
 
 		virtual const Elysium::Core::String GetName() const = 0;
 
