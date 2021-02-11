@@ -1,1 +1,7 @@
 - get rid of FormatVk and make use of SurfaceFormat + FormatConverterVk
+
+- test canvas events
+	- moving around (between monitors)
+	- minimizing and "re-displaying"
+	- resizing
+	- maximizing

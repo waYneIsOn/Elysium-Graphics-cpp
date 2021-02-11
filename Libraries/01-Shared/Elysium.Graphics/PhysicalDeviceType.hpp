@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATION
-#define ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATION
+#ifndef ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
+#define ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,27 +20,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Graphics::Platform
+namespace Elysium::Graphics::Rendering
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class DisplayOrientation : Elysium::Core::uint32_t
+	enum class PhysicalDeviceType : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class DisplayOrientation
+	enum class PhysicalDeviceType
 #else
 #error "undefined os"
 #endif
 	{
-		// ...
-		Default = 0,
+		Other = 0,
 
-		// ...
-		LandscapeLeft = 1,
+		IntegratedGPU = 1,
 
-		// ...
-		LandscapeRight = 2,
+		DiscreteGPU = 2,
 
-		// ...
-		Portrait = 3
+		VirtualGPU = 3,
+
+		CPU = 4,
 	};
 }
 #endif

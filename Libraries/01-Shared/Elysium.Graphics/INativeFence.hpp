@@ -22,13 +22,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	// A fence is a synchronization primitive
+	// Fences are a synchronization primitive that can be used to insert a dependency from a queue to the host (ie. between gpu and cpu).
 	class ELYSIUM_GRAPHICS_API INativeFence
 	{
 	public:
 		virtual ~INativeFence() { }
 
-		virtual void Wait(const Elysium::Core::uint64_t Timeout) = 0;
+		virtual void Wait(const Elysium::Core::uint64_t Timeout) const = 0;
 		virtual void Reset() = 0;
 	};
 }

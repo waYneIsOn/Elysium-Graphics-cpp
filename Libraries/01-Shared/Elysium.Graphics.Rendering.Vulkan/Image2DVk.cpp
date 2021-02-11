@@ -1,5 +1,5 @@
 #include "Image2DVk.hpp"
-
+/*
 Elysium::Graphics::Rendering::Vulkan::Image2DVk::~Image2DVk()
 {
 	if (_NativeDepthImageViewHandle != VK_NULL_HANDLE)
@@ -39,3 +39,4 @@ const Elysium::Core::uint32_t& Elysium::Graphics::Rendering::Vulkan::Image2DVk::
 Elysium::Graphics::Rendering::Vulkan::Image2DVk::Image2DVk(const VkDevice NativeLogicalDeviceHandle, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height, const bool MipMap, const SurfaceFormat& Format)
 	: _NativeLogicalDeviceHandle(NativeLogicalDeviceHandle)
 { }
+*/

@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 /*
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFACTORY
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVEFACTORY
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,10 +23,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API INativeCommandBuffer
+	class ELYSIUM_GRAPHICS_API INativeFactory
 	{
 	public:
-		virtual ~INativeCommandBuffer() { }
+		virtual ~INativeFactory() { }
 	};
 }
 #endif

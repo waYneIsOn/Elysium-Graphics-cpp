@@ -42,7 +42,7 @@ namespace Elysium::Graphics::Platform::GLFW
 
 		virtual const Core::Math::Geometry::Rectangle& GetClientBounds() const override;
 		virtual void* GetHandle() const override;
-		virtual const DisplayOrientation GetDisplayOrientation() const override;
+		virtual const Platform::DisplayOrientation GetDisplayOrientation() const override;
 		virtual const Core::String& GetTitle() const override;
 
 		virtual void SetTitle(const Core::String& Value) override;
@@ -61,7 +61,11 @@ namespace Elysium::Graphics::Platform::GLFW
 		GLFWmonitor* GetPrimaryMonitor();
 		GLFWwindow* CreateNativeWindow(const Core::String& Title, const bool Fullscreen, const bool BorderlessWindow);
 
-		static void WindowShouldCloseCallback(GLFWwindow* Window);
+		static void Window_ShouldCloseCallback(GLFWwindow* Window);
+
+		static void Window_FocusCallback(GLFWwindow* Window, int HasActivated);
+
+		static void Window_SizeCallback(GLFWwindow* Window, int Width, int Height);
 	};
 }
 #endif

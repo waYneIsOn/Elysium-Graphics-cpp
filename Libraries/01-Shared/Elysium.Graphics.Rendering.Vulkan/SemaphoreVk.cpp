@@ -4,11 +4,26 @@
 #include "ExceptionVk.hpp"
 #endif
 
+Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::SemaphoreVk(const LogicalDeviceVk& LogicalDevice)
+	: _LogicalDevice(LogicalDevice), _NativeSemaphoreHandle(VK_NULL_HANDLE)
+{
+	VkSemaphoreCreateInfo CreateInfo = VkSemaphoreCreateInfo();
+	CreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	CreateInfo.pNext = nullptr;
+	CreateInfo.flags = 0;
+
+	VkResult Result;
+	if ((Result = vkCreateSemaphore(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeSemaphoreHandle)) != VK_NULL_HANDLE)
+	{
+		throw ExceptionVk(Result);
+	}
+}
+
 Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::~SemaphoreVk()
 {
 	if (_NativeSemaphoreHandle != VK_NULL_HANDLE)
 	{
-		vkDestroySemaphore(_NativeLogicalDeviceHandle, _NativeSemaphoreHandle, nullptr);
+		vkDestroySemaphore(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSemaphoreHandle, nullptr);
 	}
 }
 
@@ -29,13 +44,9 @@ void Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::Wait(const Elysium::Core
 	WaitInfo.pValues = &Bla[0];
 
 	VkResult Result;
-	if ((Result = vkWaitSemaphores(_NativeLogicalDeviceHandle, &WaitInfo, Timeout)) != VK_SUCCESS)
+	if ((Result = vkWaitSemaphores(_LogicalDevice._NativeLogicalDeviceHandle, &WaitInfo, Timeout)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 	*/
 }
-
-Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::SemaphoreVk(const VkDevice NativeLogicalDeviceHandle, const VkSemaphore NativeSemaphoreHandle)
-	: _NativeLogicalDeviceHandle(NativeLogicalDeviceHandle), _NativeSemaphoreHandle(NativeSemaphoreHandle)
-{ }

@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DeviceQueueCreateInfoVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FENCEVK
-#include "FenceVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
@@ -40,30 +36,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParametersVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_QUEUEVK
-#include "QueueVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SEMAPHOREVK
-#include "SemaphoreVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
 #include "SurfaceVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINVK
-#include "SwapchainVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class FenceVk;
 	class PhysicalDeviceVk;
+	class QueueVk;
+	class SemaphoreVk;
+	class SwapchainVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public INativeLogicalDevice
 	{
+		friend class FenceVk;
 		friend class PhysicalDeviceVk;
+		friend class QueueVk;
+		friend class SemaphoreVk;
+		friend class SwapchainVk;
 	public:
+		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
 		LogicalDeviceVk(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk(LogicalDeviceVk&& Right) noexcept = delete;
 		virtual ~LogicalDeviceVk();
@@ -71,20 +64,16 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		LogicalDeviceVk& operator=(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk& operator=(LogicalDeviceVk&& Right) noexcept = delete;
 
-		SwapchainVk CreateSwapchain(const PresentationParametersVk& PresentationParameter);
+		virtual const INativePhysicalDevice& GetPhysicalDevice() const override;
 
-		virtual FenceVk& RetrieveFence() override;
-		virtual SemaphoreVk& RetrieveSemaphore() override;
-		virtual QueueVk& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) override;
+		virtual PresentationParametersVk& GetPresentationParameters() const override;
 
-		virtual void Wait() override;
-		FenceVk CreateFenceTest();
-		SemaphoreVk CreateSemaphoreTest();
+		virtual void Wait() const override;
 	private:
-		LogicalDeviceVk(const VkDevice NativeLogicalDeviceHandle, Elysium::Core::Collections::Template::Array<QueueVk>&& Queues);
+		const PhysicalDeviceVk& _PhysicalDevice;
+		PresentationParametersVk& _PresentationParameters;
 
-		const VkDevice _NativeLogicalDeviceHandle;
-		Core::Collections::Template::Array<QueueVk> _Queues;
+		VkDevice _NativeLogicalDeviceHandle;
 	};
 }
 #endif

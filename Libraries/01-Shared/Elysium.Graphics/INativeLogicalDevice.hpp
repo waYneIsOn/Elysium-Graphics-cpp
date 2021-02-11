@@ -36,18 +36,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeSwapchain.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
+#include "PresentationParameters.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
+	class INativePhysicalDevice;
+
+	// Represents a high level abstraction of a physical device.
 	class ELYSIUM_GRAPHICS_API INativeLogicalDevice
 	{
 	public:
 		virtual ~INativeLogicalDevice() { }
 
-		virtual INativeFence& RetrieveFence() = 0;
-		virtual INativeSemaphore& RetrieveSemaphore() = 0;
-		virtual INativeQueue& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) = 0;
+		// Return the physical device asssociated with this logical device.
+		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
-		virtual void Wait() = 0;
+		// Returns the presentation parameters associated with this logical device.
+		virtual PresentationParameters& GetPresentationParameters() const = 0;
+
+		// Wait for the completion of outstanding queue operations for all queues on this logical device.
+		virtual void Wait() const = 0;
 	};
 }
 #endif

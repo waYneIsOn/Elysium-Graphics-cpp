@@ -22,6 +22,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
+	// Semaphore are a synchronization primitive that can be used to insert a dependency between queue operations or between a queue operation and 
+	// the host (ie. between gpu and gpu).
 	class ELYSIUM_GRAPHICS_API INativeSemaphore
 	{
 	public:

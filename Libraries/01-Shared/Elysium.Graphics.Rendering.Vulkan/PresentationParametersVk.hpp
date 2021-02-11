@@ -55,12 +55,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
-	class PhysicalDeviceVk;
+	class LogicalDeviceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public PresentationParameters
 	{
 		friend class GraphicsInstanceVk;
-		friend class PhysicalDeviceVk;
+		friend class LogicalDeviceVk;
 	public:
 		PresentationParametersVk(Platform::Canvas& Canvas);
 		PresentationParametersVk(const PresentationParametersVk& Source) = delete;
@@ -80,13 +80,13 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const SurfaceFormatVk& GetSurfaceFormat() const;
 		const PresentModeVk& GetPresentMode() const;
 
+		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) override;
 		void SetApplicationName(const Elysium::Core::String& Value);
 		void SetSurfaceHandle(const SurfaceVk& Value);
 		void SetGraphicsQueueFamilyIndex(const Elysium::Core::uint32_t Value);
 		void SetPresentationQueueFamilyIndex(const Elysium::Core::uint32_t Value);
 		void SetImageArrayLayers(const Elysium::Core::uint32_t Value);
 		void SetTransform(const Elysium::Core::uint32_t Value);
-		void SetExtent(const Extent2DVk& Value);
 		void SetSurfaceFormat(const SurfaceFormatVk& Value);
 		void SetPresentMode(const PresentModeVk& Value);
 

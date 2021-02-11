@@ -2,7 +2,10 @@
 //#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/GraphicsInstanceDX12.hpp"
 //#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/PresentationParametersDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsInstanceVk.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/LogicalDeviceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/PresentationParametersVk.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/QueueVk.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/SwapchainVk.hpp"
 #include "../../01-Shared/SimpleTest/MyGame.hpp"
 
 using namespace Elysium::Core;
@@ -38,7 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     for (size_t i = 0; i < AvailableLayers.GetLength(); i++)
     {
         const StringView LayerName = AvailableLayers[i].GetName();
-        if (LayerName == u8"VK_LAYER_KHRONOS_validation")
+        //if (LayerName == u8"VK_LAYER_KHRONOS_validation")
         {
             PresentationParameters.AddLayerProperty(AvailableLayers[i]);
         }
@@ -46,7 +49,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     // initialize the previously created vulkan instance, create a surface, iterate physical devices and pick one
     GraphicsInstance.Initialize(PresentationParameters);
-    GraphicsInstance.EnableDebugging();
+    //GraphicsInstance.EnableDebugging();
 
     SurfaceVk Surface = GraphicsInstance.CreateSurface(PresentationParameters);
     PresentationParameters.SetSurfaceHandle(Surface);
@@ -82,7 +85,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     for (size_t i = 0; i < AvailableDeviceExtensions.GetLength(); i++)
     {
         const StringView ExtensionName = AvailableDeviceExtensions[i].GetName();
-        PresentationParameters.AddDeviceExtensionProperty(AvailableDeviceExtensions[i]);
+        if (ExtensionName != u8"VK_EXT_buffer_device_address")
+        {
+            PresentationParameters.AddDeviceExtensionProperty(AvailableDeviceExtensions[i]);
+        }
     }
 
     // check surface against physical device to retrieve required data for swapchain-creation
@@ -95,7 +101,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     {
         PresentationParameters.SetBackBufferCount(SurfaceCapabilities.GetMaxImageCount());
     }
-    PresentationParameters.SetExtent(SurfaceCapabilities.GetMaxImageExtent());
+    PresentationParameters.SetExtent(SurfaceCapabilities.GetMaxImageExtent().Width, SurfaceCapabilities.GetMaxImageExtent().Height);
 
     PresentationParameters.SetSurfaceFormat(AvailableSurfaceFormats[0]);
     for (size_t i = 0; i < AvailableSurfaceFormats.GetLength(); i++)
@@ -145,14 +151,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
             PresentationParameters.AddDeviceQueueCreateInfo(std::move(QueueCreateInfo));
         }
     }
-    LogicalDeviceVk LogicalDevice = SelectedPhysicalDevice.CreateLogicalDevice(PresentationParameters);
-
-    // create a vulkan swapchain
-    SwapchainVk Swapchain = LogicalDevice.CreateSwapchain(PresentationParameters);
-    FenceVk Fence = LogicalDevice.CreateFenceTest();
-    SemaphoreVk ImageAvailableSemaphore = LogicalDevice.CreateSemaphoreTest();
-    SemaphoreVk SignalSemaphore = LogicalDevice.CreateSemaphoreTest();
-    
     /*
     // create and configure presentation parmeters
     PresentationParametersDX12 PresentationParameters = PresentationParametersDX12(GameWindow);
@@ -202,14 +200,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 
+
     // ...
-    INativeQueue& GraphicsQueue = LogicalDevice.RetrieveQueue(PresentationParameters.GetGraphicsQueueFamilyIndex(), 0);
-    INativeQueue& PresentationQueue = LogicalDevice.RetrieveQueue(PresentationParameters.GetPresentationQueueFamilyIndex(), 0);
+    LogicalDeviceVk LogicalDevice = LogicalDeviceVk(SelectedPhysicalDevice, PresentationParameters);
+    SwapchainVk Swapchain = SwapchainVk(LogicalDevice);
+    QueueVk GraphicsQueue = QueueVk(LogicalDevice, PresentationParameters.GetGraphicsQueueFamilyIndex(), 0);
+    QueueVk PresentationQueue = QueueVk(LogicalDevice, PresentationParameters.GetPresentationQueueFamilyIndex(), 0);
+    //QueueVk InadequateQueue = QueueVk(LogicalDevice, 1337, 5448);
 
 
 
 
     // create and run the game
-    MyGame Game = MyGame(PresentationParameters, SelectedPhysicalDevice, LogicalDevice, Swapchain, Fence, ImageAvailableSemaphore, SignalSemaphore, PresentationQueue);
+    MyGame Game = MyGame(LogicalDevice, Swapchain, PresentationQueue);
     Game.Run();
 }

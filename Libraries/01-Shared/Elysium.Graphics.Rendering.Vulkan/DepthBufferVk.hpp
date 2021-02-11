@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEPTHBUFFERVK
 #define ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEPTHBUFFERVK
 
@@ -24,11 +25,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
+#include "LogicalDeviceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API DepthBufferVk final : public INativeDepthBuffer
 	{
 	public:
+		DepthBufferVk(const LogicalDeviceVk& LogicalDevice);
 		DepthBufferVk(const DepthBufferVk& Source) = delete;
 		DepthBufferVk(DepthBufferVk&& Right) noexcept = delete;
 		virtual ~DepthBufferVk();
@@ -36,13 +42,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		DepthBufferVk& operator=(const DepthBufferVk& Source) = delete;
 		DepthBufferVk& operator=(DepthBufferVk&& Right) noexcept = delete;
 	private:
-		DepthBufferVk(const VkDevice NativeLogicalDeviceHandle);
+		const LogicalDeviceVk& _LogicalDevice;
 
-		const VkDevice _NativeLogicalDeviceHandle;
-
-		const VkImage _NativeDepthImageHandle = VK_NULL_HANDLE;
-		const VkDeviceMemory _NativeDepthImageMemoryHandle = VK_NULL_HANDLE;
-		const VkImageView _NativeDepthImageViewHandle = VK_NULL_HANDLE;
+		VkImage _NativeDepthImageHandle;
+		VkDeviceMemory _NativeDepthImageMemoryHandle;
+		VkImageView _NativeDepthImageViewHandle;
 	};
 }
 #endif
+*/

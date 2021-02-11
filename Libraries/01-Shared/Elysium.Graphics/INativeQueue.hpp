@@ -18,12 +18,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
+	// Represents...
 	class ELYSIUM_GRAPHICS_API INativeQueue
 	{
 	public:
 		virtual ~INativeQueue() { }
 
-		virtual void Wait() = 0;
+		virtual void Wait() const = 0;
 	};
 }
 #endif

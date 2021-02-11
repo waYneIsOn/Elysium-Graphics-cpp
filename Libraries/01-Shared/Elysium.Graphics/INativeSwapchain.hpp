@@ -34,15 +34,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-
 	// A swap chain holds a set of backbuffer images. One of those images, the screenbuffer, is rendered to the output of the video card.
 	class ELYSIUM_GRAPHICS_API INativeSwapchain
 	{
 	public:
 		virtual ~INativeSwapchain() { }
 
-		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout, const INativeSemaphore& ImageAvailableSemaphore, const INativeFence& Fence) = 0;
-		virtual void PresentFrame(const INativeQueue& PresentationQueue, const INativeSemaphore& WaitSemaphore) = 0;
+		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const = 0;
+
+		virtual void Recreate() = 0;	// ToDo: swapchain recreation should be done by reacting to events! this public method shouldn't exist!
+		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout) = 0;
+		virtual void PresentFrame(const INativeQueue& PresentationQueue) = 0;
 	};
 }
 #endif

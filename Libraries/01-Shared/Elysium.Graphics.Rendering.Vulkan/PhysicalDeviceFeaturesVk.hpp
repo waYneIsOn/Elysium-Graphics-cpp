@@ -27,11 +27,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
+	class LogicalDeviceVk;
 	class PhysicalDeviceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceFeaturesVk final
 	{
 		friend class GraphicsInstanceVk;
+		friend class LogicalDeviceVk;
 		friend class PhysicalDeviceVk;
 	public:
 		PhysicalDeviceFeaturesVk(const PhysicalDeviceFeaturesVk& Source) = delete;

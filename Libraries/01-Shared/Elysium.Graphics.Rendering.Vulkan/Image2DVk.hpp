@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_IMAGE2DVK
 #define ELYSIUM_GRAPHICS_RENDERING_VULKAN_IMAGE2DVK
 
@@ -56,3 +57,4 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	};
 }
 #endif
+*/

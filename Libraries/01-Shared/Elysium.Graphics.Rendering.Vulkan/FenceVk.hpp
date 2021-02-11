@@ -24,16 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
+#include "LogicalDeviceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class LogicalDeviceVk;
-	class SwapchainVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FenceVk final : public INativeFence
 	{
-		friend class LogicalDeviceVk;
-		friend class SwapchainVk;
 	public:
+		FenceVk(const LogicalDeviceVk& LogicalDevice);
 		FenceVk(const FenceVk& Source) = delete;
 		FenceVk(FenceVk&& Right) noexcept = delete;
 		virtual ~FenceVk();
@@ -41,13 +41,11 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FenceVk& operator=(const FenceVk& Source) = delete;
 		FenceVk& operator=(FenceVk&& Right) noexcept = delete;
 
-		virtual void Wait(const Elysium::Core::uint64_t Timeout) override;
+		virtual void Wait(const Elysium::Core::uint64_t Timeout) const override;
 		virtual void Reset() override;
 	private:
-		FenceVk(const VkDevice NativeLogicalDeviceHandle, const VkFence NativeFenceHandle);
-
-		const VkDevice _NativeLogicalDeviceHandle;
-		const VkFence _NativeFenceHandle;
+		const LogicalDeviceVk& _LogicalDevice;
+		VkFence _NativeFenceHandle;
 	};
 }
 #endif

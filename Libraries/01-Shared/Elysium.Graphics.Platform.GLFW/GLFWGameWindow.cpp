@@ -17,7 +17,19 @@ Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GLFWGameWindow()
 	: Elysium::Graphics::Platform::Canvas(),
 	_PrimaryMonitor(GetPrimaryMonitor()), _VidMode(glfwGetVideoMode(_PrimaryMonitor)), _NativeWindow(CreateNativeWindow(_Title, false, false))
 {
-	glfwSetWindowCloseCallback(_NativeWindow, WindowShouldCloseCallback);
+	glfwSetWindowUserPointer(_NativeWindow, static_cast<void*>(this));
+
+	//glfwSetMonitorCallback
+
+	glfwSetWindowCloseCallback(_NativeWindow, Window_ShouldCloseCallback);
+	//glfwSetWindowContentScaleCallback
+	glfwSetWindowFocusCallback(_NativeWindow, Window_FocusCallback);
+	//glfwSetWindowIconifyCallback
+	//glfwSetWindowMaximizeCallback - no need to use this as a resize will be called when maximizing
+
+	//glfwSetWindowPosCallback
+	//glfwSetWindowRefreshCallback
+
 	glfwGetWindowFrameSize(_NativeWindow, &_ClientBounds.X, &_ClientBounds.Y, &_ClientBounds.Width, &_ClientBounds.Height);
 }
 Elysium::Graphics::Platform::GLFW::GLFWGameWindow::~GLFWGameWindow()
@@ -33,7 +45,12 @@ const Elysium::Core::Math::Geometry::Rectangle& Elysium::Graphics::Platform::GLF
 	return _ClientBounds;
 }
 
-const Elysium::Graphics::DisplayOrientation Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetDisplayOrientation() const
+void* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetHandle() const
+{
+	return glfwGetWin32Window(_NativeWindow);
+}
+
+const Elysium::Graphics::Platform::DisplayOrientation Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetDisplayOrientation() const
 {
 	return _DisplayOrientation;
 }
@@ -52,20 +69,17 @@ void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::SetTitle(const Core::Str
 	glfwSetWindowTitle(_NativeWindow, (const char*)&TitleBytes[0]);
 }
 
-void* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetHandle() const
-{
-	return glfwGetWin32Window(_NativeWindow);
-}
-
 void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Show()
 {
 	Activated(this, Elysium::Core::EventArgs());
 	glfwShowWindow(_NativeWindow);
+	glfwSetWindowSizeCallback(_NativeWindow, Window_SizeCallback);
 	while (_NativeWindow != nullptr && !glfwWindowShouldClose(_NativeWindow))
 	{
 		glfwPollEvents();
 		Paint(this, Elysium::Core::EventArgs());
 	}
+	glfwSetWindowSizeCallback(_NativeWindow, nullptr);
 }
 
 void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Close()
@@ -86,18 +100,14 @@ GLFWmonitor* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::GetPrimaryMonito
 	return glfwGetPrimaryMonitor();
 }
 
-void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::WindowShouldCloseCallback(GLFWwindow* window)
-{
-	glfwDestroyWindow(window);
-}
-
 GLFWwindow* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::CreateNativeWindow(const Core::String& Title, const bool Fullscreen, const bool BorderlessWindow)
 {
 	const Elysium::Core::Text::Encoding& ASCIIEncoding = Elysium::Core::Text::Encoding::ASCII();
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> TitleBytes = ASCIIEncoding.GetBytes(&Title[0], Title.GetLength(), 1);
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	if (Fullscreen)
@@ -118,4 +128,25 @@ GLFWwindow* Elysium::Graphics::Platform::GLFW::GLFWGameWindow::CreateNativeWindo
 
 		return Window;
 	}
+}
+
+void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Window_ShouldCloseCallback(GLFWwindow* window)
+{
+	glfwDestroyWindow(window);
+}
+
+void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Window_FocusCallback(GLFWwindow* Window, int HasActivated)
+{
+	GLFWGameWindow* Handler = static_cast<GLFWGameWindow*>(glfwGetWindowUserPointer(Window));
+	HasActivated == GLFW_TRUE ? Handler->Activated(Handler, Elysium::Core::EventArgs()) : Handler->Deactivated(Handler, Elysium::Core::EventArgs());
+}
+
+void Elysium::Graphics::Platform::GLFW::GLFWGameWindow::Window_SizeCallback(GLFWwindow* Window, int Width, int Height)
+{
+	GLFWGameWindow* Handler = static_cast<GLFWGameWindow*>(glfwGetWindowUserPointer(Window));
+	Handler->_ClientBounds.Width = Width;
+	Handler->_ClientBounds.Height = Height;
+
+	Elysium::Graphics::Platform::SizeChangedEventArgs EventArgs = Elysium::Graphics::Platform::SizeChangedEventArgs(Width, Height);
+	Handler->SizeChanged(Handler, EventArgs);
 }

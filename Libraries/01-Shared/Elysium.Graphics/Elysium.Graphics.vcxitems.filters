@@ -18,7 +18,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Canvas.hpp">
       <Filter>Platform</Filter>
@@ -69,9 +68,26 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativePresentationQueue.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ClearOptions.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFactory.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.hpp">
+      <Filter>Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,5 +104,11 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

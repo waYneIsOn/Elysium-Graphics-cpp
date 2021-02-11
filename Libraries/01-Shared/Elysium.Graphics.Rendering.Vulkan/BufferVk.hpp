@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_BUFFERVK
 #define ELYSIUM_GRAPHICS_RENDERING_VULKAN_BUFFERVK
 
@@ -47,3 +48,4 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	};
 }
 #endif
+*/

@@ -24,16 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
+#include "LogicalDeviceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class LogicalDeviceVk;
-	class SwapchainVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SemaphoreVk final : public INativeSemaphore
 	{
-		friend class LogicalDeviceVk;
-		friend class SwapchainVk;
 	public:
+		SemaphoreVk(const LogicalDeviceVk& LogicalDevice);
 		SemaphoreVk(const SemaphoreVk& Source) = delete;
 		SemaphoreVk(SemaphoreVk&& Right) noexcept = delete;
 		virtual ~SemaphoreVk();
@@ -43,10 +43,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void Wait(const Elysium::Core::uint64_t Timeout) override;
 	private:
-		SemaphoreVk(const VkDevice NativeLogicalDeviceHandle, const VkSemaphore NativeSemaphoreHandle);
-
-		const VkDevice _NativeLogicalDeviceHandle;
-		const VkSemaphore _NativeSemaphoreHandle;
+		const LogicalDeviceVk& _LogicalDevice;
+		VkSemaphore _NativeSemaphoreHandle;
 	};
 }
 #endif

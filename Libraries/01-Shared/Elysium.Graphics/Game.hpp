@@ -55,10 +55,7 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API Game
 	{
 	public:
-		Game(Rendering::PresentationParameters& PresentationParameter, Rendering::INativePhysicalDevice& PhysicalDevice, 
-			Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, Rendering::INativeFence& Fence, 
-			Rendering::INativeSemaphore& ImageAvailableSemaphore, Rendering::INativeSemaphore& WaitSemaphore, 
-			Rendering::INativeQueue& PresentationQueue);
+		Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, Rendering::INativeQueue& PresentationQueue);
 		Game(const Game& Source) = delete;
 		Game(Game&& Right) noexcept = delete;
 		virtual ~Game();
@@ -89,17 +86,13 @@ namespace Elysium::Graphics
 		virtual void Update(const GameTime& GameTime) = 0;
 		virtual void EndUpdate();
 	private:
-		Rendering::PresentationParameters& _PresentationParameter;
 		Platform::Canvas& _Canvas;
-		Rendering::INativePhysicalDevice& _PhysicalDevice;
+		Rendering::PresentationParameters& _PresentationParameters;
 
 
 		Rendering::INativeLogicalDevice& _LogicalDevice;
 		Rendering::INativeSwapchain& _Swapchain;
 		Rendering::INativeQueue& _PresentationQueue;
-		Rendering::INativeFence& _Fence;
-		Rendering::INativeSemaphore& _ImageAvailableSemaphore;
-		Rendering::INativeSemaphore& _WaitSemaphore;
 
 
 		GameTime _GameTime;
@@ -120,8 +113,8 @@ namespace Elysium::Graphics
 		void Canvas_Deactivated(void* Sender, const Core::EventArgs& e);
 		void Canvas_Suspend(void* Sender, const Core::EventArgs& e);
 		void Canvas_Resume(void* Sender, const Core::EventArgs& e);
-		void Canvas_SizeChanged(void* Sender, const Core::EventArgs& e);
-		void Canvas_OrientationChanged(void* Sender, const Core::EventArgs& e);
+		void Canvas_SizeChanged(void* Sender, const Platform::SizeChangedEventArgs& e);
+		void Canvas_OrientationChanged(void* Sender, const Platform::DisplayOrientationChangedEventArgs& e);
 		void Canvas_Paint(void* Sender, const Core::EventArgs& e);
 		void Canvas_Exiting(void* Sender, const Core::EventArgs& e);
 	};

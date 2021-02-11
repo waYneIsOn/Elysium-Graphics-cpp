@@ -12,3 +12,5 @@
 
 /TestApplications/02-Windows/SimpleTest/Debugbin/x64
 /TestApplications/02-Windows/SimpleTest/Releasebin/x64
+*.foz
+*.gfxr

@@ -51,6 +51,12 @@ const Elysium::Graphics::Rendering::Vulkan::PresentModeVk& Elysium::Graphics::Re
 	return _PresentMode;
 }
 
+void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height)
+{
+	_Extent.Width = Width;
+	_Extent.Height = Height;
+}
+
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetApplicationName(const Elysium::Core::String& Value)
 {
 	_ApplicationName = Value;
@@ -79,12 +85,6 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetImageArr
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetTransform(const Elysium::Core::uint32_t Value)
 {
 	_Transform = Value;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetExtent(const Extent2DVk& Value)
-{
-	_Extent.Width = Value.Width;
-	_Extent.Height = Value.Height;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetSurfaceFormat(const SurfaceFormatVk& Value)

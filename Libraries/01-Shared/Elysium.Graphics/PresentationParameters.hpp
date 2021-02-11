@@ -49,6 +49,7 @@ namespace Elysium::Graphics::Rendering
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
+		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) = 0;
 	protected:
 		Platform::Canvas& _Canvas;
 		Elysium::Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;

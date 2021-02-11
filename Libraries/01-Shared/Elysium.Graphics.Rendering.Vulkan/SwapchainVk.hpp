@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_GAME
+#include "../Elysium.Graphics/Game.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
 #include "../Elysium.Graphics/INativeSwapchain.hpp"
 #endif
@@ -28,14 +32,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
+#include "LogicalDeviceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class LogicalDeviceVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final : public INativeSwapchain
 	{
-		friend class LogicalDeviceVk;
 	public:
+		SwapchainVk(const LogicalDeviceVk& LogicalDevice);
 		SwapchainVk(const SwapchainVk& Source) = delete;
 		SwapchainVk(SwapchainVk&& Right) noexcept = delete;
 		virtual ~SwapchainVk();
@@ -43,18 +49,25 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		SwapchainVk& operator=(const SwapchainVk& Source) = delete;
 		SwapchainVk& operator=(SwapchainVk&& Right) noexcept = delete;
 
-		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout, const INativeSemaphore& ImageAvailableSemaphore, const INativeFence& Fence) override;
-		virtual void PresentFrame(const INativeQueue& PresentationQueue, const INativeSemaphore& WaitSemaphore) override;
-	private:
-		SwapchainVk(const VkDevice NativeLogicalDeviceHandle, const VkSwapchainKHR NativeSwapchainHandle, const Elysium::Core::Collections::Template::Array<VkImage>& BackBufferImages, const Elysium::Core::Collections::Template::Array<VkImageView> BackBufferImageViews);
+		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const override;
 
-		const VkDevice _NativeLogicalDeviceHandle;
-		const VkSwapchainKHR _NativeSwapchainHandle;
+		virtual void Recreate() override;
+		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout) override;
+		virtual void PresentFrame(const INativeQueue& PresentationQueue) override;
+	private:
+		const LogicalDeviceVk& _LogicalDevice;
+		VkSwapchainKHR _NativeSwapchainHandle;
 
 		Elysium::Core::uint32_t _CurrentBackBufferImageIndex;
 
-		const Elysium::Core::Collections::Template::Array<VkImage> _BackBufferImages;
-		const Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
+		Elysium::Core::Collections::Template::Array<VkImage> _BackBufferImages;
+		Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
+
+		Elysium::Core::Collections::Template::Array<VkFence> _Fences;
+		Elysium::Core::Collections::Template::Array<VkSemaphore> _ImageAvailableSemaphores;
+		Elysium::Core::Collections::Template::Array<VkSemaphore> _RendererFinishedSemaphores;
+
+		void RecreateSwapchain(VkSwapchainKHR PreviousNativeSwapchainHandle);
 	};
 }
 #endif
