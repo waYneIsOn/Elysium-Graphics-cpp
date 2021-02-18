@@ -30,10 +30,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class QueueVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FenceVk final : public INativeFence
 	{
+		friend class QueueVk;
 	public:
-		FenceVk(const LogicalDeviceVk& LogicalDevice);
+		FenceVk(const LogicalDeviceVk& LogicalDevice, const bool SetSignaled = false);
 		FenceVk(const FenceVk& Source) = delete;
 		FenceVk(FenceVk&& Right) noexcept = delete;
 		virtual ~FenceVk();

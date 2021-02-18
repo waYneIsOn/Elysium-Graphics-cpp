@@ -5,7 +5,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-/*
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
 #define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
 
@@ -27,7 +26,8 @@ namespace Elysium::Graphics::Rendering
 	{
 	public:
 		virtual ~INativeCommandPool() { }
+
+		virtual void Reset() = 0;
 	};
 }
 #endif
-*/

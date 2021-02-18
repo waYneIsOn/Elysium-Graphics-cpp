@@ -7,7 +7,7 @@ const VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(
 	case SurfaceFormat::Undefined:
 		return VkFormat::VK_FORMAT_UNDEFINED;
 	default:
-		// ToDo: throw specfici exception
+		// ToDo: throw specfic exception
 		throw 1;
 	}
 }

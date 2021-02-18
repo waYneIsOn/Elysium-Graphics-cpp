@@ -1,33 +1,32 @@
 #include "Game.hpp"
 
-Elysium::Graphics::Game::Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, Rendering::INativeQueue& PresentationQueue)
+Elysium::Graphics::Game::Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
+	Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence, 
+	Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore)
 	: _Canvas(LogicalDevice.GetPresentationParameters().GetCanvas()), _PresentationParameters(LogicalDevice.GetPresentationParameters()),
 
-	_LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _PresentationQueue(PresentationQueue),
-
+	_LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _PresentationQueue(PresentationQueue), _GraphicsQueue(GraphicsQueue),
+	_RenderFence(RenderFence), _PresentSemaphore(PresentSemaphore), _RenderSemaphore(RenderSemaphore),
 
 	_GameTime(), _GraphicsDeviceManager(*this)
 {
-	_Canvas.Activated += Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Activated>(*this);
-	_Canvas.Deactivated += Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Deactivated>(*this);
+	_Canvas.FocusChanged += Elysium::Core::Delegate<void, void*, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_FocusChanged>(*this);
+	_Canvas.Suspend += Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
+	_Canvas.Resume += Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
 	_Canvas.SizeChanged += Elysium::Core::Delegate<void, void*, const Elysium::Graphics::Platform::SizeChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_SizeChanged>(*this);
 	_Canvas.OrientationChanged += Elysium::Core::Delegate<void, void*, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
-	_Canvas.Paint += Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Paint>(*this);
-	_Canvas.Exiting += Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
+	_Canvas.Paint += Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Paint>(*this);
+	_Canvas.Exiting += Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
 }
 Elysium::Graphics::Game::~Game()
 {
-	_Canvas.Activated -= Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Activated>(*this);
-	_Canvas.Deactivated -= Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Deactivated>(*this);
+	_Canvas.FocusChanged -= Elysium::Core::Delegate<void, void*, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_FocusChanged>(*this);
+	_Canvas.Suspend -= Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
+	_Canvas.Resume -= Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
 	_Canvas.SizeChanged -= Elysium::Core::Delegate<void, void*, const Elysium::Graphics::Platform::SizeChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_SizeChanged>(*this);
 	_Canvas.OrientationChanged -= Elysium::Core::Delegate<void, void*, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
-	_Canvas.Paint -= Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Paint>(*this);
-	_Canvas.Exiting -= Elysium::Core::Delegate<void, void*, const Elysium::Core::EventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
-}
-
-const Elysium::Graphics::Platform::Canvas& Elysium::Graphics::Game::GetCanvas() const
-{
-	return _Canvas;
+	_Canvas.Paint -= Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Paint>(*this);
+	_Canvas.Exiting -= Elysium::Core::Delegate<void, void*>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
 }
 
 const bool Elysium::Graphics::Game::GetIsActive() const
@@ -40,25 +39,17 @@ const bool Elysium::Graphics::Game::GetIsFixedTimeStep() const
 	return _IsFixedTimeStep;
 }
 
-const bool Elysium::Graphics::Game::GetIsMouseVisible() const
-{
-	return _IsMouseVisible;
-}
-
 void Elysium::Graphics::Game::SetIsFixedTimeStep(const bool Value)
 {
 	_IsFixedTimeStep = Value;
-}
-
-void Elysium::Graphics::Game::SetIsMouseVisible(const bool Value)
-{
-	_IsMouseVisible = Value;
 }
 
 void Elysium::Graphics::Game::Run()
 {
 	Initialize();
 	_Canvas.Show();
+
+	_LogicalDevice.Wait();
 }
 
 void Elysium::Graphics::Game::Exit()
@@ -76,10 +67,6 @@ void Elysium::Graphics::Game::Initialize()
 	}
 }
 
-#ifndef _WINDOWS_
-#include <Windows.h>
-#endif
-
 void Elysium::Graphics::Game::Tick()
 {
 	if (_ShouldExit)
@@ -87,22 +74,20 @@ void Elysium::Graphics::Game::Tick()
 		return;
 	}
 
-	if (_IsActive)
+	if (!_Canvas.GetIsMinimized())
 	{
-		OutputDebugStringA("tick - active\r\n");
+		// begin frame
+		_RenderFence.Wait(Elysium::Core::UInt64::GetMaxValue());
+		_RenderFence.Reset();
+		_Swapchain.AquireNextImage(_PresentSemaphore, Elysium::Core::UInt64::GetMaxValue());
+
+		// ...
+		_GraphicsQueue.Submit(_PresentSemaphore, _RenderSemaphore, _RenderFence);
+		_GraphicsQueue.Wait();
+
+		// end frame
+		_Swapchain.PresentFrame(_RenderSemaphore, _PresentationQueue);
 	}
-	else
-	{
-		OutputDebugStringA("tick - inactive\r\n");
-	}
-
-	// begin frame
-	_Swapchain.AquireNextImage(Elysium::Core::UInt64::GetMaxValue());
-
-	// ...
-
-	// end frame
-	_Swapchain.PresentFrame(_PresentationQueue);
 }
 
 const bool Elysium::Graphics::Game::BeginDraw()
@@ -124,22 +109,17 @@ void Elysium::Graphics::Game::EndUpdate()
 {
 }
 
-void Elysium::Graphics::Game::Canvas_Activated(void* Sender, const Core::EventArgs& e)
+void Elysium::Graphics::Game::Canvas_FocusChanged(void* Sender, const bool HasReceivedFocus)
 {
-	_IsActive = true;
+	_IsActive = HasReceivedFocus;
 }
 
-void Elysium::Graphics::Game::Canvas_Deactivated(void* Sender, const Core::EventArgs& e)
-{
-	_IsActive = false;
-}
-
-void Elysium::Graphics::Game::Canvas_Suspend(void* Sender, const Core::EventArgs& e)
+void Elysium::Graphics::Game::Canvas_Suspend(void* Sender)
 {
 	_IsActive = false;
 }
 
-void Elysium::Graphics::Game::Canvas_Resume(void* Sender, const Core::EventArgs& e)
+void Elysium::Graphics::Game::Canvas_Resume(void* Sender)
 {
 	_IsActive = true;
 }
@@ -160,12 +140,12 @@ void Elysium::Graphics::Game::Canvas_OrientationChanged(void* Sender, const Plat
 	// ToDo: create a fake once the first triangle is being rendered
 }
 
-void Elysium::Graphics::Game::Canvas_Paint(void* Sender, const Core::EventArgs& e)
+void Elysium::Graphics::Game::Canvas_Paint(void* Sender)
 {
 	Tick();
 }
 
-void Elysium::Graphics::Game::Canvas_Exiting(void* Sender, const Core::EventArgs& e)
+void Elysium::Graphics::Game::Canvas_Exiting(void* Sender)
 {
 	_ShouldExit = true;
 }

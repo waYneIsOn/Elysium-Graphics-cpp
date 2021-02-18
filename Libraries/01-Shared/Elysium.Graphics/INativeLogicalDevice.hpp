@@ -36,7 +36,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeSwapchain.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
+#ifndef ELYSIUM_GRAPHICS_PRESENTATIONPARAMETERS
 #include "PresentationParameters.hpp"
 #endif
 
@@ -54,7 +54,7 @@ namespace Elysium::Graphics::Rendering
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
 		// Returns the presentation parameters associated with this logical device.
-		virtual PresentationParameters& GetPresentationParameters() const = 0;
+		virtual Elysium::Graphics::PresentationParameters& GetPresentationParameters() const = 0;
 
 		// Wait for the completion of outstanding queue operations for all queues on this logical device.
 		virtual void Wait() const = 0;

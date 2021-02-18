@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParametersDx12.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_SURFACEDX12
+#include "SurfaceDX12.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::DirectX12
 {
 	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API GraphicsInstanceDX12 final
@@ -43,9 +47,13 @@ namespace Elysium::Graphics::Rendering::DirectX12
 
 		const Core::Collections::Template::Array<PhysicalDeviceDX12> GetPhysicalGraphicsDevices();
 
+		void EnableDebugging();
+		void DisableDebugging();
+
 		void Initialize(const PresentationParametersDX12& PresentationParameters);
 	private:
 		IDXGIFactory2* _Factory;
+		ID3D12Debug* _Debug;
 	};
 }
 #endif

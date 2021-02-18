@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATION
-#define ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATION
+#ifndef ELYSIUM_GRAPHICS_DISPLAYORIENTATION
+#define ELYSIUM_GRAPHICS_DISPLAYORIENTATION
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Graphics::Platform
+namespace Elysium::Graphics
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	enum class DisplayOrientation : Elysium::Core::uint32_t

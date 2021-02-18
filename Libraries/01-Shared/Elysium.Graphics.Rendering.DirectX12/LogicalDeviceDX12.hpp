@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
 #include "../Elysium.Graphics/INativeLogicalDevice.hpp"
 #endif
@@ -32,22 +28,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParametersDX12.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_QUEUEDX12
-#include "QueueDX12.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_SWAPCHAINDX12
-#include "SwapchainDX12.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::DirectX12
 {
+	class FenceDX12;
 	class PhysicalDeviceDX12;
+	class QueueDX12;
+	class SwapchainDX12;
 
 	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API LogicalDeviceDX12 final : public INativeLogicalDevice
 	{
+		friend class FenceDX12;
 		friend class PhysicalDeviceDX12;
+		friend class QueueDX12;
+		friend class SwapchainDX12;
 	public:
+		LogicalDeviceDX12(const PhysicalDeviceDX12& PhysicalDevice, PresentationParametersDX12& PresentationParameters);
 		LogicalDeviceDX12(const LogicalDeviceDX12& Source) = delete;
 		LogicalDeviceDX12(LogicalDeviceDX12&& Right) noexcept = delete;
 		virtual ~LogicalDeviceDX12();
@@ -55,15 +50,17 @@ namespace Elysium::Graphics::Rendering::DirectX12
 		LogicalDeviceDX12& operator=(const LogicalDeviceDX12& Source) = delete;
 		LogicalDeviceDX12& operator=(LogicalDeviceDX12&& Right) noexcept = delete;
 
-		SwapchainDX12 CreateSwapchain(const PresentationParametersDX12& PresentationParameter);
+		virtual const INativePhysicalDevice& GetPhysicalDevice() const override;
 
-		virtual QueueDX12& RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index) override;
+		virtual PresentationParametersDX12& GetPresentationParameters() const override;
+
+		virtual void Wait() const override;
 	private:
-		LogicalDeviceDX12(IDXGIFactory2* Factory, ID3D12Device6* Device, Elysium::Core::Collections::Template::Array<QueueDX12>&& Queues);
+		const PhysicalDeviceDX12& _PhysicalDevice;
+		PresentationParametersDX12& _PresentationParameters;
 
 		IDXGIFactory2* _Factory;
-		ID3D12Device6* _Device;
-		Core::Collections::Template::Array<QueueDX12> _Queues;
+		ID3D12Device6* _NativeDevice;
 	};
 }
 #endif

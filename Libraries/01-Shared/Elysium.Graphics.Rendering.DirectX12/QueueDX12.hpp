@@ -24,39 +24,43 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_COMMANDQUEUETYPEDX12
+#include "CommandQueueTypeDX12.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_INCLUDEDX12
 #include "IncludeDX12.hpp"
 #endif
 
-namespace Elysium::Core::Collections::Template
-{
-	template <typename T>
-	class Array;
-}
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_LOGICALDEVICEDX12
+#include "LogicalDeviceDX12.hpp"
+#endif
 
 namespace Elysium::Graphics::Rendering::DirectX12
 {
-	class LogicalDeviceDX12;
-	class PhysicalDeviceDX12;
-
 	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API QueueDX12 final : public INativeQueue
 	{
-		friend class Elysium::Core::Collections::Template::Array<QueueDX12>;
 		friend class LogicalDeviceDX12;
-		friend class PhysicalDeviceDX12;
+		friend class SwapchainDX12;
 	public:
+		QueueDX12(const LogicalDeviceDX12& LogicalDevice, const CommandQueueTypeDX12 Family, Elysium::Core::uint32_t Index);
 		QueueDX12(const QueueDX12& Source) = delete;
 		QueueDX12(QueueDX12&& Right) noexcept = delete;
 		virtual ~QueueDX12();
 
 		QueueDX12& operator=(const QueueDX12& Source) = delete;
 		QueueDX12& operator=(QueueDX12&& Right) noexcept = delete;
+
+		virtual const Elysium::Core::uint32_t GetFamilyIndex() const override;
+
+		virtual void Submit(const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) override;
+		virtual void Wait() const override;
 	private:
-		QueueDX12();
+		const LogicalDeviceDX12& _LogicalDevice;
+		const CommandQueueTypeDX12 _Family;
+		const Elysium::Core::uint32_t _Index;
 
 		ID3D12CommandQueue* _NativeQueue;
-		D3D12_COMMAND_LIST_TYPE _NativeType;
-		Elysium::Core::uint32_t _Index;
 	};
 }
 #endif

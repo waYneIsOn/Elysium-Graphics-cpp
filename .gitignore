@@ -8,9 +8,13 @@
 /Libraries/02-Windows/Elysium.Graphics.Platform.GLFW/Releasebin/x64
 
 /Libraries/02-Windows/Elysium.Graphics.Rendering.DirectX12/Debugbin/x64
+/Libraries/02-Windows/Elysium.Graphics.Rendering.DirectX12/Releasebin/x64
+
 /Libraries/02-Windows/Elysium.Graphics.Rendering.Vulkan/Debugbin/x64
+/Libraries/02-Windows/Elysium.Graphics.Rendering.Vulkan/Releasebin/x64
 
 /TestApplications/02-Windows/SimpleTest/Debugbin/x64
 /TestApplications/02-Windows/SimpleTest/Releasebin/x64
+
 *.foz
 *.gfxr

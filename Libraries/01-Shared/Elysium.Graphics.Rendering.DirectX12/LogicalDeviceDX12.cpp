@@ -1,30 +1,44 @@
 #include "LogicalDeviceDX12.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_EXCEPTIONDX12
+#include "ExceptionDX12.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_PHYSICALDEVICEDX12
+#include "PhysicalDeviceDX12.hpp"
+#endif
+
+Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::LogicalDeviceDX12(const PhysicalDeviceDX12& PhysicalDevice, Elysium::Graphics::Rendering::DirectX12::PresentationParametersDX12& PresentationParameters)
+	: _PhysicalDevice(PhysicalDevice), _PresentationParameters(PresentationParameters), _Factory(PhysicalDevice._Factory), _NativeDevice(nullptr)
+{
+	// ToDo: D3D_FEATURE_LEVEL
+	long Result;
+	if (FAILED((Result = D3D12CreateDevice(_PhysicalDevice._NativeAdapter, D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&_NativeDevice)))))
+	{
+		throw ExceptionDX12(Result);
+	}
+}
 Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::~LogicalDeviceDX12()
 {
-	if (_Device != nullptr)
+	if (_NativeDevice != nullptr)
 	{
-		_Device->Release();
+		_NativeDevice->Release();
+		_NativeDevice = nullptr;
 	}
 }
 
-Elysium::Graphics::Rendering::DirectX12::SwapchainDX12 Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::CreateSwapchain(const PresentationParametersDX12& PresentationParameter)
+const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::GetPhysicalDevice() const
 {
-	//_Factory->CreateSwapChainForHwnd()
+	return _PhysicalDevice;
+}
 
+Elysium::Graphics::Rendering::DirectX12::PresentationParametersDX12& Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::GetPresentationParameters() const
+{
+	return _PresentationParameters;
+}
+
+void Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::Wait() const
+{
+	// ToDo: wait for all queues
 	throw 1;
 }
-
-Elysium::Graphics::Rendering::DirectX12::QueueDX12& Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::RetrieveQueue(const Elysium::Core::uint32_t FamilyIndex, const Elysium::Core::uint32_t Index)
-{
-	const Elysium::Graphics::Rendering::DirectX12::QueueDX12& Result = _Queues[FamilyIndex];
-	if (Result._NativeType != FamilyIndex)
-	{	// ToDo: throw specific exception
-		throw 1;
-	}
-	return _Queues[FamilyIndex];
-}
-
-Elysium::Graphics::Rendering::DirectX12::LogicalDeviceDX12::LogicalDeviceDX12(IDXGIFactory2* Factory, ID3D12Device6 * Device, Elysium::Core::Collections::Template::Array<QueueDX12>&& Queues)
-	: _Factory(Factory), _Device(Device), _Queues(std::move(Queues))
-{ }

@@ -12,14 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_GAME
-#include "../Elysium.Graphics/Game.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
 #include "../Elysium.Graphics/INativeSwapchain.hpp"
 #endif
@@ -52,8 +44,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const override;
 
 		virtual void Recreate() override;
-		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout) override;
-		virtual void PresentFrame(const INativeQueue& PresentationQueue) override;
+		virtual void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout) override;
+		virtual void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) override;
 	private:
 		const LogicalDeviceVk& _LogicalDevice;
 		VkSwapchainKHR _NativeSwapchainHandle;
@@ -62,10 +54,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		Elysium::Core::Collections::Template::Array<VkImage> _BackBufferImages;
 		Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
-
-		Elysium::Core::Collections::Template::Array<VkFence> _Fences;
-		Elysium::Core::Collections::Template::Array<VkSemaphore> _ImageAvailableSemaphores;
-		Elysium::Core::Collections::Template::Array<VkSemaphore> _RendererFinishedSemaphores;
 
 		void RecreateSwapchain(VkSwapchainKHR PreviousNativeSwapchainHandle);
 	};

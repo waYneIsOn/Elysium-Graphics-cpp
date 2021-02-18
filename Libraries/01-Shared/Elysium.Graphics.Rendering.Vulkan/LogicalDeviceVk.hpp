@@ -42,6 +42,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class CommandBufferVk;
+	class CommandPoolVk;
 	class FenceVk;
 	class PhysicalDeviceVk;
 	class QueueVk;
@@ -50,6 +52,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public INativeLogicalDevice
 	{
+		friend class CommandBufferVk;
+		friend class CommandPoolVk;
 		friend class FenceVk;
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;

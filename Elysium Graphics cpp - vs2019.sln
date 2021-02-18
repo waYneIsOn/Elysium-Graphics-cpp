@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - libraries", "01 - libraries", "{4DB1922B-FDB3-42DB-BF15-0C6A31FF7BEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{042249AB-7C55-47A3-BC50-D88CFF4BE246}"
+	ProjectSection(SolutionItems) = preProject
+		00 - Comparison.txt = 00 - Comparison.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Windows", "02 - Windows", "{F59FE63F-419A-4710-829D-D7C332363EF3}"
 EndProject

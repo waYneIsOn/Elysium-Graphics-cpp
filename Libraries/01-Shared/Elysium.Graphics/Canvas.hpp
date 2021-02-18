@@ -32,12 +32,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATION
+#ifndef ELYSIUM_GRAPHICS_DISPLAYORIENTATION
 #include "DisplayOrientation.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_DISPLAYORIENTATIONCHANGEDEVENTARGS
+#ifndef ELYSIUM_GRAPHICS_DISPLAYORIENTATIONCHANGEDEVENTARGS
 #include "DisplayOrientationChangedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_PLATFORM_IMONITOR
+#include "IMonitor.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_PLATFORM_SIZECHANGEDEVENTARGS
@@ -62,10 +66,11 @@ namespace Elysium::Graphics::Platform
 		Canvas& operator=(const Canvas& Source) = delete;
 		Canvas& operator=(Canvas&& Right) noexcept = delete;
 
-		virtual const Core::Math::Geometry::Rectangle& GetClientBounds() const = 0;
+		virtual const bool GetIsMinimized() const = 0;
+		virtual const Elysium::Core::Math::Geometry::Rectangle& GetClientBounds() const = 0;
 		virtual void* GetHandle() const = 0;
-		virtual const DisplayOrientation GetDisplayOrientation() const = 0;
-		virtual const Core::String& GetTitle() const = 0;
+		virtual const Elysium::Graphics::DisplayOrientation GetDisplayOrientation() const = 0;
+		virtual const Elysium::Core::String& GetTitle() const = 0;
 
 		virtual void SetTitle(const Core::String& Value) = 0;
 
@@ -74,14 +79,13 @@ namespace Elysium::Graphics::Platform
 	protected:
 		Canvas();
 		
-		Core::Event<void, void*, const Core::EventArgs&> Activated;
-		Core::Event<void, void*, const Core::EventArgs&> Deactivated;
-		Core::Event<void, void*, const Core::EventArgs&> Suspend;
-		Core::Event<void, void*, const Core::EventArgs&> Resume;
+		Core::Event<void, void*, const bool> FocusChanged;
+		Core::Event<void, void*> Suspend;
+		Core::Event<void, void*> Resume;
 		Core::Event<void, void*, const SizeChangedEventArgs&> SizeChanged;
 		Core::Event<void, void*, const DisplayOrientationChangedEventArgs&> OrientationChanged;
-		Core::Event<void, void*, const Core::EventArgs&> Paint;
-		Core::Event<void, void*, const Core::EventArgs&> Exiting;
+		Core::Event<void, void*> Paint;
+		Core::Event<void, void*> Exiting;
 	};
 }
 #endif

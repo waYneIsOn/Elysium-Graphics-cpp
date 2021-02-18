@@ -8,7 +8,7 @@ Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::SemaphoreVk(const LogicalDevi
 	: _LogicalDevice(LogicalDevice), _NativeSemaphoreHandle(VK_NULL_HANDLE)
 {
 	VkSemaphoreCreateInfo CreateInfo = VkSemaphoreCreateInfo();
-	CreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 	CreateInfo.pNext = nullptr;
 	CreateInfo.flags = 0;
 
@@ -24,6 +24,7 @@ Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::~SemaphoreVk()
 	if (_NativeSemaphoreHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySemaphore(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSemaphoreHandle, nullptr);
+		_NativeSemaphoreHandle = VK_NULL_HANDLE;
 	}
 }
 

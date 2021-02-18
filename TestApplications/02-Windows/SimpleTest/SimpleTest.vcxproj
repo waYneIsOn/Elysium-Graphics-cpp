@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -103,7 +103,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,7 +122,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,7 +138,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -158,7 +158,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Graphics.lib;Elysium.Graphics.Platform.GLFW.lib;Elysium.Graphics.Rendering.DirectX12.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -167,6 +167,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Platform.GLFW\Elysium.Graphics.Platform.GLFW.vcxproj">
       <Project>{171e6b64-7dde-4dea-8620-d2a2f967dce9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Rendering.DirectX12\Elysium.Graphics.Rendering.DirectX12.vcxproj">
+      <Project>{3f4af807-0f51-48d3-8ca4-19ff4e67cc01}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics.Rendering.Vulkan\Elysium.Graphics.Rendering.Vulkan.vcxproj">
       <Project>{b010f920-aede-4afd-8020-6bf0f55fa38a}</Project>

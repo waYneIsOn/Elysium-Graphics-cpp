@@ -17,8 +17,10 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GLFWGameWindow.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GLFWMonitor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GLFWGameWindow.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GLFWMonitor.cpp" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,30 @@
+
++-------------------+---------------------------+-----------------------+
+| Abstraction		| Vulkan					| DirectX12				|
++-------------------+---------------------------+-----------------------+
+| Linchpin			| VkInstance				| IDXGIFactory2			|
+| Debug				| VkDebugUtilsMessengerEXT	| ID3D12Debug			|
+| Surface			| VkSurfaceKHR				| IDXGISurface2			|
+| Physical Device	| VkPhysicalDevice			| IDXGIAdapter1			|
+| Logical Device	| VkDevice					| ID3D12Device6			|
++-------------------+---------------------------+-----------------------+
+| Swapchain			| VkSwapchainKHR			| IDXGISwapChain4		|
+| Framebuffer		| ...						| ...					|
++-------------------+---------------------------+-----------------------+
+| Semaphore			| VkSemaphore				| ...					|
+| Fence				| VkFence					| ID3D12Fence			|
++-------------------+---------------------------+-----------------------+
+| Queue				| VkQueue					| ...					|
+| CommandPool		| VkCommandPool				| ID3D12CommandQueue?	|
+| CommandBuffer		| VkCommandBuffer			| ID3D12CommandList?	|
++-------------------+---------------------------+-----------------------+
+| ...				| ...						| ...					|
+| ...				| ...						| ...					|
+| ...				| ...						| ...					|
+| ...				| ...						| ...					|
+| ...				| ...						| ...					|
+| ...				| ...						| ...					|
++-------------------+---------------------------+-----------------------+
+
+Differences:
+- 

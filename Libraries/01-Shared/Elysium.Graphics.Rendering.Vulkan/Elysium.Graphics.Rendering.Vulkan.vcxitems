@@ -18,6 +18,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ColorSpaceVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandBufferVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandPoolVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
@@ -48,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BufferVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CommandBufferVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CommandPoolVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DepthBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />

@@ -43,8 +43,8 @@ namespace Elysium::Graphics::Rendering
 		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const = 0;
 
 		virtual void Recreate() = 0;	// ToDo: swapchain recreation should be done by reacting to events! this public method shouldn't exist!
-		virtual void AquireNextImage(const Elysium::Core::uint64_t Timeout) = 0;
-		virtual void PresentFrame(const INativeQueue& PresentationQueue) = 0;
+		virtual void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout) = 0;
+		virtual void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) = 0;
 	};
 }
 #endif

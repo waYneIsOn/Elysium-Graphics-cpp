@@ -4,13 +4,13 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::FenceVk::FenceVk(const LogicalDeviceVk& LogicalDevice)
+Elysium::Graphics::Rendering::Vulkan::FenceVk::FenceVk(const LogicalDeviceVk& LogicalDevice, const bool SetSignaled)
 	: _LogicalDevice(LogicalDevice), _NativeFenceHandle(VK_NULL_HANDLE)
 {
 	VkFenceCreateInfo CreateInfo = VkFenceCreateInfo();
-	CreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 	CreateInfo.pNext = nullptr;
-	CreateInfo.flags = 0;
+	CreateInfo.flags = SetSignaled == true ? VkFenceCreateFlagBits::VK_FENCE_CREATE_SIGNALED_BIT : 0;
 
 	VkResult Result;
 	if ((Result = vkCreateFence(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeFenceHandle)) != VK_NULL_HANDLE)
@@ -23,6 +23,7 @@ Elysium::Graphics::Rendering::Vulkan::FenceVk::~FenceVk()
 	if (_NativeFenceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroyFence(_LogicalDevice._NativeLogicalDeviceHandle, _NativeFenceHandle, nullptr);
+		_NativeFenceHandle = VK_NULL_HANDLE;
 	}
 }
 

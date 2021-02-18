@@ -43,7 +43,7 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::LogicalDeviceVk(const Phy
 	}
 
 	VkDeviceCreateInfo DeviceCreateInfo = VkDeviceCreateInfo();
-	DeviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	DeviceCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	DeviceCreateInfo.pQueueCreateInfos = &QueueCreateInfos[0];
 	DeviceCreateInfo.queueCreateInfoCount = QueueCount;
 	DeviceCreateInfo.pEnabledFeatures = &PhysicalDevice._Features._NativeFeatures;
@@ -72,6 +72,7 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::~LogicalDeviceVk()
 	if (_NativeLogicalDeviceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroyDevice(_NativeLogicalDeviceHandle, nullptr);
+		_NativeLogicalDeviceHandle = VK_NULL_HANDLE;
 	}
 }
 

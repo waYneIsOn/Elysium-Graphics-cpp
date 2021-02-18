@@ -1,7 +1,7 @@
 #include "PresentationParametersVk.hpp"
 
-Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationParametersVk(Platform::Canvas& Canvas)
-	: Elysium::Graphics::Rendering::PresentationParameters(Canvas)
+Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationParametersVk()
+	: Elysium::Graphics::PresentationParameters()
 { }
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }

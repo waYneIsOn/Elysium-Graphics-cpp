@@ -1,5 +1,9 @@
 #include "GraphicsInstanceDX12.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_EXCEPTIONDX12
+#include "ExceptionDX12.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/InvalidOperationException.hpp"
 #endif
@@ -9,13 +13,14 @@
 #endif
 
 Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::GraphicsInstanceDX12()
-	: _Factory(nullptr)
+	: _Factory(nullptr), _Debug(nullptr)
 { }
 Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::~GraphicsInstanceDX12()
 {
 	if (_Factory != nullptr)
 	{
 		_Factory->Release();
+		_Factory = nullptr;
 	}
 }
 
@@ -48,11 +53,39 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return Devices;
 }
 
+void Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::EnableDebugging()
+{
+	if (_Factory == nullptr)
+	{
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12 needs to be initialized before calling this method.");
+	}
+
+	long Result;
+	if (FAILED(Result = D3D12GetDebugInterface(IID_PPV_ARGS(&_Debug))))
+	{
+		throw ExceptionDX12(Result);
+	}
+
+	_Debug->EnableDebugLayer();
+}
+
+void Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::DisableDebugging()
+{
+	if (_Factory == nullptr)
+	{
+		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12 needs to be initialized before calling this method.");
+	}
+
+	if (_Debug != nullptr)
+	{
+		_Debug->Release();
+		_Debug = nullptr;
+	}
+}
+
 void Elysium::Graphics::Rendering::DirectX12::GraphicsInstanceDX12::Initialize(const Elysium::Graphics::Rendering::DirectX12::PresentationParametersDX12& PresentationParameters)
 {
 	long Result;
-
-	//Elysium::Core::uint32_t Flags = 0;
 	Elysium::Core::uint32_t Flags = DXGI_CREATE_FACTORY_DEBUG;
 	if (FAILED(Result = CreateDXGIFactory2(Flags, IID_PPV_ARGS(&_Factory))))
 	{

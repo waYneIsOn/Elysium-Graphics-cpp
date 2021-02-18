@@ -9,6 +9,7 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk::~SurfaceVk()
 	if (_NativeSurfaceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySurfaceKHR(_NativeInstanceHandle, _NativeSurfaceHandle, nullptr);
+		_NativeSurfaceHandle = VK_NULL_HANDLE;
 	}
 }
 
@@ -44,6 +45,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return PresentModes;
 }
 
-Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const VkInstance NativeInstanceHandle, const VkSurfaceKHR NativeSurfaceHandle)
+Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const VkInstance NativeInstanceHandle, VkSurfaceKHR NativeSurfaceHandle)
 	: _NativeInstanceHandle(NativeInstanceHandle), _NativeSurfaceHandle(NativeSurfaceHandle)
 { }

@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
+#ifndef ELYSIUM_GRAPHICS_PRESENTATIONPARAMETERS
 #include "../Elysium.Graphics/PresentationParameters.hpp"
 #endif
 
@@ -57,12 +57,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class GraphicsInstanceVk;
 	class LogicalDeviceVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public PresentationParameters
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public Elysium::Graphics::PresentationParameters
 	{
 		friend class GraphicsInstanceVk;
 		friend class LogicalDeviceVk;
 	public:
-		PresentationParametersVk(Platform::Canvas& Canvas);
+		PresentationParametersVk();
 		PresentationParametersVk(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk(PresentationParametersVk&& Right) noexcept = delete;
 		virtual ~PresentationParametersVk();

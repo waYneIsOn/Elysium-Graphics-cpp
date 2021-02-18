@@ -12,20 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_STRINGVIEW
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/StringView.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
 #include "../Elysium.Graphics/INativePhysicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API
 #include "API.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_LOGICALDEVICEDX12
-#include "LogicalDeviceDX12.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_INCLUDEDX12
@@ -45,11 +37,13 @@ namespace Elysium::Core::Collections::Template
 namespace Elysium::Graphics::Rendering::DirectX12
 {
 	class GraphicsInstanceDX12;
+	class LogicalDeviceDX12;
 
 	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API PhysicalDeviceDX12 final : public INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceDX12>;
 		friend class GraphicsInstanceDX12;
+		friend class LogicalDeviceDX12;
 	public:
 		PhysicalDeviceDX12(const PhysicalDeviceDX12& Source) = delete;
 		PhysicalDeviceDX12(PhysicalDeviceDX12&& Right) noexcept = delete;
@@ -60,6 +54,8 @@ namespace Elysium::Graphics::Rendering::DirectX12
 
 		virtual const Elysium::Core::String GetName() const override;
 
+		virtual const PhysicalDeviceType GetDeviceType() const override;
+
 		const Elysium::Core::uint32_t GetVendorId() const;
 		const Elysium::Core::uint32_t GetDeviceId() const;
 		const Elysium::Core::uint32_t GetSubSysId() const;
@@ -67,8 +63,6 @@ namespace Elysium::Graphics::Rendering::DirectX12
 		const size_t GetDedicatedVideoMemory() const;
 		const size_t GetDedicatedSystemMemory() const;
 		const size_t GetSharedSystemMemory() const;
-
-		LogicalDeviceDX12 CreateLogicalDevice(const PresentationParametersDX12& PresentationParameters);
 	private:
 		PhysicalDeviceDX12();
 

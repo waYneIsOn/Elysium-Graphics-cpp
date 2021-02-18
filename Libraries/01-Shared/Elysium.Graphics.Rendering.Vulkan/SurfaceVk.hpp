@@ -63,10 +63,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> GetFormats(const PhysicalDeviceVk& PhysicalDevice);
 		const Elysium::Core::Collections::Template::Array<PresentModeVk> GetPresentModes(const PhysicalDeviceVk& PhysicalDevice);
 	private:
-		SurfaceVk(const VkInstance NativeInstanceHandle, const VkSurfaceKHR NativeSurfaceHandle);
+		SurfaceVk(const VkInstance NativeInstanceHandle, VkSurfaceKHR NativeSurfaceHandle);
 
 		const VkInstance _NativeInstanceHandle;
-		const VkSurfaceKHR _NativeSurfaceHandle;
+		VkSurfaceKHR _NativeSurfaceHandle;
 	};
 }
 #endif

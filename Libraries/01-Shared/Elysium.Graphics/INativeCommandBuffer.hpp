@@ -5,7 +5,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-/*
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
 #define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
 
@@ -30,4 +29,3 @@ namespace Elysium::Graphics::Rendering
 	};
 }
 #endif
-*/

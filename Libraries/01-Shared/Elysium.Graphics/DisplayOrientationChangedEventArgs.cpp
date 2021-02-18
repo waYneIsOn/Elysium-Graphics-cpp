@@ -6,7 +6,7 @@ Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs::DisplayOrientat
 Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs::~DisplayOrientationChangedEventArgs()
 { }
 
-const Elysium::Graphics::Platform::DisplayOrientation& Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs::GetDisplayOrientation() const
+const Elysium::Graphics::DisplayOrientation& Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs::GetDisplayOrientation() const
 {
 	return _DisplayOrientation;
 }

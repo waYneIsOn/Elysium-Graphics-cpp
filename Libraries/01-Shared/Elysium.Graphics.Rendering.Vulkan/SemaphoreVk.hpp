@@ -30,8 +30,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class QueueVk;
+	class SwapchainVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SemaphoreVk final : public INativeSemaphore
 	{
+		friend class QueueVk;
+		friend class SwapchainVk;
 	public:
 		SemaphoreVk(const LogicalDeviceVk& LogicalDevice);
 		SemaphoreVk(const SemaphoreVk& Source) = delete;

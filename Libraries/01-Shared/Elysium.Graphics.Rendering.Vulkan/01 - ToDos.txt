@@ -5,3 +5,8 @@
 	- minimizing and "re-displaying"
 	- resizing
 	- maximizing
+
+- test game logic
+	- exit from within
+	- exit manually (VK_ERROR_OUT_OF_DATE_KHR)
+	- 

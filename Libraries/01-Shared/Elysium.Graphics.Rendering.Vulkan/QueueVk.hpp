@@ -61,6 +61,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		QueueVk& operator=(const QueueVk& Source) = delete;
 		QueueVk& operator=(QueueVk&& Right) noexcept = delete;
 
+		virtual const Elysium::Core::uint32_t GetFamilyIndex() const override;
+
+		virtual void Submit(const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) override;
 		virtual void Wait() const override;
 	private:
 		const LogicalDeviceVk& _LogicalDevice;

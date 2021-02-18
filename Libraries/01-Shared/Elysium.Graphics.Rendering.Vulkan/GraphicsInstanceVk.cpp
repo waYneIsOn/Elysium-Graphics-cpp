@@ -36,6 +36,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 	if (_NativeInstanceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroyInstance(_NativeInstanceHandle, nullptr);
+		_NativeInstanceHandle = VK_NULL_HANDLE;
 	}
 }
 

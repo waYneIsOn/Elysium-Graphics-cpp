@@ -31,7 +31,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 
-
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#include "INativeCommandBuffer.hpp"
+#endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#include "INativeCommandPool.hpp"
+#endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEBUFFER
 #include "INativeBuffer.hpp"
 #endif
@@ -55,7 +60,9 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API Game
 	{
 	public:
-		Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, Rendering::INativeQueue& PresentationQueue);
+		Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
+			Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence,
+			Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore);
 		Game(const Game& Source) = delete;
 		Game(Game&& Right) noexcept = delete;
 		virtual ~Game();
@@ -66,10 +73,8 @@ namespace Elysium::Graphics
 		const Platform::Canvas& GetCanvas() const;
 		const bool GetIsActive() const;
 		const bool GetIsFixedTimeStep() const;
-		const bool GetIsMouseVisible() const;
 
 		void SetIsFixedTimeStep(const bool Value);
-		void SetIsMouseVisible(const bool Value);
 
 		void Run();
 		void Exit();
@@ -87,12 +92,16 @@ namespace Elysium::Graphics
 		virtual void EndUpdate();
 	private:
 		Platform::Canvas& _Canvas;
-		Rendering::PresentationParameters& _PresentationParameters;
+		PresentationParameters& _PresentationParameters;
 
 
 		Rendering::INativeLogicalDevice& _LogicalDevice;
 		Rendering::INativeSwapchain& _Swapchain;
 		Rendering::INativeQueue& _PresentationQueue;
+		Rendering::INativeQueue& _GraphicsQueue;
+		Rendering::INativeFence& _RenderFence;
+		Rendering::INativeSemaphore& _PresentSemaphore;
+		Rendering::INativeSemaphore& _RenderSemaphore;
 
 
 		GameTime _GameTime;
@@ -103,20 +112,18 @@ namespace Elysium::Graphics
 		Elysium::Core::uint64_t _DesiredDrawTimeStepInactive = 500000ULL;	// 2 fps drawing while inactive
 		*/
 		bool _IsFixedTimeStep = true;
-		bool _IsMouseVisible = true;
 
 		bool _IsActive = true;
 		bool _IsInitialized = false;
 		bool _ShouldExit = false;
 
-		void Canvas_Activated(void* Sender, const Core::EventArgs& e);
-		void Canvas_Deactivated(void* Sender, const Core::EventArgs& e);
-		void Canvas_Suspend(void* Sender, const Core::EventArgs& e);
-		void Canvas_Resume(void* Sender, const Core::EventArgs& e);
+		void Canvas_FocusChanged(void* Sender, const bool HasReceivedFocus);
+		void Canvas_Suspend(void* Sender);
+		void Canvas_Resume(void* Sender);
 		void Canvas_SizeChanged(void* Sender, const Platform::SizeChangedEventArgs& e);
 		void Canvas_OrientationChanged(void* Sender, const Platform::DisplayOrientationChangedEventArgs& e);
-		void Canvas_Paint(void* Sender, const Core::EventArgs& e);
-		void Canvas_Exiting(void* Sender, const Core::EventArgs& e);
+		void Canvas_Paint(void* Sender);
+		void Canvas_Exiting(void* Sender);
 	};
 }
 #endif

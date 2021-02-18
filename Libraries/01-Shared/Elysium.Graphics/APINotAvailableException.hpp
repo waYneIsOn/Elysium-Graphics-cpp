@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics
 {
 	class ELYSIUM_GRAPHICS_API APINotAvailableException : public Core::Exception
 	{

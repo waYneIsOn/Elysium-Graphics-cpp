@@ -8,7 +8,9 @@ class MyGame final : public Elysium::Graphics::Game
 {
 public:
 	MyGame(Elysium::Graphics::Rendering::INativeLogicalDevice& LogicalDevice, Elysium::Graphics::Rendering::INativeSwapchain& Swapchain, 
-		Elysium::Graphics::Rendering::INativeQueue& PresentationQueue);
+		Elysium::Graphics::Rendering::INativeQueue& PresentationQueue, Elysium::Graphics::Rendering::INativeQueue& GraphicsQueue,
+		Elysium::Graphics::Rendering::INativeFence& RenderFence, Elysium::Graphics::Rendering::INativeSemaphore& PresentSemaphore,
+		Elysium::Graphics::Rendering::INativeSemaphore& RenderSemaphore);
 	MyGame(const MyGame& Source) = delete;
 	MyGame(MyGame&& Right) noexcept = delete;
 	virtual ~MyGame();

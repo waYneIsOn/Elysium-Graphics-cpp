@@ -28,7 +28,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PhysicalDeviceType.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_PRESENTATIONPARAMETERS
+#ifndef ELYSIUM_GRAPHICS_PRESENTATIONPARAMETERS
 #include "PresentationParameters.hpp"
 #endif
 
