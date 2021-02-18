@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DisplayMode.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_IMONITOR
-#include "IMonitor.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_MONITOR
+#include "../Elysium.Graphics.Presentation/Monitor.hpp"
 #endif
 
 namespace Elysium::Graphics
@@ -58,7 +58,7 @@ namespace Elysium::Graphics::Settings
 		DisplayParameters();
 
 		DisplayMode _DisplayMode = DisplayMode::Windowed;
-		Elysium::Graphics::Platform::IMonitor* _SelectedMonitor = nullptr;
+		Elysium::Graphics::Presentation::Monitor* _SelectedMonitor = nullptr;
 		Elysium::Graphics::Rendering::INativePhysicalDevice* _SelectedPhysicalDevice = nullptr;
 		Elysium::Core::uint32_t _RenderResolution = 100;
 		bool _EnableVSync = false;

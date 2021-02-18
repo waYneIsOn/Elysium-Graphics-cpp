@@ -7,6 +7,8 @@
 Elysium::Graphics::Rendering::DirectX12::SwapchainDX12::SwapchainDX12(const LogicalDeviceDX12& LogicalDevice, const QueueDX12& DirectQueue)
 	: _LogicalDevice(LogicalDevice), _DirectQueue(DirectQueue), _NativeSwapchain(nullptr)
 {
+	throw 1;
+	/*
 	const PresentationParametersDX12& DX12PresentationParameters = static_cast<const PresentationParametersDX12&>(LogicalDevice.GetPresentationParameters());
 	Elysium::Graphics::Platform::Canvas& Canvas = DX12PresentationParameters.GetCanvas();
 	const Elysium::Core::Math::Geometry::Rectangle& ClientBounds = Canvas.GetClientBounds();
@@ -33,6 +35,7 @@ Elysium::Graphics::Rendering::DirectX12::SwapchainDX12::SwapchainDX12(const Logi
 	{
 		throw ExceptionDX12(Result);
 	}
+	*/
 }
 Elysium::Graphics::Rendering::DirectX12::SwapchainDX12::~SwapchainDX12()
 {

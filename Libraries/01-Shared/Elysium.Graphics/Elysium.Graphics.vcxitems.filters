@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Platform">
-      <UniqueIdentifier>{3ac5a172-1add-4f37-91f5-c44fe84ec8eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{5993042f-82f6-434a-9d99-0f2568837efd}</UniqueIdentifier>
     </Filter>
@@ -22,9 +19,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Canvas.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp">
       <Filter>Rendering</Filter>
@@ -77,58 +71,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFactory.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IMonitor.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayParameters.hpp">
       <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Monitor.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Window.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Canvas.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DisplayParameters.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Monitor.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)01 - Platform ToDos.txt">
-      <Filter>Platform</Filter>
-    </Text>
   </ItemGroup>
 </Project>

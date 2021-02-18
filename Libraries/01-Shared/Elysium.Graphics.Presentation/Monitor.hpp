@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_MONITOR
-#define ELYSIUM_GRAPHICS_PLATFORM_MONITOR
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_MONITOR
+#define ELYSIUM_GRAPHICS_PRESENTATION_MONITOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Math/Rectangle.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_API
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_API
 #include "API.hpp"
 #endif
 
@@ -46,23 +46,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os"
 #endif
 
-namespace Elysium::Graphics::Platform
+namespace Elysium::Graphics::Presentation
 {
-	class ELYSIUM_GRAPHICS_API Monitor final
+	class ELYSIUM_GRAPHICS_PRESENTATION_API Monitor final
 	{
-		friend class Elysium::Core::Collections::Template::List<Elysium::Graphics::Platform::Monitor>;
+		friend class Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor>;
 	public:
 		Monitor(const Monitor& Source) = delete;
 		~Monitor();
 
 		Monitor& operator=(const Monitor& Source) = delete;
 
-		static const Elysium::Core::Collections::Template::List<Elysium::Graphics::Platform::Monitor>& GetActiveMonitors();
-		static const Elysium::Graphics::Platform::Monitor& GetPrimaryMonitor();
+		static const Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor>& GetActiveMonitors();
+		static const Elysium::Graphics::Presentation::Monitor& GetPrimaryMonitor();
 
 		const bool& GetIsPrimaryMonitor() const;
-
-		void Test() {}
 	private:
 		Elysium::Core::uint32_t _Handle;
 		bool _IsPrimaryMonitor;
@@ -76,8 +74,9 @@ namespace Elysium::Graphics::Platform
 
 		void RefreshValues();
 	private:
-		static Elysium::Core::Collections::Template::List<Elysium::Graphics::Platform::Monitor> _Monitors;
+		static Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor> _Monitors;
 
+		static Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor> RetrieveMonitors();
 		static Elysium::Core::int32_t EnumDisplayMonitorsCallback(HMONITOR Handle, HDC Dc, RECT* Rectangle, LPARAM Data);
 	};
 }

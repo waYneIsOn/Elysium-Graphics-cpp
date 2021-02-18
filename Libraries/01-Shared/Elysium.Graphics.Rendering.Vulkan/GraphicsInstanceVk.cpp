@@ -215,7 +215,7 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk Elysium::Graphics::Rendering::Vu
 	SurfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 	SurfaceCreateInfo.pNext = nullptr;
 	SurfaceCreateInfo.flags = 0;
-	SurfaceCreateInfo.hwnd = (HWND)PresentationParameters.GetCanvas().GetHandle();
+	SurfaceCreateInfo.hwnd = (HWND)PresentationParameters.GetControl().GetHandle();
 	SurfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 
 	VkSurfaceKHR NativeSurfaceHandle;

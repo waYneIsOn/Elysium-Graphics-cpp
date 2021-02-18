@@ -21,13 +21,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Canvas.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IMonitor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp" />
@@ -42,28 +39,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Monitor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayOrientationChangedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DisplayParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Canvas.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Monitor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SizeChangedEventArgs.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)01 - Platform ToDos.txt" />
   </ItemGroup>
 </Project>

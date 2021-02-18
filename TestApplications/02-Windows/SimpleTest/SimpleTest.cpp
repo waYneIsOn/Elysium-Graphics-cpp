@@ -1,8 +1,6 @@
 #include "../../01-Shared/SimpleTest/MyGame.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics/Monitor.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics/Window.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Platform.GLFW/GLFWGameWindow.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Platform.GLFW/GLFWMonitor.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Presentation/Monitor.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Presentation/Window.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/FenceDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/GraphicsInstanceDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/LogicalDeviceDX12.hpp"
@@ -23,8 +21,7 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Graphics;
-using namespace Elysium::Graphics::Platform;
-using namespace Elysium::Graphics::Platform::GLFW;
+using namespace Elysium::Graphics::Presentation;
 using namespace Elysium::Graphics::Rendering;
 using namespace Elysium::Graphics::Rendering::DirectX12;
 using namespace Elysium::Graphics::Rendering::Vulkan;
@@ -32,25 +29,21 @@ using namespace Elysium::Graphics::Settings;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+    // ...
     const List<Monitor>& ActiveMonitos = Monitor::GetActiveMonitors();
     const Monitor& PrimaryMonitor = Monitor::GetPrimaryMonitor();
-
-    Window SomeWindow = Window();
-    //SomeWindow.Show();
-
-
-    int sdfg = 354;
-
-
-    /*
-    // 01 - create and configure presentation parameters (further values will set along the way)
+    Window CanvasWindow = Window();
+    
+    // ... - create and configure presentation parameters (further values will set along the way)
     PresentationParametersVk PresentationParameters = PresentationParametersVk();
-    PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
     PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
     PresentationParameters.SetBackBufferHeight(GraphicsDeviceManager::DefaultBackBufferHeight);
     PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
+    PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
+    //PresentationParameters.SetDisplayMonitor(PrimaryMonitor);
+    PresentationParameters.SetControl(CanvasWindow);
 
-    // 02 - initialize graphics api (vulkan), iterate physical devices and select one
+    // ... - initialize graphics api (vulkan), iterate physical devices and select one
     GraphicsInstanceVk GraphicsInstance = GraphicsInstanceVk();
 
     const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstance.GetAvailableExtensions();
@@ -73,7 +66,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     GraphicsInstance.Initialize(PresentationParameters);
     GraphicsInstance.EnableDebugging();
 
-    const Array<PhysicalDeviceVk> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
+    Array<PhysicalDeviceVk> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
     size_t MostSuitableGraphicsDeviceIndex = -1;
     size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
@@ -112,24 +105,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
     PresentationParameters.SetDisplayDevice(SelectedPhysicalDevice);
 
-    // 03 - iterare monitors and select one
-    const Array<GLFWMonitor> Monitors = GLFWMonitor::GetMonitors();
-    for (size_t i = 0; i < Monitors.GetLength(); i++)
-    {
-        const bool IsPrimaryMonitor = Monitors[i].GetIsPrimaryMonitor();
-        const Elysium::Core::String MonitorName = Monitors[i].GetName();
-        const Elysium::Core::Math::Geometry::Point& PhysicalSize = Monitors[i].GetPhysicalSize();
-        const Elysium::Core::Math::Geometry::Point& CurrentResolution = Monitors[i].GetCurrentResolution();
-        const Elysium::Core::uint32_t CurrentRefreshRate = Monitors[i].GetCurrentRefreshRate();
-        const Elysium::Core::Math::Geometry::Point& Position = Monitors[i].GetPosition();
-    }
-    PresentationParameters.SetDisplayMonitor(Monitors[0]);
-
-    // ...
-    GLFWGameWindow GameWindow = GLFWGameWindow(Monitors[0]);
-    GameWindow.SetTitle(u8"Elysium Graphics :: GLFWGameWindow :: SimpleTest");
-    PresentationParameters.SetCanvas(GameWindow);
-    
     // ... initialize the previously created vulkan instance, create a surface, iterate physical devices and pick one
     SurfaceVk Surface = GraphicsInstance.CreateSurface(PresentationParameters);
     PresentationParameters.SetSurfaceHandle(Surface);
@@ -211,7 +186,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // create and run the game
     MyGame Game = MyGame(LogicalDevice, Swapchain, PresentationQueue, GraphicsQueue, RenderFence, PresentSemaphore, RenderSemaphore);
     Game.Run();
-    */
+    
     /*
     // create and configure presentation parmeters (further parameters will be picked up and set along the way)
     PresentationParametersDX12 PresentationParameters = PresentationParametersDX12();

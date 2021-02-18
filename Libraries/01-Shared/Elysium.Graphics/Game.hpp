@@ -70,7 +70,6 @@ namespace Elysium::Graphics
 		Game& operator=(const Game& Source) = delete;
 		Game& operator=(Game&& Right) noexcept = delete;
 
-		const Platform::Canvas& GetCanvas() const;
 		const bool GetIsActive() const;
 		const bool GetIsFixedTimeStep() const;
 
@@ -91,7 +90,7 @@ namespace Elysium::Graphics
 		virtual void Update(const GameTime& GameTime) = 0;
 		virtual void EndUpdate();
 	private:
-		Platform::Canvas& _Canvas;
+		Presentation::Control& _Control;
 		PresentationParameters& _PresentationParameters;
 
 
@@ -117,13 +116,13 @@ namespace Elysium::Graphics
 		bool _IsInitialized = false;
 		bool _ShouldExit = false;
 
-		void Canvas_FocusChanged(void* Sender, const bool HasReceivedFocus);
-		void Canvas_Suspend(void* Sender);
-		void Canvas_Resume(void* Sender);
-		void Canvas_SizeChanged(void* Sender, const Platform::SizeChangedEventArgs& e);
-		void Canvas_OrientationChanged(void* Sender, const Platform::DisplayOrientationChangedEventArgs& e);
-		void Canvas_Paint(void* Sender);
-		void Canvas_Exiting(void* Sender);
+		void Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
+		void Control_Suspend(const Presentation::Control& Sender);
+		void Control_Resume(const Presentation::Control& Sender);
+		//void Control_SizeChanged(const Presentation::Control& Sender, const Platform::SizeChangedEventArgs& e);
+		//void Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e);
+		void Control_Paint(const Presentation::Control& Sender);
+		void Control_Exiting(const Presentation::Control& Sender);
 	};
 }
 #endif

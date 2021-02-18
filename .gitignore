@@ -4,8 +4,8 @@
 /Libraries/02-Windows/Elysium.Graphics/x64/Release
 /Libraries/02-Windows/Elysium.Graphics/Releasebin/x64
 
-/Libraries/02-Windows/Elysium.Graphics.Platform.GLFW/Debugbin/x64
-/Libraries/02-Windows/Elysium.Graphics.Platform.GLFW/Releasebin/x64
+/Libraries/02-Windows/Elysium.Graphics.Presentation/Debugbin/x64
+/Libraries/02-Windows/Elysium.Graphics.Presentation/Releasebin/x64
 
 /Libraries/02-Windows/Elysium.Graphics.Rendering.DirectX12/Debugbin/x64
 /Libraries/02-Windows/Elysium.Graphics.Rendering.DirectX12/Releasebin/x64

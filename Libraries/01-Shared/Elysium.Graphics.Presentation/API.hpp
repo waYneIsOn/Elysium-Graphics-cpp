@@ -5,7 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_GLFW_API
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_API
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,10 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifdef ELYSIUMGRAPHICSPLATFORMGLFW_EXPORTS
-#define ELYSIUM_GRAPHICS_PLATFORM_GLFW_API __declspec(dllexport)
+#ifdef ELYSIUMGRAPHICSPRESENTATION_EXPORTS
+#define ELYSIUM_GRAPHICS_PRESENTATION_API __declspec(dllexport)
 #else
-#define ELYSIUM_GRAPHICS_PLATFORM_GLFW_API __declspec(dllimport)
+#define ELYSIUM_GRAPHICS_PRESENTATION_API __declspec(dllimport)
 #endif
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 

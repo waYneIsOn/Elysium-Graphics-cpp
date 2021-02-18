@@ -24,12 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GraphicsDeviceManager.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_CANVAS
-#include "Canvas.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_IMONITOR
-#include "IMonitor.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
+#include "../Elysium.Graphics.Presentation/Control.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_SETTINGS_DISPLAYPARAMETERS
@@ -50,23 +46,23 @@ namespace Elysium::Graphics
 		PresentationParameters& operator=(PresentationParameters&& Right) noexcept = delete;
 
 		const Elysium::Graphics::DisplayMode GetDisplayMode() const;
-		Platform::Canvas& GetCanvas() const;
+		Presentation::Control& GetControl() const;
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
 
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
-		void SetDisplayMonitor(Elysium::Graphics::Platform::IMonitor& Monitor);
+		void SetDisplayMonitor(Elysium::Graphics::Presentation::Monitor& Monitor);
 		void SetDisplayDevice(Elysium::Graphics::Rendering::INativePhysicalDevice& PhysicalDevice);
-		void SetCanvas(Platform::Canvas& Value);
+		void SetControl(Presentation::Control& Control);
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
 		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) = 0;
 	protected:
-		Settings::DisplayParameters _DisplayParameters;
+		Settings::DisplayParameters _DisplayParameters = Settings::DisplayParameters();
 
-		Platform::Canvas* _Canvas;
+		Presentation::Control* _Control = nullptr;
 
 		Elysium::Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
 		Elysium::Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;

@@ -1,4 +1,0 @@
-- multiple monitors that have windows that can be rendered to (think nintendo (2/3)ds, think rts with the minimap on another screen)
-- might need to render to multiple windows' (think window + messagebox; think graph based shaders + control to display the result)
-- render to specific control instead of window
-- ...

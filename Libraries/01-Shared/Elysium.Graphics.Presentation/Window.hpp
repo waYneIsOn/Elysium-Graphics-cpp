@@ -5,19 +5,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_PLATFORM_WINDOW
-#define ELYSIUM_GRAPHICS_PLATFORM_WINDOW
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOW
+#define ELYSIUM_GRAPHICS_PRESENTATION_WINDOW
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EVENT
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Event.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_API
+#include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_API
-#include "API.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
+#include "Control.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -27,6 +27,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef _WINGDI_
 #include <wingdi.h>
+#endif
+
+#ifndef _GDIPLUS_H
+#include <gdiplus.h>
 #endif
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 #error "unsupported os"
@@ -38,9 +42,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os"
 #endif
 
-namespace Elysium::Graphics::Platform
+namespace Elysium::Graphics::Presentation
 {
-	class ELYSIUM_GRAPHICS_API Window
+	class ELYSIUM_GRAPHICS_PRESENTATION_API Window : public Control
 	{
 	public:
 		Window();
@@ -51,20 +55,25 @@ namespace Elysium::Graphics::Platform
 		Window& operator=(Window&& Right) noexcept = delete;
 		Window& operator=(const Window& Source) = delete;
 
-		Elysium::Core::Event<void, const void*, const bool> ActivationChanged;
-
-		//const bool GetIsActive() const;
+		virtual const size_t GetHandle() override;
+		//virtual const bool GetIsActive() const = 0;
 		//const Elysium::Core::String& GetName() const;
 
 		//void SetName(const Elysium::Core::String& Value);
 
-		void Show();
+		virtual void Show() override;
 		//const bool ShowDialog();
-		void Close();
+		virtual void Close() override;
 	private:
+		size_t _WindowHandle;
 
+		size_t CreateNativeWindow();
 	protected:
-		virtual void OnActivationChanged(const void* Sender, const bool HasActived);
+		virtual void OnActivationChanged(const Elysium::Graphics::Presentation::Control& Sender, const bool HasActived);
+	private:
+		static size_t _ProgramInstanceHandle;
+
+		static LRESULT CALLBACK WindowsMessageHandlerCallback(HWND WindowHandle, UINT Message, WPARAM wParam, LPARAM lParam);
 	};
 }
 #endif
