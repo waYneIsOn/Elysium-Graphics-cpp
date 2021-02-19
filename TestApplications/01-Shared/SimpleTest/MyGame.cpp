@@ -1,10 +1,11 @@
 #include "MyGame.hpp"
 
-MyGame::MyGame(Elysium::Graphics::Rendering::INativeLogicalDevice& LogicalDevice, Elysium::Graphics::Rendering::INativeSwapchain& Swapchain,
+MyGame::MyGame(Elysium::Graphics::Rendering::INativeGraphicsDevice& GraphicsDevice,
+	Elysium::Graphics::Rendering::INativeLogicalDevice& LogicalDevice, Elysium::Graphics::Rendering::INativeSwapchain& Swapchain,
 	Elysium::Graphics::Rendering::INativeQueue& PresentationQueue, Elysium::Graphics::Rendering::INativeQueue& GraphicsQueue,
 	Elysium::Graphics::Rendering::INativeFence& RenderFence, Elysium::Graphics::Rendering::INativeSemaphore& PresentSemaphore,
 	Elysium::Graphics::Rendering::INativeSemaphore& RenderSemaphore)
-	: Elysium::Graphics::Game(LogicalDevice, Swapchain, PresentationQueue, GraphicsQueue, RenderFence, PresentSemaphore, RenderSemaphore)
+	: Elysium::Graphics::Game(GraphicsDevice, LogicalDevice, Swapchain, PresentationQueue, GraphicsQueue, RenderFence, PresentSemaphore, RenderSemaphore)
 { }
 MyGame::~MyGame()
 { }

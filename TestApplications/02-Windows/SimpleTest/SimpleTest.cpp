@@ -1,6 +1,7 @@
 #include "../../01-Shared/SimpleTest/MyGame.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Presentation/Monitor.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Presentation/Window.hpp"
+/*
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/FenceDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/GraphicsInstanceDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/LogicalDeviceDX12.hpp"
@@ -8,10 +9,12 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/PresentationParametersDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/QueueDX12.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.DirectX12/SwapchainDX12.hpp"
+*/
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/CommandBufferVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/CommandPoolVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/FenceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsInstanceVk.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsDeviceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/LogicalDeviceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/PresentationParametersVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/QueueVk.hpp"
@@ -23,50 +26,34 @@ using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Graphics;
 using namespace Elysium::Graphics::Presentation;
 using namespace Elysium::Graphics::Rendering;
-using namespace Elysium::Graphics::Rendering::DirectX12;
+//using namespace Elysium::Graphics::Rendering::DirectX12;
 using namespace Elysium::Graphics::Rendering::Vulkan;
-using namespace Elysium::Graphics::Settings;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    // ...
-    const List<Monitor>& ActiveMonitos = Monitor::GetActiveMonitors();
-    const Monitor& PrimaryMonitor = Monitor::GetPrimaryMonitor();
-    Window CanvasWindow = Window();
-    
-    // ... - create and configure presentation parameters (further values will set along the way)
-    PresentationParametersVk PresentationParameters = PresentationParametersVk();
-    PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
-    PresentationParameters.SetBackBufferHeight(GraphicsDeviceManager::DefaultBackBufferHeight);
-    PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
-    PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
-    //PresentationParameters.SetDisplayMonitor(PrimaryMonitor);
-    PresentationParameters.SetControl(CanvasWindow);
+    // 01 - instantiate a window to be used as canvas
+    Window Canvas = Window();
 
-    // ... - initialize graphics api (vulkan), iterate physical devices and select one
-    GraphicsInstanceVk GraphicsInstance = GraphicsInstanceVk();
-
-    const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstance.GetAvailableExtensions();
+    // 02 - instantiate and prepare vulkan api
+    GraphicsInstanceVk GraphicsAPI = GraphicsInstanceVk();
+    const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsAPI.GetAvailableExtensions();
     for (size_t i = 0; i < AvailableInstanceExtensions.GetLength(); i++)
     {
         const StringView ExtensionName = AvailableInstanceExtensions[i].GetName();
-        PresentationParameters.AddInstanceExtensionProperty(AvailableInstanceExtensions[i]);
+        GraphicsAPI.AddInstanceExtensionProperty(AvailableInstanceExtensions[i]);
     }
 
-    const Array<LayerPropertyVk> AvailableLayers = GraphicsInstance.GetAvailableLayers();
+    const Array<LayerPropertyVk> AvailableLayers = GraphicsAPI.GetAvailableLayers();
     for (size_t i = 0; i < AvailableLayers.GetLength(); i++)
     {
         const StringView LayerName = AvailableLayers[i].GetName();
-        //if (LayerName == u8"VK_LAYER_KHRONOS_validation")
-        {
-            PresentationParameters.AddLayerProperty(AvailableLayers[i]);
-        }
+        GraphicsAPI.AddLayerProperty(AvailableLayers[i]);
     }
 
-    GraphicsInstance.Initialize(PresentationParameters);
-    GraphicsInstance.EnableDebugging();
+    GraphicsAPI.Initialize();
+    GraphicsAPI.EnableDebugging();
 
-    Array<PhysicalDeviceVk> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
+    Array<PhysicalDeviceVk> PhysicalGraphicsDevices = GraphicsAPI.GetPhysicalGraphicsDevices();
     size_t MostSuitableGraphicsDeviceIndex = -1;
     size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
@@ -92,6 +79,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
             MostSuitableGraphicsDeviceIndex = i;
         }
     }
+
+    // 03 - create and configure presentation parameters (further values will set along the way)
+    PresentationParametersVk PresentationParameters = PresentationParametersVk(GraphicsAPI, Canvas);
+    PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
+    PresentationParameters.SetBackBufferHeight(GraphicsDeviceManager::DefaultBackBufferHeight);
+    PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
+    PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
+    PresentationParameters.SetDisplayMonitorIndex(0);
+    PresentationParameters.SetDisplayDeviceIndex(MostSuitableGraphicsDeviceIndex);
+
+    // ... - prepare vulkan specific presentation parameters
+    //PresentationParameters.SetSurfaceFormat(...);
+
+    // ... - iterate physical devices and select one
     PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitableGraphicsDeviceIndex];
 
     const Array<ExtensionPropertyVk> AvailableDeviceExtensions = SelectedPhysicalDevice.GetAvailableExtensions();
@@ -103,10 +104,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
             PresentationParameters.AddDeviceExtensionProperty(AvailableDeviceExtensions[i]);
         }
     }
-    PresentationParameters.SetDisplayDevice(SelectedPhysicalDevice);
+
+    // ...
+    GraphicsDeviceVk GraphicsDevice = GraphicsDeviceVk(GraphicsAPI, PresentationParameters);
+
+
+
+
+
+
+
+
+
+
+
+
 
     // ... initialize the previously created vulkan instance, create a surface, iterate physical devices and pick one
-    SurfaceVk Surface = GraphicsInstance.CreateSurface(PresentationParameters);
+    SurfaceVk Surface = SurfaceVk(GraphicsAPI, PresentationParameters);
     PresentationParameters.SetSurfaceHandle(Surface);
 
     // check surface against physical device to retrieve required data for swapchain-creation
@@ -160,7 +175,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
                     PresentationParameters.SetPresentationQueueFamilyIndex(i);
                 }
             }
-
+            
             DeviceQueueCreateInfoVk QueueCreateInfo = DeviceQueueCreateInfoVk();
             QueueCreateInfo.SetFamilyIndex(QueueFamilyProperties[i].GetIndex());
             QueueCreateInfo.AddPriority(1.0f);
@@ -184,7 +199,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     CommandBufferVk PrimaryGraphicsBuffer = CommandBufferVk(GraphicsPool, true);
 
     // create and run the game
-    MyGame Game = MyGame(LogicalDevice, Swapchain, PresentationQueue, GraphicsQueue, RenderFence, PresentSemaphore, RenderSemaphore);
+    MyGame Game = MyGame(GraphicsDevice, LogicalDevice, Swapchain, PresentationQueue, GraphicsQueue, RenderFence, PresentSemaphore, RenderSemaphore);
     Game.Run();
     
     /*

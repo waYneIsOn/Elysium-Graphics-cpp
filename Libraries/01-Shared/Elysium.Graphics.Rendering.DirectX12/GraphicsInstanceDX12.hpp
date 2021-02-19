@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#include "../Elysium.Graphics/INativeGraphicsAPI.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API
 #include "API.hpp"
 #endif
@@ -34,13 +38,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::DirectX12
 {
-	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API GraphicsInstanceDX12 final
+	class ELYSIUM_GRAPHICS_RENDERING_DIRECTX12_API GraphicsInstanceDX12 final : public INativeGraphicsAPI
 	{
 	public:
 		GraphicsInstanceDX12();
 		GraphicsInstanceDX12(const GraphicsInstanceDX12& Source) = delete;
 		GraphicsInstanceDX12(GraphicsInstanceDX12&& Right) noexcept = delete;
-		~GraphicsInstanceDX12();
+		virtual ~GraphicsInstanceDX12();
 
 		GraphicsInstanceDX12& operator=(const GraphicsInstanceDX12& Source) = delete;
 		GraphicsInstanceDX12& operator=(GraphicsInstanceDX12&& Right) noexcept = delete;

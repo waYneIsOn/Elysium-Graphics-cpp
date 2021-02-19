@@ -1,15 +1,14 @@
 #include "PresentationParametersVk.hpp"
 
-Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationParametersVk()
-	: Elysium::Graphics::PresentationParameters()
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSINSTANCEVK
+#include "GraphicsInstanceVk.hpp"
+#endif
+
+Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationParametersVk(GraphicsInstanceVk& NativeGraphicsAPI, Presentation::Control& Canvas)
+	: Elysium::Graphics::PresentationParameters(NativeGraphicsAPI, Canvas)
 { }
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }
-
-const Elysium::Core::String& Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetApplicationName() const
-{
-	return _ApplicationName;
-}
 
 const void* Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetSurfaceHandle() const
 {
@@ -57,11 +56,6 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetExtent(c
 	_Extent.Height = Height;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetApplicationName(const Elysium::Core::String& Value)
-{
-	_ApplicationName = Value;
-}
-
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetSurfaceHandle(const SurfaceVk& Value)
 {
 	_SurfaceHandle = (void*)Value._NativeSurfaceHandle;
@@ -98,16 +92,6 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetPresentM
 	_PresentMode = Value;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
-{
-	_InstanceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearInstanceExtensionProperties()
-{
-	_InstanceExtensionPropertyNames.Clear();
-}
-
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
 {
 	_DeviceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
@@ -116,16 +100,6 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceEx
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearDeviceExtensionProperties()
 {
 	_DeviceExtensionPropertyNames.Clear();
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddLayerProperty(const LayerPropertyVk& LayerProperty)
-{
-	_LayerPropertyNames.Add((char*)&LayerProperty.GetName()[0]);
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearLayerProperties()
-{
-	_LayerPropertyNames.Clear();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceQueueCreateInfo(DeviceQueueCreateInfoVk&& CreateInfo)

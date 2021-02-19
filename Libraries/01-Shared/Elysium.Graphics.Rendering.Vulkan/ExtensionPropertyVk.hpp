@@ -41,7 +41,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		ExtensionPropertyVk& operator=(ExtensionPropertyVk&& Right) noexcept = delete;
 
 		const Core::StringView GetName() const;
-		const Core::uint32_t GetSpecVersion() const;
+		const Core::uint32_t& GetSpecVersion() const;
 	private:
 		VkExtensionProperties _NativeProperty;
 	};

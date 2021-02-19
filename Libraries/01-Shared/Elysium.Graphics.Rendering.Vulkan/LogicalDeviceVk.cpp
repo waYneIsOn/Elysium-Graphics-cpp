@@ -57,8 +57,10 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::LogicalDeviceVk(const Phy
 		DeviceCreateInfo.ppEnabledExtensionNames = nullptr;
 		DeviceCreateInfo.enabledExtensionCount = 0;
 	}
-	DeviceCreateInfo.ppEnabledLayerNames = &PresentationParameters._LayerPropertyNames[0];
-	DeviceCreateInfo.enabledLayerCount = PresentationParameters._LayerPropertyNames.GetCount();
+	//DeviceCreateInfo.ppEnabledLayerNames = &PresentationParameters._LayerPropertyNames[0];
+	//DeviceCreateInfo.enabledLayerCount = PresentationParameters._LayerPropertyNames.GetCount();
+	DeviceCreateInfo.ppEnabledLayerNames = nullptr;
+	DeviceCreateInfo.enabledLayerCount = 0;
 	DeviceCreateInfo.pNext = nullptr;
 
 	VkResult Result;

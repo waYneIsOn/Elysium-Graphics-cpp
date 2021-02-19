@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#include "../Elysium.Graphics/INativeGraphicsAPI.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -42,13 +46,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsInstanceVk final
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsInstanceVk final : public INativeGraphicsAPI
 	{
+		friend class SurfaceVk;
 	public:
 		GraphicsInstanceVk();
 		GraphicsInstanceVk(const GraphicsInstanceVk& Source) = delete;
 		GraphicsInstanceVk(GraphicsInstanceVk&& Right) noexcept = delete;
-		~GraphicsInstanceVk();
+		virtual ~GraphicsInstanceVk();
 
 		GraphicsInstanceVk& operator=(const GraphicsInstanceVk& Source) = delete;
 		GraphicsInstanceVk& operator=(GraphicsInstanceVk&& Right) noexcept = delete;
@@ -58,12 +63,22 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> GetPhysicalGraphicsDevices();
 
-		void EnableDebugging();
-		void DisableDebugging();
+		void SetApplicationName(const Elysium::Core::String& Value);
+		void AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
+		void ClearInstanceExtensionProperties();
 
-		void Initialize(const PresentationParametersVk& PresentationParameters);
-		SurfaceVk CreateSurface(const PresentationParametersVk& PresentationParameters);
+		void AddLayerProperty(const LayerPropertyVk& LayerProperty);
+		void ClearLayerProperties();
+
+		virtual void EnableDebugging() override;
+		virtual void DisableDebugging() override;
+
+		virtual void Initialize() override;
 	private:
+		Elysium::Core::String _ApplicationName = u8"Elysium Graphics Application";
+		Elysium::Core::Collections::Template::List<char*> _InstanceExtensionPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
+		Elysium::Core::Collections::Template::List<char*> _LayerPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
+
 		VkInstance _NativeInstanceHandle = VK_NULL_HANDLE;
 		VkDebugUtilsMessengerEXT _NativeDebugUtilsMessengerHandle = VK_NULL_HANDLE;
 

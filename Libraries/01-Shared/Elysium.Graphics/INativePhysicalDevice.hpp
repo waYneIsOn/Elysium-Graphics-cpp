@@ -12,16 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_DEVICEQUEUECREATINFOS
-#include "DeviceQueueCreateInfos.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
-#include "INativeLogicalDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
@@ -43,8 +39,6 @@ namespace Elysium::Graphics::Rendering
 		virtual const Elysium::Core::String GetName() const = 0;
 
 		virtual const PhysicalDeviceType GetDeviceType() const = 0;
-
-		//virtual ILogicalDevice& CreateLogicalDevice(const PresentationParameters& PresentationParameters, const DeviceQueueCreateInfos& QueueCreateInfo) = 0;
 	};
 }
 #endif

@@ -11,7 +11,7 @@ const Elysium::Core::StringView Elysium::Graphics::Rendering::Vulkan::ExtensionP
 	return Core::StringView((char8_t*)_NativeProperty.extensionName);
 }
 
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk::GetSpecVersion() const
+const Elysium::Core::uint32_t& Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk::GetSpecVersion() const
 {
 	return _NativeProperty.specVersion;
 }

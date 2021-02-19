@@ -10,9 +10,6 @@
     <Filter Include="Content">
       <UniqueIdentifier>{59f583cc-5f3d-4dbb-8232-46b85bb0731a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Settings">
-      <UniqueIdentifier>{1767848c-45eb-4c87-898d-06593976881d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
@@ -72,12 +69,13 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayParameters.hpp">
-      <Filter>Settings</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -85,9 +83,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayParameters.cpp">
-      <Filter>Settings</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
   </ItemGroup>
 </Project>

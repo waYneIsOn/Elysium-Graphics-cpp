@@ -120,6 +120,31 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return PhysicalGraphicsDevices;
 }
 
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::SetApplicationName(const Elysium::Core::String& Value)
+{
+	_ApplicationName = Value;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
+{
+	_InstanceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::ClearInstanceExtensionProperties()
+{
+	_InstanceExtensionPropertyNames.Clear();
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::AddLayerProperty(const LayerPropertyVk& LayerProperty)
+{
+	_LayerPropertyNames.Add((char*)&LayerProperty.GetName()[0]);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::ClearLayerProperties()
+{
+	_LayerPropertyNames.Clear();
+}
+
 void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::EnableDebugging()
 {
 	if (_NativeInstanceHandle == VK_NULL_HANDLE)
@@ -166,74 +191,36 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DisableDebugging(
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::Initialize(const PresentationParametersVk & PresentationParameters)
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::Initialize()
 {
-	const Core::Collections::Template::List<char*> ExtensionProperties = PresentationParameters._InstanceExtensionPropertyNames;
-	const Core::Collections::Template::List<char*> LayerProperties = PresentationParameters._LayerPropertyNames;
-
 	VkApplicationInfo ApplicationInfo = VkApplicationInfo();
 	ApplicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 	ApplicationInfo.apiVersion = VK_API_VERSION_1_0;
 	ApplicationInfo.applicationVersion = VK_MAKE_VERSION(0, 0, 1);
 	ApplicationInfo.engineVersion = VK_MAKE_VERSION(0, 0, 1);
-	ApplicationInfo.pApplicationName = (const char*)&PresentationParameters.GetApplicationName()[0];
+	ApplicationInfo.pApplicationName = (const char*)&_ApplicationName[0];
 	ApplicationInfo.pEngineName = (const char*)u8"Elysium Graphics";
 	ApplicationInfo.pNext = nullptr;
 
 	VkInstanceCreateInfo InstanceCreateInfo = VkInstanceCreateInfo();
 	InstanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	InstanceCreateInfo.pApplicationInfo = &ApplicationInfo;
-	InstanceCreateInfo.enabledExtensionCount = ExtensionProperties.GetCount();
-	InstanceCreateInfo.enabledLayerCount = LayerProperties.GetCount();
+	InstanceCreateInfo.enabledExtensionCount = _InstanceExtensionPropertyNames.GetCount();
+	InstanceCreateInfo.enabledLayerCount = _LayerPropertyNames.GetCount();
 	if (InstanceCreateInfo.enabledExtensionCount > 0)
 	{
-		InstanceCreateInfo.ppEnabledExtensionNames = &ExtensionProperties[0];
+		InstanceCreateInfo.ppEnabledExtensionNames = &_InstanceExtensionPropertyNames[0];
 	}
 	if (InstanceCreateInfo.enabledLayerCount > 0)
 	{
-		InstanceCreateInfo.ppEnabledLayerNames = &LayerProperties[0];
+		InstanceCreateInfo.ppEnabledLayerNames = &_LayerPropertyNames[0];
 	}
-	
+
 	VkResult Result;
 	if ((Result = vkCreateInstance(&InstanceCreateInfo, nullptr, &_NativeInstanceHandle)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
-}
-
-Elysium::Graphics::Rendering::Vulkan::SurfaceVk Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateSurface(const PresentationParametersVk& PresentationParameters)
-{
-	if (_NativeInstanceHandle == VK_NULL_HANDLE)
-	{
-		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
-	}
-
-	VkResult Result;
-
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	VkWin32SurfaceCreateInfoKHR SurfaceCreateInfo = VkWin32SurfaceCreateInfoKHR();
-	SurfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	SurfaceCreateInfo.pNext = nullptr;
-	SurfaceCreateInfo.flags = 0;
-	SurfaceCreateInfo.hwnd = (HWND)PresentationParameters.GetControl().GetHandle();
-	SurfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
-
-	VkSurfaceKHR NativeSurfaceHandle;
-	if ((Result = vkCreateWin32SurfaceKHR(_NativeInstanceHandle, &SurfaceCreateInfo, nullptr, &NativeSurfaceHandle)) != VK_SUCCESS)
-	{
-		throw ExceptionVk(Result);
-	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-
-#elif defined(ELYSIUM_CORE_OS_MAC)
-
-#else
-#error "unsupported os"
-#endif
-
-	return SurfaceVk(_NativeInstanceHandle, NativeSurfaceHandle);
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DebugCallback(

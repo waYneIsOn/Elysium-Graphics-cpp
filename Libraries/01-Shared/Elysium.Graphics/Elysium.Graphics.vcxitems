@@ -21,10 +21,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp" />
@@ -46,7 +47,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />

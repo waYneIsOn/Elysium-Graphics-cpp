@@ -39,6 +39,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
+
+	class GraphicsDeviceVk;
 	class LogicalDeviceVk;
 	class PhysicalDeviceVk;
 	class PresentationParametersVk;
@@ -46,12 +48,13 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SurfaceVk final
 	{
-		friend class GraphicsInstanceVk;
+		friend class GraphicsDeviceVk;
 		friend class LogicalDeviceVk;
 		friend class PhysicalDeviceVk;
 		friend class PresentationParametersVk;
 		friend class QueueVk;
 	public:
+		SurfaceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		SurfaceVk(const SurfaceVk& Source) = delete;
 		SurfaceVk(SurfaceVk&& Right) noexcept = delete;
 		~SurfaceVk();
@@ -63,10 +66,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> GetFormats(const PhysicalDeviceVk& PhysicalDevice);
 		const Elysium::Core::Collections::Template::Array<PresentModeVk> GetPresentModes(const PhysicalDeviceVk& PhysicalDevice);
 	private:
-		SurfaceVk(const VkInstance NativeInstanceHandle, VkSurfaceKHR NativeSurfaceHandle);
-
 		const VkInstance _NativeInstanceHandle;
 		VkSurfaceKHR _NativeSurfaceHandle;
+
+		VkSurfaceKHR CreateNativeSurface(PresentationParametersVk& PresentationParameters);
 	};
 }
 #endif

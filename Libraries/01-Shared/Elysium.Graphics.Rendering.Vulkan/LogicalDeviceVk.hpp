@@ -36,10 +36,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParametersVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;

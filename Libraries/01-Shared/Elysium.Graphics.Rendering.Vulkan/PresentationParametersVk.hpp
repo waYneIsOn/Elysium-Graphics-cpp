@@ -62,7 +62,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsInstanceVk;
 		friend class LogicalDeviceVk;
 	public:
-		PresentationParametersVk();
+		PresentationParametersVk(GraphicsInstanceVk& NativeGraphicsAPI, Presentation::Control& Canvas);
 		PresentationParametersVk(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk(PresentationParametersVk&& Right) noexcept = delete;
 		virtual ~PresentationParametersVk();
@@ -70,7 +70,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PresentationParametersVk& operator=(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk& operator=(PresentationParametersVk&& Right) noexcept = delete;
 
-		const Elysium::Core::String& GetApplicationName() const;
 		const void* GetSurfaceHandle() const;
 		const Elysium::Core::uint32_t GetGraphicsQueueFamilyIndex() const;
 		const Elysium::Core::uint32_t GetPresentationQueueFamilyIndex() const;
@@ -81,7 +80,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const PresentModeVk& GetPresentMode() const;
 
 		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) override;
-		void SetApplicationName(const Elysium::Core::String& Value);
 		void SetSurfaceHandle(const SurfaceVk& Value);
 		void SetGraphicsQueueFamilyIndex(const Elysium::Core::uint32_t Value);
 		void SetPresentationQueueFamilyIndex(const Elysium::Core::uint32_t Value);
@@ -90,23 +88,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		void SetSurfaceFormat(const SurfaceFormatVk& Value);
 		void SetPresentMode(const PresentModeVk& Value);
 
-		void AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
-		void ClearInstanceExtensionProperties();
-
 		void AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
 		void ClearDeviceExtensionProperties();
-
-		void AddLayerProperty(const LayerPropertyVk& LayerProperty);
-		void ClearLayerProperties();
 
 		void AddDeviceQueueCreateInfo(DeviceQueueCreateInfoVk&& CreateInfo);
 		void ClearDeviceQueueCreateInfo();
 	private:
-		// information required for creation of instance
-		Core::String _ApplicationName = u8"Elysium Graphics Application";
-		Core::Collections::Template::List<char*> _InstanceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
-		Core::Collections::Template::List<char*> _LayerPropertyNames = Core::Collections::Template::List<char*>(0);
-
 		// information required for creation of device and queues
 		void* _SurfaceHandle;
 		Core::Collections::Template::List<char*> _DeviceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);

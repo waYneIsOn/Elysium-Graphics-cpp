@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GraphicsDeviceManager.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
+#include "INativeGraphicsDevice.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
 #endif
@@ -49,7 +53,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEIMAGE2D
 #include "INativeImage2D.hpp"
 #endif
-
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
+#include "INativeSwapchain.hpp"
+#endif
 
 
 
@@ -60,7 +66,8 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API Game
 	{
 	public:
-		Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
+		Game(Rendering::INativeGraphicsDevice& GraphicsDevice,
+			Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
 			Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence,
 			Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore);
 		Game(const Game& Source) = delete;
@@ -119,7 +126,7 @@ namespace Elysium::Graphics
 		void Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
 		void Control_Suspend(const Presentation::Control& Sender);
 		void Control_Resume(const Presentation::Control& Sender);
-		//void Control_SizeChanged(const Presentation::Control& Sender, const Platform::SizeChangedEventArgs& e);
+		void Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 		//void Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e);
 		void Control_Paint(const Presentation::Control& Sender);
 		void Control_Exiting(const Presentation::Control& Sender);

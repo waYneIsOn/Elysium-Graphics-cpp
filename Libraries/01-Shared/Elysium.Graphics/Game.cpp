@@ -1,9 +1,10 @@
 #include "Game.hpp"
 
-Elysium::Graphics::Game::Game(Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
+Elysium::Graphics::Game::Game(Rendering::INativeGraphicsDevice& GraphicsDevice, 
+	Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain,
 	Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence, 
 	Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore)
-	: _Control(LogicalDevice.GetPresentationParameters().GetControl()), _PresentationParameters(LogicalDevice.GetPresentationParameters()),
+	: _Control(GraphicsDevice.GetPresentationParameters().GetCanvas()), _PresentationParameters(LogicalDevice.GetPresentationParameters()),
 
 	_LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _PresentationQueue(PresentationQueue), _GraphicsQueue(GraphicsQueue),
 	_RenderFence(RenderFence), _PresentSemaphore(PresentSemaphore), _RenderSemaphore(RenderSemaphore),
@@ -11,22 +12,22 @@ Elysium::Graphics::Game::Game(Rendering::INativeLogicalDevice& LogicalDevice, Re
 	_GameTime(), _GraphicsDeviceManager(*this)
 {
 	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_ActivationChanged>(*this);
-	//_Control.Suspend += Elysium::Core::Delegate<void, Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
-	//_Control.Resume += Elysium::Core::Delegate<void, Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
-	//_Control.SizeChanged += Elysium::Core::Delegate<void, Presentation::Control& const Elysium::Graphics::Platform::SizeChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_SizeChanged>(*this);
-	//_Control.OrientationChanged += Elysium::Core::Delegate<void, Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
+	//_Control.Suspend += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
+	//_Control.Resume += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
+	_Control.SizeChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_SizeChanged>(*this);
+	//_Control.OrientationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
 	_Control.Paint += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Paint>(*this);
-	//_Control.Exiting += Elysium::Core::Delegate<void, Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
+	_Control.Exiting += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Exiting>(*this);
 }
 Elysium::Graphics::Game::~Game()
 {
 	_Control.ActivationChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_ActivationChanged>(*this);
-	//_Control.Suspend -= Elysium::Core::Delegate<void, Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
-	//_Control.Resume -= Elysium::Core::Delegate<void, Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
-	//_Control.SizeChanged -= Elysium::Core::Delegate<void, Presentation::Control&, const Elysium::Graphics::Platform::SizeChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_SizeChanged>(*this);
-	//_Control.OrientationChanged -= Elysium::Core::Delegate<void, Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
+	//_Control.Suspend -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
+	//_Control.Resume -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
+	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_SizeChanged>(*this);
+	//_Control.OrientationChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
 	_Control.Paint -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Paint>(*this);
-	//_Control.Exiting -= Elysium::Core::Delegate<void, Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Exiting>(*this);
+	_Control.Exiting -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Exiting>(*this);
 }
 
 const bool Elysium::Graphics::Game::GetIsActive() const
@@ -74,7 +75,7 @@ void Elysium::Graphics::Game::Tick()
 		return;
 	}
 	
-	//if (!_Control.GetIsMinimized())
+	if (_IsActive)
 	{
 		// begin frame
 		_RenderFence.Wait(Elysium::Core::UInt64::GetMaxValue());
@@ -123,18 +124,18 @@ void Elysium::Graphics::Game::Control_Resume(const Presentation::Control& Sender
 {
 	_IsActive = true;
 }
-/*
-void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& Sender, const Platform::SizeChangedEventArgs& e)
+
+void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
-	if (_IsActive)
+	//if (_IsActive)
 	{
-		_PresentationParameters.SetExtent(e.GetWidth(), e.GetHeight());
+		_PresentationParameters.SetExtent(Width, Height);
 
 		// ToDo: swapchain recreation should be done by reacting to events! this public method shouldn't exist!
 		_Swapchain.Recreate();
 	}
 }
-
+/*
 void Elysium::Graphics::Game::Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e)
 {
 	// ToDo: create a fake once the first triangle is being rendered

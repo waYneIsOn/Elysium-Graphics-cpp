@@ -28,6 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FenceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverterVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Image2DVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IncludeVk.hpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Extent2DVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FenceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverterVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Image2DVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.cpp" />

@@ -1,18 +1,29 @@
 #include "PresentationParameters.hpp"
 
-Elysium::Graphics::PresentationParameters::PresentationParameters()
+Elysium::Graphics::PresentationParameters::PresentationParameters(Rendering::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas)
+	: _NativeGraphicsAPI(NativeGraphicsAPI), _Canvas(Canvas)
 { }
 Elysium::Graphics::PresentationParameters::~PresentationParameters()
 { }
 
 const Elysium::Graphics::DisplayMode Elysium::Graphics::PresentationParameters::GetDisplayMode() const
 {
-	return _DisplayParameters._DisplayMode;
+	return _DisplayMode;
 }
 
-Elysium::Graphics::Presentation::Control& Elysium::Graphics::PresentationParameters::GetControl() const
+const Elysium::Graphics::Presentation::Monitor& Elysium::Graphics::PresentationParameters::GetDisplayMonitor() const
 {
-	return *_Control;
+	return Elysium::Graphics::Presentation::Monitor::GetActiveMonitors()[_MonitorIndex];
+}
+/*
+const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::PresentationParameters::GetDisplayeDevice() const
+{
+	throw 1;
+}
+*/
+Elysium::Graphics::Presentation::Control& Elysium::Graphics::PresentationParameters::GetCanvas() const
+{
+	return _Canvas;
 }
 
 const Elysium::Core::uint32_t Elysium::Graphics::PresentationParameters::GetBackBufferWidth() const
@@ -32,22 +43,17 @@ const Elysium::Core::uint32_t Elysium::Graphics::PresentationParameters::GetBack
 
 void Elysium::Graphics::PresentationParameters::SetDisplayMode(const Elysium::Graphics::DisplayMode Value)
 {
-	_DisplayParameters._DisplayMode = Value;
+	_DisplayMode = Value;
 }
 
-void Elysium::Graphics::PresentationParameters::SetDisplayMonitor(Elysium::Graphics::Presentation::Monitor& Monitor)
+void Elysium::Graphics::PresentationParameters::SetDisplayMonitorIndex(const Elysium::Core::uint32_t Value)
 {
-	_DisplayParameters._SelectedMonitor = &Monitor;
+	_MonitorIndex = Value;
 }
 
-void Elysium::Graphics::PresentationParameters::SetDisplayDevice(Elysium::Graphics::Rendering::INativePhysicalDevice& PhysicalDevice)
+void Elysium::Graphics::PresentationParameters::SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value)
 {
-	_DisplayParameters._SelectedPhysicalDevice = &PhysicalDevice;
-}
-
-void Elysium::Graphics::PresentationParameters::SetControl(Presentation::Control& Control)
-{
-	_Control = &Control;
+	_PhysicalDeviceIndex = Value;
 }
 
 void Elysium::Graphics::PresentationParameters::SetBackBufferWidth(const Elysium::Core::uint32_t Value)
