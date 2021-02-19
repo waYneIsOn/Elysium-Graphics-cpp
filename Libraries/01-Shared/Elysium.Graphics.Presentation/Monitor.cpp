@@ -1,5 +1,9 @@
 #include "Monitor.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOW
+#include "Window.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -25,20 +29,37 @@ const Elysium::Graphics::Presentation::Monitor& Elysium::Graphics::Presentation:
     return _Monitors[0];
 }
 
+const Elysium::Graphics::Presentation::Monitor& Elysium::Graphics::Presentation::Monitor::GetMonitorFromWindow(const Window& Window)
+{
+    HMONITOR MonitorHandle = MonitorFromWindow((HWND)Window._WindowHandle, MONITOR_DEFAULTTONEAREST);
+    for (size_t i = 0; i < _Monitors.GetCount(); i++)
+    {
+        if ((HMONITOR)_Monitors[i]._MonitorHandle == MonitorHandle)
+        {
+            return _Monitors[i];
+        }
+    }
+}
+
 const bool& Elysium::Graphics::Presentation::Monitor::GetIsPrimaryMonitor() const
 {
     return _IsPrimaryMonitor;
+}
+
+const Elysium::Core::Math::Geometry::Rectangle& Elysium::Graphics::Presentation::Monitor::GetCurrentBounds() const
+{
+    return _CurrentBounds;
 }
 
 Elysium::Graphics::Presentation::Monitor::Monitor()
     : Elysium::Graphics::Presentation::Monitor::Monitor(-1)
 { }
 Elysium::Graphics::Presentation::Monitor::Monitor(const Elysium::Core::uint32_t Handle)
-    : _Handle(Handle), _IsPrimaryMonitor(false), _CurrentBounds()
+    : _MonitorHandle(Handle), _IsPrimaryMonitor(false), _CurrentBounds()
 { }
 
 Elysium::Graphics::Presentation::Monitor::Monitor(Monitor && Right) noexcept
-    : _Handle(-1), _IsPrimaryMonitor(false), _CurrentBounds()
+    : _MonitorHandle(-1), _IsPrimaryMonitor(false), _CurrentBounds()
 {
     *this = std::move(Right);
 }
@@ -47,11 +68,11 @@ Elysium::Graphics::Presentation::Monitor& Elysium::Graphics::Presentation::Monit
 {
     if (this != &Right)
     {
-        _Handle = Right._Handle;
+        _MonitorHandle = Right._MonitorHandle;
         _IsPrimaryMonitor = Right._IsPrimaryMonitor;
         _CurrentBounds = std::move(Right._CurrentBounds);
 
-        Right._Handle = -1;
+        Right._MonitorHandle = -1;
         Right._IsPrimaryMonitor = false;
     }
     return *this;
@@ -61,7 +82,7 @@ void Elysium::Graphics::Presentation::Monitor::RefreshValues()
 {
     MONITORINFOEXW Info = MONITORINFOEXW();
     Info.cbSize = sizeof(MONITORINFOEXW);
-    if (!GetMonitorInfoW((HMONITOR)_Handle, (MONITORINFO*)&Info))
+    if (!GetMonitorInfoW((HMONITOR)_MonitorHandle, (MONITORINFO*)&Info))
     {   // ToDo: throw specific exception
         throw 1;
     }

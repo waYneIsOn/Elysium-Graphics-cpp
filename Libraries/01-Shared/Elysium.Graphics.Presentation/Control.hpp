@@ -28,9 +28,11 @@ namespace Elysium::Graphics::Presentation
 		virtual ~Control() { }
 
 		Elysium::Core::Event<void, const Control&, const bool> ActivationChanged;
+		Elysium::Core::Event<void, const Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t> SizeChanged;
 		Elysium::Core::Event<void, const Control&> Paint;
+		Elysium::Core::Event<void, const Control&> Exiting;
 
-		virtual const size_t GetHandle() = 0;
+		virtual const size_t GetHandle() const = 0;
 
 		virtual void Show() = 0;
 		virtual void Close() = 0;

@@ -48,6 +48,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Presentation
 {
+	class Window;
+
 	class ELYSIUM_GRAPHICS_PRESENTATION_API Monitor final
 	{
 		friend class Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor>;
@@ -59,10 +61,12 @@ namespace Elysium::Graphics::Presentation
 
 		static const Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Monitor>& GetActiveMonitors();
 		static const Elysium::Graphics::Presentation::Monitor& GetPrimaryMonitor();
+		static const Elysium::Graphics::Presentation::Monitor& GetMonitorFromWindow(const Window& Window);
 
 		const bool& GetIsPrimaryMonitor() const;
+		const Elysium::Core::Math::Geometry::Rectangle& GetCurrentBounds() const;
 	private:
-		Elysium::Core::uint32_t _Handle;
+		Elysium::Core::uint32_t _MonitorHandle;
 		bool _IsPrimaryMonitor;
 		Elysium::Core::Math::Geometry::Rectangle _CurrentBounds;
 

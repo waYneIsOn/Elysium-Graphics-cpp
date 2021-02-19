@@ -32,6 +32,8 @@ Elysium::Graphics::Presentation::Window::Window()
 	: Elysium::Graphics::Presentation::Control(),
     _WindowHandle(CreateNativeWindow())
 {
+    CenterToMonitor();
+
 	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 Elysium::Graphics::Presentation::Window::~Window()
@@ -39,7 +41,7 @@ Elysium::Graphics::Presentation::Window::~Window()
 	ActivationChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 
-const size_t Elysium::Graphics::Presentation::Window::GetHandle()
+const size_t Elysium::Graphics::Presentation::Window::GetHandle() const
 {
     return _WindowHandle;
 }
@@ -57,9 +59,6 @@ void Elysium::Graphics::Presentation::Window::Show()
             TranslateMessage(&Message);
             DispatchMessage(&Message);
         }
-
-        // ToDo: remove and call in WindowsMessageHandlerCallback
-        Paint(*this);
     }
 }
 
@@ -77,26 +76,53 @@ size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
 
     WNDCLASSEXW WindowClassDescription = WNDCLASSEXW();
     WindowClassDescription.cbSize = sizeof(WNDCLASSEXW);
-    WindowClassDescription.style = CS_HREDRAW | CS_VREDRAW; // redraw if size changes
-    WindowClassDescription.lpfnWndProc = WindowsMessageHandlerCallback;   // points to window procedure
-    WindowClassDescription.cbClsExtra = 0;  // no extra class memory
-    WindowClassDescription.cbWndExtra = 0;  // no extra window memory
+    WindowClassDescription.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    WindowClassDescription.lpfnWndProc = WindowsMessageHandlerCallback;
+    WindowClassDescription.cbClsExtra = 0;
+    WindowClassDescription.cbWndExtra = 0;
     WindowClassDescription.hInstance = (HINSTANCE)&_ProgramInstanceHandle;
-    WindowClassDescription.hIcon = LoadIcon(NULL, IDI_APPLICATION); // predefined app. icon
-    WindowClassDescription.hCursor = LoadCursor(NULL, IDC_ARROW);   // predefined arrow
-    WindowClassDescription.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); // white background brush
-    WindowClassDescription.lpszMenuName = nullptr;  // name of menu resource
-    WindowClassDescription.lpszClassName = L"MainWClass";   // name of window class
+    WindowClassDescription.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    WindowClassDescription.hCursor = LoadCursor(NULL, IDC_ARROW);
+    //WindowClassDescription.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    WindowClassDescription.hbrBackground = nullptr;
+    WindowClassDescription.lpszMenuName = nullptr;
+    WindowClassDescription.lpszClassName = _ClassName;
     WindowClassDescription.hIconSm = LoadIcon((HINSTANCE)&_ProgramInstanceHandle, MAKEINTRESOURCE(IDI_SMALL));
 
     if (!RegisterClassExW(&WindowClassDescription))
-    {   // ToDo: throw specific exception6
+    {   // ToDo: throw specific exception
         throw 1;
     }
 
-    return (size_t)CreateWindowExW(0L, L"MainWClass", L"WindowTitle", WS_OVERLAPPEDWINDOW,
+    size_t Result = (size_t)CreateWindowExW(0L, _ClassName, L"WindowTitle", WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 800, 480, nullptr, nullptr,
-        (HINSTANCE)&_ProgramInstanceHandle, nullptr);
+        (HINSTANCE)&_ProgramInstanceHandle, this);
+
+    // "associate" instance with window handle
+    if (!SetPropW((HWND)Result, _ClassName, this))
+    {   // ToDo: throw specific exception
+        throw 1;
+    }
+
+    return Result;
+}
+
+void Elysium::Graphics::Presentation::Window::CenterToMonitor()
+{
+    const Monitor& ClosestMonitor = Monitor::GetMonitorFromWindow(*this);
+    const Elysium::Core::Math::Geometry::Rectangle& MonitorBounds = ClosestMonitor.GetCurrentBounds();
+
+    RECT WindowRectangle;
+    if (!GetWindowRect((HWND)_WindowHandle, &WindowRectangle))
+    {   // ToDo: throw specfic position
+        throw 1;
+    }
+
+    if (!SetWindowPos((HWND)_WindowHandle, nullptr, (MonitorBounds.Width - (WindowRectangle.right - WindowRectangle.left)) >> 1, 
+        (MonitorBounds.Height - (WindowRectangle.bottom - WindowRectangle.top)) >> 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
+    {   // ToDo: throw specfic position
+        throw 1;
+    }
 }
 
 void Elysium::Graphics::Presentation::Window::OnActivationChanged(const Elysium::Graphics::Presentation::Control& Sender, const bool HasActived)
@@ -106,6 +132,9 @@ void Elysium::Graphics::Presentation::Window::OnActivationChanged(const Elysium:
 
 LRESULT Elysium::Graphics::Presentation::Window::WindowsMessageHandlerCallback(HWND WindowHandle, UINT Message, WPARAM wParam, LPARAM lParam)
 {
+    // grab window from handle
+    Elysium::Graphics::Presentation::Window* Window = (Elysium::Graphics::Presentation::Window*)GetPropW(WindowHandle, _ClassName);
+
     switch (Message)
     {
     case WM_COMMAND:
@@ -124,16 +153,59 @@ LRESULT Elysium::Graphics::Presentation::Window::WindowsMessageHandlerCallback(H
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
         */
+        break;
     }
-    break;
+    case WM_SETFOCUS:
+    {
+        // ...
+        break;
+    }
+    case WM_KILLFOCUS:
+    {
+        // ...
+        break;
+    }
+    case WM_SIZING:
+    {
+        if (Window != nullptr)
+        {
+            int Edge = wParam;
+            RECT* Rect = (RECT*)lParam;
+            /*
+            if (Edge == WMSZ_LEFT || Edge == WMSZ_BOTTOMLEFT || Edge == WMSZ_RIGHT || Edge == WMSZ_BOTTOMRIGHT)
+            {
+
+            }
+            else if (Edge == WMSZ_TOPLEFT || Edge == WMSZ_TOPRIGHT)
+            {
+
+            }
+            else if (Edge == WMSZ_TOP || Edge == WMSZ_BOTTOM)
+            {
+
+            }
+            */
+            Window->SizeChanged(*Window, Rect->right - Rect->left, Rect->bottom - Rect->top);
+        }
+        break;
+    }
     case WM_PAINT:
     {
-        //Paint(*this);
+        if (Window != nullptr)
+        {
+            Window->Paint(*Window);
+        }
+        break;
     }
-    break;
     case WM_DESTROY:
+    {
+        if (Window != nullptr)
+        {
+            Window->Exiting(*Window);
+        }
         PostQuitMessage(0);
         break;
+    }
     default:
         return DefWindowProc(WindowHandle, Message, wParam, lParam);
     }
