@@ -19,11 +19,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
 #endif
-/*
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
 #endif
-*/
+
 namespace Elysium::Graphics::Rendering
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsAPI
@@ -31,12 +31,11 @@ namespace Elysium::Graphics::Rendering
 	public:
 		virtual ~INativeGraphicsAPI() { }
 
+		virtual const INativePhysicalDevice& GetPhysicalDevice(const Elysium::Core::uint32_t Index) const = 0;
+		//virtual const Elysium::Core::Collections::Template::Array<INativePhysicalDevice> GetPhysicalGraphicsDevices() const = 0;
+
 		virtual void EnableDebugging() = 0;
 		virtual void DisableDebugging() = 0;
-
-		virtual void Initialize() = 0;
-
-		//const Array<INativePhysicalDevice> GetPhysicalGraphicsDevices() const = 0;
 	};
 }
 #endif

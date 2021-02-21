@@ -66,10 +66,7 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API Game
 	{
 	public:
-		Game(Rendering::INativeGraphicsDevice& GraphicsDevice,
-			Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain, 
-			Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence,
-			Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore);
+		Game(Rendering::INativeGraphicsDevice& GraphicsDevice);
 		Game(const Game& Source) = delete;
 		Game(Game&& Right) noexcept = delete;
 		virtual ~Game();
@@ -98,20 +95,9 @@ namespace Elysium::Graphics
 		virtual void EndUpdate();
 	private:
 		Presentation::Control& _Control;
-		PresentationParameters& _PresentationParameters;
-
-
-		Rendering::INativeLogicalDevice& _LogicalDevice;
-		Rendering::INativeSwapchain& _Swapchain;
-		Rendering::INativeQueue& _PresentationQueue;
-		Rendering::INativeQueue& _GraphicsQueue;
-		Rendering::INativeFence& _RenderFence;
-		Rendering::INativeSemaphore& _PresentSemaphore;
-		Rendering::INativeSemaphore& _RenderSemaphore;
-
+		GraphicsDeviceManager _GraphicsDeviceManager;
 
 		GameTime _GameTime;
-		GraphicsDeviceManager _GraphicsDeviceManager;
 		/*
 		Elysium::Core::uint64_t _DesiredUpdateTimeStep = 500000ULL;	// 2 fps udpate
 		Elysium::Core::uint64_t _DesiredDrawTimeStep = 33333ULL;	// 30 fps drawing while active

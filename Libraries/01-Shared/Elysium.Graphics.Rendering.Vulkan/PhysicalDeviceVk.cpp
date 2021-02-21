@@ -31,7 +31,7 @@ const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceFeaturesVk& Elysium::G
 	return _Features;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::QueueFamilyPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetQueueFamilyProperties()
+const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::QueueFamilyPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetQueueFamilyProperties() const
 {
 	VkResult Result;
 
@@ -64,7 +64,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	}
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetAvailableExtensions()
+const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetAvailableExtensions() const
 {
 	VkResult Result;
 

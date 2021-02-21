@@ -32,16 +32,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics.Presentation/Control.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PRESENTATION_MONITOR
-#include "../Elysium.Graphics.Presentation/Monitor.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_DISPLAYDEVICE
+#include "../Elysium.Graphics.Presentation/DisplayDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
 #include "INativeGraphicsAPI.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
-#include "INativePhysicalDevice.hpp"
 #endif
 
 namespace Elysium::Graphics
@@ -58,16 +54,16 @@ namespace Elysium::Graphics
 		PresentationParameters& operator=(PresentationParameters&& Right) noexcept = delete;
 
 		const Elysium::Graphics::DisplayMode GetDisplayMode() const;
-		const Elysium::Graphics::Presentation::Monitor& GetDisplayMonitor() const;
-		//const Elysium::Graphics::Rendering::INativePhysicalDevice& GetDisplayeDevice() const;
+		const Elysium::Graphics::Presentation::DisplayDevice& GetDisplayDevice() const;
+		const Elysium::Graphics::Rendering::INativePhysicalDevice& GetGraphicsDevice() const;
 		Presentation::Control& GetCanvas() const;
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
 
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
-		void SetDisplayMonitorIndex(const Elysium::Core::uint32_t Value);
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
+		void SetGraphicsDeviceIndex(const Elysium::Core::uint32_t Value);
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
@@ -79,8 +75,8 @@ namespace Elysium::Graphics
 
 		// display parameters
 		DisplayMode _DisplayMode = DisplayMode::Windowed;
-		Elysium::Core::uint32_t _MonitorIndex = 0;
-		Elysium::Core::uint32_t _PhysicalDeviceIndex = 0;
+		Elysium::Core::uint32_t _DisplayDeviceIndex = 0;
+		Elysium::Core::uint32_t _GraphicsDeviceIndex = 0;
 		Elysium::Core::uint32_t _RenderResolution = 100;
 		bool _EnableVSync = false;
 

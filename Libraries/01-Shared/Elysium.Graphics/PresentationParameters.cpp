@@ -11,16 +11,16 @@ const Elysium::Graphics::DisplayMode Elysium::Graphics::PresentationParameters::
 	return _DisplayMode;
 }
 
-const Elysium::Graphics::Presentation::Monitor& Elysium::Graphics::PresentationParameters::GetDisplayMonitor() const
+const Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::PresentationParameters::GetDisplayDevice() const
 {
-	return Elysium::Graphics::Presentation::Monitor::GetActiveMonitors()[_MonitorIndex];
+	return Elysium::Graphics::Presentation::DisplayDevice::GetActiveDisplayDevices()[_DisplayDeviceIndex];
 }
-/*
-const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::PresentationParameters::GetDisplayeDevice() const
+
+const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::PresentationParameters::GetGraphicsDevice() const
 {
-	throw 1;
+	return _NativeGraphicsAPI.GetPhysicalDevice(_GraphicsDeviceIndex);
 }
-*/
+
 Elysium::Graphics::Presentation::Control& Elysium::Graphics::PresentationParameters::GetCanvas() const
 {
 	return _Canvas;
@@ -46,14 +46,14 @@ void Elysium::Graphics::PresentationParameters::SetDisplayMode(const Elysium::Gr
 	_DisplayMode = Value;
 }
 
-void Elysium::Graphics::PresentationParameters::SetDisplayMonitorIndex(const Elysium::Core::uint32_t Value)
-{
-	_MonitorIndex = Value;
-}
-
 void Elysium::Graphics::PresentationParameters::SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value)
 {
-	_PhysicalDeviceIndex = Value;
+	_DisplayDeviceIndex = Value;
+}
+
+void Elysium::Graphics::PresentationParameters::SetGraphicsDeviceIndex(const Elysium::Core::uint32_t Value)
+{
+	_GraphicsDeviceIndex = Value;
 }
 
 void Elysium::Graphics::PresentationParameters::SetBackBufferWidth(const Elysium::Core::uint32_t Value)

@@ -17,11 +17,11 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Control.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Monitor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DisplayDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Monitor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DisplayDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp" />
   </ItemGroup>
 </Project>

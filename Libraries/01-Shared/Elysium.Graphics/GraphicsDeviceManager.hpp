@@ -26,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics
 {
+	namespace Rendering
+	{
+		class INativeGraphicsDevice;
+	}
 	class Game;
 
 	class ELYSIUM_GRAPHICS_API GraphicsDeviceManager final
@@ -42,13 +46,16 @@ namespace Elysium::Graphics
 		static const Core::uint32_t DefaultBackBufferWidth = 800;
 		static const Core::uint32_t DefaultBackBufferHeight = 480;
 		static const Core::uint32_t DefaultBackBufferCount = 3;
-	private:
-		GraphicsDeviceManager(Game& Game);
 
-		const bool BeginDraw();
-		void EndDraw();
+	private:
+		GraphicsDeviceManager(Game& Game, Rendering::INativeGraphicsDevice& GraphicsDevice);
 
 		Game& _Game;
+		Rendering::INativeGraphicsDevice& _GraphicsDevice;
+
+		void Wait() const;
+		const bool BeginDraw();
+		void EndDraw();
 	};
 }
 #endif

@@ -20,12 +20,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParameters.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#include "INativeFence.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
 #include "INativeGraphicsAPI.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#include "INativeQueue.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#include "INativeSemaphore.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
@@ -38,6 +50,16 @@ namespace Elysium::Graphics::Rendering
 		virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
 		virtual const PresentationParameters& GetPresentationParameters() const = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
+
+		virtual const INativeFence& GetRenderFence() const = 0;
+		virtual const INativeSemaphore& GetPresentationSemaphore() const = 0;
+		virtual const INativeSemaphore& GetRenderSemaphore() const = 0;
+
+		virtual INativeQueue& GetGraphicsQueue() = 0;
+
+		virtual void Wait() const = 0;
+		virtual const bool BeginDraw() = 0;
+		virtual void EndDraw() = 0;
 	};
 }
 #endif

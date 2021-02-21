@@ -85,8 +85,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const PhysicalDevicePropertiesVk& GetProperties() const;
 		const PhysicalDeviceFeaturesVk& GetFeatures() const;
-		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> GetQueueFamilyProperties();
-		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
+		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> GetQueueFamilyProperties() const;
+		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions() const;
 
 		const bool SupportsPresentation(const SurfaceVk& Surface, const Elysium::Core::uint32_t FamilyIndex) const;
 	private:

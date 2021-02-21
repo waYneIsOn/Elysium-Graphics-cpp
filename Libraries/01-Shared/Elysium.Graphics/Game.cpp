@@ -1,15 +1,7 @@
 #include "Game.hpp"
 
-Elysium::Graphics::Game::Game(Rendering::INativeGraphicsDevice& GraphicsDevice, 
-	Rendering::INativeLogicalDevice& LogicalDevice, Rendering::INativeSwapchain& Swapchain,
-	Rendering::INativeQueue& PresentationQueue, Rendering::INativeQueue& GraphicsQueue, Rendering::INativeFence& RenderFence, 
-	Rendering::INativeSemaphore& PresentSemaphore, Rendering::INativeSemaphore& RenderSemaphore)
-	: _Control(GraphicsDevice.GetPresentationParameters().GetCanvas()), _PresentationParameters(LogicalDevice.GetPresentationParameters()),
-
-	_LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _PresentationQueue(PresentationQueue), _GraphicsQueue(GraphicsQueue),
-	_RenderFence(RenderFence), _PresentSemaphore(PresentSemaphore), _RenderSemaphore(RenderSemaphore),
-
-	_GameTime(), _GraphicsDeviceManager(*this)
+Elysium::Graphics::Game::Game(Rendering::INativeGraphicsDevice& GraphicsDevice)
+	: _Control(GraphicsDevice.GetPresentationParameters().GetCanvas()), _GraphicsDeviceManager(*this, GraphicsDevice), _GameTime()
 {
 	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_ActivationChanged>(*this);
 	//_Control.Suspend += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
@@ -50,7 +42,7 @@ void Elysium::Graphics::Game::Run()
 	Initialize();
 	_Control.Show();
 
-	_LogicalDevice.Wait();
+	_GraphicsDeviceManager.Wait();
 }
 
 void Elysium::Graphics::Game::Exit()
@@ -78,16 +70,15 @@ void Elysium::Graphics::Game::Tick()
 	if (_IsActive)
 	{
 		// begin frame
-		_RenderFence.Wait(Elysium::Core::UInt64::GetMaxValue());
-		_RenderFence.Reset();
-		_Swapchain.AquireNextImage(_PresentSemaphore, Elysium::Core::UInt64::GetMaxValue());
+		BeginDraw();
 
 		// ...
-		_GraphicsQueue.Submit(_PresentSemaphore, _RenderSemaphore, _RenderFence);
-		_GraphicsQueue.Wait();
+		_GraphicsDeviceManager._GraphicsDevice.GetGraphicsQueue().Submit(_GraphicsDeviceManager._GraphicsDevice.GetPresentationSemaphore(), 
+			_GraphicsDeviceManager._GraphicsDevice.GetRenderSemaphore(), _GraphicsDeviceManager._GraphicsDevice.GetRenderFence());
+		_GraphicsDeviceManager._GraphicsDevice.GetGraphicsQueue().Wait();
 
 		// end frame
-		_Swapchain.PresentFrame(_RenderSemaphore, _PresentationQueue);
+		EndDraw();
 	}
 }
 
@@ -127,6 +118,7 @@ void Elysium::Graphics::Game::Control_Resume(const Presentation::Control& Sender
 
 void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
+	/*
 	//if (_IsActive)
 	{
 		_PresentationParameters.SetExtent(Width, Height);
@@ -134,6 +126,7 @@ void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& S
 		// ToDo: swapchain recreation should be done by reacting to events! this public method shouldn't exist!
 		_Swapchain.Recreate();
 	}
+	*/
 }
 /*
 void Elysium::Graphics::Game::Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e)

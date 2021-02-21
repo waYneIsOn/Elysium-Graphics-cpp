@@ -75,7 +75,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />

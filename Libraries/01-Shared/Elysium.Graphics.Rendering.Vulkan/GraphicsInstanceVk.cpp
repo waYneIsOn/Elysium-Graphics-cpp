@@ -8,10 +8,6 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/InvalidOperationException.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_APINOTAVAILABLEEXCEPTION
 #include "../Elysium.Graphics/APINotAvailableException.hpp"
 #endif
@@ -29,6 +25,7 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GraphicsInstanceVk()
+	: _NativeInstanceHandle(CreateInstance()), _NativeDebugUtilsMessengerHandle(VK_NULL_HANDLE), _PhysicalGraphicsDevices(RetrievePhysicalGraphicsDevices())
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 {
@@ -80,13 +77,105 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return Layers;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalGraphicsDevices()
+const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalDevice(const Elysium::Core::uint32_t Index) const
 {
-	if (_NativeInstanceHandle == VK_NULL_HANDLE)
+	return _PhysicalGraphicsDevices[Index];
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk>& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalGraphicsDevices()
+{
+	return _PhysicalGraphicsDevices;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::EnableDebugging()
+{
+	VkDebugUtilsMessengerCreateInfoEXT CreateInfo = VkDebugUtilsMessengerCreateInfoEXT();
+	CreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	CreateInfo.pNext = nullptr;
+	CreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	CreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	CreateInfo.pfnUserCallback = DebugCallback;
+
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkCreateDebugUtilsMessengerEXT");
+	if (func != nullptr)
 	{
-		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
+		VkResult Result;
+		if ((Result = func(_NativeInstanceHandle, &CreateInfo, nullptr, &_NativeDebugUtilsMessengerHandle)) != VK_SUCCESS)
+		{
+			throw ExceptionVk(Result);
+		}
+	}
+	else
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DisableDebugging()
+{
+	if (_NativeDebugUtilsMessengerHandle != VK_NULL_HANDLE)
+	{
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr)
+		{
+			func(_NativeInstanceHandle, _NativeDebugUtilsMessengerHandle, nullptr);
+		}
+	}
+}
+
+VkInstance Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateInstance()
+{
+	// ToDo: currently all extensions and layers get added - make this configurable
+	const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstanceVk::GetAvailableExtensions();
+	const Elysium::Core::Collections::Template::Array<LayerPropertyVk> AvailableLayers = GraphicsInstanceVk::GetAvailableLayers();
+
+	Elysium::Core::Collections::Template::List<char*> ExtensionPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
+	for (size_t i = 0; i < AvailableInstanceExtensions.GetLength(); i++)
+	{
+		ExtensionPropertyNames.Add((char*)&AvailableInstanceExtensions[i].GetName()[0]);
 	}
 
+	Elysium::Core::Collections::Template::List<char*> LayerNames = Elysium::Core::Collections::Template::List<char*>(0);
+	for (size_t i = 0; i < AvailableLayers.GetLength(); i++)
+	{
+		LayerNames.Add((char*)&AvailableLayers[i].GetName()[0]);
+	}
+
+	VkApplicationInfo ApplicationInfo = VkApplicationInfo();
+	ApplicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	ApplicationInfo.apiVersion = VK_API_VERSION_1_0;
+	ApplicationInfo.applicationVersion = VK_MAKE_VERSION(0, 0, 1);
+	ApplicationInfo.engineVersion = VK_MAKE_VERSION(0, 0, 1);
+	ApplicationInfo.pApplicationName = (const char*)u8"Elysium Graphics Application";
+	ApplicationInfo.pEngineName = (const char*)u8"Elysium Graphics";
+	ApplicationInfo.pNext = nullptr;
+
+	VkInstanceCreateInfo InstanceCreateInfo = VkInstanceCreateInfo();
+	InstanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+	InstanceCreateInfo.pApplicationInfo = &ApplicationInfo;
+	InstanceCreateInfo.enabledExtensionCount = ExtensionPropertyNames.GetCount();
+	InstanceCreateInfo.enabledLayerCount = LayerNames.GetCount();
+	if (InstanceCreateInfo.enabledExtensionCount > 0)
+	{
+		InstanceCreateInfo.ppEnabledExtensionNames = &ExtensionPropertyNames[0];
+	}
+	if (InstanceCreateInfo.enabledLayerCount > 0)
+	{
+		InstanceCreateInfo.ppEnabledLayerNames = &LayerNames[0];
+	}
+
+	VkResult Result;
+	VkInstance NativeInstanceHandle;
+	if ((Result = vkCreateInstance(&InstanceCreateInfo, nullptr, &NativeInstanceHandle)) != VK_SUCCESS)
+	{
+		throw ExceptionVk(Result);
+	}
+
+	return NativeInstanceHandle;
+}
+
+Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::RetrievePhysicalGraphicsDevices()
+{
 	VkResult Result;
 
 	Elysium::Core::uint32_t DeviceCount = 0;
@@ -118,109 +207,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	}
 
 	return PhysicalGraphicsDevices;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::SetApplicationName(const Elysium::Core::String& Value)
-{
-	_ApplicationName = Value;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
-{
-	_InstanceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::ClearInstanceExtensionProperties()
-{
-	_InstanceExtensionPropertyNames.Clear();
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::AddLayerProperty(const LayerPropertyVk& LayerProperty)
-{
-	_LayerPropertyNames.Add((char*)&LayerProperty.GetName()[0]);
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::ClearLayerProperties()
-{
-	_LayerPropertyNames.Clear();
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::EnableDebugging()
-{
-	if (_NativeInstanceHandle == VK_NULL_HANDLE)
-	{
-		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
-	}
-
-	VkDebugUtilsMessengerCreateInfoEXT CreateInfo = VkDebugUtilsMessengerCreateInfoEXT();
-	CreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-	CreateInfo.pNext = nullptr;
-	CreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-	CreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-	CreateInfo.pfnUserCallback = DebugCallback;
-
-	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkCreateDebugUtilsMessengerEXT");
-	if (func != nullptr)
-	{
-		VkResult Result;
-		if ((Result = func(_NativeInstanceHandle, &CreateInfo, nullptr, &_NativeDebugUtilsMessengerHandle)) != VK_SUCCESS)
-		{
-			throw ExceptionVk(Result);
-		}
-	}
-	else
-	{	// ToDo: throw specific exception
-		throw 1;
-	}
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DisableDebugging()
-{
-	if (_NativeInstanceHandle == VK_NULL_HANDLE)
-	{
-		throw Elysium::Core::InvalidOperationException(u8"Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk needs to be initialized before calling this method.");
-	}
-
-	if (_NativeDebugUtilsMessengerHandle != VK_NULL_HANDLE)
-	{
-		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(_NativeInstanceHandle, "vkDestroyDebugUtilsMessengerEXT");
-		if (func != nullptr)
-		{
-			func(_NativeInstanceHandle, _NativeDebugUtilsMessengerHandle, nullptr);
-		}
-	}
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::Initialize()
-{
-	VkApplicationInfo ApplicationInfo = VkApplicationInfo();
-	ApplicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	ApplicationInfo.apiVersion = VK_API_VERSION_1_0;
-	ApplicationInfo.applicationVersion = VK_MAKE_VERSION(0, 0, 1);
-	ApplicationInfo.engineVersion = VK_MAKE_VERSION(0, 0, 1);
-	ApplicationInfo.pApplicationName = (const char*)&_ApplicationName[0];
-	ApplicationInfo.pEngineName = (const char*)u8"Elysium Graphics";
-	ApplicationInfo.pNext = nullptr;
-
-	VkInstanceCreateInfo InstanceCreateInfo = VkInstanceCreateInfo();
-	InstanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	InstanceCreateInfo.pApplicationInfo = &ApplicationInfo;
-	InstanceCreateInfo.enabledExtensionCount = _InstanceExtensionPropertyNames.GetCount();
-	InstanceCreateInfo.enabledLayerCount = _LayerPropertyNames.GetCount();
-	if (InstanceCreateInfo.enabledExtensionCount > 0)
-	{
-		InstanceCreateInfo.ppEnabledExtensionNames = &_InstanceExtensionPropertyNames[0];
-	}
-	if (InstanceCreateInfo.enabledLayerCount > 0)
-	{
-		InstanceCreateInfo.ppEnabledLayerNames = &_LayerPropertyNames[0];
-	}
-
-	VkResult Result;
-	if ((Result = vkCreateInstance(&InstanceCreateInfo, nullptr, &_NativeInstanceHandle)) != VK_SUCCESS)
-	{
-		throw ExceptionVk(Result);
-	}
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DebugCallback(

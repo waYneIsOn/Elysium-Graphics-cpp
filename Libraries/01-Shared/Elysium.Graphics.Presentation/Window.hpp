@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Control.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PRESENTATION_MONITOR
-#include "Monitor.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_DISPLAYDEVICE
+#include "DisplayDevice.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -50,7 +50,7 @@ namespace Elysium::Graphics::Presentation
 {
 	class ELYSIUM_GRAPHICS_PRESENTATION_API Window : public Control
 	{
-		friend class Monitor;
+		friend class DisplayDevice;
 	public:
 		Window();
 		Window(Window&& Right) noexcept = delete;
@@ -69,14 +69,14 @@ namespace Elysium::Graphics::Presentation
 		virtual void Show() override;
 		//const bool ShowDialog();
 		virtual void Close() override;
-	private:
-		size_t _WindowHandle;
-
-		size_t CreateNativeWindow();
 	protected:
 		void CenterToMonitor();
 
 		virtual void OnActivationChanged(const Elysium::Graphics::Presentation::Control& Sender, const bool HasActived);
+	private:
+		size_t _WindowHandle;
+
+		size_t CreateNativeWindow();
 	private:
 		inline static const wchar_t* _ClassName = L"Elysium::Graphics::Presentation::Window";
 		static size_t _ProgramInstanceHandle;

@@ -56,17 +56,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SwapchainVk.hpp"
 #endif
 
-// ToDo: this is just for testing purposes
-namespace Elysium::Graphics
-{
-	class Game;
-}
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public INativeGraphicsDevice
 	{
-		friend class Elysium::Graphics::Game;
 	public:
 		GraphicsDeviceVk(GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
@@ -79,19 +72,28 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const GraphicsInstanceVk& GetGraphicsAPI() const override;
 		virtual const PresentationParametersVk& GetPresentationParameters() const override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
+
+		virtual const FenceVk& GetRenderFence() const override;
+		virtual const SemaphoreVk& GetPresentationSemaphore() const override;
+		virtual const SemaphoreVk& GetRenderSemaphore() const override;
+
+		virtual QueueVk& GetGraphicsQueue() override;
+
+		virtual void Wait() const override;
+		virtual const bool BeginDraw() override;
+		virtual void EndDraw() override;
 	private:
 		GraphicsInstanceVk& _GraphicsInstance;
 		PresentationParametersVk& _PresentationParameters;
-		//const PhysicalDeviceVk& _PhysicalDevice;
 
 		SurfaceVk _Surface;
-		//LogicalDeviceVk _LogicalDevice;
-		//QueueVk _GraphicsQueue;
-		//QueueVk _PresentationQueue;
-		//SwapchainVk _Swapchain;
-		//FenceVk _RenderFence;
-		//SemaphoreVk _PresentationSemaphore;
-		//SemaphoreVk _RenderSemaphore;
+		LogicalDeviceVk _LogicalDevice;
+		QueueVk _GraphicsQueue;
+		QueueVk _PresentationQueue;
+		SwapchainVk _Swapchain;
+		FenceVk _RenderFence;
+		SemaphoreVk _PresentationSemaphore;
+		SemaphoreVk _RenderSemaphore;
 	};
 }
 #endif

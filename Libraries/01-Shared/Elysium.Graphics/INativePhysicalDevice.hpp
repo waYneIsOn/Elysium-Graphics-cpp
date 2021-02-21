@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PhysicalDeviceType.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PRESENTATIONPARAMETERS
-#include "PresentationParameters.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering
 {
 	// Represents a specialized hardware device designed to accelerate the creation and manipulation of images - a gpu.

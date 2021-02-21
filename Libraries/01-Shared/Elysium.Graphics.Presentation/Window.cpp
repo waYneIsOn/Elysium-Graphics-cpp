@@ -109,8 +109,8 @@ size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
 
 void Elysium::Graphics::Presentation::Window::CenterToMonitor()
 {
-    const Monitor& ClosestMonitor = Monitor::GetMonitorFromWindow(*this);
-    const Elysium::Core::Math::Geometry::Rectangle& MonitorBounds = ClosestMonitor.GetCurrentBounds();
+    const DisplayDevice& ClosestDisplayDevice = DisplayDevice::GetDisplayDeviceFromWindow(*this);
+    const Elysium::Core::Math::Geometry::Rectangle& DisplayDeviceBounds = ClosestDisplayDevice.GetCurrentBounds();
 
     RECT WindowRectangle;
     if (!GetWindowRect((HWND)_WindowHandle, &WindowRectangle))
@@ -118,8 +118,8 @@ void Elysium::Graphics::Presentation::Window::CenterToMonitor()
         throw 1;
     }
 
-    if (!SetWindowPos((HWND)_WindowHandle, nullptr, (MonitorBounds.Width - (WindowRectangle.right - WindowRectangle.left)) >> 1, 
-        (MonitorBounds.Height - (WindowRectangle.bottom - WindowRectangle.top)) >> 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
+    if (!SetWindowPos((HWND)_WindowHandle, nullptr, (DisplayDeviceBounds.Width - (WindowRectangle.right - WindowRectangle.left)) >> 1,
+        (DisplayDeviceBounds.Height - (WindowRectangle.bottom - WindowRectangle.top)) >> 1, 0, 0, SWP_NOSIZE | SWP_NOZORDER))
     {   // ToDo: throw specfic position
         throw 1;
     }

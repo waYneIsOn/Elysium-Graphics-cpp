@@ -16,11 +16,10 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const GraphicsInstanc
 	: _NativeInstanceHandle(GraphicsInstance._NativeInstanceHandle),
 	_NativeSurfaceHandle(CreateNativeSurface(PresentationParameters))
 {
-	/*
 	PresentationParameters.SetSurfaceHandle(*this);
 
 	const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& SelectedPhysicalDevice = 
-		static_cast<const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&>(PresentationParameters.GetDisplayeDevice());
+		static_cast<const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice());
 
 	const SurfaceCapabilitiesVk SurfaceCapabilities = GetCapabilities(SelectedPhysicalDevice);
 	const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> AvailableSurfaceFormats = GetFormats(SelectedPhysicalDevice);
@@ -52,7 +51,35 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const GraphicsInstanc
 			break;
 		}
 	}
-	*/
+
+	// check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
+	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = SelectedPhysicalDevice.GetQueueFamilyProperties();
+	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
+	{
+		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
+
+		if ((Capabilities & QueueCapabilitiesVk::Graphics) == QueueCapabilitiesVk::Graphics)
+		{
+			if (PresentationParameters.GetGraphicsQueueFamilyIndex() == -1)
+			{
+				PresentationParameters.SetGraphicsQueueFamilyIndex(i);
+			}
+			if (PresentationParameters.GetPresentationQueueFamilyIndex() == -1)
+			{
+				if (SelectedPhysicalDevice.SupportsPresentation(*this, i))
+				{
+					PresentationParameters.SetPresentationQueueFamilyIndex(i);
+				}
+			}
+
+			DeviceQueueCreateInfoVk QueueCreateInfo = DeviceQueueCreateInfoVk();
+			QueueCreateInfo.SetFamilyIndex(QueueFamilyProperties[i].GetIndex());
+			QueueCreateInfo.AddPriority(1.0f);
+			QueueCreateInfo.SetCapabilities(Capabilities);
+
+			PresentationParameters.AddDeviceQueueCreateInfo(std::move(QueueCreateInfo));
+		}
+	}
 }
 Elysium::Graphics::Rendering::Vulkan::SurfaceVk::~SurfaceVk()
 {

@@ -58,30 +58,23 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsInstanceVk& operator=(const GraphicsInstanceVk& Source) = delete;
 		GraphicsInstanceVk& operator=(GraphicsInstanceVk&& Right) noexcept = delete;
 
-		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
-		const Elysium::Core::Collections::Template::Array<LayerPropertyVk> GetAvailableLayers();
+		static const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
+		static const Elysium::Core::Collections::Template::Array<LayerPropertyVk> GetAvailableLayers();
 
-		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> GetPhysicalGraphicsDevices();
-
-		void SetApplicationName(const Elysium::Core::String& Value);
-		void AddInstanceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
-		void ClearInstanceExtensionProperties();
-
-		void AddLayerProperty(const LayerPropertyVk& LayerProperty);
-		void ClearLayerProperties();
+		virtual const PhysicalDeviceVk& GetPhysicalDevice(const Elysium::Core::uint32_t Index) const override;
+		//virtual const Elysium::Core::Collections::Template::Array<INativePhysicalDevice> GetPhysicalGraphicsDevices() const override;
+		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>& GetPhysicalGraphicsDevices();
 
 		virtual void EnableDebugging() override;
 		virtual void DisableDebugging() override;
-
-		virtual void Initialize() override;
 	private:
-		Elysium::Core::String _ApplicationName = u8"Elysium Graphics Application";
-		Elysium::Core::Collections::Template::List<char*> _InstanceExtensionPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
-		Elysium::Core::Collections::Template::List<char*> _LayerPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
+		VkInstance _NativeInstanceHandle;
+		VkDebugUtilsMessengerEXT _NativeDebugUtilsMessengerHandle;
+		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> _PhysicalGraphicsDevices;
 
-		VkInstance _NativeInstanceHandle = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT _NativeDebugUtilsMessengerHandle = VK_NULL_HANDLE;
-
+		VkInstance CreateInstance();
+		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> RetrievePhysicalGraphicsDevices();
+	private:
 		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT MessageSeverity, VkDebugUtilsMessageTypeFlagsEXT MessageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	};
 }
