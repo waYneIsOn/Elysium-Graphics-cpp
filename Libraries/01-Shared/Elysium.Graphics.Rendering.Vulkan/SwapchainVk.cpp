@@ -16,14 +16,18 @@
 #include "SemaphoreVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(const LogicalDeviceVk& LogicalDevice)
-	: _LogicalDevice(LogicalDevice), _NativeSwapchainHandle(VK_NULL_HANDLE), _CurrentBackBufferImageIndex(0), _BackBufferImages(0)
-	, _BackBufferImageViews(0)
+Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice)
+	: _Surface(Surface), _LogicalDevice(LogicalDevice), _NativeSwapchainHandle(VK_NULL_HANDLE), 
+	_CurrentBackBufferImageIndex(0), _BackBufferImages(0), _BackBufferImageViews(0)
 {
+	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
+	
 	RecreateSwapchain(VK_NULL_HANDLE);
 }
 Elysium::Graphics::Rendering::Vulkan::SwapchainVk::~SwapchainVk()
 {
+	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
+
 	for (size_t i = 0; i < _BackBufferImageViews.GetLength(); i++)
 	{
 		vkDestroyImageView(_LogicalDevice._NativeLogicalDeviceHandle, _BackBufferImageViews[i], nullptr);
@@ -39,11 +43,6 @@ Elysium::Graphics::Rendering::Vulkan::SwapchainVk::~SwapchainVk()
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::SwapchainVk::GetBackBufferImageCount() const
 {
 	return _BackBufferImages.GetLength();
-}
-
-void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Recreate()
-{
-	RecreateSwapchain(_NativeSwapchainHandle);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout)
@@ -84,8 +83,10 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::PresentFrame(const INati
 
 void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwapchainKHR PreviousNativeSwapchainHandle)
 {
+	// wait for any pending queues on the device
 	_LogicalDevice.Wait();
-
+	
+	// ...
 	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
 
 	VkSwapchainCreateInfoKHR CreateInfo = VkSwapchainCreateInfoKHR();
@@ -124,12 +125,12 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	{
 		throw ExceptionVk(Result);
 	}
-
+	/*
 	if (PreviousNativeSwapchainHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySwapchainKHR(_LogicalDevice._NativeLogicalDeviceHandle, PreviousNativeSwapchainHandle, nullptr);
 	}
-
+	*/
 	Elysium::Core::uint32_t BackBufferImageCount;
 	if ((Result = vkGetSwapchainImagesKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, &BackBufferImageCount, nullptr)) != VK_SUCCESS)
 	{
@@ -179,4 +180,12 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 			throw ExceptionVk(Result);
 		}
 	}
+
+
+	int sdgf = 345;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
+{
+	RecreateSwapchain(_NativeSwapchainHandle);
 }

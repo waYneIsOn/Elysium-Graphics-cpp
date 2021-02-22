@@ -18,4 +18,11 @@ protected:
 	virtual void LoadContent() override;
 	virtual void Draw(const Elysium::Graphics::GameTime& GameTime) override;
 	virtual void Update(const Elysium::Graphics::GameTime& GameTime) override;
+
+	virtual void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height) override;
+private:
+	Elysium::Graphics::Rendering::INativeCommandPool* _CommandPool;
+	Elysium::Graphics::Rendering::INativeCommandBuffer* _CommandBuffer;
+
+	void RecordClearCommandBuffer();
 };

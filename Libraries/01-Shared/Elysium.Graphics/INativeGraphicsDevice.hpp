@@ -48,7 +48,7 @@ namespace Elysium::Graphics::Rendering
 		virtual ~INativeGraphicsDevice() { }
 
 		virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
-		virtual const PresentationParameters& GetPresentationParameters() const = 0;
+		virtual PresentationParameters& GetPresentationParameters() = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
 		virtual const INativeFence& GetRenderFence() const = 0;

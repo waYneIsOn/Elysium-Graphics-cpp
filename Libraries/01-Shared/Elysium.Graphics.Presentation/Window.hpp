@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DisplayDevice.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOWSTYLE
+#include "WindowStyle.hpp"
+#endif
+
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINDOWS_
 #include <Windows.h>
@@ -74,13 +78,16 @@ namespace Elysium::Graphics::Presentation
 
 		virtual void OnActivationChanged(const Elysium::Graphics::Presentation::Control& Sender, const bool HasActived);
 	private:
+		WindowStyle _Style;
+		Elysium::Core::uint32_t _Width;
+		Elysium::Core::uint32_t _Height;
 		size_t _WindowHandle;
 
 		size_t CreateNativeWindow();
 	private:
 		inline static const wchar_t* _ClassName = L"Elysium::Graphics::Presentation::Window";
 		static size_t _ProgramInstanceHandle;
-
+		
 		static LRESULT CALLBACK WindowsMessageHandlerCallback(HWND WindowHandle, UINT Message, WPARAM wParam, LPARAM lParam);
 	};
 }

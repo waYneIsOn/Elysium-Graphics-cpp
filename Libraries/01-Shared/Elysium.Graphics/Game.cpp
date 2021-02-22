@@ -27,16 +27,6 @@ const bool Elysium::Graphics::Game::GetIsActive() const
 	return _IsActive;
 }
 
-const bool Elysium::Graphics::Game::GetIsFixedTimeStep() const
-{
-	return _IsFixedTimeStep;
-}
-
-void Elysium::Graphics::Game::SetIsFixedTimeStep(const bool Value)
-{
-	_IsFixedTimeStep = Value;
-}
-
 void Elysium::Graphics::Game::Run()
 {
 	Initialize();
@@ -67,19 +57,16 @@ void Elysium::Graphics::Game::Tick()
 		return;
 	}
 	
-	if (_IsActive)
-	{
-		// begin frame
-		BeginDraw();
+	// ToDo: fixed timestep etc.
 
-		// ...
-		_GraphicsDeviceManager._GraphicsDevice.GetGraphicsQueue().Submit(_GraphicsDeviceManager._GraphicsDevice.GetPresentationSemaphore(), 
-			_GraphicsDeviceManager._GraphicsDevice.GetRenderSemaphore(), _GraphicsDeviceManager._GraphicsDevice.GetRenderFence());
-		_GraphicsDeviceManager._GraphicsDevice.GetGraphicsQueue().Wait();
+	// begin frame
+	BeginDraw();
 
-		// end frame
-		EndDraw();
-	}
+	// ...
+	Draw(_GameTime);
+
+	// end frame
+	EndDraw();
 }
 
 const bool Elysium::Graphics::Game::BeginDraw()
@@ -118,22 +105,14 @@ void Elysium::Graphics::Game::Control_Resume(const Presentation::Control& Sender
 
 void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
-	/*
-	//if (_IsActive)
-	{
-		_PresentationParameters.SetExtent(Width, Height);
+	// ...
+}
 
-		// ToDo: swapchain recreation should be done by reacting to events! this public method shouldn't exist!
-		_Swapchain.Recreate();
-	}
-	*/
-}
-/*
-void Elysium::Graphics::Game::Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e)
+void Elysium::Graphics::Game::Control_OrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e)
 {
-	// ToDo: create a fake once the first triangle is being rendered
+	// ...
 }
-*/
+
 void Elysium::Graphics::Game::Control_Paint(const Presentation::Control& Sender)
 {
 	Tick();

@@ -26,6 +26,12 @@ namespace Elysium::Graphics::Rendering
 	{
 	public:
 		virtual ~INativeCommandBuffer() { }
+
+		virtual void Begin() = 0;
+		virtual void End() = 0;
+		virtual void Reset() = 0;
+
+		virtual void ClearColorImage(float Red, float Green, float Blue, float Alpha) = 0;
 	};
 }
 #endif

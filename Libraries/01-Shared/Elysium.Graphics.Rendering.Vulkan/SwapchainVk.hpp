@@ -28,12 +28,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "LogicalDeviceVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
+#include "SurfaceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class CommandBufferVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final : public INativeSwapchain
 	{
+		friend class CommandBufferVk;
 	public:
-		SwapchainVk(const LogicalDeviceVk& LogicalDevice);
+		SwapchainVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice);
 		SwapchainVk(const SwapchainVk& Source) = delete;
 		SwapchainVk(SwapchainVk&& Right) noexcept = delete;
 		virtual ~SwapchainVk();
@@ -43,19 +50,21 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const override;
 
-		virtual void Recreate() override;
 		virtual void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout) override;
 		virtual void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) override;
 	private:
+		SurfaceVk& _Surface;
 		const LogicalDeviceVk& _LogicalDevice;
 		VkSwapchainKHR _NativeSwapchainHandle;
-
+		
 		Elysium::Core::uint32_t _CurrentBackBufferImageIndex;
 
 		Elysium::Core::Collections::Template::Array<VkImage> _BackBufferImages;
 		Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
 
 		void RecreateSwapchain(VkSwapchainKHR PreviousNativeSwapchainHandle);
+
+		void Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender);
 	};
 }
 #endif

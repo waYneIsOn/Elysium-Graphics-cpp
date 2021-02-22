@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_COMMANDBUFFERVK
+#include "CommandBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
@@ -44,7 +48,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 	public:
-		CommandPoolVk(const LogicalDeviceVk & LogicalDevice, const QueueVk& Queue);
+		CommandPoolVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk & LogicalDevice, const QueueVk& Queue);
 		CommandPoolVk(const CommandPoolVk& Source) = delete;
 		CommandPoolVk(CommandPoolVk&& Right) noexcept = delete;
 		virtual ~CommandPoolVk();
@@ -52,10 +56,16 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		CommandPoolVk& operator=(const CommandPoolVk& Source) = delete;
 		CommandPoolVk& operator=(CommandPoolVk&& Right) noexcept = delete;
 
+		virtual INativeCommandBuffer* CreateCommandBuffer(const bool IsPrimary) override;
+
 		virtual void Reset() override;
 	private:
+		const GraphicsDeviceVk& _GraphicsDevice;
 		const LogicalDeviceVk& _LogicalDevice;
-		VkCommandPool _NativeCommandPoolHandle;
+		const QueueVk& _Queue;
+		const VkCommandPool _NativeCommandPoolHandle;
+
+		const VkCommandPool CreateNativeCommandPool();
 	};
 }
 #endif

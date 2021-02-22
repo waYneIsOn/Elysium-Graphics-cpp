@@ -13,113 +13,60 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters)
-	: _NativeInstanceHandle(GraphicsInstance._NativeInstanceHandle),
-	_NativeSurfaceHandle(CreateNativeSurface(PresentationParameters))
+	: _NativeInstanceHandle(GraphicsInstance._NativeInstanceHandle), _PresentationParameters(PresentationParameters),
+	_NativeSurfaceHandle(CreateNativeSurface(_PresentationParameters))
 {
-	PresentationParameters.SetSurfaceHandle(*this);
+	_PresentationParameters.SetSurfaceHandle(*this);
+	UpdateInternalValues();
 
-	const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& SelectedPhysicalDevice = 
-		static_cast<const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice());
+	Elysium::Graphics::Presentation::Control& Canvas = _PresentationParameters.GetCanvas();
+	Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
 
-	const SurfaceCapabilitiesVk SurfaceCapabilities = GetCapabilities(SelectedPhysicalDevice);
-	const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> AvailableSurfaceFormats = GetFormats(SelectedPhysicalDevice);
-	const Elysium::Core::Collections::Template::Array<PresentModeVk> AvailablePresentModes = GetPresentModes(SelectedPhysicalDevice);
-
-	PresentationParameters.SetTransform(SurfaceCapabilities.GetCurrentTransform());
-	if (PresentationParameters.GetBackBufferCount() > SurfaceCapabilities.GetMaxImageCount())
+	// ToDo: this shouldn't be done here
 	{
-		PresentationParameters.SetBackBufferCount(SurfaceCapabilities.GetMaxImageCount());
-	}
-	PresentationParameters.SetExtent(SurfaceCapabilities.GetMaxImageExtent().Width, SurfaceCapabilities.GetMaxImageExtent().Height);
+		const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& SelectedPhysicalDevice =
+			static_cast<const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice());
 
-	PresentationParameters.SetSurfaceFormat(AvailableSurfaceFormats[0]);
-	for (size_t i = 0; i < AvailableSurfaceFormats.GetLength(); i++)
-	{
-		if (AvailableSurfaceFormats[i].Format == FormatVk::B8G8R8A8_SRGB && AvailableSurfaceFormats[i].ColorSpace == ColorSpaceVk::SRGBNonLinear)
+		// check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
+		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = SelectedPhysicalDevice.GetQueueFamilyProperties();
+		for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
 		{
-			PresentationParameters.SetSurfaceFormat(AvailableSurfaceFormats[i]);
-			break;
-		}
-	}
+			QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
 
-	PresentationParameters.SetPresentMode(PresentModeVk::Immediate);
-	for (size_t i = 0; i < AvailablePresentModes.GetLength(); i++)
-	{
-		if (AvailablePresentModes[i] == PresentModeVk::Mailbox)
-		{
-			PresentationParameters.SetPresentMode(AvailablePresentModes[i]);
-			break;
-		}
-	}
-
-	// check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
-	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = SelectedPhysicalDevice.GetQueueFamilyProperties();
-	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
-	{
-		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
-
-		if ((Capabilities & QueueCapabilitiesVk::Graphics) == QueueCapabilitiesVk::Graphics)
-		{
-			if (PresentationParameters.GetGraphicsQueueFamilyIndex() == -1)
+			if ((Capabilities & QueueCapabilitiesVk::Graphics) == QueueCapabilitiesVk::Graphics)
 			{
-				PresentationParameters.SetGraphicsQueueFamilyIndex(i);
-			}
-			if (PresentationParameters.GetPresentationQueueFamilyIndex() == -1)
-			{
-				if (SelectedPhysicalDevice.SupportsPresentation(*this, i))
+				if (PresentationParameters.GetGraphicsQueueFamilyIndex() == -1)
 				{
-					PresentationParameters.SetPresentationQueueFamilyIndex(i);
+					PresentationParameters.SetGraphicsQueueFamilyIndex(i);
 				}
+				if (PresentationParameters.GetPresentationQueueFamilyIndex() == -1)
+				{
+					if (SelectedPhysicalDevice.SupportsPresentation(*this, i))
+					{
+						PresentationParameters.SetPresentationQueueFamilyIndex(i);
+					}
+				}
+
+				DeviceQueueCreateInfoVk QueueCreateInfo = DeviceQueueCreateInfoVk();
+				QueueCreateInfo.SetFamilyIndex(QueueFamilyProperties[i].GetIndex());
+				QueueCreateInfo.AddPriority(1.0f);
+				QueueCreateInfo.SetCapabilities(Capabilities);
+
+				PresentationParameters.AddDeviceQueueCreateInfo(std::move(QueueCreateInfo));
 			}
-
-			DeviceQueueCreateInfoVk QueueCreateInfo = DeviceQueueCreateInfoVk();
-			QueueCreateInfo.SetFamilyIndex(QueueFamilyProperties[i].GetIndex());
-			QueueCreateInfo.AddPriority(1.0f);
-			QueueCreateInfo.SetCapabilities(Capabilities);
-
-			PresentationParameters.AddDeviceQueueCreateInfo(std::move(QueueCreateInfo));
 		}
 	}
 }
 Elysium::Graphics::Rendering::Vulkan::SurfaceVk::~SurfaceVk()
 {
+	Elysium::Graphics::Presentation::Control& Canvas = _PresentationParameters.GetCanvas();
+	Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
+
 	if (_NativeSurfaceHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySurfaceKHR(_NativeInstanceHandle, _NativeSurfaceHandle, nullptr);
 		_NativeSurfaceHandle = VK_NULL_HANDLE;
 	}
-}
-
-const Elysium::Graphics::Rendering::Vulkan::SurfaceCapabilitiesVk Elysium::Graphics::Rendering::Vulkan::SurfaceVk::GetCapabilities(const PhysicalDeviceVk& PhysicalDevice)
-{
-	VkSurfaceCapabilitiesKHR NativeSurfaceCapabilities;
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &NativeSurfaceCapabilities);
-
-	return SurfaceCapabilitiesVk(NativeSurfaceCapabilities);
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::SurfaceFormatVk> Elysium::Graphics::Rendering::Vulkan::SurfaceVk::GetFormats(const PhysicalDeviceVk& PhysicalDevice)
-{
-	uint32_t SurfaceFormatCount;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceFormatCount, nullptr);
-
-	Elysium::Core::Collections::Template::Array<SurfaceFormatVk> SurfaceFormats =
-		Elysium::Core::Collections::Template::Array<SurfaceFormatVk>(SurfaceFormatCount);
-	vkGetPhysicalDeviceSurfaceFormatsKHR(PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceFormatCount, (VkSurfaceFormatKHR*)&SurfaceFormats[0]);
-
-	return SurfaceFormats;
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PresentModeVk> Elysium::Graphics::Rendering::Vulkan::SurfaceVk::GetPresentModes(const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& PhysicalDevice)
-{
-	uint32_t PresentModeCount;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, nullptr);
-
-	Elysium::Core::Collections::Template::Array<PresentModeVk> PresentModes =
-		Elysium::Core::Collections::Template::Array<PresentModeVk>(PresentModeCount);
-	vkGetPhysicalDeviceSurfacePresentModesKHR(PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, (VkPresentModeKHR*)&PresentModes[0]);
-
-	return PresentModes;
 }
 
 VkSurfaceKHR Elysium::Graphics::Rendering::Vulkan::SurfaceVk::CreateNativeSurface(PresentationParametersVk& PresentationParameters)
@@ -149,4 +96,63 @@ VkSurfaceKHR Elysium::Graphics::Rendering::Vulkan::SurfaceVk::CreateNativeSurfac
 #else
 #error "unsupported os"
 #endif
+}
+
+void Elysium::Graphics::Rendering::Vulkan::SurfaceVk::UpdateInternalValues()
+{
+	const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& SelectedPhysicalDevice =
+		static_cast<const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&>(_PresentationParameters.GetGraphicsDevice());
+
+	// ...
+	VkSurfaceCapabilitiesKHR SurfaceCapabilities;
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(SelectedPhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceCapabilities);
+
+	_PresentationParameters.SetTransform(SurfaceCapabilities.currentTransform);
+	if (_PresentationParameters.GetBackBufferCount() > SurfaceCapabilities.maxImageCount)
+	{
+		_PresentationParameters.SetBackBufferCount(SurfaceCapabilities.maxImageCount);
+	}
+	_PresentationParameters.SetExtent(SurfaceCapabilities.maxImageExtent.width, SurfaceCapabilities.maxImageExtent.height);
+
+	// ...
+	Elysium::Core::uint32_t SurfaceFormatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(SelectedPhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceFormatCount, nullptr);
+
+	Elysium::Core::Collections::Template::Array<SurfaceFormatVk> SurfaceFormats =
+		Elysium::Core::Collections::Template::Array<SurfaceFormatVk>(SurfaceFormatCount);
+	vkGetPhysicalDeviceSurfaceFormatsKHR(SelectedPhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceFormatCount, (VkSurfaceFormatKHR*)&SurfaceFormats[0]);
+
+	_PresentationParameters.SetSurfaceFormat(SurfaceFormats[0]);
+	for (size_t i = 0; i < SurfaceFormats.GetLength(); i++)
+	{
+		if (SurfaceFormats[i].Format == FormatVk::B8G8R8A8_SRGB && SurfaceFormats[i].ColorSpace == ColorSpaceVk::SRGBNonLinear)
+		{
+			_PresentationParameters.SetSurfaceFormat(SurfaceFormats[i]);
+			break;
+		}
+	}
+
+	// ...
+	Elysium::Core::uint32_t PresentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(SelectedPhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, nullptr);
+
+	Elysium::Core::Collections::Template::Array<PresentModeVk> PresentModes =
+		Elysium::Core::Collections::Template::Array<PresentModeVk>(PresentModeCount);
+	vkGetPhysicalDeviceSurfacePresentModesKHR(SelectedPhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, (VkPresentModeKHR*)&PresentModes[0]);
+
+	_PresentationParameters.SetPresentMode(PresentModeVk::Immediate);
+	for (size_t i = 0; i < PresentModes.GetLength(); i++)
+	{
+		if (PresentModes[i] == PresentModeVk::Mailbox)
+		{
+			_PresentationParameters.SetPresentMode(PresentModes[i]);
+			break;
+		}
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
+{
+	UpdateInternalValues();
+	SizeChanged(*this);
 }

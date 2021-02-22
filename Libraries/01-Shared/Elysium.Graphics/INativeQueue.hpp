@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#include "INativeCommandBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#include "INativeCommandPool.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
 #include "INativeFence.hpp"
 #endif
@@ -37,8 +45,11 @@ namespace Elysium::Graphics::Rendering
 		virtual ~INativeQueue() { }
 
 		virtual const Elysium::Core::uint32_t GetFamilyIndex() const = 0;
+
+		// ToDo!!!!!
+		virtual INativeCommandPool* CreateCommandPool() = 0;
 		
-		virtual void Submit(const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) = 0;
+		virtual void Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) = 0;
 		virtual void Wait() const = 0;
 	};
 }

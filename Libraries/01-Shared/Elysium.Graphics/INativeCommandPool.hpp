@@ -20,12 +20,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#include "INativeCommandBuffer.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class ELYSIUM_GRAPHICS_API INativeCommandPool
 	{
 	public:
 		virtual ~INativeCommandPool() { }
+
+		// ToDo!!!!!
+		virtual INativeCommandBuffer* CreateCommandBuffer(const bool IsPrimary) = 0;
 
 		virtual void Reset() = 0;
 	};

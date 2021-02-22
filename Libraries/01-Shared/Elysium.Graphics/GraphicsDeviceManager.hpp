@@ -47,6 +47,7 @@ namespace Elysium::Graphics
 		static const Core::uint32_t DefaultBackBufferHeight = 480;
 		static const Core::uint32_t DefaultBackBufferCount = 3;
 
+		Rendering::INativeGraphicsDevice& GetGraphicsDevice();
 	private:
 		GraphicsDeviceManager(Game& Game, Rendering::INativeGraphicsDevice& GraphicsDevice);
 

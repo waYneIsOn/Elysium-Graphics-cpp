@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_COMMANDPOOLVK
+#include "CommandPoolVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
@@ -44,6 +48,7 @@ namespace Elysium::Core::Collections::Template
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class GraphicsDeviceVk;
 	class PhysicalDeviceVk;
 	class SwapchainVk;
 
@@ -53,7 +58,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class PhysicalDeviceVk;
 		friend class SwapchainVk;
 	public:
-		QueueVk(const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index);
+		QueueVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index);
 		QueueVk(const QueueVk& Source) = delete;
 		QueueVk(QueueVk&& Right) noexcept = delete;
 		virtual ~QueueVk();
@@ -63,9 +68,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual const Elysium::Core::uint32_t GetFamilyIndex() const override;
 
-		virtual void Submit(const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) override;
+		virtual INativeCommandPool* CreateCommandPool() override;
+
+		virtual void Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) override;
 		virtual void Wait() const override;
 	private:
+		const GraphicsDeviceVk& _GraphicsDevice;
 		const LogicalDeviceVk& _LogicalDevice;
 		const Elysium::Core::uint32_t _FamilyIndex;
 		const Elysium::Core::uint32_t _Index;

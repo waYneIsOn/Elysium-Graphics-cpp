@@ -8,6 +8,10 @@
 #include "FenceVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
+#include "GraphicsDeviceVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SEMAPHOREVK
 #include "SemaphoreVk.hpp"
 #endif
@@ -16,8 +20,8 @@
 #include <type_traits>
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
-	: _LogicalDevice(LogicalDevice), _NativeQueueHandle(VK_NULL_HANDLE), _FamilyIndex(FamilyIndex), _Index(Index)
+Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
+	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _NativeQueueHandle(VK_NULL_HANDLE), _FamilyIndex(FamilyIndex), _Index(Index)
 {
 	VkDeviceQueueInfo2 DeviceQueueInfo = VkDeviceQueueInfo2();
 	DeviceQueueInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2;
@@ -39,8 +43,14 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::QueueVk::Get
 	return _FamilyIndex;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence)
+Elysium::Graphics::Rendering::INativeCommandPool* Elysium::Graphics::Rendering::Vulkan::QueueVk::CreateCommandPool()
 {
+	return new CommandPoolVk(_GraphicsDevice, _LogicalDevice, *this);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence)
+{
+	const CommandBufferVk& VkCommandBuffer = static_cast<const CommandBufferVk&>(CommmandBuffer);
 	const SemaphoreVk& VkPresentSemaphore = dynamic_cast<const SemaphoreVk&>(PresentSemaphore);
 	const SemaphoreVk& VkRenderSemaphore = dynamic_cast<const SemaphoreVk&>(RenderSemaphore);
 	const FenceVk& VkFence = dynamic_cast<const FenceVk&>(Fence);
@@ -55,8 +65,8 @@ void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeSemaphor
 	SubmitInfo.pWaitSemaphores = &VkPresentSemaphore._NativeSemaphoreHandle;
 	SubmitInfo.signalSemaphoreCount = 1;
 	SubmitInfo.pSignalSemaphores = &VkRenderSemaphore._NativeSemaphoreHandle;
-	SubmitInfo.commandBufferCount = 0;
-	SubmitInfo.pCommandBuffers = nullptr;
+	SubmitInfo.commandBufferCount = VkCommandBuffer._NativeCommandBufferHandles.GetLength();
+	SubmitInfo.pCommandBuffers = &VkCommandBuffer._NativeCommandBufferHandles[0];
 
 	VkResult Result;
 	if ((Result = vkQueueSubmit(_NativeQueueHandle, 1, &SubmitInfo, VkFence._NativeFenceHandle)) != VK_SUCCESS)

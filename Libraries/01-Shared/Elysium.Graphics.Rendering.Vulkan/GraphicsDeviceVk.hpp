@@ -58,8 +58,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class CommandBufferVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public INativeGraphicsDevice
 	{
+		friend class CommandBufferVk;
 	public:
 		GraphicsDeviceVk(GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
@@ -70,7 +73,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsDeviceVk& operator=(GraphicsDeviceVk&& Right) noexcept = delete;
 
 		virtual const GraphicsInstanceVk& GetGraphicsAPI() const override;
-		virtual const PresentationParametersVk& GetPresentationParameters() const override;
+		virtual PresentationParametersVk& GetPresentationParameters() override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
 		virtual const FenceVk& GetRenderFence() const override;

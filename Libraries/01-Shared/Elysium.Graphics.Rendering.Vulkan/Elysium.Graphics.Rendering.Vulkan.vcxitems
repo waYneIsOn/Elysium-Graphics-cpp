@@ -44,7 +44,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueCapabilitiesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceCapabilitiesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainVk.hpp" />
@@ -72,7 +71,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceCapabilitiesVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainVk.cpp" />

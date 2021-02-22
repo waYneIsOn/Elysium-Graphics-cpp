@@ -30,7 +30,7 @@ size_t Elysium::Graphics::Presentation::Window::_ProgramInstanceHandle = -1;
 
 Elysium::Graphics::Presentation::Window::Window()
 	: Elysium::Graphics::Presentation::Control(),
-    _WindowHandle(CreateNativeWindow())
+    _Style(WindowStyle::SingleBorderWindow), _Width(800), _Height(480), _WindowHandle(CreateNativeWindow())
 {
     CenterToMonitor();
 
@@ -95,8 +95,17 @@ size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
     }
 
     size_t Result = (size_t)CreateWindowExW(0L, _ClassName, L"WindowTitle", WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 800, 480, nullptr, nullptr,
+        CW_USEDEFAULT, CW_USEDEFAULT, _Width, _Height, nullptr, nullptr,
         (HINSTANCE)&_ProgramInstanceHandle, this);
+
+    // get client bounds
+    RECT Rect;
+    if (!GetClientRect((HWND)Result, &Rect))
+    {   // ToDo: throw specific exception
+        throw 1;
+    }
+    _Width = Rect.right - Rect.left;
+    _Height = Rect.bottom - Rect.top;
 
     // "associate" instance with window handle
     if (!SetPropW((HWND)Result, _ClassName, this))
@@ -165,30 +174,35 @@ LRESULT Elysium::Graphics::Presentation::Window::WindowsMessageHandlerCallback(H
         // ...
         break;
     }
-    case WM_SIZING:
+    //case WM_DISPLAYCHANGE:
+    case WM_SIZE:
     {
         if (Window != nullptr)
         {
-            int Edge = wParam;
-            RECT* Rect = (RECT*)lParam;
-            /*
-            if (Edge == WMSZ_LEFT || Edge == WMSZ_BOTTOMLEFT || Edge == WMSZ_RIGHT || Edge == WMSZ_BOTTOMRIGHT)
-            {
-
+            // get client bounds
+            RECT Rect;
+            if (!GetClientRect((HWND)WindowHandle, &Rect))
+            {   // ToDo: throw specific exception
+                throw 1;
             }
-            else if (Edge == WMSZ_TOPLEFT || Edge == WMSZ_TOPRIGHT)
-            {
 
-            }
-            else if (Edge == WMSZ_TOP || Edge == WMSZ_BOTTOM)
+            Elysium::Core::uint32_t Width = Rect.right - Rect.left;
+            Elysium::Core::uint32_t Height = Rect.bottom - Rect.top;
+            if (Width != Window->_Width || Height != Window->_Height)
             {
-
+                Window->_Width = Width;
+                Window->_Height = Height;
+                Window->SizeChanged(*Window, Width, Height);
             }
-            */
-            Window->SizeChanged(*Window, Rect->right - Rect->left, Rect->bottom - Rect->top);
         }
         break;
     }
+    break;
+    case WM_SIZING:
+    {
+        // ...
+    }
+    break;
     case WM_PAINT:
     {
         if (Window != nullptr)

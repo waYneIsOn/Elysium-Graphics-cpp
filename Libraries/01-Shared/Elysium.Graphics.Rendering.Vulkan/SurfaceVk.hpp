@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
+#include "../Elysium.Graphics.Presentation/Control.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -26,10 +30,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_VULKAN_PRESENTMODEVK
 #include "PresentModeVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACECAPABILITIESVK
-#include "SurfaceCapabilitiesVk.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEFORMATVK
@@ -62,14 +62,17 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		SurfaceVk& operator=(const SurfaceVk& Source) = delete;
 		SurfaceVk& operator=(SurfaceVk&& Right) noexcept = delete;
 
-		const SurfaceCapabilitiesVk GetCapabilities(const PhysicalDeviceVk& PhysicalDevice);
-		const Elysium::Core::Collections::Template::Array<SurfaceFormatVk> GetFormats(const PhysicalDeviceVk& PhysicalDevice);
-		const Elysium::Core::Collections::Template::Array<PresentModeVk> GetPresentModes(const PhysicalDeviceVk& PhysicalDevice);
+		Elysium::Core::Event<void, const SurfaceVk&> SizeChanged;
 	private:
 		const VkInstance _NativeInstanceHandle;
+		PresentationParametersVk& _PresentationParameters;
 		VkSurfaceKHR _NativeSurfaceHandle;
 
 		VkSurfaceKHR CreateNativeSurface(PresentationParametersVk& PresentationParameters);
+
+		void UpdateInternalValues();
+
+		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};
 }
 #endif

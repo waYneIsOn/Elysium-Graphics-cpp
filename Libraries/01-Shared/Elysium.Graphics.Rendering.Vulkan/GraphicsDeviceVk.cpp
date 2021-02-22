@@ -4,9 +4,9 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(Graphic
 	: _GraphicsInstance(GraphicsInstance), _PresentationParameters(PresentationParameters),
 	_Surface(_GraphicsInstance, PresentationParameters), 
 	_LogicalDevice(static_cast<const PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice()), PresentationParameters),
-	_GraphicsQueue(_LogicalDevice, PresentationParameters.GetGraphicsQueueFamilyIndex(), 0),
-	_PresentationQueue(_LogicalDevice, PresentationParameters.GetPresentationQueueFamilyIndex(), 0),
-	_Swapchain(_LogicalDevice), _RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
+	_GraphicsQueue(*this, _LogicalDevice, PresentationParameters.GetGraphicsQueueFamilyIndex(), 0),
+	_PresentationQueue(*this, _LogicalDevice, PresentationParameters.GetPresentationQueueFamilyIndex(), 0),
+	_Swapchain(_Surface, _LogicalDevice), _RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 { }
@@ -16,7 +16,7 @@ const Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk& Elysium::Graphic
 	return _GraphicsInstance;
 }
 
-const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters() const
+Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters()
 {
 	return _PresentationParameters;
 }

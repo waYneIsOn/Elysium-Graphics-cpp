@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_DISPLAYORIENTATION
+#include "DisplayOrientation.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_GAMETIME
 #include "GameTime.hpp"
 #endif
@@ -35,28 +39,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
-#include "INativeCommandBuffer.hpp"
-#endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
-#include "INativeCommandPool.hpp"
-#endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEBUFFER
-#include "INativeBuffer.hpp"
-#endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEDEPTHBUFFER
-#include "INativeDepthBuffer.hpp"
-#endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
-#include "INativeLogicalDevice.hpp"
-#endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEIMAGE2D
-#include "INativeImage2D.hpp"
+#include "../Elysium.Graphics/INativeLogicalDevice.hpp"
 #endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
-#include "INativeSwapchain.hpp"
+#include "../Elysium.Graphics/INativeSwapchain.hpp"
 #endif
-
 
 
 
@@ -75,9 +63,6 @@ namespace Elysium::Graphics
 		Game& operator=(Game&& Right) noexcept = delete;
 
 		const bool GetIsActive() const;
-		const bool GetIsFixedTimeStep() const;
-
-		void SetIsFixedTimeStep(const bool Value);
 
 		void Run();
 		void Exit();
@@ -93,29 +78,27 @@ namespace Elysium::Graphics
 		virtual const bool BeginUpdate();
 		virtual void Update(const GameTime& GameTime) = 0;
 		virtual void EndUpdate();
-	private:
+	protected:
 		Presentation::Control& _Control;
 		GraphicsDeviceManager _GraphicsDeviceManager;
 
+		virtual void Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
+		virtual void Control_Suspend(const Presentation::Control& Sender);
+		virtual void Control_Resume(const Presentation::Control& Sender);
+		virtual void Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
+		virtual void Control_OrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e);
+		virtual void Control_Paint(const Presentation::Control& Sender);
+		virtual void Control_Exiting(const Presentation::Control& Sender);
+	private:
 		GameTime _GameTime;
 		/*
 		Elysium::Core::uint64_t _DesiredUpdateTimeStep = 500000ULL;	// 2 fps udpate
 		Elysium::Core::uint64_t _DesiredDrawTimeStep = 33333ULL;	// 30 fps drawing while active
 		Elysium::Core::uint64_t _DesiredDrawTimeStepInactive = 500000ULL;	// 2 fps drawing while inactive
 		*/
-		bool _IsFixedTimeStep = true;
-
 		bool _IsActive = true;
 		bool _IsInitialized = false;
 		bool _ShouldExit = false;
-
-		void Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
-		void Control_Suspend(const Presentation::Control& Sender);
-		void Control_Resume(const Presentation::Control& Sender);
-		void Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
-		//void Control_OrientationChanged(const Presentation::Control& Sender, const Platform::DisplayOrientationChangedEventArgs& e);
-		void Control_Paint(const Presentation::Control& Sender);
-		void Control_Exiting(const Presentation::Control& Sender);
 	};
 }
 #endif
