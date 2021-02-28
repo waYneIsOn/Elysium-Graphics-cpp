@@ -39,6 +39,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEDEPTHBUFFER
+#include "../Elysium.Graphics/INativeDepthBuffer.hpp"
+#endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
 #include "../Elysium.Graphics/INativeLogicalDevice.hpp"
 #endif
@@ -81,14 +84,6 @@ namespace Elysium::Graphics
 	protected:
 		Presentation::Control& _Control;
 		GraphicsDeviceManager _GraphicsDeviceManager;
-
-		virtual void Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
-		virtual void Control_Suspend(const Presentation::Control& Sender);
-		virtual void Control_Resume(const Presentation::Control& Sender);
-		virtual void Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
-		virtual void Control_OrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e);
-		virtual void Control_Paint(const Presentation::Control& Sender);
-		virtual void Control_Exiting(const Presentation::Control& Sender);
 	private:
 		GameTime _GameTime;
 		/*
@@ -99,6 +94,14 @@ namespace Elysium::Graphics
 		bool _IsActive = true;
 		bool _IsInitialized = false;
 		bool _ShouldExit = false;
+
+		void Control_OnActivationChanged(const Presentation::Control& Sender, const bool HasActivated);
+		void Control_OnSuspend(const Presentation::Control& Sender);
+		void Control_OnResume(const Presentation::Control& Sender);
+		void Control_OnSizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
+		void Control_OnOrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e);
+		void Control_OnPaint(const Presentation::Control& Sender);
+		void Control_OnExiting(const Presentation::Control& Sender);
 	};
 }
 #endif

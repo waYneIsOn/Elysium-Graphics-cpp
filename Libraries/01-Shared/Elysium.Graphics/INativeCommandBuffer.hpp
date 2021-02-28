@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_COLOR
+#include "Color.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class ELYSIUM_GRAPHICS_API INativeCommandBuffer
@@ -31,7 +35,8 @@ namespace Elysium::Graphics::Rendering
 		virtual void End() = 0;
 		virtual void Reset() = 0;
 
-		virtual void ClearColorImage(float Red, float Green, float Blue, float Alpha) = 0;
+		virtual void ClearBackBufferImage(const Color ClearColor) = 0;
+		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
 	};
 }
 #endif

@@ -64,11 +64,13 @@ namespace Elysium::Core::Collections::Template
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class DepthBufferVk;
 	class GraphicsInstanceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
+		friend class DepthBufferVk;
 		friend class GraphicsInstanceVk;
 		friend class LogicalDeviceVk;
 		friend class SurfaceVk;

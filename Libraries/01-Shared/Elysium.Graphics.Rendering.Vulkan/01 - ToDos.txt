@@ -1,12 +1,9 @@
-- get rid of FormatVk and make use of SurfaceFormat + FormatConverterVk
+- Swapchain memory leak (see recreation when resizing)
+- logical device: (should be the same layers as in graphics api)
+	DeviceCreateInfo.ppEnabledLayerNames = nullptr;
+	DeviceCreateInfo.enabledLayerCount = 0;
 
-- test canvas events
-	- moving around (between monitors)
-	- minimizing and "re-displaying"
-	- resizing
-	- maximizing
+- get rid of FormatVk and make use of SurfaceFormat + FormatConverterVk
 
 - test game logic
 	- exit from within
-	- exit manually (VK_ERROR_OUT_OF_DATE_KHR)
-	- 

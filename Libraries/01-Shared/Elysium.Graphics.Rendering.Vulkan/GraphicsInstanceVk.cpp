@@ -214,7 +214,24 @@ VKAPI_ATTR VkBool32 VKAPI_CALL Elysium::Graphics::Rendering::Vulkan::GraphicsIns
 	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	OutputDebugStringA("validation layer: ");
+	switch (MessageSeverity)
+	{
+	case VkDebugUtilsMessageSeverityFlagBitsEXT::VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+		OutputDebugStringA("Vulkan VERBOSE: ");
+		break;
+	case VkDebugUtilsMessageSeverityFlagBitsEXT::VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+		OutputDebugStringA("Vulkan INFO: ");
+		break;
+	case VkDebugUtilsMessageSeverityFlagBitsEXT::VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+		OutputDebugStringA("Vulkan WARNING: ");
+		break;
+	case VkDebugUtilsMessageSeverityFlagBitsEXT::VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+		OutputDebugStringA("Vulkan ERROR: ");
+		break;
+	default:
+		// ToDo: throw specific exception
+		throw 1;
+	}
 	OutputDebugStringA(pCallbackData->pMessage);
 	OutputDebugStringA("\r\n");
 #elif defined(ELYSIUM_CORE_OS_ANDROID)

@@ -21,7 +21,6 @@ Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(SurfaceVk& Surfac
 	_CurrentBackBufferImageIndex(0), _BackBufferImages(0), _BackBufferImageViews(0)
 {
 	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
-	
 	RecreateSwapchain(VK_NULL_HANDLE);
 }
 Elysium::Graphics::Rendering::Vulkan::SwapchainVk::~SwapchainVk()
@@ -32,7 +31,6 @@ Elysium::Graphics::Rendering::Vulkan::SwapchainVk::~SwapchainVk()
 	{
 		vkDestroyImageView(_LogicalDevice._NativeLogicalDeviceHandle, _BackBufferImageViews[i], nullptr);
 	}
-	// don't destroy images - they've been created by the swapchain and get destroyed by it!
 	if (_NativeSwapchainHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySwapchainKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, nullptr);
@@ -85,10 +83,13 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 {
 	// wait for any pending queues on the device
 	_LogicalDevice.Wait();
-	
-	// ...
-	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
 
+	// destroy image views
+
+	// recreate swapchain
+	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
+	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
+	
 	VkSwapchainCreateInfoKHR CreateInfo = VkSwapchainCreateInfoKHR();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	CreateInfo.pNext = nullptr;
@@ -97,11 +98,11 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	CreateInfo.minImageCount = PresentationParameter.GetBackBufferCount();
 	CreateInfo.imageFormat = (VkFormat&)PresentationParameter.GetSurfaceFormat().Format;
 	CreateInfo.imageColorSpace = (VkColorSpaceKHR&)PresentationParameter.GetSurfaceFormat().ColorSpace;
-	CreateInfo.imageExtent = (VkExtent2D&)PresentationParameter.GetExtent();
+	CreateInfo.imageExtent = Extent;
 	CreateInfo.imageArrayLayers = PresentationParameter.GetImageArrayLayers();
-	CreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+	CreateInfo.imageUsage = VkImageUsageFlagBits::VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	CreateInfo.preTransform = (VkSurfaceTransformFlagBitsKHR)PresentationParameter.GetTransform();
-	CreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	CreateInfo.compositeAlpha = VkCompositeAlphaFlagBitsKHR::VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 	CreateInfo.presentMode = (VkPresentModeKHR)PresentationParameter.GetPresentMode();
 	CreateInfo.clipped = VK_TRUE;
 	CreateInfo.oldSwapchain = PreviousNativeSwapchainHandle;
@@ -109,13 +110,13 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	{
 		Elysium::Core::uint32_t QueueFamilyIndices[] = { PresentationParameter.GetGraphicsQueueFamilyIndex(), PresentationParameter.GetPresentationQueueFamilyIndex() };
 
-		CreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		CreateInfo.imageSharingMode = VkSharingMode::VK_SHARING_MODE_CONCURRENT;
 		CreateInfo.queueFamilyIndexCount = 2;
 		CreateInfo.pQueueFamilyIndices = QueueFamilyIndices;
 	}
 	else
 	{
-		CreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		CreateInfo.imageSharingMode = VkSharingMode::VK_SHARING_MODE_EXCLUSIVE;
 		CreateInfo.queueFamilyIndexCount = 0; // Optional
 		CreateInfo.pQueueFamilyIndices = nullptr; // Optional
 	}
@@ -125,12 +126,14 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	{
 		throw ExceptionVk(Result);
 	}
-	/*
+	
+	// destroy previous swapchain
 	if (PreviousNativeSwapchainHandle != VK_NULL_HANDLE)
 	{
 		vkDestroySwapchainKHR(_LogicalDevice._NativeLogicalDeviceHandle, PreviousNativeSwapchainHandle, nullptr);
 	}
-	*/
+	
+	// recreate images
 	Elysium::Core::uint32_t BackBufferImageCount;
 	if ((Result = vkGetSwapchainImagesKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, &BackBufferImageCount, nullptr)) != VK_SUCCESS)
 	{
@@ -139,8 +142,6 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 		throw ExceptionVk(Result);
 	}
 
-	_CurrentBackBufferImageIndex = 0;
-
 	_BackBufferImages = Elysium::Core::Collections::Template::Array<VkImage>(BackBufferImageCount);
 	if ((Result = vkGetSwapchainImagesKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, &BackBufferImageCount, &_BackBufferImages[0])) != VK_SUCCESS)
 	{
@@ -148,7 +149,8 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 
 		throw ExceptionVk(Result);
 	}
-	
+
+	// ...
 	_BackBufferImageViews = Elysium::Core::Collections::Template::Array<VkImageView>(BackBufferImageCount);
 	for (size_t i = 0; i < BackBufferImageCount; i++)
 	{
@@ -181,6 +183,7 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 		}
 	}
 
+	_CurrentBackBufferImageIndex = 0;
 
 	int sdgf = 345;
 }

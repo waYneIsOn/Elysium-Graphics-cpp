@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/INativeGraphicsDevice.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEPTHBUFFERVK
+#include "DepthBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FENCEVK
 #include "FenceVk.hpp"
 #endif
@@ -94,6 +98,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		QueueVk _GraphicsQueue;
 		QueueVk _PresentationQueue;
 		SwapchainVk _Swapchain;
+		DepthBufferVk _DepthBuffer;
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;
 		SemaphoreVk _RenderSemaphore;

@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeGraphicsAPI.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
+#include "DepthFormat.hpp"
+#endif
+
 namespace Elysium::Graphics
 {
 	class ELYSIUM_GRAPHICS_API PresentationParameters
@@ -60,6 +64,7 @@ namespace Elysium::Graphics
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
+		const Rendering::DepthFormat GetDesiredDepthFormat() const;
 
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
@@ -67,6 +72,8 @@ namespace Elysium::Graphics
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
+		void SetDesiredDepthFormat(const Rendering::DepthFormat Value);
+
 		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) = 0;
 	protected:
 		// graphics api
@@ -80,10 +87,11 @@ namespace Elysium::Graphics
 		Elysium::Core::uint32_t _RenderResolution = 100;
 		bool _EnableVSync = false;
 
-		// ...
+		// swapchain & depthbuffer related parameters
 		Elysium::Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
 		Elysium::Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
 		Elysium::Core::uint32_t _BackBufferCount = GraphicsDeviceManager::DefaultBackBufferCount;
+		Rendering::DepthFormat _DesiredDepthFormat = Rendering::DepthFormat::Depth32Stencil8;
 
 		// ...
 		Elysium::Core::uint32_t _GameFramerateLimit = 240;

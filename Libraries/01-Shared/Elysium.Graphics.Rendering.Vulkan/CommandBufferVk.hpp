@@ -52,7 +52,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void End() override;
 		virtual void Reset() override;
 
-		virtual void ClearColorImage(float Red, float Green, float Blue, float Alpha) override;
+		virtual void ClearBackBufferImage(const Color ClearColor) override;
+		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const LogicalDeviceVk& _LogicalDevice;
@@ -60,7 +61,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const bool _IsPrimary;
 		const Elysium::Core::Collections::Template::Array<VkCommandBuffer> _NativeCommandBufferHandles;
 
-		Elysium::Core::Collections::Template::Array<VkCommandBuffer> CreateNativeCommandBuffer();
+		Elysium::Core::Collections::Template::Array<VkCommandBuffer> CreateNativeCommandBuffers();
+		void DestroyNativeCommandBuffers();
 	};
 }
 #endif

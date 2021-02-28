@@ -3,23 +3,23 @@
 Elysium::Graphics::Game::Game(Rendering::INativeGraphicsDevice& GraphicsDevice)
 	: _Control(GraphicsDevice.GetPresentationParameters().GetCanvas()), _GraphicsDeviceManager(*this, GraphicsDevice), _GameTime()
 {
-	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_ActivationChanged>(*this);
+	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnActivationChanged>(*this);
 	//_Control.Suspend += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
 	//_Control.Resume += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
-	_Control.SizeChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_SizeChanged>(*this);
+	_Control.SizeChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnSizeChanged>(*this);
 	//_Control.OrientationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
-	_Control.Paint += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Paint>(*this);
-	_Control.Exiting += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Exiting>(*this);
+	_Control.Paint += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnPaint>(*this);
+	_Control.Exiting += Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnExiting>(*this);
 }
 Elysium::Graphics::Game::~Game()
 {
-	_Control.ActivationChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_ActivationChanged>(*this);
+	_Control.ActivationChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnActivationChanged>(*this);
 	//_Control.Suspend -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
 	//_Control.Resume -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Resume>(*this);
-	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_SizeChanged>(*this);
+	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnSizeChanged>(*this);
 	//_Control.OrientationChanged -= Elysium::Core::Delegate<void, const Presentation::Control&, const Elysium::Graphics::Platform::DisplayOrientationChangedEventArgs&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_OrientationChanged>(*this);
-	_Control.Paint -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Paint>(*this);
-	_Control.Exiting -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_Exiting>(*this);
+	_Control.Paint -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnPaint>(*this);
+	_Control.Exiting -= Elysium::Core::Delegate<void, const Presentation::Control&>::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnExiting>(*this);
 }
 
 const bool Elysium::Graphics::Game::GetIsActive() const
@@ -88,37 +88,37 @@ void Elysium::Graphics::Game::EndUpdate()
 {
 }
 
-void Elysium::Graphics::Game::Control_ActivationChanged(const Presentation::Control& Sender, const bool HasActivated)
+void Elysium::Graphics::Game::Control_OnActivationChanged(const Presentation::Control& Sender, const bool HasActivated)
 {
 	_IsActive = HasActivated;
 }
 
-void Elysium::Graphics::Game::Control_Suspend(const Presentation::Control& Sender)
+void Elysium::Graphics::Game::Control_OnSuspend(const Presentation::Control& Sender)
 {
 	_IsActive = false;
 }
 
-void Elysium::Graphics::Game::Control_Resume(const Presentation::Control& Sender)
+void Elysium::Graphics::Game::Control_OnResume(const Presentation::Control& Sender)
 {
 	_IsActive = true;
 }
 
-void Elysium::Graphics::Game::Control_SizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
+void Elysium::Graphics::Game::Control_OnSizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
 	// ...
 }
 
-void Elysium::Graphics::Game::Control_OrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e)
+void Elysium::Graphics::Game::Control_OnOrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e)
 {
 	// ...
 }
 
-void Elysium::Graphics::Game::Control_Paint(const Presentation::Control& Sender)
+void Elysium::Graphics::Game::Control_OnPaint(const Presentation::Control& Sender)
 {
 	Tick();
 }
 
-void Elysium::Graphics::Game::Control_Exiting(const Presentation::Control& Sender)
+void Elysium::Graphics::Game::Control_OnExiting(const Presentation::Control& Sender)
 {
 	_ShouldExit = true;
 }

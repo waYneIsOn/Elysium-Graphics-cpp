@@ -5,16 +5,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_
-#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEVICEQUEUECREATEINFOVK
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERT
+#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
+#include "../Elysium.Graphics/DepthFormat.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
 #include "../Elysium.Graphics/SurfaceFormat.hpp"
 #endif
+
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
@@ -37,7 +42,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FormatConverterVk& operator=(const FormatConverterVk& Source) = delete;
 		FormatConverterVk& operator=(FormatConverterVk&& Right) noexcept = delete;
 
-		static const VkFormat Convert(const SurfaceFormat& Format);
+		static const VkFormat Convert(const SurfaceFormat Format);
+		static const VkFormat Convert(const DepthFormat Format);
 	};
 }
 #endif

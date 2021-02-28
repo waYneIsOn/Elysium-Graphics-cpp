@@ -13,12 +13,11 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const CommandPoolVk& CommandPool, const bool IsPrimary)
-	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(std::move(CreateNativeCommandBuffer()))
+	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(std::move(CreateNativeCommandBuffers()))
 { }
 Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::~CommandBufferVk()
 {
-	const PresentationParameters& PresentationParameters = _LogicalDevice.GetPresentationParameters();
-	vkFreeCommandBuffers(_LogicalDevice._NativeLogicalDeviceHandle, _CommandPool._NativeCommandPoolHandle, _NativeCommandBufferHandles.GetLength(), &_NativeCommandBufferHandles[0]);
+	DestroyNativeCommandBuffers();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Begin()
@@ -64,7 +63,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Reset()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearColorImage(float Red, float Green, float Blue, float Alpha)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color ClearColor)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
 	ImageSubresourceRange.baseArrayLayer = 0;
@@ -78,7 +77,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearColorImage(floa
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
 		VkImage BackbufferImage = Swapchain._BackBufferImages[i];
-
+		
 		// ... "write transfer"
 		VkImageMemoryBarrier PresentToClearBarrier = VkImageMemoryBarrier();
 		PresentToClearBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -90,15 +89,20 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearColorImage(floa
 		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
 		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
 			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
 			nullptr, 0, nullptr, 1, &PresentToClearBarrier);
 		
-		// create our clear command
-		VkClearColorValue ClearColorValue = { { Red, Green, Blue, Alpha } };
-		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		// ... actual command
+		float Red = ClearColor.GetRed() / 255.0f;
+		float Green = ClearColor.GetGreen() / 255.0f;
+		float Blue = ClearColor.GetBlue() / 255.0f;
+		float Alpha = ClearColor.GetAlpha() / 255.0f;
+
+		VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
+		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 			&ClearColorValue, 1, &ImageSubresourceRange);
 		
 		// ... "read memory"
@@ -111,7 +115,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearColorImage(floa
 		ClearToPresentBarrier.dstQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
 		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
@@ -120,7 +124,67 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearColorImage(floa
 	}
 }
 
-Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffer()
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
+{
+	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
+	ImageSubresourceRange.baseArrayLayer = 0;
+	ImageSubresourceRange.baseMipLevel = 0;
+	ImageSubresourceRange.layerCount = 1;
+	ImageSubresourceRange.levelCount = 1;
+	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+
+	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_LogicalDevice.GetPresentationParameters());
+	const DepthBufferVk& DepthBuffer = _GraphicsDevice._DepthBuffer;
+	VkImage DepthBufferImage = DepthBuffer._NativeDepthImageHandle;
+
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		// ... "write transfer"
+		VkImageMemoryBarrier PresentToClearBarrier = VkImageMemoryBarrier();
+		PresentToClearBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+		PresentToClearBarrier.pNext = nullptr;
+		PresentToClearBarrier.image = DepthBufferImage;
+		PresentToClearBarrier.subresourceRange = ImageSubresourceRange;
+		PresentToClearBarrier.srcQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
+		PresentToClearBarrier.dstQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
+		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
+		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
+		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
+		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
+			nullptr, 0, nullptr, 1, &PresentToClearBarrier);
+
+		// ... actual command
+		VkClearDepthStencilValue ClearDepthStencilValue = VkClearDepthStencilValue();
+		ClearDepthStencilValue.depth = Depth;
+		ClearDepthStencilValue.stencil = Stencil;
+
+		vkCmdClearDepthStencilImage(_NativeCommandBufferHandles[i], DepthBufferImage, VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+			&ClearDepthStencilValue, 1, &ImageSubresourceRange);
+
+		// ... "read memory"
+		VkImageMemoryBarrier ClearToPresentBarrier = VkImageMemoryBarrier();
+		ClearToPresentBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+		ClearToPresentBarrier.pNext = nullptr;
+		ClearToPresentBarrier.image = DepthBufferImage;
+		ClearToPresentBarrier.subresourceRange = ImageSubresourceRange;
+		ClearToPresentBarrier.srcQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
+		ClearToPresentBarrier.dstQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
+		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
+		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
+		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0,
+			nullptr, 0, nullptr, 1, &ClearToPresentBarrier);
+	}
+
+}
+
+Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffers()
 {
 	PresentationParameters& PresentationParameters = _LogicalDevice.GetPresentationParameters();
 
@@ -140,4 +204,10 @@ Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::
 	}
 
 	return NativeCommandBufferHandles;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::DestroyNativeCommandBuffers()
+{
+	const PresentationParameters& PresentationParameters = _LogicalDevice.GetPresentationParameters();
+	vkFreeCommandBuffers(_LogicalDevice._NativeLogicalDeviceHandle, _CommandPool._NativeCommandPoolHandle, _NativeCommandBufferHandles.GetLength(), &_NativeCommandBufferHandles[0]);
 }

@@ -78,6 +78,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Color.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -86,5 +90,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Color.cpp" />
   </ItemGroup>
 </Project>

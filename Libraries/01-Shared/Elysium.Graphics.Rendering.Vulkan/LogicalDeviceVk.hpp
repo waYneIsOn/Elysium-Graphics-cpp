@@ -40,6 +40,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
 	class CommandPoolVk;
+	class DepthBufferVk;
 	class FenceVk;
 	class PhysicalDeviceVk;
 	class QueueVk;
@@ -50,6 +51,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 		friend class CommandPoolVk;
+		friend class DepthBufferVk;
 		friend class FenceVk;
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;

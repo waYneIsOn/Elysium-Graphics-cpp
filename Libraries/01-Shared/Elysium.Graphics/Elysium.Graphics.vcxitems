@@ -18,6 +18,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Color.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
@@ -46,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Color.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
