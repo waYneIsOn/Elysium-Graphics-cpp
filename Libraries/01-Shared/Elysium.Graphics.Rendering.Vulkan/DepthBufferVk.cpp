@@ -64,7 +64,7 @@ void Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::CreateResources()
 	ImageCreateInfo.format = FormatConverterVk::Convert(PresentationParameters.GetDesiredDepthFormat());
 	ImageCreateInfo.tiling = VkImageTiling::VK_IMAGE_TILING_OPTIMAL;
 	ImageCreateInfo.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-	ImageCreateInfo.usage = VkImageUsageFlagBits::VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	ImageCreateInfo.usage = VkImageUsageFlagBits::VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	ImageCreateInfo.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
 	ImageCreateInfo.sharingMode = VkSharingMode::VK_SHARING_MODE_EXCLUSIVE;
 	if ((Result = vkCreateImage(_LogicalDevice._NativeLogicalDeviceHandle, &ImageCreateInfo, nullptr, &_NativeDepthImageHandle)) != VK_SUCCESS)

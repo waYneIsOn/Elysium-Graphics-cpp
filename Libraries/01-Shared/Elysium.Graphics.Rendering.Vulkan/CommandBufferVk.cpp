@@ -131,7 +131,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 	ImageSubresourceRange.baseMipLevel = 0;
 	ImageSubresourceRange.layerCount = 1;
 	ImageSubresourceRange.levelCount = 1;
-	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_DEPTH_BIT | VkImageAspectFlagBits::VK_IMAGE_ASPECT_STENCIL_BIT;
 
 	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_LogicalDevice.GetPresentationParameters());
 	const DepthBufferVk& DepthBuffer = _GraphicsDevice._DepthBuffer;
@@ -150,7 +150,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
 		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
 			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
@@ -161,7 +161,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 		ClearDepthStencilValue.depth = Depth;
 		ClearDepthStencilValue.stencil = Stencil;
 
-		vkCmdClearDepthStencilImage(_NativeCommandBufferHandles[i], DepthBufferImage, VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		vkCmdClearDepthStencilImage(_NativeCommandBufferHandles[i], DepthBufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			&ClearDepthStencilValue, 1, &ImageSubresourceRange);
 
 		// ... "read memory"
@@ -174,7 +174,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 		ClearToPresentBarrier.dstQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
 		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
