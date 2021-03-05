@@ -89,7 +89,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
 		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
 			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
@@ -100,9 +100,9 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 		float Green = ClearColor.GetGreen() / 255.0f;
 		float Blue = ClearColor.GetBlue() / 255.0f;
 		float Alpha = ClearColor.GetAlpha() / 255.0f;
-
 		VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
-		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+
+		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			&ClearColorValue, 1, &ImageSubresourceRange);
 		
 		// ... "read memory"
@@ -115,7 +115,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 		ClearToPresentBarrier.dstQueueFamilyIndex = PresentationParameters.GetPresentationQueueFamilyIndex();
 		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
 		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
