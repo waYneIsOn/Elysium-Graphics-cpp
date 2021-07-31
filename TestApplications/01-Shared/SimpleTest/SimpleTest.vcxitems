@@ -19,4 +19,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)MyGame.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)Assets\SomeShader.spv" />
+  </ItemGroup>
 </Project>

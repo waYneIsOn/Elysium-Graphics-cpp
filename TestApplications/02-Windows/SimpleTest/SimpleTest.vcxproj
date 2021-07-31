@@ -105,6 +105,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.Math.lib;Elysium.Graphics.lib;Elysium.Graphics.Presentation.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -124,6 +128,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.Math.lib;Elysium.Graphics.lib;Elysium.Graphics.Presentation.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -140,6 +148,10 @@
       <AdditionalLibraryDirectories>..\..\..\..\bin\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.Math.lib;Elysium.Graphics.lib;Elysium.Graphics.Presentation.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -160,6 +172,10 @@
       <AdditionalLibraryDirectories>..\..\..\..\bin\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.Math.lib;Elysium.Graphics.lib;Elysium.Graphics.Presentation.lib;Elysium.Graphics.Rendering.Vulkan.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SimpleTest.cpp" />
@@ -177,6 +193,11 @@
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics\Elysium.Graphics.vcxproj">
       <Project>{206291a0-5e5e-42d6-9dfa-f9b583c27092}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv">
+      <FileType>Document</FileType>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

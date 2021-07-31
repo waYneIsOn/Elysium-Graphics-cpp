@@ -4,6 +4,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/Game.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_CONTENT_CONTENTMANAGER
+#include "../../../Libraries/01-Shared/Elysium.Graphics/ContentManager.hpp"
+#endif
+
 class MyGame final : public Elysium::Graphics::Game
 {
 public:
@@ -19,6 +23,7 @@ protected:
 	virtual void Draw(const Elysium::Graphics::GameTime& GameTime) override;
 	virtual void Update(const Elysium::Graphics::GameTime& GameTime) override;
 private:
+	Elysium::Graphics::Content::ContentManager _ContentManager;
 	Elysium::Graphics::Rendering::INativeCommandPool* _CommandPool;
 	Elysium::Graphics::Rendering::INativeCommandBuffer* _CommandBuffer;
 

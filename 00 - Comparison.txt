@@ -18,7 +18,7 @@
 | CommandPool		| VkCommandPool				| ID3D12CommandQueue?	|
 | CommandBuffer		| VkCommandBuffer			| ID3D12CommandList?	|
 +-------------------+---------------------------+-----------------------+
-| ...				| ...						| ...					|
+| ...				| VkShaderModule			| ...					|
 | ...				| ...						| ...					|
 | ...				| ...						| ...					|
 | ...				| ...						| ...					|

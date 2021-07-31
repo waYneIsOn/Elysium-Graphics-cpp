@@ -82,6 +82,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ContentManager.hpp">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeEffect.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ContentReader.hpp">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ContentLoadException.hpp">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Effect.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -91,5 +106,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Color.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ContentManager.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ContentReader.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ContentLoadException.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Effect.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,16 +1,21 @@
 #include "MyGame.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_EFFECT
+#include "../../../Libraries/01-Shared/Elysium.Graphics/Effect.hpp"
+#endif
+
 MyGame::MyGame(Elysium::Graphics::Rendering::INativeGraphicsDevice& GraphicsDevice)
 	: Elysium::Graphics::Game(GraphicsDevice),
+	_ContentManager(GraphicsDevice, u8"Assets"),
 	_CommandPool(GraphicsDevice.GetGraphicsQueue().CreateCommandPool()), _CommandBuffer(_CommandPool->CreateCommandBuffer(true))
 {
-	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<MyGame, &MyGame::Control_OnSizeChanged>(*this);
+	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
 
 	RecordClearCommandBuffer();
 }
 MyGame::~MyGame()
 {
-	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<MyGame, &MyGame::Control_OnSizeChanged>(*this);
+	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
 
 	if (_CommandBuffer != nullptr)
 	{
@@ -24,6 +29,8 @@ MyGame::~MyGame()
 
 void MyGame::LoadContent()
 {
+	Elysium::Graphics::Rendering::Effect SomeShader = 
+		_ContentManager.Load<Elysium::Graphics::Rendering::Effect>(u8"../../../../bin/Debug/x64/Assets/SomeShader.spv");
 }
 
 void MyGame::Draw(const Elysium::Graphics::GameTime& GameTime)
