@@ -34,11 +34,11 @@ Elysium::Graphics::Presentation::Window::Window()
 {
     CenterToMonitor();
 
-	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
+	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 Elysium::Graphics::Presentation::Window::~Window()
 {
-	ActivationChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::CreateDelegate<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
+	ActivationChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 
 const size_t Elysium::Graphics::Presentation::Window::GetHandle() const

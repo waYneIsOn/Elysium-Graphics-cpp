@@ -20,7 +20,7 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const GraphicsInstanc
 	UpdateInternalValues();
 
 	Elysium::Graphics::Presentation::Control& Canvas = _PresentationParameters.GetCanvas();
-	Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
+	Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
 
 	// ToDo: this shouldn't be done here
 	{
@@ -60,7 +60,7 @@ Elysium::Graphics::Rendering::Vulkan::SurfaceVk::SurfaceVk(const GraphicsInstanc
 Elysium::Graphics::Rendering::Vulkan::SurfaceVk::~SurfaceVk()
 {
 	Elysium::Graphics::Presentation::Control& Canvas = _PresentationParameters.GetCanvas();
-	Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
+	Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::SurfaceVk, &Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged>(*this);
 
 	if (_NativeSurfaceHandle != VK_NULL_HANDLE)
 	{

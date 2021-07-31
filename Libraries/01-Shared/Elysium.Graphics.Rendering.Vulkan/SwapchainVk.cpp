@@ -20,12 +20,12 @@ Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(SurfaceVk& Surfac
 	: _Surface(Surface), _LogicalDevice(LogicalDevice), _NativeSwapchainHandle(VK_NULL_HANDLE), 
 	_CurrentBackBufferImageIndex(0), _BackBufferImages(0), _BackBufferImageViews(0)
 {
-	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
 	RecreateSwapchain(VK_NULL_HANDLE);
 }
 Elysium::Graphics::Rendering::Vulkan::SwapchainVk::~SwapchainVk()
 {
-	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::SwapchainVk, &Elysium::Graphics::Rendering::Vulkan::SwapchainVk::Surface_OnSizeChanged>(*this);
 
 	for (size_t i = 0; i < _BackBufferImageViews.GetLength(); i++)
 	{

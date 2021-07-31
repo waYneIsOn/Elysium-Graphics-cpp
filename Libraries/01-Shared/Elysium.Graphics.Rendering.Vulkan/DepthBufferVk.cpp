@@ -16,12 +16,12 @@ Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DepthBufferVk(SurfaceVk& Su
 	: _Surface(Surface), _LogicalDevice(LogicalDevice), _NativeDepthImageHandle(VK_NULL_HANDLE), _NativeDepthImageMemoryHandle(VK_NULL_HANDLE),
 	_NativeDepthImageViewHandle(VK_NULL_HANDLE)
 {
-	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);
 	CreateResources();
 }
 Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::~DepthBufferVk()
 {
-	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::CreateDelegate<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);
 	DestroyResources();
 }
 
