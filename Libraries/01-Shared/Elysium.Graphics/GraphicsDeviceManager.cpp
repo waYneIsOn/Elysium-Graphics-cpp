@@ -11,12 +11,12 @@
 Elysium::Graphics::GraphicsDeviceManager::~GraphicsDeviceManager()
 { }
 
-Elysium::Graphics::Rendering::INativeGraphicsDevice& Elysium::Graphics::GraphicsDeviceManager::GetGraphicsDevice()
+Elysium::Graphics::Rendering::GraphicsDevice& Elysium::Graphics::GraphicsDeviceManager::GetGraphicsDevice()
 {
 	return _GraphicsDevice;
 }
 
-Elysium::Graphics::GraphicsDeviceManager::GraphicsDeviceManager(Game& Game, Rendering::INativeGraphicsDevice& GraphicsDevice)
+Elysium::Graphics::GraphicsDeviceManager::GraphicsDeviceManager(Game& Game, Rendering::GraphicsDevice& GraphicsDevice)
 	: _Game(Game), _GraphicsDevice(GraphicsDevice)
 { }
 

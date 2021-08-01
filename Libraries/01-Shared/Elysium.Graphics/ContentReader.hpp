@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
+#include "INativeGraphicsDevice.hpp"
+#endif
+
 namespace Elysium::Graphics::Content
 {
 	class ContentManager;
@@ -49,7 +53,7 @@ namespace Elysium::Graphics::Content
 	private:
 		ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::String& AssetName) noexcept;
 
-		const ContentManager& _Manager;
+		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
 		const Elysium::Core::String& _AssetName;
 		Elysium::Core::IO::BinaryReader& _InputReader;
 	};
@@ -57,9 +61,7 @@ namespace Elysium::Graphics::Content
 	template<class T>
 	inline T ContentReader::ReadAsset()
 	{
-		const char* bla = typeid(T).name();
-
-		throw 1;
+		return T(_GraphicsDevice, _InputReader);
 	}
 }
 #endif

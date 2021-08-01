@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
-Elysium::Graphics::Game::Game(Rendering::INativeGraphicsDevice& GraphicsDevice)
-	: _Control(GraphicsDevice.GetPresentationParameters().GetCanvas()), _GraphicsDeviceManager(*this, GraphicsDevice), _GameTime()
+Elysium::Graphics::Game::Game(Rendering::GraphicsDevice& GraphicsDevice)
+	: _GraphicsDevice(GraphicsDevice), _GraphicsDeviceManager(*this, _GraphicsDevice), _Control(_GraphicsDevice.GetPresentationParameters().GetCanvas()), _GameTime()
 {
 	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::Bind<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnActivationChanged>(*this);
 	//_Control.Suspend += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);

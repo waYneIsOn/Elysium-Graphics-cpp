@@ -8,10 +8,18 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/ContentManager.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_COMMANDBUFFER
+#include "../../../Libraries/01-Shared/Elysium.Graphics/CommandBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_COMMANDPOOL
+#include "../../../Libraries/01-Shared/Elysium.Graphics/CommandPool.hpp"
+#endif
+
 class MyGame final : public Elysium::Graphics::Game
 {
 public:
-	MyGame(Elysium::Graphics::Rendering::INativeGraphicsDevice& GraphicsDevice);
+	MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice);
 	MyGame(const MyGame& Source) = delete;
 	MyGame(MyGame&& Right) noexcept = delete;
 	virtual ~MyGame();
@@ -24,8 +32,8 @@ protected:
 	virtual void Update(const Elysium::Graphics::GameTime& GameTime) override;
 private:
 	Elysium::Graphics::Content::ContentManager _ContentManager;
-	Elysium::Graphics::Rendering::INativeCommandPool* _CommandPool;
-	Elysium::Graphics::Rendering::INativeCommandBuffer* _CommandBuffer;
+	Elysium::Graphics::Rendering::CommandPool _CommandPool;
+	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
 
 	void RecordClearCommandBuffer();
 

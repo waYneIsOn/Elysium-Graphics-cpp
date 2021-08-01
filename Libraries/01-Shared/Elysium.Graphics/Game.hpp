@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GraphicsDeviceManager.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_GRAPHICSDEVICE
+#include "GraphicsDevice.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
 #include "INativeGraphicsDevice.hpp"
 #endif
@@ -45,10 +49,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
 #include "../Elysium.Graphics/INativeLogicalDevice.hpp"
 #endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADER
+#include "../Elysium.Graphics/INativeShader.hpp"
+#endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
 #include "../Elysium.Graphics/INativeSwapchain.hpp"
 #endif
-
 
 
 
@@ -57,7 +63,7 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API Game
 	{
 	public:
-		Game(Rendering::INativeGraphicsDevice& GraphicsDevice);
+		Game(Rendering::GraphicsDevice& GraphicsDevice);
 		Game(const Game& Source) = delete;
 		Game(Game&& Right) noexcept = delete;
 		virtual ~Game();
@@ -82,8 +88,9 @@ namespace Elysium::Graphics
 		virtual void Update(const GameTime& GameTime) = 0;
 		virtual void EndUpdate();
 	protected:
-		Presentation::Control& _Control;
+		Rendering::GraphicsDevice& _GraphicsDevice;
 		GraphicsDeviceManager _GraphicsDeviceManager;
+		Presentation::Control& _Control;
 	private:
 		GameTime _GameTime;
 		/*

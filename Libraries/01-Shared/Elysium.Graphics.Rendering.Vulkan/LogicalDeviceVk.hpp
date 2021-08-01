@@ -45,6 +45,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class PhysicalDeviceVk;
 	class QueueVk;
 	class SemaphoreVk;
+	class ShaderVk;
 	class SwapchainVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public INativeLogicalDevice
@@ -56,6 +57,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;
 		friend class SemaphoreVk;
+		friend class ShaderVk;
 		friend class SwapchainVk;
 	public:
 		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);

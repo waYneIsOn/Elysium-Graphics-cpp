@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEEFFECT
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEEFFECT
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADER
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVESHADER
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,10 +19,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API INativeEffect
+	class ELYSIUM_GRAPHICS_API INativeShader
 	{
 	public:
-		virtual ~INativeEffect() { }
+		virtual ~INativeShader() { }
 	};
 }
 #endif

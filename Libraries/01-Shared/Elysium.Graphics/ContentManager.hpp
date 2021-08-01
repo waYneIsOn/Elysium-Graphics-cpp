@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
-#include "INativeGraphicsDevice.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_GRAPHICSDEVICE
+#include "GraphicsDevice.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_CONTENT_CONTENTREADER
@@ -41,7 +41,7 @@ namespace Elysium::Graphics::Content
 	class ELYSIUM_GRAPHICS_API ContentManager final
 	{
 	public:
-		ContentManager(const Elysium::Graphics::Rendering::INativeGraphicsDevice& GraphicsDevice, const Elysium::Core::String& RootDirectory) noexcept;
+		ContentManager(const Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice, const Elysium::Core::String& RootDirectory) noexcept;
 		ContentManager(const ContentManager& Source) noexcept = delete;
 		ContentManager(ContentManager&& Right) noexcept = delete;
 		~ContentManager() noexcept;
@@ -49,10 +49,12 @@ namespace Elysium::Graphics::Content
 		ContentManager& operator=(const ContentManager& Source) noexcept = delete;
 		ContentManager& operator=(ContentManager&& Right) noexcept = delete;
 
+		const Elysium::Graphics::Rendering::GraphicsDevice& GetGraphicsDevice() const;
+
 		template <class T>
 		const T Load(const Elysium::Core::String& AssetName);
 	private:
-		const Elysium::Graphics::Rendering::INativeGraphicsDevice& _GraphicsDevice;
+		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
 		const Elysium::Core::String _RootDirectory;
 		//Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, void*> _LoadedAssets;
 

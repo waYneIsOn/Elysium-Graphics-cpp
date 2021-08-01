@@ -25,6 +25,8 @@ Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentRea
     // +--------+----------------------+--------------------------------
     // | UInt16 | Format version       | ...
     // +--------+----------------------+--------------------------------
+    // | UInt32 | Content length       | ...
+    // +--------+----------------------+--------------------------------
     // | ...    | ...                  | ...
     // +--------+----------------------+--------------------------------
 	Elysium::Core::IO::BinaryReader Reader = Elysium::Core::IO::BinaryReader(Input, Elysium::Core::Text::Encoding::UTF8(), false);
@@ -37,8 +39,8 @@ Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentRea
 		throw ContentLoadException(u8"Unknown file format.");
 	}
 
-    const Elysium::Core::uint16_t Version = Reader.ReadUInt16();
-    switch (Version)
+    const Elysium::Core::uint16_t FormatVersion = Reader.ReadUInt16();
+    switch (FormatVersion)
     {
     case 1:
         break;
@@ -46,9 +48,11 @@ Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentRea
         throw ContentLoadException(u8"Unknown file version.");
     }
 
+    const Elysium::Core::uint32_t ContentLength = Reader.ReadUInt32();
+
     return ContentReader(Manager, Reader, AssetName);
 }
 
 Elysium::Graphics::Content::ContentReader::ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::String& AssetName) noexcept
-    : _Manager(Manager), _AssetName(AssetName), _InputReader(InputReader)
+    : _GraphicsDevice(Manager.GetGraphicsDevice()), _AssetName(AssetName), _InputReader(InputReader)
 { }

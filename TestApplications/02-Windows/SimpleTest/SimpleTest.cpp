@@ -21,6 +21,8 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/SemaphoreVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/SwapchainVk.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Graphics/GraphicsDevice.hpp"
+
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Graphics;
@@ -102,10 +104,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
 
     // ...
-    GraphicsDeviceVk GraphicsDevice = GraphicsDeviceVk(GraphicsAPI, PresentationParameters);
+    GraphicsDeviceVk GraphicsDeviceVulkan = GraphicsDeviceVk(GraphicsAPI, PresentationParameters);
+    GraphicsDevice WrappedGraphicsDevice = GraphicsDevice(GraphicsDeviceVulkan);
 
     // create and run the game
-    MyGame Game = MyGame(GraphicsDevice);
+    MyGame Game = MyGame(WrappedGraphicsDevice);
     Game.Run();
 
     /*
