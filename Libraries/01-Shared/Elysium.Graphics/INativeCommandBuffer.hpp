@@ -24,8 +24,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Color.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#include "INativeFrameBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#include "INativeRenderPass.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
+	class INativeRenderPass;
+
 	class ELYSIUM_GRAPHICS_API INativeCommandBuffer
 	{
 	public:
@@ -35,8 +45,13 @@ namespace Elysium::Graphics::Rendering
 		virtual void End() = 0;
 		virtual void Reset() = 0;
 
+		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) = 0;
+		virtual void EndRenderPass() = 0;
+
 		virtual void ClearBackBufferImage(const Color ClearColor) = 0;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
+
+		//virtual void SetVertexShader() = 0;
 	};
 }
 #endif

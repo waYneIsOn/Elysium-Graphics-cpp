@@ -35,7 +35,7 @@ private:
 	Elysium::Graphics::Rendering::CommandPool _CommandPool;
 	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
 
-	void RecordClearCommandBuffer();
+	void RecordCommandBuffer();
 
 	void Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 

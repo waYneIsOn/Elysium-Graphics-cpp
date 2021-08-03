@@ -4,8 +4,20 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FRAMEBUFFERVK
+#include "FramebufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
 #include "GraphicsDeviceVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_RENDERPASSVK
+#include "RenderPassVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINVK
+#include "SwapchainVk.hpp"
 #endif
 
 #ifndef _TYPE_TRAITS_
@@ -60,6 +72,34 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Reset()
 		{
 			throw ExceptionVk(Result);
 		}
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer)
+{
+	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
+	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
+	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
+	const FramebufferVk& VkFramebuffer = static_cast<const FramebufferVk&>(FrameBuffer);
+
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		VkRenderPassBeginInfo renderPassInfo = VkRenderPassBeginInfo();
+		renderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.framebuffer = VkFramebuffer._NativeSwapchainFramebufferHandles[i];
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = Extent;
+		renderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
+
+		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &renderPassInfo, VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE);
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
+{
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdEndRenderPass(_NativeCommandBufferHandles[i]);
 	}
 }
 

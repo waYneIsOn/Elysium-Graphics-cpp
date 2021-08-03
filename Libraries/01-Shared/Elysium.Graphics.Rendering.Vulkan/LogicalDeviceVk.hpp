@@ -42,8 +42,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class CommandPoolVk;
 	class DepthBufferVk;
 	class FenceVk;
+	class FramebufferVk;
 	class PhysicalDeviceVk;
 	class QueueVk;
+	class RenderPassVk;
 	class SemaphoreVk;
 	class ShaderVk;
 	class SwapchainVk;
@@ -54,8 +56,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class CommandPoolVk;
 		friend class DepthBufferVk;
 		friend class FenceVk;
+		friend class FramebufferVk;
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;
+		friend class RenderPassVk;
 		friend class SemaphoreVk;
 		friend class ShaderVk;
 		friend class SwapchainVk;

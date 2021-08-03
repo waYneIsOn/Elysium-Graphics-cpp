@@ -53,6 +53,8 @@ namespace Elysium::Graphics::Content
 
 		template <class T>
 		const T Load(const Elysium::Core::String& AssetName);
+
+		void Unload();
 	private:
 		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
 		const Elysium::Core::String _RootDirectory;

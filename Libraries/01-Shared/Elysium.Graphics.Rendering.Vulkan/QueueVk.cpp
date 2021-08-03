@@ -51,9 +51,9 @@ Elysium::Graphics::Rendering::INativeCommandPool* Elysium::Graphics::Rendering::
 void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence)
 {
 	const CommandBufferVk& VkCommandBuffer = static_cast<const CommandBufferVk&>(CommmandBuffer);
-	const SemaphoreVk& VkPresentSemaphore = dynamic_cast<const SemaphoreVk&>(PresentSemaphore);
-	const SemaphoreVk& VkRenderSemaphore = dynamic_cast<const SemaphoreVk&>(RenderSemaphore);
-	const FenceVk& VkFence = dynamic_cast<const FenceVk&>(Fence);
+	const SemaphoreVk& VkPresentSemaphore = static_cast<const SemaphoreVk&>(PresentSemaphore);
+	const SemaphoreVk& VkRenderSemaphore = static_cast<const SemaphoreVk&>(RenderSemaphore);
+	const FenceVk& VkFence = static_cast<const FenceVk&>(Fence);
 
 	VkPipelineStageFlags WaitStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 

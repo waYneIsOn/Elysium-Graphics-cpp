@@ -35,10 +35,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
+	class FramebufferVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final : public INativeSwapchain
 	{
 		friend class CommandBufferVk;
+		friend class FramebufferVk;
 	public:
 		SwapchainVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice);
 		SwapchainVk(const SwapchainVk& Source) = delete;

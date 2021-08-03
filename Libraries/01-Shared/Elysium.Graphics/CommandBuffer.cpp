@@ -24,6 +24,17 @@ void Elysium::Graphics::Rendering::CommandBuffer::Reset()
 	_NativeCommandBuffer->Reset();
 }
 
+void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass()
+{
+	throw 1;
+	//_NativeCommandBuffer->BeginRenderPass()
+}
+
+void Elysium::Graphics::Rendering::CommandBuffer::EndRenderPass()
+{
+	_NativeCommandBuffer->EndRenderPass();
+}
+
 void Elysium::Graphics::Rendering::CommandBuffer::ClearBackBufferImage(const Color ClearColor)
 {
 	_NativeCommandBuffer->ClearBackBufferImage(ClearColor);

@@ -34,11 +34,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRectangle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthbuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFactory.hpp" />
@@ -54,8 +57,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Viewport.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
@@ -74,6 +79,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Viewport.cpp" />
   </ItemGroup>
 </Project>

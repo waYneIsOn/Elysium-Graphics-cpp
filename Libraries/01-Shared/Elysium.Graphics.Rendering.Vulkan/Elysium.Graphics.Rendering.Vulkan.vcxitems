@@ -22,6 +22,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandPoolVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FramebufferVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RenderPassVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.hpp" />
@@ -48,6 +51,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ViewportVk.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BufferVk.cpp" />
@@ -55,6 +59,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandPoolVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DepthBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FramebufferVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RenderPassVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.cpp" />
@@ -76,6 +83,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ViewportVk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - ToDos.txt" />

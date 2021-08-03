@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "FenceVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FRAMEBUFFERVK
+#include "FramebufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSINSTANCEVK
 #include "GraphicsInstanceVk.hpp"
 #endif
@@ -63,10 +67,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
+	class RenderPassVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public INativeGraphicsDevice
 	{
 		friend class CommandBufferVk;
+		friend class RenderPassVk;
 	public:
 		GraphicsDeviceVk(GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
@@ -98,6 +104,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		QueueVk _GraphicsQueue;
 		QueueVk _PresentationQueue;
 		SwapchainVk _Swapchain;
+		RenderPassVk _DefaultRenderPass;
+		FramebufferVk _FrameBuffer;
 		DepthBufferVk _DepthBuffer;
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;

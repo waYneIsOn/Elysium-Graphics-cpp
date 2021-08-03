@@ -6,8 +6,8 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(Graphic
 	_LogicalDevice(static_cast<const PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice()), PresentationParameters),
 	_GraphicsQueue(*this, _LogicalDevice, PresentationParameters.GetGraphicsQueueFamilyIndex(), 0),
 	_PresentationQueue(*this, _LogicalDevice, PresentationParameters.GetPresentationQueueFamilyIndex(), 0),
-	_Swapchain(_Surface, _LogicalDevice), _DepthBuffer(_Surface, _LogicalDevice),
-	_RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
+	_Swapchain(_Surface, _LogicalDevice), _DefaultRenderPass(_LogicalDevice), _FrameBuffer(_LogicalDevice, _Swapchain, _DefaultRenderPass),
+	_DepthBuffer(_Surface, _LogicalDevice), _RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 { }

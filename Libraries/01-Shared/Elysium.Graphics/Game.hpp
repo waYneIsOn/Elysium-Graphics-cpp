@@ -44,17 +44,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEDEPTHBUFFER
-#include "../Elysium.Graphics/INativeDepthBuffer.hpp"
+#include "INativeDepthBuffer.hpp"
+#endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#include "INativeFramebuffer.hpp"
 #endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
-#include "../Elysium.Graphics/INativeLogicalDevice.hpp"
+#include "INativeLogicalDevice.hpp"
+#endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERECTANGLE
+#include "INativeRectangle.hpp"
+#endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#include "INativeRenderPass.hpp"
 #endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADER
-#include "../Elysium.Graphics/INativeShader.hpp"
+#include "INativeShader.hpp"
 #endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
-#include "../Elysium.Graphics/INativeSwapchain.hpp"
+#include "INativeSwapchain.hpp"
 #endif
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEVIEWPORT
+#include "INativeViewport.hpp"
+#endif
+
+
 
 
 
