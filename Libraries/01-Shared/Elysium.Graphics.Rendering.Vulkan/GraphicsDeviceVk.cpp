@@ -27,6 +27,16 @@ const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics:
 	return (Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk&)_PresentationParameters.GetGraphicsDevice();
 }
 
+const Elysium::Graphics::Rendering::Vulkan::RenderPassVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetDefaultRenderPass() const
+{
+	return _DefaultRenderPass;
+}
+
+const Elysium::Graphics::Rendering::Vulkan::FramebufferVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetFramebuffer() const
+{
+	return _FrameBuffer;
+}
+
 const Elysium::Graphics::Rendering::Vulkan::FenceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetRenderFence() const
 {
 	return _RenderFence;

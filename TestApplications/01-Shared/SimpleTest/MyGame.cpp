@@ -48,9 +48,9 @@ void MyGame::RecordCommandBuffer()
 {
 	_CommandBuffer.Reset();
 	_CommandBuffer.Begin();
-	//_CommandBuffer.BeginRenderPass(...)
-	_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
-	_CommandBuffer.ClearDepthImage(0.0f, 0);
-	//_CommandBuffer.EndRenderPass();
+	_CommandBuffer.BeginRenderPass(_GraphicsDevice.GetDefaultRenderPass(), _GraphicsDevice.GetFramebuffer());
+	//_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
+	//_CommandBuffer.ClearDepthImage(0.0f, 0);
+	_CommandBuffer.EndRenderPass();
 	_CommandBuffer.End();
 }

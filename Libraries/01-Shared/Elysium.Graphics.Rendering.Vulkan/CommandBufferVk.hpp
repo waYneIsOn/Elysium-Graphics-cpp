@@ -55,7 +55,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) override;
 		virtual void EndRenderPass() override;
 
-		virtual void ClearBackBufferImage(const Color ClearColor) override;
+		virtual void ClearBackBufferImage(const Color& ClearColor) override;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;

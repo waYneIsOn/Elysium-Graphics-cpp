@@ -16,13 +16,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_FRAMEBUFFER
+#include "Framebuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
 #include "INativeCommandBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_RENDERPASS
+#include "RenderPass.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
 {
 	class CommandPool;
+	class GraphicsDevice;
 	class Queue;
 
 	class ELYSIUM_GRAPHICS_API CommandBuffer final
@@ -41,7 +50,7 @@ namespace Elysium::Graphics::Rendering
 		void End();
 		void Reset();
 
-		void BeginRenderPass();// (const RenderPass& RenderPass);
+		void BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer);
 		void EndRenderPass();
 
 		void ClearBackBufferImage(const Color ClearColor);

@@ -20,8 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Fence.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_FRAMEBUFFER
+#include "Framebuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_QUEUE
 #include "Queue.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_RENDERPASS
+#include "RenderPass.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SEMAPHORE
@@ -39,6 +47,7 @@ namespace Elysium::Graphics::Rendering
 
 	class ELYSIUM_GRAPHICS_API GraphicsDevice final
 	{
+		friend class CommandBuffer;
 	public:
 		GraphicsDevice(INativeGraphicsDevice& NativeGraphicsDevice);
 		GraphicsDevice(const GraphicsDevice& Source) = delete;
@@ -49,6 +58,9 @@ namespace Elysium::Graphics::Rendering
 		GraphicsDevice& operator=(GraphicsDevice&& Right) noexcept = delete;
 
 		PresentationParameters& GetPresentationParameters();
+
+		const RenderPass& GetDefaultRenderPass() const;
+		const Framebuffer& GetFramebuffer() const;
 
 		const Fence& GetRenderFence() const;
 		const Semaphore& GetPresentationSemaphore() const;
@@ -62,6 +74,8 @@ namespace Elysium::Graphics::Rendering
 	private:
 		INativeGraphicsDevice& _NativeGraphicsDevice;
 
+		RenderPass _DefaultRenderPass;
+		Framebuffer _FrameBuffer;
 		Fence _RenderFence;
 		Semaphore _PresentationSemaphore;
 		Semaphore _RenderSemaphore;

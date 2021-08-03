@@ -48,7 +48,7 @@ namespace Elysium::Graphics::Rendering
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) = 0;
 		virtual void EndRenderPass() = 0;
 
-		virtual void ClearBackBufferImage(const Color ClearColor) = 0;
+		virtual void ClearBackBufferImage(const Color& ClearColor) = 0;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
 
 		//virtual void SetVertexShader() = 0;

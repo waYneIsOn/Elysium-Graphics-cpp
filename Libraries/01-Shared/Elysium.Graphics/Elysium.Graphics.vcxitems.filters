@@ -130,7 +130,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFramebuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Framebuffer.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
@@ -176,6 +182,12 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Viewport.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>

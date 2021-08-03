@@ -86,6 +86,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual PresentationParametersVk& GetPresentationParameters() override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
+		virtual const RenderPassVk& GetDefaultRenderPass() const override;
+		virtual const FramebufferVk& GetFramebuffer() const override;
+
 		virtual const FenceVk& GetRenderFence() const override;
 		virtual const SemaphoreVk& GetPresentationSemaphore() const override;
 		virtual const SemaphoreVk& GetRenderSemaphore() const override;

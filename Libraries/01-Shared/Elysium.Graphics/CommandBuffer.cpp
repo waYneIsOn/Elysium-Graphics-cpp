@@ -24,10 +24,9 @@ void Elysium::Graphics::Rendering::CommandBuffer::Reset()
 	_NativeCommandBuffer->Reset();
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass()
+void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer)
 {
-	throw 1;
-	//_NativeCommandBuffer->BeginRenderPass()
+	_NativeCommandBuffer->BeginRenderPass(RenderPass._NativeRenderPass, Framebuffer._NativeFramebuffer);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::EndRenderPass()

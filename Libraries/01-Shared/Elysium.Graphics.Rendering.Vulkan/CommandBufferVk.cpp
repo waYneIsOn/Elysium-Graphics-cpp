@@ -82,16 +82,23 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(cons
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 	const FramebufferVk& VkFramebuffer = static_cast<const FramebufferVk&>(FrameBuffer);
 
+	VkClearValue ClearValue = VkClearValue();
+	ClearValue.color = { 0.0f, 0.0f, 0.0f, 1.0f };
+	ClearValue.depthStencil.depth = 0.0f;
+	ClearValue.depthStencil.stencil = 0;
+
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
-		VkRenderPassBeginInfo renderPassInfo = VkRenderPassBeginInfo();
-		renderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		renderPassInfo.framebuffer = VkFramebuffer._NativeSwapchainFramebufferHandles[i];
-		renderPassInfo.renderArea.offset = { 0, 0 };
-		renderPassInfo.renderArea.extent = Extent;
-		renderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
+		VkRenderPassBeginInfo RenderPassInfo = VkRenderPassBeginInfo();
+		RenderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		RenderPassInfo.framebuffer = VkFramebuffer._NativeSwapchainFramebufferHandles[i];
+		RenderPassInfo.renderArea.offset = { 0, 0 };
+		RenderPassInfo.renderArea.extent = Extent;
+		RenderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
+		RenderPassInfo.clearValueCount = 1;
+		RenderPassInfo.pClearValues = &ClearValue;
 
-		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &renderPassInfo, VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &RenderPassInfo, VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE);
 	}
 }
 
@@ -103,7 +110,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color ClearColor)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color& ClearColor)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
 	ImageSubresourceRange.baseArrayLayer = 0;

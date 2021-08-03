@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeFence.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#include "INativeFramebuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
 #include "INativeGraphicsAPI.hpp"
 #endif
@@ -34,6 +38,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
 #include "INativeQueue.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#include "INativeRenderPass.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
@@ -50,6 +58,9 @@ namespace Elysium::Graphics::Rendering
 		virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
 		virtual PresentationParameters& GetPresentationParameters() = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
+
+		virtual const INativeRenderPass& GetDefaultRenderPass() const = 0;
+		virtual const INativeFramebuffer& GetFramebuffer() const = 0;
 
 		virtual const INativeFence& GetRenderFence() const = 0;
 		virtual const INativeSemaphore& GetPresentationSemaphore() const = 0;
