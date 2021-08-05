@@ -10,10 +10,21 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{5cdd103e-4e52-4c6b-8fd7-bd732ee52992}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Vulkan">
+      <UniqueIdentifier>{bc8c4f00-de3d-4786-a7c0-7ad7a17a9851}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)Assets\SomeShader.spv">
       <Filter>Assets</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FragmentShader.spv">
+      <Filter>Assets\Vulkan</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.spv">
+      <Filter>Assets\Vulkan</Filter>
+    </None>
   </ItemGroup>
 </Project>

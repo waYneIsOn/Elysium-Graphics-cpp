@@ -107,7 +107,10 @@
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
-copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.spv" "$(TargetDir)Assets\Vulkan\VertexShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.spv" "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +133,10 @@ copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv"
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
-copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.spv" "$(TargetDir)Assets\Vulkan\VertexShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.spv" "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -150,7 +156,10 @@ copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv"
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
-copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.spv" "$(TargetDir)Assets\Vulkan\VertexShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.spv" "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,7 +183,10 @@ copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv"
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
-copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"</Command>
+if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv" "$(TargetDir)Assets\SomeShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.spv" "$(TargetDir)Assets\Vulkan\VertexShader.spv"
+copy "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.spv" "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

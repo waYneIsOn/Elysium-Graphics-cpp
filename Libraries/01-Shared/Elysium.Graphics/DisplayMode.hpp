@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_API
-#include "API.hpp"
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Graphics

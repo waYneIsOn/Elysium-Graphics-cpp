@@ -28,7 +28,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Effect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Framebuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
@@ -38,7 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFramebuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
@@ -55,12 +54,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModule.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Viewport.hpp" />
   </ItemGroup>
@@ -73,18 +78,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Effect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fence.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InputFrame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyboardState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Viewport.cpp" />
   </ItemGroup>
 </Project>

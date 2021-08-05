@@ -1,13 +1,13 @@
-#include "ShaderVk.hpp"
+#include "ShaderModuleVk.hpp"
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXCEPTIONVK
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::ShaderVk::ShaderVk(const LogicalDeviceVk& LogicalDevice)
-	: _LogicalDevice(LogicalDevice), _NativeShaderModule(CreateShaderModule())
+Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::ShaderModuleVk(const LogicalDeviceVk& LogicalDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
+	: _LogicalDevice(LogicalDevice), _NativeShaderModule(CreateShaderModule(&Data[0], Data.GetLength()))
 { }
-Elysium::Graphics::Rendering::Vulkan::ShaderVk::~ShaderVk()
+Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::~ShaderModuleVk()
 {
 	if (_NativeShaderModule != VK_NULL_HANDLE)
 	{
@@ -16,12 +16,12 @@ Elysium::Graphics::Rendering::Vulkan::ShaderVk::~ShaderVk()
 	}
 }
 
-VkShaderModule Elysium::Graphics::Rendering::Vulkan::ShaderVk::CreateShaderModule()
+VkShaderModule Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::CreateShaderModule(const Elysium::Core::byte* Data, const size_t Length)
 {
 	VkShaderModuleCreateInfo CreateInfo = VkShaderModuleCreateInfo();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	//CreateInfo.codeSize = code.size();
-	//CreateInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
+	CreateInfo.codeSize = Length;
+	CreateInfo.pCode = reinterpret_cast<const Elysium::Core::uint32_t*>(Data);
 
 	VkResult Result;
 	VkShaderModule NativeShaderModule;

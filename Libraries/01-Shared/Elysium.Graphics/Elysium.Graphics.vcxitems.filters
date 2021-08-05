@@ -88,7 +88,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentManager.hpp">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShader.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentReader.hpp">
@@ -107,9 +107,6 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandBuffer.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Effect.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRectangle.hpp">
@@ -138,6 +135,24 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Framebuffer.hpp">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleType.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModule.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,9 +184,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandBuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Effect.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -189,6 +201,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InputFrame.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyboardState.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

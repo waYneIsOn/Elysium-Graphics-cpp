@@ -44,10 +44,12 @@ namespace Elysium::Graphics
 namespace Elysium::Graphics::Rendering
 {
 	class INativeGraphicsDevice;
+	class ShaderModule;
 
 	class ELYSIUM_GRAPHICS_API GraphicsDevice final
 	{
 		friend class CommandBuffer;
+		friend class ShaderModule;
 	public:
 		GraphicsDevice(INativeGraphicsDevice& NativeGraphicsDevice);
 		GraphicsDevice(const GraphicsDevice& Source) = delete;

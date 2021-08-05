@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_DISPLAYORIENTATION
-#define ELYSIUM_GRAPHICS_DISPLAYORIENTATION
+#ifndef ELYSIUM_GRAPHICS_INPUT_KEY
+#define ELYSIUM_GRAPHICS_INPUT_KEY
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,27 +20,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/System.hpp"
 #endif
 
-namespace Elysium::Graphics
+namespace Elysium::Graphics::Input
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class DisplayOrientation : Elysium::Core::uint32_t
+	enum class Key : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class DisplayOrientation
+	enum class Key
 #else
 #error "undefined os"
 #endif
 	{
-		// ...
-		Default = 0,
-
-		// ...
-		LandscapeLeft = 1,
-
-		// ...
-		LandscapeRight = 2,
-
-		// ...
-		Portrait = 3
+		Escape = 27,
 	};
 }
 #endif

@@ -1,6 +1,6 @@
 #include "GraphicsDeviceVk.hpp"
 
-Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters)
+Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters)
 	: _GraphicsInstance(GraphicsInstance), _PresentationParameters(PresentationParameters),
 	_Surface(_GraphicsInstance, PresentationParameters), 
 	_LogicalDevice(static_cast<const PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice()), PresentationParameters),

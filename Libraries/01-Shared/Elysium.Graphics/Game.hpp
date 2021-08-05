@@ -58,8 +58,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADER
-#include "INativeShader.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#include "INativeShaderModule.hpp"
 #endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
 #include "INativeSwapchain.hpp"

@@ -27,7 +27,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDe
 	ColorAttachment.stencilStoreOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	ColorAttachment.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
 	ColorAttachment.finalLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-
+	
 	VkAttachmentReference ColorAttachmentReference = VkAttachmentReference();
 	ColorAttachmentReference.attachment = 0;
 	ColorAttachmentReference.layout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -37,15 +37,13 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDe
 	Subpass.pipelineBindPoint = VkPipelineBindPoint::VK_PIPELINE_BIND_POINT_GRAPHICS;
 	Subpass.colorAttachmentCount = 1;
 	Subpass.pColorAttachments = &ColorAttachmentReference;
-	// >>>>>
 	Subpass.inputAttachmentCount = 0;
 	Subpass.pInputAttachments = nullptr;
 	Subpass.preserveAttachmentCount = 0;
 	Subpass.pPreserveAttachments = nullptr;
 	Subpass.pDepthStencilAttachment = nullptr;
 	Subpass.pResolveAttachments = nullptr;
-	// <<<<<
-
+	
 	VkRenderPassCreateInfo CreateInfo = VkRenderPassCreateInfo();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	CreateInfo.pNext = nullptr;

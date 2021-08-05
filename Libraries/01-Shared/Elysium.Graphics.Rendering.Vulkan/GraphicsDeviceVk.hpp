@@ -74,7 +74,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class CommandBufferVk;
 		friend class RenderPassVk;
 	public:
-		GraphicsDeviceVk(GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
+		GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
 		GraphicsDeviceVk(GraphicsDeviceVk&& Right) noexcept = delete;
 		~GraphicsDeviceVk();
@@ -99,7 +99,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const bool BeginDraw() override;
 		virtual void EndDraw() override;
 	private:
-		GraphicsInstanceVk& _GraphicsInstance;
+		const GraphicsInstanceVk& _GraphicsInstance;
 		PresentationParametersVk& _PresentationParameters;
 
 		SurfaceVk _Surface;

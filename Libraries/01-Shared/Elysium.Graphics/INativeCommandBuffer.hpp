@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeRenderPass.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#include "INativeShaderModule.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class INativeRenderPass;
@@ -48,10 +52,10 @@ namespace Elysium::Graphics::Rendering
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) = 0;
 		virtual void EndRenderPass() = 0;
 
+		//virtual void SetShaderModule(const INativeShaderModule& ShaderModule) = 0;
+
 		virtual void ClearBackBufferImage(const Color& ClearColor) = 0;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
-
-		//virtual void SetVertexShader() = 0;
 	};
 }
 #endif

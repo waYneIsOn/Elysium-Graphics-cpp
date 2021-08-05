@@ -16,6 +16,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/CommandPool.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SHADERMODULE
+#include "../../../Libraries/01-Shared/Elysium.Graphics/ShaderModule.hpp"
+#endif
+
 class MyGame final : public Elysium::Graphics::Game
 {
 public:
@@ -31,12 +35,21 @@ protected:
 	virtual void Draw(const Elysium::Graphics::GameTime& GameTime) override;
 	virtual void Update(const Elysium::Graphics::GameTime& GameTime) override;
 private:
-	Elysium::Graphics::Content::ContentManager _ContentManager;
+	Elysium::Graphics::Rendering::Queue& _GraphicsQueue;
+	const Elysium::Graphics::Rendering::Semaphore& _PresentationSemaphore;
+	const Elysium::Graphics::Rendering::Semaphore& _RenderSemaphore;
+	const Elysium::Graphics::Rendering::Fence& _RenderFence;
+
+	//Elysium::Graphics::Content::ContentManager _ContentManager;
 	Elysium::Graphics::Rendering::CommandPool _CommandPool;
 	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
+
+	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
+	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
+
+	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
 
 	void RecordCommandBuffer();
 
 	void Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
-
 };

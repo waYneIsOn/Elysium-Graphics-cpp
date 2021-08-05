@@ -25,7 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FramebufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RectangleVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPassVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Extent2DVk.hpp" />
@@ -62,7 +62,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FramebufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RectangleVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPassVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShaderVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModuleVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExtensionPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Extent2DVk.cpp" />
