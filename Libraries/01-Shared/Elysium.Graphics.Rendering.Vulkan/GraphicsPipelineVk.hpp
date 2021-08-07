@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
+#include "SurfaceVk.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsPipelineVk final : public INativeGraphicsPipeline
@@ -50,6 +54,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Build(const INativeRenderPass& RenderPass) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
+		SurfaceVk& _Surface;
 		const VkPipelineLayout _NativePipelineLayoutHandle;
 		
 		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
@@ -73,6 +78,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkPipelineMultisampleStateCreateInfo CreateDefaultMultisampleStateCreateInfo();
 		VkPipelineColorBlendAttachmentState CreateDefaultColorBlendAttachment();
 		VkPipelineColorBlendStateCreateInfo CreateDefaultColorBlendStateCreateInfo();
+
+		void Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender);
 	};
 }
 #endif

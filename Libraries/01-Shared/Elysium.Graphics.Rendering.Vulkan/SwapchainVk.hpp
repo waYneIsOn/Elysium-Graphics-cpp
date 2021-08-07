@@ -30,9 +30,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
-	class FramebufferVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final
 	{
 		friend class CommandBufferVk;
@@ -61,7 +58,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
 
 		void RecreateSwapchain(VkSwapchainKHR PreviousNativeSwapchainHandle);
-
+		
 		void Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender);
 	};
 }

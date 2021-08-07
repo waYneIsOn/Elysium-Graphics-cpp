@@ -9,15 +9,18 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::GraphicsPipelineVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
+	: _GraphicsDevice(GraphicsDevice), _Surface((SurfaceVk&)GraphicsDevice._Surface), _NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
 	_VertexInputState(CreateDefaultVertexInputStateCreateInfo()), _InputAssembly(CreateDefaultInputAssemblyStateCreateInfo()),
 	_Viewport(CreateDefaultViewport()), _ScissorRectangle(CreateDefaultScissorRectangle()),
 	_Rasterizer(CreateDefaultRasterizationStateCreateInfo()), _Multisampling(CreateDefaultMultisampleStateCreateInfo()),
 	_ColorBlendAttachment(CreateDefaultColorBlendAttachment()), _ColorBlend(CreateDefaultColorBlendStateCreateInfo()),
 	_NativePipelineHandle(VK_NULL_HANDLE)
-{ }
+{
+	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged>(*this);
+}
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::~GraphicsPipelineVk()
 {
+	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged>(*this);
 	if (_NativePipelineHandle != VK_NULL_HANDLE)
 	{
 		vkDestroyPipeline(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativePipelineHandle, nullptr);
@@ -221,4 +224,10 @@ VkPipelineColorBlendStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Graphi
 	//CreateInfo.blendConstants = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	return CreateInfo;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
+{
+	_Viewport = CreateDefaultViewport();
+	_ScissorRectangle = CreateDefaultScissorRectangle();
 }
