@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEDEPTHBUFFER
-#include "../Elysium.Graphics/INativeDepthBuffer.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -24,28 +20,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
+	class LogicalDeviceVk;
+	class SurfaceVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API DepthBufferVk final : public INativeDepthBuffer
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API DepthBufferVk final
 	{
 		friend class CommandBufferVk;
 	public:
-		DepthBufferVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice);
+		DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface);
 		DepthBufferVk(const DepthBufferVk& Source) = delete;
 		DepthBufferVk(DepthBufferVk&& Right) noexcept = delete;
-		virtual ~DepthBufferVk();
+		~DepthBufferVk();
 
 		DepthBufferVk& operator=(const DepthBufferVk& Source) = delete;
 		DepthBufferVk& operator=(DepthBufferVk&& Right) noexcept = delete;
 	private:
-		SurfaceVk& _Surface;
 		const LogicalDeviceVk& _LogicalDevice;
+		SurfaceVk& _Surface;
 
 		VkImage _NativeDepthImageHandle;
 		VkDeviceMemory _NativeDepthImageMemoryHandle;

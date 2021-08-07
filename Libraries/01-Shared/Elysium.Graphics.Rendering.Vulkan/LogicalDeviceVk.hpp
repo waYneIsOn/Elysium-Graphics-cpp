@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVELOGICALDEVICE
-#include "../Elysium.Graphics/INativeLogicalDevice.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -30,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
+#include "PhysicalDeviceVk.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PRESENTATIONPARAMETERSVK
@@ -43,20 +43,20 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class DepthBufferVk;
 	class FenceVk;
 	class FramebufferVk;
-	class PhysicalDeviceVk;
 	class QueueVk;
 	class RenderPassVk;
 	class SemaphoreVk;
 	class ShaderModuleVk;
 	class SwapchainVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final : public INativeLogicalDevice
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final
 	{
 		friend class CommandBufferVk;
 		friend class CommandPoolVk;
 		friend class DepthBufferVk;
 		friend class FenceVk;
 		friend class FramebufferVk;
+		friend class GraphicsPipelineVk;
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;
 		friend class RenderPassVk;
@@ -67,20 +67,17 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
 		LogicalDeviceVk(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk(LogicalDeviceVk&& Right) noexcept = delete;
-		virtual ~LogicalDeviceVk();
+		~LogicalDeviceVk();
 
 		LogicalDeviceVk& operator=(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk& operator=(LogicalDeviceVk&& Right) noexcept = delete;
 
-		virtual const INativePhysicalDevice& GetPhysicalDevice() const override;
+		PresentationParametersVk& GetPresentationParameters() const;
 
-		virtual PresentationParametersVk& GetPresentationParameters() const override;
-
-		virtual void Wait() const override;
+		void Wait() const;
 	private:
 		const PhysicalDeviceVk& _PhysicalDevice;
 		PresentationParametersVk& _PresentationParameters;
-
 		VkDevice _NativeLogicalDeviceHandle;
 	};
 }

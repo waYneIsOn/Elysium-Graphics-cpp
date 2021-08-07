@@ -4,14 +4,14 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::ShaderModuleVk(const LogicalDeviceVk& LogicalDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
-	: _LogicalDevice(LogicalDevice), _NativeShaderModule(CreateShaderModule(&Data[0], Data.GetLength()))
+Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
+	: _GraphicsDevice(GraphicsDevice), _NativeShaderModule(CreateShaderModule(&Data[0], Data.GetLength()))
 { }
 Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::~ShaderModuleVk()
 {
 	if (_NativeShaderModule != VK_NULL_HANDLE)
 	{
-		vkDestroyShaderModule(_LogicalDevice._NativeLogicalDeviceHandle, _NativeShaderModule, nullptr);
+		vkDestroyShaderModule(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeShaderModule, nullptr);
 		_NativeShaderModule = VK_NULL_HANDLE;
 	}
 }
@@ -25,7 +25,7 @@ VkShaderModule Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::CreateShade
 
 	VkResult Result;
 	VkShaderModule NativeShaderModule;
-	if ((Result = vkCreateShaderModule(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeShaderModule)) != VK_SUCCESS)
+	if ((Result = vkCreateShaderModule(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeShaderModule)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}

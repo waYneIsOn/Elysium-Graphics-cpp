@@ -8,12 +8,20 @@
 #include "FormatConverterVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
+#include "LogicalDeviceVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
 #include "PhysicalDeviceVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DepthBufferVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice)
-	: _Surface(Surface), _LogicalDevice(LogicalDevice), _NativeDepthImageHandle(VK_NULL_HANDLE), _NativeDepthImageMemoryHandle(VK_NULL_HANDLE),
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
+#include "SurfaceVk.hpp"
+#endif
+
+Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface)
+	: _LogicalDevice(LogicalDevice), _Surface(Surface), _NativeDepthImageHandle(VK_NULL_HANDLE), _NativeDepthImageMemoryHandle(VK_NULL_HANDLE),
 	_NativeDepthImageViewHandle(VK_NULL_HANDLE)
 {
 	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);

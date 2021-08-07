@@ -48,7 +48,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 	public:
-		CommandPoolVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk & LogicalDevice, const QueueVk& Queue);
+		CommandPoolVk(const GraphicsDeviceVk& GraphicsDevice, const QueueVk& Queue);
 		CommandPoolVk(const CommandPoolVk& Source) = delete;
 		CommandPoolVk(CommandPoolVk&& Right) noexcept = delete;
 		virtual ~CommandPoolVk();
@@ -61,7 +61,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Reset() override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
-		const LogicalDeviceVk& _LogicalDevice;
 		const QueueVk& _Queue;
 		const VkCommandPool _NativeCommandPoolHandle;
 

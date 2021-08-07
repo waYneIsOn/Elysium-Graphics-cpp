@@ -67,23 +67,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
+	class CommandPoolVk;
+	class QueueVk;
 	class RenderPassVk;
+	class ShaderModuleVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public INativeGraphicsDevice
 	{
 		friend class CommandBufferVk;
+		friend class CommandPoolVk;
+		friend class GraphicsPipelineVk;
+		friend class QueueVk;
 		friend class RenderPassVk;
+		friend class ShaderModuleVk;
 	public:
 		GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
 		GraphicsDeviceVk(GraphicsDeviceVk&& Right) noexcept = delete;
-		~GraphicsDeviceVk();
+		virtual ~GraphicsDeviceVk();
 
 		GraphicsDeviceVk& operator=(const GraphicsDeviceVk& Source) = delete;
 		GraphicsDeviceVk& operator=(GraphicsDeviceVk&& Right) noexcept = delete;
 
 		virtual const GraphicsInstanceVk& GetGraphicsAPI() const override;
-		virtual PresentationParametersVk& GetPresentationParameters() override;
+		virtual PresentationParametersVk& GetPresentationParameters() const override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
 		virtual const RenderPassVk& GetDefaultRenderPass() const override;
@@ -95,13 +102,15 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual QueueVk& GetGraphicsQueue() override;
 
+		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() override;
+		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) override;
+
 		virtual void Wait() const override;
 		virtual const bool BeginDraw() override;
 		virtual void EndDraw() override;
 	private:
 		const GraphicsInstanceVk& _GraphicsInstance;
 		PresentationParametersVk& _PresentationParameters;
-
 		SurfaceVk _Surface;
 		LogicalDeviceVk _LogicalDevice;
 		QueueVk _GraphicsQueue;

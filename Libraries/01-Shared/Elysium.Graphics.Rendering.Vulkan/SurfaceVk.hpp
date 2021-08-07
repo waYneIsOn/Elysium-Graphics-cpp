@@ -39,7 +39,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsInstanceVk;
-
 	class GraphicsDeviceVk;
 	class LogicalDeviceVk;
 	class PhysicalDeviceVk;

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESWAPCHAIN
-#include "../Elysium.Graphics/INativeSwapchain.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -37,26 +33,26 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class CommandBufferVk;
 	class FramebufferVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final : public INativeSwapchain
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final
 	{
 		friend class CommandBufferVk;
 		friend class FramebufferVk;
 	public:
-		SwapchainVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice);
+		SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface);
 		SwapchainVk(const SwapchainVk& Source) = delete;
 		SwapchainVk(SwapchainVk&& Right) noexcept = delete;
-		virtual ~SwapchainVk();
+		~SwapchainVk();
 
 		SwapchainVk& operator=(const SwapchainVk& Source) = delete;
 		SwapchainVk& operator=(SwapchainVk&& Right) noexcept = delete;
 
-		virtual const Elysium::Core::uint32_t GetBackBufferImageCount() const override;
+		const Elysium::Core::uint32_t GetBackBufferImageCount() const;
 
-		virtual void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout) override;
-		virtual void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) override;
+		void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout);
+		void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue);
 	private:
-		SurfaceVk& _Surface;
 		const LogicalDeviceVk& _LogicalDevice;
+		SurfaceVk& _Surface;
 		VkSwapchainKHR _NativeSwapchainHandle;
 		
 		Elysium::Core::uint32_t _CurrentBackBufferImageIndex;

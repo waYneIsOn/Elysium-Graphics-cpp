@@ -29,9 +29,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -41,34 +38,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeLogicalDevice.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthbuffer.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage2D.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearOptions.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFactory.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
@@ -109,25 +85,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandBuffer.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRectangle.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Viewport.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFramebuffer.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp">
@@ -153,6 +117,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePipeline.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsPipeline.hpp">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -187,13 +160,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Viewport.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp">

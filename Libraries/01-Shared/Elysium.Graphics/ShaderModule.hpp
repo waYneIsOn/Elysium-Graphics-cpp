@@ -20,20 +20,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_GRAPHICSDEVICE
-#include "GraphicsDevice.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
 {
+	class GraphicsDevice;
+
 	class ELYSIUM_GRAPHICS_API ShaderModule final
 	{
+		friend class Pipeline;
 	public:
-		ShaderModule(const GraphicsDevice& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
+		ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Collections::Template::Array<Elysium::Core::byte>&& ByteCode);
 		ShaderModule(const ShaderModule& Source) = delete;
 		ShaderModule(ShaderModule&& Right) noexcept = delete;
 		~ShaderModule();
@@ -42,8 +41,9 @@ namespace Elysium::Graphics::Rendering
 		ShaderModule& operator=(ShaderModule&& Right) noexcept = delete;
 	private:
 		const GraphicsDevice& _GraphicsDevice;
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _ByteCode;
 
-		//INativeShaderModule& _NativeShaderModule;
+		INativeShaderModule* _NativeShaderModule;
 	};
 }
 #endif

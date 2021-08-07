@@ -5,9 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-/*
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEIMAGE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEIMAGE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPIPELINE
+#define ELYSIUM_GRAPHICS_RENDERING_INATIVEPIPELINE
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,20 +16,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
-#include "SurfaceFormat.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#include "INativeShaderModule.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API INativeImage
+	class ELYSIUM_GRAPHICS_API INativePipeline
 	{
 	public:
-		virtual ~INativeImage() { }
+		virtual ~INativePipeline() { }
 
-		virtual const SurfaceFormat& GetFormat() const = 0;
-		virtual const Elysium::Core::uint32_t& GetLevelCount() const = 0;
+		virtual void Build() = 0;
 	};
 }
 #endif
-*/

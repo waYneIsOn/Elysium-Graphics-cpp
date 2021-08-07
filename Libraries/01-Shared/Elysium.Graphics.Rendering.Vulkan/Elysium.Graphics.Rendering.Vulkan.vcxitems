@@ -16,14 +16,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ColorSpaceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandPoolVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FramebufferVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsPipelineVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPassVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExceptionVk.hpp" />
@@ -34,7 +33,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Image2DVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IncludeVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.hpp" />
@@ -51,16 +49,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ViewportVk.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandPoolVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DepthBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FramebufferVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsPipelineVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPassVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModuleVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExceptionVk.cpp" />
@@ -70,7 +66,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverterVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsInstanceVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Image2DVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LogicalDeviceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhysicalDevicePropertiesVk.cpp" />
@@ -83,7 +78,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ViewportVk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - ToDos.txt" />

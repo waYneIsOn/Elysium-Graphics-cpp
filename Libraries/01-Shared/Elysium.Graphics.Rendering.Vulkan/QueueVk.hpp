@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
@@ -36,20 +36,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SurfaceVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
+#include "PhysicalDeviceVk.hpp"
 #endif
-
-namespace Elysium::Core::Collections::Template
-{
-	template <typename T>
-	class Array;
-}
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsDeviceVk;
-	class PhysicalDeviceVk;
 	class SwapchainVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public INativeQueue
@@ -58,7 +51,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class PhysicalDeviceVk;
 		friend class SwapchainVk;
 	public:
-		QueueVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index);
+		QueueVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index);
 		QueueVk(const QueueVk& Source) = delete;
 		QueueVk(QueueVk&& Right) noexcept = delete;
 		virtual ~QueueVk();
@@ -74,7 +67,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Wait() const override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
-		const LogicalDeviceVk& _LogicalDevice;
 		const Elysium::Core::uint32_t _FamilyIndex;
 		const Elysium::Core::uint32_t _Index;
 		VkQueue _NativeQueueHandle;

@@ -34,13 +34,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class QueueVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandBufferVk : public INativeCommandBuffer
 	{
 		friend class QueueVk;
 	public:
-		CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const CommandPoolVk& CommandPool, const bool IsPrimary);
+		CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const CommandPoolVk& CommandPool, const bool IsPrimary);
 		CommandBufferVk(const CommandBufferVk& Source) = delete;
 		CommandBufferVk(CommandBufferVk&& Right) noexcept = delete;
 		virtual ~CommandBufferVk();
@@ -55,11 +53,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) override;
 		virtual void EndRenderPass() override;
 
+		virtual void SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) override;
+
 		virtual void ClearBackBufferImage(const Color& ClearColor) override;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
-		const LogicalDeviceVk& _LogicalDevice;
 		const CommandPoolVk& _CommandPool;
 		const bool _IsPrimary;
 		const Elysium::Core::Collections::Template::Array<VkCommandBuffer> _NativeCommandBufferHandles;

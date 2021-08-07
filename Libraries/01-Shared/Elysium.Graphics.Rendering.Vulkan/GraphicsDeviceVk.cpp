@@ -1,13 +1,21 @@
 #include "GraphicsDeviceVk.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSPIPELINEVK
+#include "GraphicsPipelineVk.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SHADERMODULEVK
+#include "ShaderModuleVk.hpp"
+#endif
+
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters)
 	: _GraphicsInstance(GraphicsInstance), _PresentationParameters(PresentationParameters),
-	_Surface(_GraphicsInstance, PresentationParameters), 
-	_LogicalDevice(static_cast<const PhysicalDeviceVk&>(PresentationParameters.GetGraphicsDevice()), PresentationParameters),
-	_GraphicsQueue(*this, _LogicalDevice, PresentationParameters.GetGraphicsQueueFamilyIndex(), 0),
-	_PresentationQueue(*this, _LogicalDevice, PresentationParameters.GetPresentationQueueFamilyIndex(), 0),
-	_Swapchain(_Surface, _LogicalDevice), _DefaultRenderPass(_LogicalDevice), _FrameBuffer(_LogicalDevice, _Swapchain, _DefaultRenderPass),
-	_DepthBuffer(_Surface, _LogicalDevice), _RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
+	_Surface(_GraphicsInstance, _PresentationParameters),
+	_LogicalDevice(static_cast<const PhysicalDeviceVk&>(_PresentationParameters.GetGraphicsDevice()), _PresentationParameters),
+	_GraphicsQueue(*this, _PresentationParameters.GetGraphicsQueueFamilyIndex(), 0),
+	_PresentationQueue(*this, _PresentationParameters.GetPresentationQueueFamilyIndex(), 0),
+	_Swapchain(_LogicalDevice, _Surface), _DefaultRenderPass(_LogicalDevice), _FrameBuffer(_LogicalDevice, _Swapchain, _DefaultRenderPass),
+	_DepthBuffer(_LogicalDevice, _Surface), _RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 { }
@@ -17,9 +25,9 @@ const Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk& Elysium::Graphic
 	return _GraphicsInstance;
 }
 
-Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters()
+Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters() const
 {
-	return _PresentationParameters;
+	return _LogicalDevice.GetPresentationParameters();
 }
 
 const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPhysicalDevice() const
@@ -55,6 +63,16 @@ const Elysium::Graphics::Rendering::Vulkan::SemaphoreVk& Elysium::Graphics::Rend
 Elysium::Graphics::Rendering::Vulkan::QueueVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetGraphicsQueue()
 {
 	return _GraphicsQueue;
+}
+
+Elysium::Graphics::Rendering::INativeGraphicsPipeline* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateGraphicsPipeline()
+{
+	return new GraphicsPipelineVk(*this);
+}
+
+Elysium::Graphics::Rendering::INativeShaderModule* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode)
+{
+	return new ShaderModuleVk(*this, ByteCode);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Wait() const

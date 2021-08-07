@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
@@ -30,10 +30,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEFEATURESVK
@@ -56,16 +52,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SurfaceVk.hpp"
 #endif
 
-namespace Elysium::Core::Collections::Template
-{
-	template <typename T>
-	class Array;
-}
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class DepthBufferVk;
 	class GraphicsInstanceVk;
+	class LogicalDeviceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public INativePhysicalDevice
 	{
@@ -77,7 +68,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	public:
 		PhysicalDeviceVk(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk(PhysicalDeviceVk&& Right) noexcept = delete;
-		~PhysicalDeviceVk();
+		virtual ~PhysicalDeviceVk();
 
 		PhysicalDeviceVk& operator=(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk& operator=(PhysicalDeviceVk&& Right) noexcept = delete;

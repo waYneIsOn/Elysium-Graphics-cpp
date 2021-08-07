@@ -16,8 +16,8 @@
 #include "SemaphoreVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(SurfaceVk& Surface, const LogicalDeviceVk& LogicalDevice)
-	: _Surface(Surface), _LogicalDevice(LogicalDevice), _NativeSwapchainHandle(VK_NULL_HANDLE), 
+Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface)
+	: _LogicalDevice(LogicalDevice), _Surface(Surface), _NativeSwapchainHandle(VK_NULL_HANDLE),
 	_CurrentBackBufferImageIndex(0), _BackBufferImages(0), _BackBufferImageViews(0)
 {
 	RecreateSwapchain(VK_NULL_HANDLE);

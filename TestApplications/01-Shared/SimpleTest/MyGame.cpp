@@ -50,14 +50,20 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 	Elysium::Core::IO::BinaryReader Reader = Elysium::Core::IO::BinaryReader(Stream, Elysium::Core::Text::Encoding::UTF8(), false);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Data = Reader.ReadBytes(Stream.GetLength());
 	
-	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Data);
+	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Object::Move(Data));
 }
 
 void MyGame::RecordCommandBuffer()
 {
+	/*
+	Elysium::Graphics::Rendering::GraphicsPipeline RenderPipeline = Elysium::Graphics::Rendering::GraphicsPipeline(_GraphicsDevice);
+	//RenderPipeline.AddShaderModule(_VertexShaderModule);
+	RenderPipeline.Build();
+	*/
 	_CommandBuffer.Reset();
 	_CommandBuffer.Begin();
 	_CommandBuffer.BeginRenderPass(_GraphicsDevice.GetDefaultRenderPass(), _GraphicsDevice.GetFramebuffer());
+	//_CommandBuffer.SetGraphicsPipeline(RenderPipeline);
 	//_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
 	//_CommandBuffer.ClearDepthImage(0.0f, 0);
 	_CommandBuffer.EndRenderPass();

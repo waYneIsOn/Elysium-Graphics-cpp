@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
+#include "GraphicsDeviceVk.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering::Vulkan
@@ -37,7 +37,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API ShaderModuleVk final : public INativeShaderModule
 	{
 	public:
-		ShaderModuleVk(const LogicalDeviceVk& LogicalDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
+		ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
 		ShaderModuleVk(const ShaderModuleVk& Source) = delete;
 		ShaderModuleVk(ShaderModuleVk&& Right) noexcept = delete;
 		virtual ~ShaderModuleVk();
@@ -45,7 +45,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		ShaderModuleVk& operator=(const ShaderModuleVk& Source) = delete;
 		ShaderModuleVk& operator=(ShaderModuleVk&& Right) noexcept = delete;
 	private:
-		const LogicalDeviceVk& _LogicalDevice;
+		const GraphicsDeviceVk& _GraphicsDevice;
 		VkShaderModule _NativeShaderModule;
 
 		VkShaderModule CreateShaderModule(const Elysium::Core::byte* Data, const size_t Length);

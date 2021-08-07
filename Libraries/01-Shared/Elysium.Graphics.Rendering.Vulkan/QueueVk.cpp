@@ -20,8 +20,8 @@
 #include <type_traits>
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
-	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _NativeQueueHandle(VK_NULL_HANDLE), _FamilyIndex(FamilyIndex), _Index(Index)
+Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
+	: _GraphicsDevice(GraphicsDevice), _NativeQueueHandle(VK_NULL_HANDLE), _FamilyIndex(FamilyIndex), _Index(Index)
 {
 	VkDeviceQueueInfo2 DeviceQueueInfo = VkDeviceQueueInfo2();
 	DeviceQueueInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2;
@@ -30,8 +30,11 @@ Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& G
 	DeviceQueueInfo.queueFamilyIndex = _FamilyIndex;
 	DeviceQueueInfo.queueIndex = _Index;
 
-	vkGetDeviceQueue2(_LogicalDevice._NativeLogicalDeviceHandle, &DeviceQueueInfo, &_NativeQueueHandle);
-	//vkGetDeviceQueue(_LogicalDevice._NativeLogicalDeviceHandle, _FamilyIndex, _Index, &_NativeQueueHandle);
+	vkGetDeviceQueue2(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &DeviceQueueInfo, &_NativeQueueHandle);
+	if (_NativeQueueHandle == VK_NULL_HANDLE)
+	{
+		throw ExceptionVk(VK_ERROR_UNKNOWN);
+	}
 }
 Elysium::Graphics::Rendering::Vulkan::QueueVk::~QueueVk()
 {
@@ -45,7 +48,7 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::QueueVk::Get
 
 Elysium::Graphics::Rendering::INativeCommandPool* Elysium::Graphics::Rendering::Vulkan::QueueVk::CreateCommandPool()
 {
-	return new CommandPoolVk(_GraphicsDevice, _LogicalDevice, *this);
+	return new CommandPoolVk(_GraphicsDevice, *this);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence)

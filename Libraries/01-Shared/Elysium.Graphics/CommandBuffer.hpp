@@ -53,6 +53,8 @@ namespace Elysium::Graphics::Rendering
 		void BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer);
 		void EndRenderPass();
 
+		//void SetGraphicsPipeline(const Pipeline& Pipeline);
+
 		void ClearBackBufferImage(const Color ClearColor);
 		void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil);
 	private:

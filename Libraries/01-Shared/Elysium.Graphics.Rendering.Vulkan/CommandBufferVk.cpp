@@ -24,8 +24,8 @@
 #include <type_traits>
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const CommandPoolVk& CommandPool, const bool IsPrimary)
-	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(std::move(CreateNativeCommandBuffers()))
+Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const CommandPoolVk& CommandPool, const bool IsPrimary)
+	: _GraphicsDevice(GraphicsDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(std::move(CreateNativeCommandBuffers()))
 { }
 Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::~CommandBufferVk()
 {
@@ -77,7 +77,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Reset()
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer)
 {
-	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
+	const PresentationParametersVk& PresentationParameter = _GraphicsDevice.GetPresentationParameters();
 	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 	const FramebufferVk& VkFramebuffer = static_cast<const FramebufferVk&>(FrameBuffer);
@@ -110,6 +110,18 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
 	}
 }
 
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline)
+{
+	//const PipelineVk& VkPipeline = static_cast<const PipelineVk&>(Pipeline);
+	/*
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdBindPipeline(_NativeCommandBufferHandles[i], VkPipelineBindPoint::VK_PIPELINE_BIND_POINT_GRAPHICS, VkPipeline._NativePipelineHandle);
+	}
+	*/
+	throw 1;
+}
+
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color& ClearColor)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
@@ -119,7 +131,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 	ImageSubresourceRange.levelCount = 1;
 	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
 
-	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_LogicalDevice.GetPresentationParameters());
+	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_GraphicsDevice.GetPresentationParameters());
 	const SwapchainVk& Swapchain = _GraphicsDevice._Swapchain;
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -180,7 +192,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 	ImageSubresourceRange.levelCount = 1;
 	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_DEPTH_BIT | VkImageAspectFlagBits::VK_IMAGE_ASPECT_STENCIL_BIT;
 
-	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_LogicalDevice.GetPresentationParameters());
+	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_GraphicsDevice.GetPresentationParameters());
 	const DepthBufferVk& DepthBuffer = _GraphicsDevice._DepthBuffer;
 	VkImage DepthBufferImage = DepthBuffer._NativeDepthImageHandle;
 
@@ -233,7 +245,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(cons
 
 Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffers()
 {
-	PresentationParameters& PresentationParameters = _LogicalDevice.GetPresentationParameters();
+	PresentationParameters& PresentationParameters = _GraphicsDevice.GetPresentationParameters();
 
 	VkCommandBufferAllocateInfo  AllocateInfo = VkCommandBufferAllocateInfo();
 	AllocateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -245,7 +257,7 @@ Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::
 	VkResult Result;
 	Elysium::Core::Collections::Template::Array<VkCommandBuffer> NativeCommandBufferHandles = 
 		Elysium::Core::Collections::Template::Array<VkCommandBuffer>(AllocateInfo.commandBufferCount);
-	if ((Result = vkAllocateCommandBuffers(_CommandPool._LogicalDevice._NativeLogicalDeviceHandle, &AllocateInfo, &NativeCommandBufferHandles[0])) != VK_SUCCESS)
+	if ((Result = vkAllocateCommandBuffers(_CommandPool._GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &AllocateInfo, &NativeCommandBufferHandles[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
@@ -255,6 +267,6 @@ Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::DestroyNativeCommandBuffers()
 {
-	const PresentationParameters& PresentationParameters = _LogicalDevice.GetPresentationParameters();
-	vkFreeCommandBuffers(_LogicalDevice._NativeLogicalDeviceHandle, _CommandPool._NativeCommandPoolHandle, _NativeCommandBufferHandles.GetLength(), &_NativeCommandBufferHandles[0]);
+	const PresentationParameters& PresentationParameters = _GraphicsDevice.GetPresentationParameters();
+	vkFreeCommandBuffers(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _CommandPool._NativeCommandPoolHandle, _NativeCommandBufferHandles.GetLength(), &_NativeCommandBufferHandles[0]);
 }

@@ -34,26 +34,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFramebuffer.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRectangle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsPipeline.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePipeline.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeBuffer.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeDepthbuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFactory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeImage2D.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeLogicalDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSwapchain.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeViewport.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp" />
@@ -61,13 +54,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Viewport.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
@@ -88,10 +79,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyboardState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Viewport.cpp" />
   </ItemGroup>
 </Project>

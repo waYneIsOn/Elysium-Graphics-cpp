@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArrayOfByte.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
 #endif
@@ -26,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
 #include "INativeFramebuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#include "INativeGraphicsPipeline.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
@@ -56,7 +64,7 @@ namespace Elysium::Graphics::Rendering
 		virtual ~INativeGraphicsDevice() { }
 
 		virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
-		virtual PresentationParameters& GetPresentationParameters() = 0;
+		virtual PresentationParameters& GetPresentationParameters() const = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
 		virtual const INativeRenderPass& GetDefaultRenderPass() const = 0;
@@ -67,6 +75,9 @@ namespace Elysium::Graphics::Rendering
 		virtual const INativeSemaphore& GetRenderSemaphore() const = 0;
 
 		virtual INativeQueue& GetGraphicsQueue() = 0;
+
+		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() = 0;
+		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) = 0;
 
 		virtual void Wait() const = 0;
 		virtual const bool BeginDraw() = 0;

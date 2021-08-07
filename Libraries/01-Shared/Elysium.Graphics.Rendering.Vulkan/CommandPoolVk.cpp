@@ -4,17 +4,21 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CommandPoolVk(const GraphicsDeviceVk& GraphicsDevice, const LogicalDeviceVk& LogicalDevice, const QueueVk& Queue)
-	: _GraphicsDevice(GraphicsDevice), _LogicalDevice(LogicalDevice), _Queue(Queue), _NativeCommandPoolHandle(CreateNativeCommandPool())
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
+#include "GraphicsDeviceVk.hpp"
+#endif
+
+Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CommandPoolVk(const GraphicsDeviceVk& GraphicsDevice, const QueueVk& Queue)
+	: _GraphicsDevice(GraphicsDevice), _Queue(Queue), _NativeCommandPoolHandle(CreateNativeCommandPool())
 { }
 Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::~CommandPoolVk()
 {
-	vkDestroyCommandPool(_LogicalDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, nullptr);
+	vkDestroyCommandPool(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, nullptr);
 }
 
 Elysium::Graphics::Rendering::INativeCommandBuffer* Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateCommandBuffer(const bool IsPrimary)
 {
-	return new CommandBufferVk(_GraphicsDevice, _LogicalDevice, *this, IsPrimary);
+	return new CommandBufferVk(_GraphicsDevice, *this, IsPrimary);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::Reset()
@@ -40,7 +44,7 @@ const VkCommandPool Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateN
 
 	VkResult Result;
 	VkCommandPool NativeCommandPoolHandle;
-	if ((Result = vkCreateCommandPool(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeCommandPoolHandle)) != VK_SUCCESS)
+	if ((Result = vkCreateCommandPool(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeCommandPoolHandle)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}

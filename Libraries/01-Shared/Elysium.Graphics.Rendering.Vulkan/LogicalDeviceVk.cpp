@@ -78,11 +78,6 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::~LogicalDeviceVk()
 	}
 }
 
-const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::GetPhysicalDevice() const
-{
-	return _PhysicalDevice;
-}
-
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::GetPresentationParameters() const
 {
 	return _PresentationParameters;
