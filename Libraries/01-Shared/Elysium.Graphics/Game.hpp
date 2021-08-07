@@ -47,9 +47,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
 #include "INativeFramebuffer.hpp"
 #endif
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPIPELINE
-#include "INativePipeline.hpp"
-#endif
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif

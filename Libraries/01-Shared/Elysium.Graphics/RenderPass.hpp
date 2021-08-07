@@ -22,13 +22,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class CommandBuffer;
-	class GraphicsDevice;
-
 	class ELYSIUM_GRAPHICS_API RenderPass final
 	{
 		friend class CommandBuffer;
 		friend class GraphicsDevice;
+		friend class GraphicsPipeline;
 	public:
 		RenderPass(const RenderPass& Source) = delete;
 		RenderPass(RenderPass&& Right) noexcept = delete;

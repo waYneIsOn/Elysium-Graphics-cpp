@@ -35,7 +35,6 @@ namespace Elysium::Graphics::Rendering
 		Stencil = 4,
 	};
 
-
 	inline ClearOptions operator|(const ClearOptions Left, const ClearOptions Right)
 	{
 		return static_cast<ClearOptions>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));

@@ -16,24 +16,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPIPELINE
-#include "INativePipeline.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#include "INativeRenderPass.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SHADERMODULETYPE
+#include "ShaderModuleType.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API INativeGraphicsPipeline : public INativePipeline
+	class ELYSIUM_GRAPHICS_API INativeGraphicsPipeline
 	{
 	public:
 		virtual ~INativeGraphicsPipeline() { }
 
-		virtual void AddShaderModule(const INativeShaderModule& ShaderModule) = 0;
+		virtual void AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type) = 0;
 		//virtual void AddViewport() = 0;
 		//virtual void AddScissorRectangle() = 0;
+
+		virtual void Build(const INativeRenderPass& RenderPass) = 0;
 	};
 }
 #endif

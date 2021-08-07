@@ -36,6 +36,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API ShaderModuleVk final : public INativeShaderModule
 	{
+		friend class GraphicsPipelineVk;
 	public:
 		ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
 		ShaderModuleVk(const ShaderModuleVk& Source) = delete;

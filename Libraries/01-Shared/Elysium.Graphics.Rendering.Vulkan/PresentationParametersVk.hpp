@@ -54,12 +54,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class GraphicsInstanceVk;
-	class LogicalDeviceVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public Elysium::Graphics::PresentationParameters
 	{
 		friend class GraphicsInstanceVk;
+		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
 	public:
 		PresentationParametersVk(GraphicsInstanceVk& NativeGraphicsAPI, Presentation::Control& Canvas);

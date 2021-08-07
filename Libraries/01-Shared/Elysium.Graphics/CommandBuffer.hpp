@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Framebuffer.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_GRAPHICSPIPELINE
+#include "GraphicsPipeline.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
 #include "INativeCommandBuffer.hpp"
 #endif
@@ -50,10 +54,14 @@ namespace Elysium::Graphics::Rendering
 		void End();
 		void Reset();
 
+		void RecordSecondaryBuffer(const CommandBuffer& CommandBuffer);
+
 		void BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer);
 		void EndRenderPass();
 
-		//void SetGraphicsPipeline(const Pipeline& Pipeline);
+		void SetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline);
+
+		void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance);
 
 		void ClearBackBufferImage(const Color ClearColor);
 		void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil);

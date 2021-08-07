@@ -24,6 +24,11 @@ void Elysium::Graphics::Rendering::CommandBuffer::Reset()
 	_NativeCommandBuffer->Reset();
 }
 
+void Elysium::Graphics::Rendering::CommandBuffer::RecordSecondaryBuffer(const CommandBuffer& CommandBuffer)
+{
+	_NativeCommandBuffer->RecordSecondaryBuffer(*CommandBuffer._NativeCommandBuffer);
+}
+
 void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer)
 {
 	_NativeCommandBuffer->BeginRenderPass(RenderPass._NativeRenderPass, Framebuffer._NativeFramebuffer);
@@ -32,6 +37,16 @@ void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPa
 void Elysium::Graphics::Rendering::CommandBuffer::EndRenderPass()
 {
 	_NativeCommandBuffer->EndRenderPass();
+}
+
+void Elysium::Graphics::Rendering::CommandBuffer::SetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline)
+{
+	_NativeCommandBuffer->SetGraphicsPipeline(*GraphicsPipeline._NativeGraphicsPipeline);
+}
+
+void Elysium::Graphics::Rendering::CommandBuffer::Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+{
+	_NativeCommandBuffer->Draw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::ClearBackBufferImage(const Color ClearColor)

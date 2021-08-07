@@ -50,10 +50,14 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void End() override;
 		virtual void Reset() override;
 
+		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
+
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) override;
 		virtual void EndRenderPass() override;
 
 		virtual void SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) override;
+
+		virtual void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
 
 		virtual void ClearBackBufferImage(const Color& ClearColor) override;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;

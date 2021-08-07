@@ -12,6 +12,10 @@
 #include "GraphicsDeviceVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSPIPELINEVK
+#include "GraphicsPipelineVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_RENDERPASSVK
 #include "RenderPassVk.hpp"
 #endif
@@ -38,8 +42,28 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Begin()
 	BeginInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 	//BeginInfo.flags = VkCommandBufferUsageFlagBits::VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
 	BeginInfo.flags = 0;
-	BeginInfo.pInheritanceInfo = nullptr;
 	BeginInfo.pNext = nullptr;
+	if (_IsPrimary)
+	{
+		BeginInfo.pInheritanceInfo = nullptr;
+	}
+	else
+	{
+		/*
+		VkCommandBufferInheritanceInfo InheritanceInfo = VkCommandBufferInheritanceInfo();
+		InheritanceInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+		InheritanceInfo.pNext = nullptr;
+		//InheritanceInfo.framebuffer
+		//InheritanceInfo.occlusionQueryEnable
+		//InheritanceInfo.pipelineStatistics
+		//InheritanceInfo.renderPass
+		//InheritanceInfo.subpass
+
+		BeginInfo.pInheritanceInfo = &InheritanceInfo;
+		*/
+
+		throw 1;
+	}
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -73,6 +97,19 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Reset()
 			throw ExceptionVk(Result);
 		}
 	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer)
+{
+	/*
+	const CommandBufferVk& VkCommandBuffer = static_cast<const CommandBufferVk&>(CommandBuffer);
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdExecuteCommands(_NativeCommandBufferHandles[i], VkCommandBuffer._NativeCommandBufferHandles.GetLength(),
+			&VkCommandBuffer._NativeCommandBufferHandles[0]);
+	}
+	*/
+	throw 1;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer)
@@ -112,14 +149,20 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline)
 {
-	//const PipelineVk& VkPipeline = static_cast<const PipelineVk&>(Pipeline);
-	/*
+	const GraphicsPipelineVk& VkPipeline = static_cast<const GraphicsPipelineVk&>(GraphicsPipeline);
+	
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
 		vkCmdBindPipeline(_NativeCommandBufferHandles[i], VkPipelineBindPoint::VK_PIPELINE_BIND_POINT_GRAPHICS, VkPipeline._NativePipelineHandle);
 	}
-	*/
-	throw 1;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+{
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdDraw(_NativeCommandBufferHandles[i], VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	}
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color& ClearColor)

@@ -43,9 +43,11 @@ private:
 	//Elysium::Graphics::Content::ContentManager _ContentManager;
 	Elysium::Graphics::Rendering::CommandPool _CommandPool;
 	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
+	Elysium::Graphics::Rendering::CommandBuffer _SecondaryCommandBuffer;
 
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
+	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
 	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
 

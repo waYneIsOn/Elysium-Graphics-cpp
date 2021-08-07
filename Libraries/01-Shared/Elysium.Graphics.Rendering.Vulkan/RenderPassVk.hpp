@@ -34,6 +34,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 		friend class FramebufferVk;
+		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
 	public:
 		RenderPassVk(const LogicalDeviceVk& LogicalDevice);

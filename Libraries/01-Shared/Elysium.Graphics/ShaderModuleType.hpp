@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class ShaderModuleType : Elysium::Core::uint16_t
+	enum class ShaderModuleType : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	enum class ShaderModuleType
 #else
@@ -34,5 +34,14 @@ namespace Elysium::Graphics::Rendering
 
 		FragmentShader = 16,
 	};
+
+	inline ShaderModuleType operator|(const ShaderModuleType Left, const ShaderModuleType Right)
+	{
+		return static_cast<ShaderModuleType>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));
+	}
+	inline ShaderModuleType operator&(const ShaderModuleType Left, const ShaderModuleType Right)
+	{
+		return static_cast<ShaderModuleType>(static_cast<Elysium::Core::uint32_t>(Left) & static_cast<Elysium::Core::uint32_t>(Right));
+	}
 }
 #endif

@@ -44,12 +44,11 @@ namespace Elysium::Graphics
 namespace Elysium::Graphics::Rendering
 {
 	class INativeGraphicsDevice;
-	class Pipeline;
-	class ShaderModule;
 
 	class ELYSIUM_GRAPHICS_API GraphicsDevice final
 	{
 		friend class CommandBuffer;
+		friend class GraphicsPipeline;
 		friend class Pipeline;
 		friend class ShaderModule;
 	public:

@@ -51,10 +51,14 @@ namespace Elysium::Graphics::Rendering
 		virtual void End() = 0;
 		virtual void Reset() = 0;
 
+		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) = 0;
+
 		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) = 0;
 		virtual void EndRenderPass() = 0;
 
 		virtual void SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) = 0;
+
+		virtual void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) = 0;
 
 		virtual void ClearBackBufferImage(const Color& ClearColor) = 0;
 		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;

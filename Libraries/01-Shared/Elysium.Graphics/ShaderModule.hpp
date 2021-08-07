@@ -30,7 +30,7 @@ namespace Elysium::Graphics::Rendering
 
 	class ELYSIUM_GRAPHICS_API ShaderModule final
 	{
-		friend class Pipeline;
+		friend class GraphicsPipeline;
 	public:
 		ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Collections::Template::Array<Elysium::Core::byte>&& ByteCode);
 		ShaderModule(const ShaderModule& Source) = delete;
