@@ -94,7 +94,7 @@ size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
         throw 1;
     }
 
-    size_t Result = (size_t)CreateWindowExW(0L, _ClassName, L"WindowTitle", WS_OVERLAPPEDWINDOW,
+    size_t Result = (size_t)CreateWindowExW(0L, _ClassName, _ClassName, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, _Width, _Height, nullptr, nullptr,
         (HINSTANCE)&_ProgramInstanceHandle, this);
 

@@ -9,7 +9,7 @@
 | Logical Device	| VkDevice					| ID3D12Device6			|
 +-------------------+---------------------------+-----------------------+
 | Swapchain			| VkSwapchainKHR			| IDXGISwapChain4		|
-| Framebuffer		| ...						| ...					|
+| Framebuffer		| VkFramebuffer				| ...					|
 +-------------------+---------------------------+-----------------------+
 | Semaphore			| VkSemaphore				| ...					|
 | Fence				| VkFence					| ID3D12Fence			|
@@ -18,7 +18,7 @@
 | CommandPool		| VkCommandPool				| ID3D12CommandQueue?	|
 | CommandBuffer		| VkCommandBuffer			| ID3D12CommandList?	|
 +-------------------+---------------------------+-----------------------+
-| ...				| VkShaderModule			| ...					|
+| ShaderModule		| VkShaderModule			| ...					|
 | ...				| ...						| ...					|
 | ...				| ...						| ...					|
 | ...				| ...						| ...					|

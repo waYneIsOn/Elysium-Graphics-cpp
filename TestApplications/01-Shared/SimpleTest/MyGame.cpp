@@ -20,11 +20,6 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_RenderPipeline(_GraphicsDevice)
 {
 	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
-
-	_RenderPipeline.AddShaderModule(_VertexShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::VertexShader);
-	_RenderPipeline.AddShaderModule(_FragmentShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::FragmentShader);
-
-	RecordCommandBuffer();
 }
 MyGame::~MyGame()
 {
@@ -32,7 +27,11 @@ MyGame::~MyGame()
 }
 
 void MyGame::LoadContent()
-{ }
+{
+	_RenderPipeline.AddShaderModule(_VertexShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::VertexShader);
+	_RenderPipeline.AddShaderModule(_FragmentShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::FragmentShader);
+	RecordCommandBuffer();
+}
 
 void MyGame::Draw(const Elysium::Graphics::GameTime& GameTime)
 {

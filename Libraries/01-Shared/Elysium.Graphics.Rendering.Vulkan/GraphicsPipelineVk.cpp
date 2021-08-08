@@ -221,7 +221,10 @@ VkPipelineColorBlendStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Graphi
 	CreateInfo.pAttachments = &_ColorBlendAttachment;
 	CreateInfo.logicOpEnable = VK_FALSE;
 	CreateInfo.logicOp = VkLogicOp::VK_LOGIC_OP_COPY;
-	//CreateInfo.blendConstants = { 0.0f, 0.0f, 0.0f, 0.0f };
+	CreateInfo.blendConstants[0] = 0.0f;
+	CreateInfo.blendConstants[1] = 0.0f;
+	CreateInfo.blendConstants[2] = 0.0f;
+	CreateInfo.blendConstants[3] = 0.0f;
 
 	return CreateInfo;
 }
