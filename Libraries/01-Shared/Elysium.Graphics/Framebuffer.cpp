@@ -3,6 +3,6 @@
 Elysium::Graphics::Rendering::Framebuffer::~Framebuffer()
 { }
 
-Elysium::Graphics::Rendering::Framebuffer::Framebuffer(INativeFramebuffer& NativeFramebuffer)
+Elysium::Graphics::Rendering::Framebuffer::Framebuffer(Native::INativeFramebuffer& NativeFramebuffer)
 	: _NativeFramebuffer(NativeFramebuffer)
 { }

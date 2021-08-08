@@ -43,7 +43,10 @@ namespace Elysium::Graphics
 
 namespace Elysium::Graphics::Rendering
 {
-	class INativeGraphicsDevice;
+	namespace Native
+	{
+		class INativeGraphicsDevice;
+	}
 
 	class ELYSIUM_GRAPHICS_API GraphicsDevice final
 	{
@@ -52,7 +55,7 @@ namespace Elysium::Graphics::Rendering
 		friend class Pipeline;
 		friend class ShaderModule;
 	public:
-		GraphicsDevice(INativeGraphicsDevice& NativeGraphicsDevice);
+		GraphicsDevice(Native::INativeGraphicsDevice& NativeGraphicsDevice);
 		GraphicsDevice(const GraphicsDevice& Source) = delete;
 		GraphicsDevice(GraphicsDevice&& Right) noexcept = delete;
 		~GraphicsDevice();
@@ -75,7 +78,7 @@ namespace Elysium::Graphics::Rendering
 		const bool BeginDraw();
 		void EndDraw();
 	private:
-		INativeGraphicsDevice& _NativeGraphicsDevice;
+		Native::INativeGraphicsDevice& _NativeGraphicsDevice;
 
 		RenderPass _DefaultRenderPass;
 		Framebuffer _FrameBuffer;

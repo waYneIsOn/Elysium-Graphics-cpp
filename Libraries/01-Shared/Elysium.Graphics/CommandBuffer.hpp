@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GraphicsPipeline.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 #include "INativeCommandBuffer.hpp"
 #endif
 
@@ -66,9 +66,9 @@ namespace Elysium::Graphics::Rendering
 		void ClearBackBufferImage(const Color ClearColor);
 		void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil);
 	private:
-		CommandBuffer(INativeCommandBuffer* NativeCommandBuffer);
+		CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer);
 
-		INativeCommandBuffer* _NativeCommandBuffer;
+		Native::INativeCommandBuffer* _NativeCommandBuffer;
 	};
 }
 #endif

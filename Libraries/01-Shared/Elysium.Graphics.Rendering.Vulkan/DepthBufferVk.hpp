@@ -22,15 +22,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
 	class LogicalDeviceVk;
+	class PresentationParametersVk;
 	class SurfaceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API DepthBufferVk final
 	{
 		friend class CommandBufferVk;
 	public:
-		DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface);
+		DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface, PresentationParametersVk& PresentationParameters);
 		DepthBufferVk(const DepthBufferVk& Source) = delete;
 		DepthBufferVk(DepthBufferVk&& Right) noexcept = delete;
 		~DepthBufferVk();
@@ -40,6 +40,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	private:
 		const LogicalDeviceVk& _LogicalDevice;
 		SurfaceVk& _Surface;
+		PresentationParametersVk& _PresentationParameters;
 
 		VkImage _NativeDepthImageHandle;
 		VkDeviceMemory _NativeDepthImageMemoryHandle;
@@ -49,7 +50,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		void CreateResources();
 		void RecreateDepthBuffer();
 
-		void Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender);
+		void Surface_OnSizeChanged(const SurfaceVk& Sender);
 	};
 }
 #endif

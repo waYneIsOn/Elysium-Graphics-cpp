@@ -16,8 +16,8 @@
 #include "SemaphoreVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface)
-	: _LogicalDevice(LogicalDevice), _Surface(Surface), _NativeSwapchainHandle(VK_NULL_HANDLE),
+Elysium::Graphics::Rendering::Vulkan::SwapchainVk::SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface, PresentationParametersVk& PresentationParameters)
+	: _LogicalDevice(LogicalDevice), _Surface(Surface), _PresentationParameters(PresentationParameters), _NativeSwapchainHandle(VK_NULL_HANDLE),
 	_CurrentBackBufferImageIndex(0), _BackBufferImages(0), _BackBufferImageViews(0)
 {
 	RecreateSwapchain(VK_NULL_HANDLE);
@@ -43,7 +43,7 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::SwapchainVk:
 	return _BackBufferImages.GetLength();
 }
 
-void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout)
+void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::AquireNextImage(const Native::INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout)
 {
 	const SemaphoreVk& VkPresentSemaphore = dynamic_cast<const SemaphoreVk&>(PresentSemaphore);
 
@@ -55,7 +55,7 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::AquireNextImage(const IN
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue)
+void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::PresentFrame(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue)
 {
 	const SemaphoreVk& VkRenderSemaphore = dynamic_cast<const SemaphoreVk&>(RenderSemaphore);
 	const QueueVk& VkQueue = dynamic_cast<const QueueVk&>(PresentationQueue);
@@ -87,28 +87,27 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	// destroy image views
 
 	// recreate swapchain
-	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
-	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
+	const VkExtent2D& Extent = (const VkExtent2D&)_PresentationParameters.GetExtent();
 	
 	VkSwapchainCreateInfoKHR CreateInfo = VkSwapchainCreateInfoKHR();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	CreateInfo.pNext = nullptr;
 	CreateInfo.flags = 0;
-	CreateInfo.surface = (VkSurfaceKHR)PresentationParameter.GetSurfaceHandle();
-	CreateInfo.minImageCount = PresentationParameter.GetBackBufferCount();
-	CreateInfo.imageFormat = (VkFormat&)PresentationParameter.GetSurfaceFormat().Format;
-	CreateInfo.imageColorSpace = (VkColorSpaceKHR&)PresentationParameter.GetSurfaceFormat().ColorSpace;
+	CreateInfo.surface = _Surface._NativeSurfaceHandle;
+	CreateInfo.minImageCount = _PresentationParameters.GetBackBufferCount();
+	CreateInfo.imageFormat = (VkFormat&)_PresentationParameters.GetSurfaceFormat().Format;
+	CreateInfo.imageColorSpace = (VkColorSpaceKHR&)_PresentationParameters.GetSurfaceFormat().ColorSpace;
 	CreateInfo.imageExtent = Extent;
-	CreateInfo.imageArrayLayers = PresentationParameter.GetImageArrayLayers();
+	CreateInfo.imageArrayLayers = _PresentationParameters.GetImageArrayLayers();
 	CreateInfo.imageUsage = VkImageUsageFlagBits::VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-	CreateInfo.preTransform = (VkSurfaceTransformFlagBitsKHR)PresentationParameter.GetTransform();
+	CreateInfo.preTransform = (VkSurfaceTransformFlagBitsKHR)_PresentationParameters.GetTransform();
 	CreateInfo.compositeAlpha = VkCompositeAlphaFlagBitsKHR::VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-	CreateInfo.presentMode = (VkPresentModeKHR)PresentationParameter.GetPresentMode();
+	CreateInfo.presentMode = (VkPresentModeKHR)_PresentationParameters.GetPresentMode();
 	CreateInfo.clipped = VK_TRUE;
 	CreateInfo.oldSwapchain = PreviousNativeSwapchainHandle;
-	if (PresentationParameter.GetGraphicsQueueFamilyIndex() != PresentationParameter.GetPresentationQueueFamilyIndex())
+	if (_LogicalDevice.GetGraphicsQueueFamilyIndex() != _LogicalDevice.GetPresentationQueueFamilyIndex())
 	{
-		Elysium::Core::uint32_t QueueFamilyIndices[] = { PresentationParameter.GetGraphicsQueueFamilyIndex(), PresentationParameter.GetPresentationQueueFamilyIndex() };
+		Elysium::Core::uint32_t QueueFamilyIndices[] = { _LogicalDevice.GetGraphicsQueueFamilyIndex(), _LogicalDevice.GetPresentationQueueFamilyIndex() };
 
 		CreateInfo.imageSharingMode = VkSharingMode::VK_SHARING_MODE_CONCURRENT;
 		CreateInfo.queueFamilyIndexCount = 2;

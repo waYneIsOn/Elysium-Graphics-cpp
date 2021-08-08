@@ -8,7 +8,7 @@ void Elysium::Graphics::Rendering::Queue::Wait() const
 	_NativeQueue.Wait();
 }
 
-Elysium::Graphics::Rendering::Queue::Queue(INativeQueue& NativeQueue)
+Elysium::Graphics::Rendering::Queue::Queue(Native::INativeQueue& NativeQueue)
 	: _NativeQueue(NativeQueue)
 { }
 

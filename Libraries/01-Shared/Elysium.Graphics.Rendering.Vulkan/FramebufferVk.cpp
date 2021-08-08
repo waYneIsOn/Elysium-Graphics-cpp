@@ -8,8 +8,8 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::FramebufferVk::FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass)
-	: _LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _RenderPass(RenderPass), _Surface(_Swapchain._Surface),
+Elysium::Graphics::Rendering::Vulkan::FramebufferVk::FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters)
+	: _LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _RenderPass(RenderPass), _PresentationParameters(PresentationParameters), _Surface(_Swapchain._Surface),
 	_NativeSwapchainFramebufferHandles(_Swapchain._BackBufferImageViews.GetLength())
 {
 	CreateFramebuffers();
@@ -23,8 +23,7 @@ Elysium::Graphics::Rendering::Vulkan::FramebufferVk::~FramebufferVk()
 
 void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::CreateFramebuffers()
 {
-	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
-	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
+	const VkExtent2D& Extent = (const VkExtent2D&)_PresentationParameters.GetExtent();
 
 	VkResult Result;
 	for (size_t i = 0; i < _NativeSwapchainFramebufferHandles.GetLength(); i++)

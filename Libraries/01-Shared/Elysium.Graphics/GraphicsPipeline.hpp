@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 #include "INativeGraphicsPipeline.hpp"
 #endif
 
@@ -49,7 +49,7 @@ namespace Elysium::Graphics::Rendering
 	private:
 		const GraphicsDevice& _GraphicsDevice;
 
-		INativeGraphicsPipeline* _NativeGraphicsPipeline;
+		Native::INativeGraphicsPipeline* _NativeGraphicsPipeline;
 	};
 }
 #endif

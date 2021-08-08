@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDPOOL
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDPOOL
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,11 +20,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 #include "INativeCommandBuffer.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeCommandPool
 	{

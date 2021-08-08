@@ -43,7 +43,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class LogicalDeviceVk;
 	class PhysicalDeviceVk;
 	class PresentationParametersVk;
-	class QueueVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SurfaceVk final
 	{
@@ -52,8 +51,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class PhysicalDeviceVk;
 		friend class PresentationParametersVk;
 		friend class QueueVk;
+		friend class SwapchainVk;
 	public:
-		SurfaceVk(const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
+		SurfaceVk(const GraphicsInstanceVk& GraphicsInstance, const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
 		SurfaceVk(const SurfaceVk& Source) = delete;
 		SurfaceVk(SurfaceVk&& Right) noexcept = delete;
 		~SurfaceVk();
@@ -64,10 +64,15 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		Elysium::Core::Event<void, const SurfaceVk&> SizeChanged;
 	private:
 		const VkInstance _NativeInstanceHandle;
+		const PhysicalDeviceVk& _PhysicalDevice;
 		PresentationParametersVk& _PresentationParameters;
-		VkSurfaceKHR _NativeSurfaceHandle;
+		Elysium::Graphics::Presentation::Control& _Canvas;
 
-		VkSurfaceKHR CreateNativeSurface(PresentationParametersVk& PresentationParameters);
+		const VkSurfaceKHR _NativeSurfaceHandle;
+		VkSurfaceCapabilitiesKHR _NativeSurfaceCapabilities;
+
+		const VkSurfaceKHR CreateNativeSurface();
+		VkSurfaceCapabilitiesKHR GetNativeSurfaceCapabilities();
 
 		void UpdateInternalValues();
 

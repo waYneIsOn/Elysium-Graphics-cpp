@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
 
@@ -35,9 +35,9 @@ namespace Elysium::Graphics::Rendering
 		RenderPass& operator=(const RenderPass& Source) = delete;
 		RenderPass& operator=(RenderPass&& Right) noexcept = delete;
 	private:
-		RenderPass(INativeRenderPass& NativeRenderPass);
+		RenderPass(Native::INativeRenderPass& NativeRenderPass);
 
-		INativeRenderPass& _NativeRenderPass;
+		Native::INativeRenderPass& _NativeRenderPass;
 	};
 }
 #endif

@@ -13,6 +13,6 @@ void Elysium::Graphics::Rendering::Fence::Reset()
 	_NativeFence.Reset();
 }
 
-Elysium::Graphics::Rendering::Fence::Fence(INativeFence& NativeFence)
+Elysium::Graphics::Rendering::Fence::Fence(Native::INativeFence& NativeFence)
 	: _NativeFence(NativeFence)
 { }

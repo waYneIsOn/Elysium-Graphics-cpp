@@ -36,6 +36,7 @@ namespace Elysium::Graphics
 	{
 		friend class Game;
 	public:
+		GraphicsDeviceManager(const Game& Game, Rendering::GraphicsDevice& GraphicsDevice);
 		GraphicsDeviceManager(const GraphicsDeviceManager& Source) = delete;
 		GraphicsDeviceManager(GraphicsDeviceManager&& Right) noexcept = delete;
 		~GraphicsDeviceManager();
@@ -43,15 +44,24 @@ namespace Elysium::Graphics
 		GraphicsDeviceManager& operator=(const GraphicsDeviceManager& Source) = delete;
 		GraphicsDeviceManager& operator=(GraphicsDeviceManager&& Right) noexcept = delete;
 
+		/// <summary>
+		/// Specifies the default minimum back-buffer width.
+		/// </summary>
 		static const Core::uint32_t DefaultBackBufferWidth = 800;
+
+		/// <summary>
+		/// Specifies the default minimum back-buffer height.
+		/// </summary>
 		static const Core::uint32_t DefaultBackBufferHeight = 480;
+
+		/// <summary>
+		/// Specifies the default minimum back-buffer count.
+		/// </summary>
 		static const Core::uint32_t DefaultBackBufferCount = 3;
 
 		Rendering::GraphicsDevice& GetGraphicsDevice();
 	private:
-		GraphicsDeviceManager(Game& Game, Rendering::GraphicsDevice& GraphicsDevice);
-
-		Game& _Game;
+		const Game& _Game;
 		Rendering::GraphicsDevice& _GraphicsDevice;
 
 		void Wait() const;

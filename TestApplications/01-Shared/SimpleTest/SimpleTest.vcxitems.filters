@@ -20,10 +20,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FragmentShader.spv">
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FragmentShader.frag">
       <Filter>Assets\Vulkan</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.spv">
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.vert">
       <Filter>Assets\Vulkan</Filter>
     </None>
   </ItemGroup>

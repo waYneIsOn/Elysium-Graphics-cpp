@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
 #include "INativeFence.hpp"
 #endif
 
@@ -40,9 +40,9 @@ namespace Elysium::Graphics::Rendering
 		void Wait(const Elysium::Core::uint64_t Timeout) const;
 		void Reset();
 	private:
-		Fence(INativeFence& NativeFence);
+		Fence(Native::INativeFence& NativeFence);
 
-		INativeFence& _NativeFence;
+		Native::INativeFence& _NativeFence;
 	};
 }
 #endif

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,10 +20,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
-	// Semaphore are a synchronization primitive that can be used to insert a dependency between queue operations or between a queue operation and 
-	// the host (ie. between gpu and gpu).
+	/// <summary>
+	/// Semaphore are a synchronization primitive that can be used to insert a dependency between queue operations or between a queue operation and 
+	/// the host (ie. between gpu and gpu).
+	/// </summary>
 	class ELYSIUM_GRAPHICS_API INativeSemaphore
 	{
 	public:

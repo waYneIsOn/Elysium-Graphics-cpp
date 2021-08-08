@@ -25,7 +25,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fence.hpp" />
@@ -68,7 +67,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentLoadException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentReader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fence.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />

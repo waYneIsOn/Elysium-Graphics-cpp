@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "../Elysium.Graphics/INativeRenderPass.hpp"
 #endif
 
@@ -29,15 +29,16 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class CommandBufferVk;
 	class FramebufferVk;
 	class LogicalDeviceVk;
+	class PresentationParametersVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API RenderPassVk final : public INativeRenderPass
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API RenderPassVk final : public Native::INativeRenderPass
 	{
 		friend class CommandBufferVk;
 		friend class FramebufferVk;
 		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
 	public:
-		RenderPassVk(const LogicalDeviceVk& LogicalDevice);
+		RenderPassVk(const LogicalDeviceVk& LogicalDevice, PresentationParametersVk& PresentationParameters);
 		RenderPassVk(const RenderPassVk& Source) = delete;
 		RenderPassVk(RenderPassVk&& Right) noexcept = delete;
 		virtual ~RenderPassVk();
@@ -46,6 +47,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		RenderPassVk& operator=(RenderPassVk&& Right) noexcept = delete;
 	private:
 		const LogicalDeviceVk& _LogicalDevice;
+		PresentationParametersVk& _PresentationParameters;
+
 		VkRenderPass _NativeRenderPassHandle;
 	};
 }

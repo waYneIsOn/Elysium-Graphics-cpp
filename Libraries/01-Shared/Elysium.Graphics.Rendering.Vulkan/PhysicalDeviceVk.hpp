@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
 #include "../Elysium.Graphics/INativePhysicalDevice.hpp"
 #endif
 
@@ -54,11 +54,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class DepthBufferVk;
-	class GraphicsInstanceVk;
-	class LogicalDeviceVk;
-
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public INativePhysicalDevice
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public Native::INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
 		friend class DepthBufferVk;
@@ -80,10 +76,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const PhysicalDeviceFeaturesVk& GetFeatures() const;
 		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> GetQueueFamilyProperties() const;
 		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions() const;
-
-		const bool SupportsPresentation(const SurfaceVk& Surface, const Elysium::Core::uint32_t FamilyIndex) const;
 	private:
 		PhysicalDeviceVk();
+
+		const bool SupportsPresentation(const VkSurfaceKHR NativeSurfaceHandle, const Elysium::Core::uint32_t FamilyIndex) const;
 
 		VkPhysicalDevice _NativePhysicalDeviceHandle;
 		PhysicalDevicePropertiesVk _Properties;

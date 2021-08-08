@@ -30,12 +30,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class PresentationParametersVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final
 	{
 		friend class CommandBufferVk;
 		friend class FramebufferVk;
 	public:
-		SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface);
+		SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface, PresentationParametersVk& PresentationParameters);
 		SwapchainVk(const SwapchainVk& Source) = delete;
 		SwapchainVk(SwapchainVk&& Right) noexcept = delete;
 		~SwapchainVk();
@@ -45,11 +47,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Elysium::Core::uint32_t GetBackBufferImageCount() const;
 
-		void AquireNextImage(const INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout);
-		void PresentFrame(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue);
+		void AquireNextImage(const Native::INativeSemaphore& PresentSemaphore, const Elysium::Core::uint64_t Timeout);
+		void PresentFrame(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue);
 	private:
 		const LogicalDeviceVk& _LogicalDevice;
 		SurfaceVk& _Surface;
+		PresentationParametersVk& _PresentationParameters;
 		VkSwapchainKHR _NativeSwapchainHandle;
 		
 		Elysium::Core::uint32_t _CurrentBackBufferImageIndex;

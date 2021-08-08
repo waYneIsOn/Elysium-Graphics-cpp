@@ -80,14 +80,14 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return Extensions;
 }
 
-const bool Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::SupportsPresentation(const SurfaceVk& Surface, const Elysium::Core::uint32_t FamilyIndex) const
-{
-	Elysium::Core::uint32_t SupportsPresentation;
-	vkGetPhysicalDeviceSurfaceSupportKHR(_NativePhysicalDeviceHandle, FamilyIndex, Surface._NativeSurfaceHandle, &SupportsPresentation);
-
-	return SupportsPresentation == 1;
-}
-
 Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::PhysicalDeviceVk()
 	: _NativePhysicalDeviceHandle(VK_NULL_HANDLE), _Properties(), _Features()
 { }
+
+const bool Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::SupportsPresentation(const VkSurfaceKHR NativeSurfaceHandle, const Elysium::Core::uint32_t FamilyIndex) const
+{
+	Elysium::Core::uint32_t SupportsPresentation;
+	vkGetPhysicalDeviceSurfaceSupportKHR(_NativePhysicalDeviceHandle, FamilyIndex, NativeSurfaceHandle, &SupportsPresentation);
+
+	return SupportsPresentation == 1;
+}

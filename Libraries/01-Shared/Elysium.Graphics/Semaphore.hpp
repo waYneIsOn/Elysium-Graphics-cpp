@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
 #include "INativeSemaphore.hpp"
 #endif
 
@@ -39,9 +39,9 @@ namespace Elysium::Graphics::Rendering
 
 		void Wait(const Elysium::Core::uint64_t Timeout);
 	private:
-		Semaphore(INativeSemaphore& NativeSemaphore);
+		Semaphore(Native::INativeSemaphore& NativeSemaphore);
 
-		INativeSemaphore& _NativeSemaphore;
+		Native::INativeSemaphore& _NativeSemaphore;
 	};
 }
 #endif

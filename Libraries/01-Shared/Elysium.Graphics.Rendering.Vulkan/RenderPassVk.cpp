@@ -12,14 +12,12 @@
 #include "LogicalDeviceVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDeviceVk& LogicalDevice)
-	: _LogicalDevice(LogicalDevice), _NativeRenderPassHandle(VK_NULL_HANDLE)
+Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDeviceVk& LogicalDevice, PresentationParametersVk& PresentationParameters)
+	: _LogicalDevice(LogicalDevice), _PresentationParameters(PresentationParameters), _NativeRenderPassHandle(VK_NULL_HANDLE)
 {
-	const PresentationParametersVk& PresentationParameter = _LogicalDevice.GetPresentationParameters();
-
 	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
 	ColorAttachment.flags = 0;
-	ColorAttachment.format = (VkFormat&)PresentationParameter.GetSurfaceFormat().Format;
+	ColorAttachment.format = (VkFormat&)_PresentationParameters.GetSurfaceFormat().Format;
 	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
 	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
 	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;

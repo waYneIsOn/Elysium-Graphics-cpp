@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,11 +16,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
 #endif
 
@@ -28,7 +28,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ShaderModuleType.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsPipeline
 	{

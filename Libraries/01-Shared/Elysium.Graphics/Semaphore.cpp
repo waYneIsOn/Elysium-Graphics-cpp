@@ -8,6 +8,6 @@ void Elysium::Graphics::Rendering::Semaphore::Wait(const Elysium::Core::uint64_t
 	_NativeSemaphore.Wait(Timeout);
 }
 
-Elysium::Graphics::Rendering::Semaphore::Semaphore(INativeSemaphore& NativeSemaphore)
+Elysium::Graphics::Rendering::Semaphore::Semaphore(Native::INativeSemaphore& NativeSemaphore)
 	: _NativeSemaphore(NativeSemaphore)
 { }

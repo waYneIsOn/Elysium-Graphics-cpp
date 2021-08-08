@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,9 +20,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
-	// Fences are a synchronization primitive that can be used to insert a dependency from a queue to the host (ie. between gpu and cpu).
+	/// <summary>
+	/// Fences are a synchronization primitive that can be used to insert a dependency from a queue to the host (ie. between gpu and cpu).
+	/// </summary>
 	class ELYSIUM_GRAPHICS_API INativeFence
 	{
 	public:

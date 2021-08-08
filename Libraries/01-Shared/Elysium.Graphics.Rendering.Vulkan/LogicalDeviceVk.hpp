@@ -64,7 +64,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class ShaderModuleVk;
 		friend class SwapchainVk;
 	public:
-		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
+		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const SurfaceVk& Surface, PresentationParametersVk& PresentationParameters);
 		LogicalDeviceVk(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk(LogicalDeviceVk&& Right) noexcept = delete;
 		~LogicalDeviceVk();
@@ -72,13 +72,20 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		LogicalDeviceVk& operator=(const LogicalDeviceVk& Source) = delete;
 		LogicalDeviceVk& operator=(LogicalDeviceVk&& Right) noexcept = delete;
 
-		PresentationParametersVk& GetPresentationParameters() const;
+		const Elysium::Core::uint32_t GetGraphicsQueueFamilyIndex() const;
+		const Elysium::Core::uint32_t GetPresentationQueueFamilyIndex() const;
 
 		void Wait() const;
 	private:
 		const PhysicalDeviceVk& _PhysicalDevice;
+		const SurfaceVk& _Surface;
 		PresentationParametersVk& _PresentationParameters;
-		VkDevice _NativeLogicalDeviceHandle;
+
+		Elysium::Core::uint32_t _GraphicsQueueFamilyIndex = -1;
+		Elysium::Core::uint32_t _PresentationQueueFamilyIndex = -1;
+		const VkDevice _NativeLogicalDeviceHandle;
+
+		const VkDevice CreateNativeLogicalDeviceHandle();
 	};
 }
 #endif

@@ -12,45 +12,87 @@
 #include "ExceptionVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
-#include "PhysicalDeviceVk.hpp"
-#endif
-
-Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters)
-	: _PhysicalDevice(PhysicalDevice), _PresentationParameters(PresentationParameters), _NativeLogicalDeviceHandle(VK_NULL_HANDLE)
+Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const SurfaceVk& Surface, PresentationParametersVk& PresentationParameters)
+	: _PhysicalDevice(PhysicalDevice), _Surface(Surface), _PresentationParameters(PresentationParameters), 
+	_NativeLogicalDeviceHandle(CreateNativeLogicalDeviceHandle())
+{ }
+Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::~LogicalDeviceVk()
 {
-	const size_t QueueCount = PresentationParameters._DeviceQueueCreateInfos.GetCount();
-	if (QueueCount == 0)
+	if (_NativeLogicalDeviceHandle != VK_NULL_HANDLE)
 	{
-		throw Elysium::Core::InvalidOperationException(u8"Request at least one queue.");
+		vkDestroyDevice(_NativeLogicalDeviceHandle, nullptr);
+	}
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::GetGraphicsQueueFamilyIndex() const
+{
+	return _GraphicsQueueFamilyIndex;
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::GetPresentationQueueFamilyIndex() const
+{
+	return _PresentationQueueFamilyIndex;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::Wait() const
+{
+	VkResult Result;
+	if ((Result = vkDeviceWaitIdle(_NativeLogicalDeviceHandle)) != VK_SUCCESS)
+	{
+		throw ExceptionVk(Result);
+	}
+}
+
+const VkDevice Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::CreateNativeLogicalDeviceHandle()
+{
+	// check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
+	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
+	const float Priority = 1.0f;
+	Elysium::Core::Collections::Template::List<VkDeviceQueueCreateInfo> QueueCreateInfos = Elysium::Core::Collections::Template::List<VkDeviceQueueCreateInfo>();
+	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
+	{
+		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
+		if ((Capabilities & QueueCapabilitiesVk::Graphics) == QueueCapabilitiesVk::Graphics)
+		{
+			if (_GraphicsQueueFamilyIndex == -1)
+			{
+				_GraphicsQueueFamilyIndex = i;
+			}
+			if (_PresentationQueueFamilyIndex == -1)
+			{
+				if (_PhysicalDevice.SupportsPresentation(_Surface._NativeSurfaceHandle, i))
+				{
+					_PresentationQueueFamilyIndex = i;
+				}
+			}
+
+			VkDeviceQueueCreateInfo QueueCreateInfo = VkDeviceQueueCreateInfo();
+			QueueCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			QueueCreateInfo.pNext = nullptr;
+			QueueCreateInfo.flags = 0;
+			QueueCreateInfo.queueFamilyIndex = QueueFamilyProperties[i].GetIndex();
+			QueueCreateInfo.queueCount = 1;
+			QueueCreateInfo.pQueuePriorities = &Priority;
+
+			QueueCreateInfos.Add(QueueCreateInfo);
+		}
 	}
 
-	Elysium::Core::Collections::Template::Array<VkDeviceQueueCreateInfo> QueueCreateInfos =
-		Elysium::Core::Collections::Template::Array<VkDeviceQueueCreateInfo>(QueueCount);
-	Elysium::Core::uint32_t TotalQueueCount = 0;
-	for (size_t i = 0; i < QueueCount; i++)
+	const size_t QueueCreateInfosCount = QueueCreateInfos.GetCount();
+	if (QueueCreateInfosCount == 0)
 	{
-		const Elysium::Core::Collections::Template::List<float>& Priorities = PresentationParameters._DeviceQueueCreateInfos[i].GetPriorities();
-
-		QueueCreateInfos[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		QueueCreateInfos[i].queueFamilyIndex = PresentationParameters._DeviceQueueCreateInfos[i].GetFamilyIndex();
-		QueueCreateInfos[i].queueCount = Priorities.GetCount();
-		QueueCreateInfos[i].pQueuePriorities = &Priorities[0];
-		QueueCreateInfos[i].pNext = nullptr;
-		QueueCreateInfos[i].flags = 0;
-
-		TotalQueueCount += Priorities.GetCount();
+		throw Elysium::Core::InvalidOperationException(u8"Request at least one queue.");
 	}
 
 	VkDeviceCreateInfo DeviceCreateInfo = VkDeviceCreateInfo();
 	DeviceCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	DeviceCreateInfo.pQueueCreateInfos = &QueueCreateInfos[0];
-	DeviceCreateInfo.queueCreateInfoCount = QueueCount;
-	DeviceCreateInfo.pEnabledFeatures = &PhysicalDevice._Features._NativeFeatures;
-	if (PresentationParameters._DeviceExtensionPropertyNames.GetCount() > 0)
+	DeviceCreateInfo.queueCreateInfoCount = QueueCreateInfosCount;
+	DeviceCreateInfo.pEnabledFeatures = &_PhysicalDevice._Features._NativeFeatures;
+	if (_PresentationParameters._DeviceExtensionPropertyNames.GetCount() > 0)
 	{
-		DeviceCreateInfo.ppEnabledExtensionNames = &PresentationParameters._DeviceExtensionPropertyNames[0];
-		DeviceCreateInfo.enabledExtensionCount = PresentationParameters._DeviceExtensionPropertyNames.GetCount();
+		DeviceCreateInfo.ppEnabledExtensionNames = &_PresentationParameters._DeviceExtensionPropertyNames[0];
+		DeviceCreateInfo.enabledExtensionCount = _PresentationParameters._DeviceExtensionPropertyNames.GetCount();
 	}
 	else
 	{
@@ -64,30 +106,11 @@ Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::LogicalDeviceVk(const Phy
 	DeviceCreateInfo.pNext = nullptr;
 
 	VkResult Result;
-	if ((Result = vkCreateDevice(PhysicalDevice._NativePhysicalDeviceHandle, &DeviceCreateInfo, nullptr, &_NativeLogicalDeviceHandle)) != VK_SUCCESS)
+	VkDevice NativeDeviceHandle;
+	if ((Result = vkCreateDevice(_PhysicalDevice._NativePhysicalDeviceHandle, &DeviceCreateInfo, nullptr, &NativeDeviceHandle)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
-}
-Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::~LogicalDeviceVk()
-{
-	if (_NativeLogicalDeviceHandle != VK_NULL_HANDLE)
-	{
-		vkDestroyDevice(_NativeLogicalDeviceHandle, nullptr);
-		_NativeLogicalDeviceHandle = VK_NULL_HANDLE;
-	}
-}
 
-Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::GetPresentationParameters() const
-{
-	return _PresentationParameters;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::LogicalDeviceVk::Wait() const
-{
-	VkResult Result;
-	if ((Result = vkDeviceWaitIdle(_NativeLogicalDeviceHandle)) != VK_SUCCESS)
-	{
-		throw ExceptionVk(Result);
-	}
+	return NativeDeviceHandle;
 }

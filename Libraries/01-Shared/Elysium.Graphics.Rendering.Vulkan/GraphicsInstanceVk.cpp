@@ -25,7 +25,7 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GraphicsInstanceVk()
-	: _NativeInstanceHandle(CreateInstance()), _NativeDebugUtilsMessengerHandle(VK_NULL_HANDLE), _PhysicalGraphicsDevices(RetrievePhysicalGraphicsDevices())
+	: _NativeInstanceHandle(CreateInstance()), _NativeDebugUtilsMessengerHandle(VK_NULL_HANDLE), _PhysicalDevices(RetrievePhysicalDevices())
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 {
@@ -79,12 +79,12 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 
 const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalDevice(const Elysium::Core::uint32_t Index) const
 {
-	return _PhysicalGraphicsDevices[Index];
+	return _PhysicalDevices[Index];
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk>& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalGraphicsDevices()
+const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk>& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalDevices()
 {
-	return _PhysicalGraphicsDevices;
+	return _PhysicalDevices;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::EnableDebugging()
@@ -174,7 +174,7 @@ VkInstance Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateInsta
 	return NativeInstanceHandle;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::RetrievePhysicalGraphicsDevices()
+Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::RetrievePhysicalDevices()
 {
 	VkResult Result;
 

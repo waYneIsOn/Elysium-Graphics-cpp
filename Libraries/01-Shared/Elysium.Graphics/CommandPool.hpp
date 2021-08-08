@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CommandBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDPOOL
 #include "INativeCommandPool.hpp"
 #endif
 
@@ -43,9 +43,9 @@ namespace Elysium::Graphics::Rendering
 
 		void Reset();
 	private:
-		CommandPool(INativeCommandPool* NativeCommandPool);
+		CommandPool(Native::INativeCommandPool* NativeCommandPool);
 
-		INativeCommandPool* _NativeCommandPool;
+		Native::INativeCommandPool* _NativeCommandPool;
 	};
 }
 #endif

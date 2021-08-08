@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
 #include "../Elysium.Graphics/INativeSemaphore.hpp"
 #endif
 
@@ -33,7 +33,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class QueueVk;
 	class SwapchainVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SemaphoreVk final : public INativeSemaphore
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SemaphoreVk final : public Native::INativeSemaphore
 	{
 		friend class QueueVk;
 		friend class SwapchainVk;

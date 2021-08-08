@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeFramebuffer
 	{

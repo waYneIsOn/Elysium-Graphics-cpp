@@ -59,6 +59,6 @@ void Elysium::Graphics::Rendering::CommandBuffer::ClearDepthImage(const float De
 	_NativeCommandBuffer->ClearDepthImage(Depth, Stencil);
 }
 
-Elysium::Graphics::Rendering::CommandBuffer::CommandBuffer(INativeCommandBuffer* NativeCommandBuffer)
+Elysium::Graphics::Rendering::CommandBuffer::CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer)
 	: _NativeCommandBuffer(NativeCommandBuffer)
 { }

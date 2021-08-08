@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,23 +24,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Color.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
 #include "INativeFrameBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 #include "INativeGraphicsPipeline.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeCommandBuffer
 	{

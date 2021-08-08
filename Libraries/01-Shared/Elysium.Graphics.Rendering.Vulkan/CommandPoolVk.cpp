@@ -16,7 +16,7 @@ Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::~CommandPoolVk()
 	vkDestroyCommandPool(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, nullptr);
 }
 
-Elysium::Graphics::Rendering::INativeCommandBuffer* Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateCommandBuffer(const bool IsPrimary)
+Elysium::Graphics::Rendering::Native::INativeCommandBuffer* Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateCommandBuffer(const bool IsPrimary)
 {
 	return new CommandBufferVk(_GraphicsDevice, *this, IsPrimary);
 }

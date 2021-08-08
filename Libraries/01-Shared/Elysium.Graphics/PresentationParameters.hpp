@@ -36,7 +36,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics.Presentation/DisplayDevice.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
 #include "INativeGraphicsAPI.hpp"
 #endif
 
@@ -49,7 +49,7 @@ namespace Elysium::Graphics
 	class ELYSIUM_GRAPHICS_API PresentationParameters
 	{
 	public:
-		PresentationParameters(Rendering::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas);
+		PresentationParameters(Rendering::Native::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas);
 		PresentationParameters(const PresentationParameters& Source) = delete;
 		PresentationParameters(PresentationParameters&& Right) noexcept = delete;
 		virtual ~PresentationParameters();
@@ -59,7 +59,7 @@ namespace Elysium::Graphics
 
 		const Elysium::Graphics::DisplayMode GetDisplayMode() const;
 		const Elysium::Graphics::Presentation::DisplayDevice& GetDisplayDevice() const;
-		const Elysium::Graphics::Rendering::INativePhysicalDevice& GetGraphicsDevice() const;
+		const Elysium::Graphics::Rendering::Native::INativePhysicalDevice& GetPhysicalDevice() const;
 		Presentation::Control& GetCanvas() const;
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
@@ -77,7 +77,7 @@ namespace Elysium::Graphics
 		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) = 0;
 	protected:
 		// graphics api
-		Rendering::INativeGraphicsAPI& _NativeGraphicsAPI;
+		Rendering::Native::INativeGraphicsAPI& _NativeGraphicsAPI;
 		Presentation::Control& _Canvas;
 
 		// display parameters

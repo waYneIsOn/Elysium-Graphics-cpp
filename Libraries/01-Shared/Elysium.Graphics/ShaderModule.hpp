@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
 #endif
 
@@ -43,7 +43,7 @@ namespace Elysium::Graphics::Rendering
 		const GraphicsDevice& _GraphicsDevice;
 		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _ByteCode;
 
-		INativeShaderModule* _NativeShaderModule;
+		Native::INativeShaderModule* _NativeShaderModule;
 	};
 }
 #endif

@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ExtensionPropertyVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
+#include "IncludeVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LAYERPROPERTYVK
 #include "LayerPropertyVk.hpp"
 #endif
@@ -56,6 +60,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public Elysium::Graphics::PresentationParameters
 	{
+		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
 		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
@@ -68,9 +73,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PresentationParametersVk& operator=(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk& operator=(PresentationParametersVk&& Right) noexcept = delete;
 
-		const void* GetSurfaceHandle() const;
-		const Elysium::Core::uint32_t GetGraphicsQueueFamilyIndex() const;
-		const Elysium::Core::uint32_t GetPresentationQueueFamilyIndex() const;
 		const Elysium::Core::uint32_t GetImageArrayLayers() const;
 		const Elysium::Core::uint32_t GetTransform() const;
 		const Extent2DVk& GetExtent() const;
@@ -78,9 +80,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const PresentModeVk& GetPresentMode() const;
 
 		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) override;
-		void SetSurfaceHandle(const SurfaceVk& Value);
-		void SetGraphicsQueueFamilyIndex(const Elysium::Core::uint32_t Value);
-		void SetPresentationQueueFamilyIndex(const Elysium::Core::uint32_t Value);
 		void SetImageArrayLayers(const Elysium::Core::uint32_t Value);
 		void SetTransform(const Elysium::Core::uint32_t Value);
 		void SetSurfaceFormat(const SurfaceFormatVk& Value);
@@ -93,10 +92,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		void ClearDeviceQueueCreateInfo();
 	private:
 		// information required for creation of device and queues
-		void* _SurfaceHandle;
 		Core::Collections::Template::List<char*> _DeviceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
-		Elysium::Core::uint32_t _GraphicsQueueFamilyIndex = -1;
-		Elysium::Core::uint32_t _PresentationQueueFamilyIndex = -1;
 		Core::Collections::Template::List<DeviceQueueCreateInfoVk> _DeviceQueueCreateInfos = Core::Collections::Template::List<DeviceQueueCreateInfoVk>(0);
 
 		// information required for creation of swapchain

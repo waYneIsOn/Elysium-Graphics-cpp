@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PhysicalDeviceType.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	// Represents a specialized hardware device designed to accelerate the creation and manipulation of images - a gpu.
 	class ELYSIUM_GRAPHICS_API INativePhysicalDevice

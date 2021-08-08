@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 #include "../Elysium.Graphics/INativeCommandBuffer.hpp"
 #endif
 
@@ -34,7 +34,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandBufferVk : public INativeCommandBuffer
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandBufferVk : public Native::INativeCommandBuffer
 	{
 		friend class QueueVk;
 	public:
@@ -52,10 +52,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
 
-		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFramebuffer& FrameBuffer) override;
+		virtual void BeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFramebuffer& FrameBuffer) override;
 		virtual void EndRenderPass() override;
 
-		virtual void SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) override;
+		virtual void SetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
 
 		virtual void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
 

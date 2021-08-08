@@ -46,12 +46,12 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::QueueVk::Get
 	return _FamilyIndex;
 }
 
-Elysium::Graphics::Rendering::INativeCommandPool* Elysium::Graphics::Rendering::Vulkan::QueueVk::CreateCommandPool()
+Elysium::Graphics::Rendering::Native::INativeCommandPool* Elysium::Graphics::Rendering::Vulkan::QueueVk::CreateCommandPool()
 {
 	return new CommandPoolVk(_GraphicsDevice, *this);
 }
 
-void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence)
+void Elysium::Graphics::Rendering::Vulkan::QueueVk::Submit(const Native::INativeCommandBuffer& CommmandBuffer, const Native::INativeSemaphore& PresentSemaphore, const Native::INativeSemaphore& RenderSemaphore, const Native::INativeFence& Fence)
 {
 	const CommandBufferVk& VkCommandBuffer = static_cast<const CommandBufferVk&>(CommmandBuffer);
 	const SemaphoreVk& VkPresentSemaphore = static_cast<const SemaphoreVk&>(PresentSemaphore);

@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 #include "../Elysium.Graphics/INativeGraphicsPipeline.hpp"
 #endif
 
@@ -38,7 +38,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsPipelineVk final : public INativeGraphicsPipeline
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsPipelineVk final : public Native::INativeGraphicsPipeline
 	{
 		friend class CommandBufferVk;
 	public:
@@ -50,8 +50,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsPipelineVk& operator=(const GraphicsPipelineVk& Source) = delete;
 		GraphicsPipelineVk& operator=(GraphicsPipelineVk&& Right) noexcept = delete;
 
-		virtual void AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type) override;
-		virtual void Build(const INativeRenderPass& RenderPass) override;
+		virtual void AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type) override;
+		virtual void Build(const Native::INativeRenderPass& RenderPass) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		SurfaceVk& _Surface;

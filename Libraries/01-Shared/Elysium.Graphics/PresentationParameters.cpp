@@ -1,6 +1,6 @@
 #include "PresentationParameters.hpp"
 
-Elysium::Graphics::PresentationParameters::PresentationParameters(Rendering::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas)
+Elysium::Graphics::PresentationParameters::PresentationParameters(Rendering::Native::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas)
 	: _NativeGraphicsAPI(NativeGraphicsAPI), _Canvas(Canvas)
 { }
 Elysium::Graphics::PresentationParameters::~PresentationParameters()
@@ -16,7 +16,7 @@ const Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Present
 	return Elysium::Graphics::Presentation::DisplayDevice::GetActiveDisplayDevices()[_DisplayDeviceIndex];
 }
 
-const Elysium::Graphics::Rendering::INativePhysicalDevice& Elysium::Graphics::PresentationParameters::GetGraphicsDevice() const
+const Elysium::Graphics::Rendering::Native::INativePhysicalDevice& Elysium::Graphics::PresentationParameters::GetPhysicalDevice() const
 {
 	return _NativeGraphicsAPI.GetPhysicalDevice(_GraphicsDeviceIndex);
 }

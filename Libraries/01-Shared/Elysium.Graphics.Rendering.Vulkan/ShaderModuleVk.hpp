@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArrayOfByte.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESHADERMODULE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
 #include "../Elysium.Graphics/INativeShaderModule.hpp"
 #endif
 
@@ -34,7 +34,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API ShaderModuleVk final : public INativeShaderModule
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API ShaderModuleVk final : public Native::INativeShaderModule
 	{
 		friend class GraphicsPipelineVk;
 	public:

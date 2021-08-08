@@ -34,16 +34,29 @@ using namespace Elysium::Graphics::Rendering::Vulkan;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    // instantiate and prepare vulkan
-    const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstanceVk::GetAvailableExtensions();
-    const Array<LayerPropertyVk> AvailableLayers = GraphicsInstanceVk::GetAvailableLayers();
+    // instantiate a window to be used as canvas and find the primary display device index
+    Window Canvas = Window();
+    const List<DisplayDevice>& DisplayDevices = DisplayDevice::GetActiveDisplayDevices();
+    size_t PrimaryDisplayDeviceIndex = -1;
+    for (size_t i = 0; i < DisplayDevices.GetCount(); i++)
+    {
+        if (DisplayDevices[i].GetIsPrimaryDisplayDevice())
+        {
+            PrimaryDisplayDeviceIndex = i;
+            break;
+        }
+    }
 
+    // instantiate and prepare vulkan
     GraphicsInstanceVk GraphicsAPI = GraphicsInstanceVk();
     GraphicsAPI.EnableDebugging();
 
+    const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsAPI.GetAvailableExtensions();
+    const Array<LayerPropertyVk> AvailableLayers = GraphicsAPI.GetAvailableLayers();
+
     // get the most suitable graphics device
-    const Array<PhysicalDeviceVk>& PhysicalGraphicsDevices = GraphicsAPI.GetPhysicalGraphicsDevices();
-    size_t MostSuitableGraphicsDeviceIndex = -1;
+    const Array<PhysicalDeviceVk>& PhysicalGraphicsDevices = GraphicsAPI.GetPhysicalDevices();
+    size_t MostSuitablePhysicalDeviceIndex = -1;
     size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
     {
@@ -65,23 +78,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         if (Score > HighestScore)
         {
             HighestScore = Score;
-            MostSuitableGraphicsDeviceIndex = i;
-        }
-    }
-
-    // instantiate a window to be used as canvas and find the primary display device index
-    Window Canvas = Window();
-    const List<DisplayDevice>& DisplayDevices = DisplayDevice::GetActiveDisplayDevices();
-    size_t PrimaryDisplayDeviceIndex = -1;
-    for (size_t i = 0; i < DisplayDevices.GetCount(); i++)
-    {
-        if (DisplayDevices[i].GetIsPrimaryDisplayDevice())
-        {
-            PrimaryDisplayDeviceIndex = i;
-            break;
+            MostSuitablePhysicalDeviceIndex = i;
         }
     }
     
+
     // create and configure presentation parameters (further values will set along the way)
     PresentationParametersVk PresentationParameters = PresentationParametersVk(GraphicsAPI, Canvas);
     PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
@@ -89,10 +90,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     PresentationParameters.SetBackBufferCount(GraphicsDeviceManager::DefaultBackBufferCount);
     PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
     PresentationParameters.SetDisplayDeviceIndex(PrimaryDisplayDeviceIndex);
-    PresentationParameters.SetGraphicsDeviceIndex(MostSuitableGraphicsDeviceIndex);
+    PresentationParameters.SetGraphicsDeviceIndex(MostSuitablePhysicalDeviceIndex);
 
     // ...
-    const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitableGraphicsDeviceIndex];
+    const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitablePhysicalDeviceIndex];
 
     const Array<ExtensionPropertyVk> AvailableDeviceExtensions = SelectedPhysicalDevice.GetAvailableExtensions();
     for (size_t i = 0; i < AvailableDeviceExtensions.GetLength(); i++)
@@ -105,7 +106,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
 
     // ...
-    GraphicsDeviceVk GraphicsDeviceVulkan = GraphicsDeviceVk(GraphicsAPI, PresentationParameters);
+    GraphicsDeviceVk GraphicsDeviceVulkan = GraphicsDeviceVk(SelectedPhysicalDevice, GraphicsAPI, PresentationParameters);
     GraphicsDevice WrappedGraphicsDevice = GraphicsDevice(GraphicsDeviceVulkan);
 
     // create and run the game

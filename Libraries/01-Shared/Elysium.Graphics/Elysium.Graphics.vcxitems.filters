@@ -13,31 +13,15 @@
     <Filter Include="Input">
       <UniqueIdentifier>{76450a48-6964-4b7c-9f03-d7c507399443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Native">
+      <UniqueIdentifier>{7816fa01-97e4-43a2-a189-245343bc603a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -51,21 +35,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Color.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentManager.hpp">
       <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp">
-      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentReader.hpp">
       <Filter>Content</Filter>
@@ -89,9 +64,6 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp">
@@ -118,21 +90,50 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsPipeline.hpp">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsPipeline.hpp">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandBuffer.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeCommandPool.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFence.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsDevice.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsPipeline.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp">
+      <Filter>Rendering\Native</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfos.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Color.cpp" />

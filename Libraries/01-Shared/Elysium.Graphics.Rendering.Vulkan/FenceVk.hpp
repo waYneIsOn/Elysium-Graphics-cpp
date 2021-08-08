@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
 #include "../Elysium.Graphics/INativeFence.hpp"
 #endif
 
@@ -32,7 +32,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class QueueVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FenceVk final : public INativeFence
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FenceVk final : public Native::INativeFence
 	{
 		friend class QueueVk;
 	public:

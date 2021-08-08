@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,23 +20,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 #include "INativeCommandBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDPOOL
 #include "INativeCommandPool.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
 #include "INativeFence.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
 #include "INativeSemaphore.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	// Represents...
 	class ELYSIUM_GRAPHICS_API INativeQueue

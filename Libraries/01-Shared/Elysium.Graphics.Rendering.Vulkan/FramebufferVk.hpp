@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
 #include "../Elysium.Graphics/INativeFrameBuffer.hpp"
 #endif
 
@@ -44,11 +44,11 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FramebufferVk final : public INativeFramebuffer
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FramebufferVk final : public Native::INativeFramebuffer
 	{
 		friend class CommandBufferVk;
 	public:
-		FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass);
+		FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters);
 		FramebufferVk(const FramebufferVk& Source) = delete;
 		FramebufferVk(FramebufferVk&& Right) noexcept = delete;
 		virtual ~FramebufferVk();
@@ -59,6 +59,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const LogicalDeviceVk& _LogicalDevice;
 		const SwapchainVk& _Swapchain;
 		const RenderPassVk& _RenderPass;
+		PresentationParametersVk& _PresentationParameters;
 		SurfaceVk& _Surface;
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeSwapchainFramebufferHandles;
 

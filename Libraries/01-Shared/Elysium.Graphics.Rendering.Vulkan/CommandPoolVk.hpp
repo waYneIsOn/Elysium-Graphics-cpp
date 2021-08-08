@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVECOMMANDPOOL
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDPOOL
 #include "../Elysium.Graphics/INativeCommandPool.hpp"
 #endif
 
@@ -44,7 +44,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class CommandBufferVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandPoolVk final : public INativeCommandPool
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandPoolVk final : public Native::INativeCommandPool
 	{
 		friend class CommandBufferVk;
 	public:
@@ -56,7 +56,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		CommandPoolVk& operator=(const CommandPoolVk& Source) = delete;
 		CommandPoolVk& operator=(CommandPoolVk&& Right) noexcept = delete;
 
-		virtual INativeCommandBuffer* CreateCommandBuffer(const bool IsPrimary) override;
+		virtual Native::INativeCommandBuffer* CreateCommandBuffer(const bool IsPrimary) override;
 
 		virtual void Reset() override;
 	private:

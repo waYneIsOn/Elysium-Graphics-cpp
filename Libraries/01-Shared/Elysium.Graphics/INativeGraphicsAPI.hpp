@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,11 +20,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsAPI
 	{

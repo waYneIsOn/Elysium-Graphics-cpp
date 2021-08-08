@@ -28,7 +28,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Semaphore.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
 #include "INativeQueue.hpp"
 #endif
 
@@ -52,9 +52,9 @@ namespace Elysium::Graphics::Rendering
 		void Submit(const CommandBuffer& CommmandBuffer, const Semaphore& PresentSemaphore, const Semaphore& RenderSemaphore, const Fence& Fence);
 		void Wait() const;
 	private:
-		Queue(INativeQueue& NativeQueue);
+		Queue(Native::INativeQueue& NativeQueue);
 
-		INativeQueue& _NativeQueue;
+		Native::INativeQueue& _NativeQueue;
 	};
 }
 #endif

@@ -10,21 +10,6 @@ Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationPara
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }
 
-const void* Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetSurfaceHandle() const
-{
-	return _SurfaceHandle;
-}
-
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetGraphicsQueueFamilyIndex() const
-{
-	return _GraphicsQueueFamilyIndex;
-}
-
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetPresentationQueueFamilyIndex() const
-{
-	return _PresentationQueueFamilyIndex;
-}
-
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetImageArrayLayers() const
 {
 	return _ImageArrayLayers;
@@ -54,21 +39,6 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetExtent(c
 {
 	_Extent.Width = Width;
 	_Extent.Height = Height;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetSurfaceHandle(const SurfaceVk& Value)
-{
-	_SurfaceHandle = (void*)Value._NativeSurfaceHandle;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetGraphicsQueueFamilyIndex(const Elysium::Core::uint32_t Value)
-{
-	_GraphicsQueueFamilyIndex = Value;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetPresentationQueueFamilyIndex(const Elysium::Core::uint32_t Value)
-{
-	_PresentationQueueFamilyIndex = Value;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetImageArrayLayers(const Elysium::Core::uint32_t Value)

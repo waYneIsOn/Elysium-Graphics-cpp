@@ -3,6 +3,6 @@
 Elysium::Graphics::Rendering::RenderPass::~RenderPass()
 { }
 
-Elysium::Graphics::Rendering::RenderPass::RenderPass(INativeRenderPass& NativeRenderPass)
+Elysium::Graphics::Rendering::RenderPass::RenderPass(Native::INativeRenderPass& NativeRenderPass)
 	: _NativeRenderPass(NativeRenderPass)
 { }

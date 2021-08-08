@@ -4,10 +4,13 @@
 #include "Game.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSDEVICE
 #include "INativeGraphicsDevice.hpp"
 #endif
 
+Elysium::Graphics::GraphicsDeviceManager::GraphicsDeviceManager(const Game& Game, Rendering::GraphicsDevice& GraphicsDevice)
+	: _Game(Game), _GraphicsDevice(GraphicsDevice)
+{ }
 Elysium::Graphics::GraphicsDeviceManager::~GraphicsDeviceManager()
 { }
 
@@ -16,9 +19,6 @@ Elysium::Graphics::Rendering::GraphicsDevice& Elysium::Graphics::GraphicsDeviceM
 	return _GraphicsDevice;
 }
 
-Elysium::Graphics::GraphicsDeviceManager::GraphicsDeviceManager(Game& Game, Rendering::GraphicsDevice& GraphicsDevice)
-	: _Game(Game), _GraphicsDevice(GraphicsDevice)
-{ }
 
 void Elysium::Graphics::GraphicsDeviceManager::Wait() const
 {

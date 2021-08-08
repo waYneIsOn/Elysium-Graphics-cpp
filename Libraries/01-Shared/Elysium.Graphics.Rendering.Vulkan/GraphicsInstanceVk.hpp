@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
 #include "../Elysium.Graphics/INativeGraphicsAPI.hpp"
 #endif
 
@@ -46,7 +46,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsInstanceVk final : public INativeGraphicsAPI
+	/// <summary>
+	/// 
+	/// </summary>
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsInstanceVk final : public Native::INativeGraphicsAPI
 	{
 		friend class SurfaceVk;
 	public:
@@ -58,22 +61,22 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsInstanceVk& operator=(const GraphicsInstanceVk& Source) = delete;
 		GraphicsInstanceVk& operator=(GraphicsInstanceVk&& Right) noexcept = delete;
 
-		static const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
-		static const Elysium::Core::Collections::Template::Array<LayerPropertyVk> GetAvailableLayers();
+		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions();
+		const Elysium::Core::Collections::Template::Array<LayerPropertyVk> GetAvailableLayers();
 
 		virtual const PhysicalDeviceVk& GetPhysicalDevice(const Elysium::Core::uint32_t Index) const override;
 		//virtual const Elysium::Core::Collections::Template::Array<INativePhysicalDevice> GetPhysicalGraphicsDevices() const override;
-		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>& GetPhysicalGraphicsDevices();
+		const Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>& GetPhysicalDevices();
 
 		virtual void EnableDebugging() override;
 		virtual void DisableDebugging() override;
 	private:
 		VkInstance _NativeInstanceHandle;
 		VkDebugUtilsMessengerEXT _NativeDebugUtilsMessengerHandle;
-		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> _PhysicalGraphicsDevices;
+		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> _PhysicalDevices;
 
 		VkInstance CreateInstance();
-		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> RetrievePhysicalGraphicsDevices();
+		Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> RetrievePhysicalDevices();
 	private:
 		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT MessageSeverity, VkDebugUtilsMessageTypeFlagsEXT MessageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	};

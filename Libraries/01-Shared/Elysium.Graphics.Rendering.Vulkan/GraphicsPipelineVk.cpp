@@ -31,7 +31,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::~GraphicsPipelineVk()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type)
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type)
 {
 	const ShaderModuleVk& VkShaderModule = static_cast<const ShaderModuleVk&>(ShaderModule);
 
@@ -47,7 +47,7 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(c
 	_ShaderStages.Add(ShaderStageCreateInfo);
 }
 
-void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const INativeRenderPass& RenderPass)
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Native::INativeRenderPass& RenderPass)
 {
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 

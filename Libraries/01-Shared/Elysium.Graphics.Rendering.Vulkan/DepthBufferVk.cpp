@@ -20,9 +20,9 @@
 #include "SurfaceVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface)
-	: _LogicalDevice(LogicalDevice), _Surface(Surface), _NativeDepthImageHandle(VK_NULL_HANDLE), _NativeDepthImageMemoryHandle(VK_NULL_HANDLE),
-	_NativeDepthImageViewHandle(VK_NULL_HANDLE)
+Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DepthBufferVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface, PresentationParametersVk& PresentationParameters)
+	: _LogicalDevice(LogicalDevice), _Surface(Surface), _PresentationParameters(PresentationParameters),
+	_NativeDepthImageHandle(VK_NULL_HANDLE), _NativeDepthImageMemoryHandle(VK_NULL_HANDLE), _NativeDepthImageViewHandle(VK_NULL_HANDLE)
 {
 	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::DepthBufferVk, &Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::Surface_OnSizeChanged>(*this);
 	CreateResources();
@@ -54,8 +54,7 @@ void Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::DestroyResources()
 
 void Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::CreateResources()
 {
-	const PresentationParametersVk& PresentationParameters = _LogicalDevice.GetPresentationParameters();
-	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameters.GetExtent();
+	const VkExtent2D& Extent = (const VkExtent2D&)_PresentationParameters.GetExtent();
 	
 	VkResult Result;
 
@@ -69,7 +68,7 @@ void Elysium::Graphics::Rendering::Vulkan::DepthBufferVk::CreateResources()
 	ImageCreateInfo.extent.depth = 1;
 	ImageCreateInfo.mipLevels = 1;
 	ImageCreateInfo.arrayLayers = 1;
-	ImageCreateInfo.format = FormatConverterVk::Convert(PresentationParameters.GetDesiredDepthFormat());
+	ImageCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters.GetDesiredDepthFormat());
 	ImageCreateInfo.tiling = VkImageTiling::VK_IMAGE_TILING_OPTIMAL;
 	ImageCreateInfo.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
 	ImageCreateInfo.usage = VkImageUsageFlagBits::VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;

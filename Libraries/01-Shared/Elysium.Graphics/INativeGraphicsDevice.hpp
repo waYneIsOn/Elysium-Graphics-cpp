@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
-#define ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSDEVICE
+#define ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSDEVICE
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,46 +24,46 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParameters.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFENCE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFENCE
 #include "INativeFence.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEFRAMEBUFFER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
 #include "INativeFramebuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSPIPELINE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 #include "INativeGraphicsPipeline.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSAPI
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
 #include "INativeGraphicsAPI.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEPHYSICALDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
 #include "INativeQueue.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVERENDERPASS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVESEMAPHORE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESEMAPHORE
 #include "INativeSemaphore.hpp"
 #endif
 
-namespace Elysium::Graphics::Rendering
+namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsDevice
 	{
 	public:
 		virtual ~INativeGraphicsDevice() { }
 
-		virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
+		//virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
 		virtual PresentationParameters& GetPresentationParameters() const = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 

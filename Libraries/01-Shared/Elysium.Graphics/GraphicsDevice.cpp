@@ -1,6 +1,6 @@
 #include "GraphicsDevice.hpp"
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEGRAPHICSDEVICE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSDEVICE
 #include "INativeGraphicsDevice.hpp"
 #endif
 
@@ -8,14 +8,14 @@
 #include "PresentationParameters.hpp"
 #endif
 
-Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(INativeGraphicsDevice& NativeGraphicsDevice)
+Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(Native::INativeGraphicsDevice& NativeGraphicsDevice)
 	: _NativeGraphicsDevice(NativeGraphicsDevice),
-	_DefaultRenderPass((INativeRenderPass&)_NativeGraphicsDevice.GetDefaultRenderPass()),
-	_FrameBuffer((INativeFramebuffer&)_NativeGraphicsDevice.GetFramebuffer()),
-	_RenderFence((INativeFence&)_NativeGraphicsDevice.GetRenderFence()),
-	_PresentationSemaphore((INativeSemaphore&)_NativeGraphicsDevice.GetPresentationSemaphore()),
-	_RenderSemaphore((INativeSemaphore&)_NativeGraphicsDevice.GetRenderSemaphore()),
-	_GraphicsQueue((INativeQueue&)_NativeGraphicsDevice.GetGraphicsQueue())
+	_DefaultRenderPass((Native::INativeRenderPass&)_NativeGraphicsDevice.GetDefaultRenderPass()),
+	_FrameBuffer((Native::INativeFramebuffer&)_NativeGraphicsDevice.GetFramebuffer()),
+	_RenderFence((Native::INativeFence&)_NativeGraphicsDevice.GetRenderFence()),
+	_PresentationSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetPresentationSemaphore()),
+	_RenderSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetRenderSemaphore()),
+	_GraphicsQueue((Native::INativeQueue&)_NativeGraphicsDevice.GetGraphicsQueue())
 { }
 Elysium::Graphics::Rendering::GraphicsDevice::~GraphicsDevice()
 { }

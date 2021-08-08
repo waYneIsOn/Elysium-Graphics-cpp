@@ -19,6 +19,6 @@ void Elysium::Graphics::Rendering::CommandPool::Reset()
 	_NativeCommandPool->Reset();
 }
 
-Elysium::Graphics::Rendering::CommandPool::CommandPool(INativeCommandPool* NativeCommandPool)
+Elysium::Graphics::Rendering::CommandPool::CommandPool(Native::INativeCommandPool* NativeCommandPool)
 	: _NativeCommandPool(NativeCommandPool)
 { }

@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_INATIVEQUEUE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
 #include "../Elysium.Graphics/INativeQueue.hpp"
 #endif
 
@@ -45,7 +45,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class GraphicsDeviceVk;
 	class SwapchainVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public INativeQueue
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public Native::INativeQueue
 	{
 		friend class Elysium::Core::Collections::Template::Array<QueueVk>;
 		friend class PhysicalDeviceVk;
@@ -61,9 +61,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual const Elysium::Core::uint32_t GetFamilyIndex() const override;
 
-		virtual INativeCommandPool* CreateCommandPool() override;
+		virtual Native::INativeCommandPool* CreateCommandPool() override;
 
-		virtual void Submit(const INativeCommandBuffer& CommmandBuffer, const INativeSemaphore& PresentSemaphore, const INativeSemaphore& RenderSemaphore, const INativeFence& Fence) override;
+		virtual void Submit(const Native::INativeCommandBuffer& CommmandBuffer, const Native::INativeSemaphore& PresentSemaphore, const Native::INativeSemaphore& RenderSemaphore, const Native::INativeFence& Fence) override;
 		virtual void Wait() const override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
