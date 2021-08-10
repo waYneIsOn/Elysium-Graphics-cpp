@@ -103,7 +103,7 @@ void Elysium::Graphics::Rendering::Vulkan::SurfaceVk::UpdateInternalValues()
 	Elysium::Core::Collections::Template::Array<PresentModeVk> PresentModes =
 		Elysium::Core::Collections::Template::Array<PresentModeVk>(PresentModeCount);
 	vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, (VkPresentModeKHR*)&PresentModes[0]);
-
+	/*
 	_PresentationParameters.SetPresentMode(PresentModeVk::Immediate);
 	for (size_t i = 0; i < PresentModes.GetLength(); i++)
 	{
@@ -113,6 +113,7 @@ void Elysium::Graphics::Rendering::Vulkan::SurfaceVk::UpdateInternalValues()
 			break;
 		}
 	}
+	*/
 }
 
 void Elysium::Graphics::Rendering::Vulkan::SurfaceVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)

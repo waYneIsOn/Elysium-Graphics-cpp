@@ -99,7 +99,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		Elysium::Core::uint32_t _ImageArrayLayers = 1;
 		Extent2DVk _Extent = Extent2DVk(_BackBufferWidth, _BackBufferHeight);
 		SurfaceFormatVk _SurfaceFormat = SurfaceFormatVk();
-		PresentModeVk _PresentMode = PresentModeVk();
+		PresentModeVk _PresentMode = PresentModeVk::Fifo;
 		Elysium::Core::uint32_t _Transform = -1;
 	};
 }
