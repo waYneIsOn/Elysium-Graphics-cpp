@@ -35,7 +35,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API SwapchainVk final
 	{
 		friend class CommandBufferVk;
-		friend class FramebufferVk;
+		friend class FrameBufferVk;
 	public:
 		SwapchainVk(const LogicalDeviceVk& LogicalDevice, SurfaceVk& Surface, PresentationParametersVk& PresentationParameters);
 		SwapchainVk(const SwapchainVk& Source) = delete;

@@ -68,7 +68,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
 		virtual const INativeRenderPass& GetDefaultRenderPass() const = 0;
-		virtual const INativeFramebuffer& GetFramebuffer() const = 0;
+		virtual const INativeFrameBuffer& GetFrameBuffer() const = 0;
 
 		virtual const INativeFence& GetRenderFence() const = 0;
 		virtual const INativeSemaphore& GetPresentationSemaphore() const = 0;

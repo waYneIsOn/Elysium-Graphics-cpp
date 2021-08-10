@@ -45,15 +45,15 @@ namespace Elysium::Graphics
 		// Returns the elapsed time since the start of the game.
 		const Elysium::Core::TimeSpan& GetTotalGameTime() const;
 
-		// Returns a value indicating whether the game is running slowly.
-		const bool& GetIsRunningSlowly() const;
+		// Returns a value indicating whether the game is updating slowly.
+		const bool& GetIsUpdatingSlowly() const;
 	private:
 		GameTime();
-		GameTime(const Elysium::Core::TimeSpan ElapsedGameTime, const Elysium::Core::TimeSpan TotalGameTime, const bool IsRunningSlowly);
 
 		Elysium::Core::TimeSpan _ElapsedGameTime;
 		Elysium::Core::TimeSpan _TotalGameTime;
-		bool _IsRunningSlowly;
+		double _Delta;
+		bool _IsUpdatingSlowly;
 	};
 }
 #endif

@@ -112,12 +112,12 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSecondaryBuffe
 	throw 1;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFramebuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer)
 {
 	const PresentationParametersVk& PresentationParameter = _GraphicsDevice.GetPresentationParameters();
 	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
-	const FramebufferVk& VkFramebuffer = static_cast<const FramebufferVk&>(FrameBuffer);
+	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 
 	VkClearValue ClearValues[1];
 	ClearValues[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -128,7 +128,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(cons
 	{
 		VkRenderPassBeginInfo RenderPassInfo = VkRenderPassBeginInfo();
 		RenderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		RenderPassInfo.framebuffer = VkFramebuffer._NativeSwapchainFramebufferHandles[i];
+		RenderPassInfo.framebuffer = VkFrameBuffer._NativeSwapchainFramebufferHandles[i];
 		RenderPassInfo.renderArea.offset = { 0, 0 };
 		RenderPassInfo.renderArea.extent = Extent;
 		RenderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;

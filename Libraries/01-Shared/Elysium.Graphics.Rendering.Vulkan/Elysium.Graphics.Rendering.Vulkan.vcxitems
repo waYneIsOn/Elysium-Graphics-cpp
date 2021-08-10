@@ -21,7 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandPoolVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FramebufferVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FrameBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsPipelineVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPassVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleVk.hpp" />
@@ -55,7 +55,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandPoolVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DepthBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeviceQueueCreateInfoVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FramebufferVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FrameBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsPipelineVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPassVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModuleVk.cpp" />

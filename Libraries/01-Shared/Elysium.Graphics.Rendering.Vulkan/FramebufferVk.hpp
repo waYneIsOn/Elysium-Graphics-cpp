@@ -42,19 +42,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
-
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FramebufferVk final : public Native::INativeFramebuffer
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FrameBufferVk final : public Native::INativeFrameBuffer
 	{
 		friend class CommandBufferVk;
 	public:
-		FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters);
-		FramebufferVk(const FramebufferVk& Source) = delete;
-		FramebufferVk(FramebufferVk&& Right) noexcept = delete;
-		virtual ~FramebufferVk();
+		FrameBufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters);
+		FrameBufferVk(const FrameBufferVk& Source) = delete;
+		FrameBufferVk(FrameBufferVk&& Right) noexcept = delete;
+		virtual ~FrameBufferVk();
 
-		FramebufferVk& operator=(const FramebufferVk& Source) = delete;
-		FramebufferVk& operator=(FramebufferVk&& Right) noexcept = delete;
+		FrameBufferVk& operator=(const FrameBufferVk& Source) = delete;
+		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
 	private:
 		const LogicalDeviceVk& _LogicalDevice;
 		const SwapchainVk& _Swapchain;

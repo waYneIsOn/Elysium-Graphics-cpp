@@ -29,9 +29,9 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSecondaryBuffer(const Co
 	_NativeCommandBuffer->RecordSecondaryBuffer(*CommandBuffer._NativeCommandBuffer);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer)
+void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer)
 {
-	_NativeCommandBuffer->BeginRenderPass(RenderPass._NativeRenderPass, Framebuffer._NativeFramebuffer);
+	_NativeCommandBuffer->BeginRenderPass(RenderPass._NativeRenderPass, FrameBuffer._NativeFrameBuffer);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::EndRenderPass()

@@ -28,9 +28,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fence.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Framebuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FrameBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsPipeline.hpp" />
@@ -68,9 +69,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ContentReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fence.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FrameBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsPipeline.cpp" />

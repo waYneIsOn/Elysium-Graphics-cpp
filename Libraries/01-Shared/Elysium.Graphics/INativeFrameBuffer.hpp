@@ -18,10 +18,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Native
 {
-	class ELYSIUM_GRAPHICS_API INativeFramebuffer
+	class ELYSIUM_GRAPHICS_API INativeFrameBuffer
 	{
 	public:
-		virtual ~INativeFramebuffer() { }
+		virtual ~INativeFrameBuffer() { }
 	};
 }
 #endif

@@ -13,15 +13,11 @@ const Elysium::Core::TimeSpan& Elysium::Graphics::GameTime::GetTotalGameTime() c
 	return _TotalGameTime;
 }
 
-const bool& Elysium::Graphics::GameTime::GetIsRunningSlowly() const
+const bool& Elysium::Graphics::GameTime::GetIsUpdatingSlowly() const
 {
-	return _IsRunningSlowly;
+	return _IsUpdatingSlowly;
 }
 
 Elysium::Graphics::GameTime::GameTime()
-	: _ElapsedGameTime(0), _TotalGameTime(0), _IsRunningSlowly(false)
-{ }
-
-Elysium::Graphics::GameTime::GameTime(const Elysium::Core::TimeSpan ElapsedGameTime, const Elysium::Core::TimeSpan TotalGameTime, const bool IsRunningSlowly)
-	: _ElapsedGameTime(ElapsedGameTime), _TotalGameTime(TotalGameTime), _IsRunningSlowly(IsRunningSlowly)
+	: _ElapsedGameTime(0), _TotalGameTime(0), _Delta(0), _IsUpdatingSlowly(false)
 { }

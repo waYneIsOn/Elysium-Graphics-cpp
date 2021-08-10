@@ -34,7 +34,7 @@ const Elysium::Graphics::Rendering::Vulkan::RenderPassVk& Elysium::Graphics::Ren
 	return _DefaultRenderPass;
 }
 
-const Elysium::Graphics::Rendering::Vulkan::FramebufferVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetFramebuffer() const
+const Elysium::Graphics::Rendering::Vulkan::FrameBufferVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetFrameBuffer() const
 {
 	return _FrameBuffer;
 }

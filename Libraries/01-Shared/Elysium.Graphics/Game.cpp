@@ -1,7 +1,8 @@
 #include "Game.hpp"
 
 Elysium::Graphics::Game::Game(Rendering::GraphicsDevice& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _GraphicsDeviceManager(*this, _GraphicsDevice), _Control(_GraphicsDevice.GetPresentationParameters().GetCanvas()), _GameTime()
+	: _GraphicsDevice(GraphicsDevice), _GraphicsDeviceManager(*this, _GraphicsDevice), _Control(_GraphicsDevice.GetPresentationParameters().GetCanvas()), 
+	_GameTimer(), _GameTime()
 {
 	_Control.ActivationChanged += Elysium::Core::Delegate<void, const Presentation::Control&, const bool>::Bind<Elysium::Graphics::Game, &Elysium::Graphics::Game::Control_OnActivationChanged>(*this);
 	//_Control.Suspend += Elysium::Core::Delegate<void, const Presentation::Control&::CreateDelegate<Elysium::Graphics::Game, &Elysium::Graphics::Game::Canvas_Suspend>(*this);
@@ -57,16 +58,38 @@ void Elysium::Graphics::Game::Tick()
 		return;
 	}
 	
-	// ToDo: fixed timestep etc.
+	// update on a fixed timestep (as many times as required)
+	_GameTimer.Update();
+	_AccumulatedGameTime += _GameTimer.GetElapsedTimeSpan().GetTicks();
+	Elysium::Core::int32_t NumberOfUpdates = _AccumulatedGameTime / _DesiredUpdateTimeStep;
+	_GameTime._IsUpdatingSlowly = NumberOfUpdates > 1;
+	while (NumberOfUpdates > 0)
+	{
+		if (_ShouldExit)
+		{
+			break;
+		}
 
-	// begin frame
-	BeginDraw();
+		_GameTime._ElapsedGameTime = _DesiredUpdateTimeStep;
+		_GameTime._TotalGameTime += _DesiredUpdateTimeStep;
+		_GameTime._Delta = (_DesiredUpdateTimeStep / 10000.0);
+		_AccumulatedGameTime -= _DesiredUpdateTimeStep;
 
-	// ...
-	Draw(_GameTime);
+		if (BeginUpdate())
+		{
+			Update(_GameTime);
+			EndUpdate();
+		}
 
-	// end frame
-	EndDraw();
+		NumberOfUpdates--;
+	}
+
+	// render a frame
+	if (BeginDraw())
+	{
+		Draw(_GameTime);
+		EndDraw();
+	}
 }
 
 const bool Elysium::Graphics::Game::BeginDraw()

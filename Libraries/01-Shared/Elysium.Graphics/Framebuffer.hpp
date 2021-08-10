@@ -17,29 +17,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
-#include "INativeFramebuffer.hpp"
+#include "INativeFrameBuffer.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
 {
-	class CommandBuffer;
-	class GraphicsDevice;
-
-	class ELYSIUM_GRAPHICS_API Framebuffer final
+	class ELYSIUM_GRAPHICS_API FrameBuffer final
 	{
 		friend class CommandBuffer;
 		friend class GraphicsDevice;
 	public:
-		Framebuffer(const Framebuffer& Source) = delete;
-		Framebuffer(Framebuffer&& Right) noexcept = delete;
-		~Framebuffer();
+		FrameBuffer(const FrameBuffer& Source) = delete;
+		FrameBuffer(FrameBuffer&& Right) noexcept = delete;
+		~FrameBuffer();
 
-		Framebuffer& operator=(const Framebuffer& Source) = delete;
-		Framebuffer& operator=(Framebuffer&& Right) noexcept = delete;
+		FrameBuffer& operator=(const FrameBuffer& Source) = delete;
+		FrameBuffer& operator=(FrameBuffer&& Right) noexcept = delete;
 	private:
-		Framebuffer(Native::INativeFramebuffer& NativeFramebuffer);
+		FrameBuffer(Native::INativeFrameBuffer& NativeFramebuffer);
 
-		Native::INativeFramebuffer& _NativeFramebuffer;
+		Native::INativeFrameBuffer& _NativeFrameBuffer;
 	};
 }
 #endif

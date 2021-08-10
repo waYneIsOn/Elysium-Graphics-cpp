@@ -26,8 +26,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class Queue;
-
 	class ELYSIUM_GRAPHICS_API CommandPool final
 	{
 		friend class Queue;

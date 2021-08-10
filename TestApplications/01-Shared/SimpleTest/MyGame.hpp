@@ -40,14 +40,14 @@ private:
 	const Elysium::Graphics::Rendering::Semaphore& _RenderSemaphore;
 	const Elysium::Graphics::Rendering::Fence& _RenderFence;
 
-	//Elysium::Graphics::Content::ContentManager _ContentManager;
+	Elysium::Graphics::Content::ContentManager _ContentManager;
 	Elysium::Graphics::Rendering::CommandPool _CommandPool;
 	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
 	Elysium::Graphics::Rendering::CommandBuffer _SecondaryCommandBuffer;
+	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
-	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
 	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
 

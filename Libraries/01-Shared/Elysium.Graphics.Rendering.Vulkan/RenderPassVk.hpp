@@ -26,15 +26,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
-	class FramebufferVk;
 	class LogicalDeviceVk;
 	class PresentationParametersVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API RenderPassVk final : public Native::INativeRenderPass
 	{
 		friend class CommandBufferVk;
-		friend class FramebufferVk;
+		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
 	public:

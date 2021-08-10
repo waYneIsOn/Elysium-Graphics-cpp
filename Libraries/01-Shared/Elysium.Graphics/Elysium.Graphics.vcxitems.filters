@@ -69,7 +69,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Framebuffer.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)FrameBuffer.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleType.hpp">
@@ -129,6 +129,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp">
       <Filter>Rendering\Native</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -167,7 +168,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Framebuffer.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)FrameBuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp">
@@ -182,5 +183,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsPipeline.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
   </ItemGroup>
 </Project>

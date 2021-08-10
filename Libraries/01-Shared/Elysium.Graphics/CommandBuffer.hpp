@@ -34,9 +34,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class CommandPool;
 	class GraphicsDevice;
-	class Queue;
 
 	class ELYSIUM_GRAPHICS_API CommandBuffer final
 	{
@@ -56,7 +54,7 @@ namespace Elysium::Graphics::Rendering
 
 		void RecordSecondaryBuffer(const CommandBuffer& CommandBuffer);
 
-		void BeginRenderPass(const RenderPass& RenderPass, const Framebuffer& Framebuffer);
+		void BeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer);
 		void EndRenderPass();
 
 		void SetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline);

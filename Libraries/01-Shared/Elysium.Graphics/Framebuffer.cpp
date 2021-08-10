@@ -1,8 +1,8 @@
-#include "Framebuffer.hpp"
+#include "FrameBuffer.hpp"
 
-Elysium::Graphics::Rendering::Framebuffer::~Framebuffer()
+Elysium::Graphics::Rendering::FrameBuffer::~FrameBuffer()
 { }
 
-Elysium::Graphics::Rendering::Framebuffer::Framebuffer(Native::INativeFramebuffer& NativeFramebuffer)
-	: _NativeFramebuffer(NativeFramebuffer)
+Elysium::Graphics::Rendering::FrameBuffer::FrameBuffer(Native::INativeFrameBuffer& NativeFrameBuffer)
+	: _NativeFrameBuffer(NativeFrameBuffer)
 { }

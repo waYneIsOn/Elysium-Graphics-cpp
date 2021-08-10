@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GameTime.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_GAMETIMER
+#include "GameTimer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_GRAPHICSDEVICEMANAGER
 #include "GraphicsDeviceManager.hpp"
 #endif
@@ -92,12 +96,14 @@ namespace Elysium::Graphics
 		GraphicsDeviceManager _GraphicsDeviceManager;
 		Presentation::Control& _Control;
 	private:
+		GameTimer _GameTimer;
 		GameTime _GameTime;
-		/*
+
 		Elysium::Core::uint64_t _DesiredUpdateTimeStep = 500000ULL;	// 2 fps udpate
-		Elysium::Core::uint64_t _DesiredDrawTimeStep = 33333ULL;	// 30 fps drawing while active
-		Elysium::Core::uint64_t _DesiredDrawTimeStepInactive = 500000ULL;	// 2 fps drawing while inactive
-		*/
+		Elysium::Core::uint64_t _DesiredDrawTimeStepInactive = 33333ULL;	// 30 fps drawing while inactive
+
+		Elysium::Core::int64_t _AccumulatedGameTime = 0;
+		
 		bool _IsActive = true;
 		bool _IsInitialized = false;
 		bool _ShouldExit = false;

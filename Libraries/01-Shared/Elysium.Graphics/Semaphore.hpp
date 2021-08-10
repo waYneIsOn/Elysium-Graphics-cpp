@@ -22,9 +22,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class GraphicsDevice;
-	class Queue;
-
 	class ELYSIUM_GRAPHICS_API Semaphore final
 	{
 		friend class GraphicsDevice;

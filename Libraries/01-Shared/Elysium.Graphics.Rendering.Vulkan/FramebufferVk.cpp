@@ -8,20 +8,20 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::FramebufferVk::FramebufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters)
+Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters)
 	: _LogicalDevice(LogicalDevice), _Swapchain(Swapchain), _RenderPass(RenderPass), _PresentationParameters(PresentationParameters), _Surface(_Swapchain._Surface),
 	_NativeSwapchainFramebufferHandles(_Swapchain._BackBufferImageViews.GetLength())
 {
 	CreateFramebuffers();
-	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FramebufferVk, &Elysium::Graphics::Rendering::Vulkan::FramebufferVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged>(*this);
 }
-Elysium::Graphics::Rendering::Vulkan::FramebufferVk::~FramebufferVk()
+Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 {
-	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FramebufferVk, &Elysium::Graphics::Rendering::Vulkan::FramebufferVk::Surface_OnSizeChanged>(*this);
+	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged>(*this);
 	DestroyFramebuffers();
 }
 
-void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::CreateFramebuffers()
+void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 {
 	const VkExtent2D& Extent = (const VkExtent2D&)_PresentationParameters.GetExtent();
 
@@ -48,7 +48,7 @@ void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::CreateFramebuffers()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::DestroyFramebuffers()
+void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyFramebuffers()
 {
 	// wait for any pending queues on the device
 	_LogicalDevice.Wait();
@@ -59,7 +59,7 @@ void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::DestroyFramebuffers()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::FramebufferVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
+void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
 {
 	DestroyFramebuffers();
 	CreateFramebuffers();

@@ -34,8 +34,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
-	class GraphicsDevice;
-
 	class ELYSIUM_GRAPHICS_API Queue final
 	{
 		friend class GraphicsDevice;

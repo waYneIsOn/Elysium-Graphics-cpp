@@ -66,7 +66,7 @@ namespace Elysium::Graphics::Rendering
 		PresentationParameters& GetPresentationParameters();
 
 		const RenderPass& GetDefaultRenderPass() const;
-		const Framebuffer& GetFramebuffer() const;
+		const FrameBuffer& GetFrameBuffer() const;
 
 		const Fence& GetRenderFence() const;
 		const Semaphore& GetPresentationSemaphore() const;
@@ -81,7 +81,7 @@ namespace Elysium::Graphics::Rendering
 		Native::INativeGraphicsDevice& _NativeGraphicsDevice;
 
 		RenderPass _DefaultRenderPass;
-		Framebuffer _FrameBuffer;
+		FrameBuffer _FrameBuffer;
 		Fence _RenderFence;
 		Semaphore _PresentationSemaphore;
 		Semaphore _RenderSemaphore;

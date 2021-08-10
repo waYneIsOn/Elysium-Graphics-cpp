@@ -12,12 +12,12 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	: Elysium::Graphics::Game(GraphicsDevice),
 	_GraphicsQueue(_GraphicsDevice.GetGraphicsQueue()), _PresentationSemaphore(_GraphicsDevice.GetPresentationSemaphore()),
 	_RenderSemaphore(_GraphicsDevice.GetRenderSemaphore()), _RenderFence(_GraphicsDevice.GetRenderFence()),
-	//_ContentManager(GraphicsDevice, u8"Assets"),
+	_ContentManager(_GraphicsDevice, u8"Assets"),
 	_CommandPool(_GraphicsQueue.CreateCommandPool()),
 	_CommandBuffer(_CommandPool.CreateCommandBuffer(true)), _SecondaryCommandBuffer(_CommandPool.CreateCommandBuffer(false)),
+	_RenderPipeline(_GraphicsDevice),
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.spv")),
-	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv")),
-	_RenderPipeline(_GraphicsDevice)
+	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
 {
 	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
 }
@@ -41,6 +41,10 @@ void MyGame::Draw(const Elysium::Graphics::GameTime& GameTime)
 
 void MyGame::Update(const Elysium::Graphics::GameTime& GameTime)
 {
+	const Elysium::Core::TimeSpan& ElapsedGameTime = GameTime.GetElapsedGameTime();
+	const Elysium::Core::int32_t TotalMilliseconds = ElapsedGameTime.GetTotalMilliseconds();
+
+	int a = 45;
 }
 
 void MyGame::Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
@@ -69,7 +73,7 @@ void MyGame::RecordCommandBuffer()
 	*/
 	_CommandBuffer.Reset();
 	_CommandBuffer.Begin();
-	_CommandBuffer.BeginRenderPass(_GraphicsDevice.GetDefaultRenderPass(), _GraphicsDevice.GetFramebuffer());
+	_CommandBuffer.BeginRenderPass(_GraphicsDevice.GetDefaultRenderPass(), _GraphicsDevice.GetFrameBuffer());
 	//_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
 	//_CommandBuffer.ClearDepthImage(0.0f, 0);
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);

@@ -94,7 +94,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
 		virtual const RenderPassVk& GetDefaultRenderPass() const override;
-		virtual const FramebufferVk& GetFramebuffer() const override;
+		virtual const FrameBufferVk& GetFrameBuffer() const override;
 
 		virtual const FenceVk& GetRenderFence() const override;
 		virtual const SemaphoreVk& GetPresentationSemaphore() const override;
@@ -119,7 +119,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		QueueVk _PresentationQueue;
 		SwapchainVk _Swapchain;
 		RenderPassVk _DefaultRenderPass;
-		FramebufferVk _FrameBuffer;
+		FrameBufferVk _FrameBuffer;
 		DepthBufferVk _DepthBuffer;
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;

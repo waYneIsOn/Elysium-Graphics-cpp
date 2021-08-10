@@ -38,24 +38,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
-	class CommandPoolVk;
-	class DepthBufferVk;
-	class FenceVk;
-	class FramebufferVk;
-	class QueueVk;
-	class RenderPassVk;
-	class SemaphoreVk;
-	class ShaderModuleVk;
-	class SwapchainVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API LogicalDeviceVk final
 	{
 		friend class CommandBufferVk;
 		friend class CommandPoolVk;
 		friend class DepthBufferVk;
 		friend class FenceVk;
-		friend class FramebufferVk;
+		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
 		friend class PhysicalDeviceVk;
 		friend class QueueVk;
