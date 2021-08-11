@@ -18,8 +18,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Control.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WindowBorderStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Window.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WindowStyle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DisplayDevice.cpp" />

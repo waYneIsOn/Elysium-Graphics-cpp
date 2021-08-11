@@ -82,7 +82,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         }
     }
     
-
     // create and configure presentation parameters (further values will set along the way)
     PresentationParametersVk PresentationParameters = PresentationParametersVk(GraphicsAPI, Canvas);
     PresentationParameters.SetBackBufferWidth(GraphicsDeviceManager::DefaultBackBufferWidth);
@@ -92,6 +91,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     PresentationParameters.SetDisplayDeviceIndex(PrimaryDisplayDeviceIndex);
     PresentationParameters.SetGraphicsDeviceIndex(MostSuitablePhysicalDeviceIndex);
 
+    //PresentationParameters.SetPresentMode(PresentModeVk::SharedContinuousRefresh);
+
     // ...
     const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitablePhysicalDeviceIndex];
 
@@ -99,7 +100,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     for (size_t i = 0; i < AvailableDeviceExtensions.GetLength(); i++)
     {
         const StringView ExtensionName = AvailableDeviceExtensions[i].GetName();
-        //if (ExtensionName != u8"VK_EXT_buffer_device_address")
+        if (ExtensionName != u8"VK_EXT_buffer_device_address")
         {
             PresentationParameters.AddDeviceExtensionProperty(AvailableDeviceExtensions[i]);
         }

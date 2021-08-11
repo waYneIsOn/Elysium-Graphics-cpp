@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DisplayDevice.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOWSTYLE
-#include "WindowStyle.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOWBORDERSTYLE
+#include "WindowBorderStyle.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -64,7 +64,7 @@ namespace Elysium::Graphics::Presentation
 		Window& operator=(Window&& Right) noexcept = delete;
 		Window& operator=(const Window& Source) = delete;
 
-		virtual const size_t GetHandle() const override;
+		virtual const void* GetHandle() const override;
 		//virtual const bool GetIsActive() const = 0;
 		//const Elysium::Core::String& GetName() const;
 
@@ -74,19 +74,19 @@ namespace Elysium::Graphics::Presentation
 		//const bool ShowDialog();
 		virtual void Close() override;
 	protected:
-		void CenterToMonitor();
+		void CenterToDisplayDevice();
 
 		virtual void OnActivationChanged(const Elysium::Graphics::Presentation::Control& Sender, const bool HasActived);
 	private:
-		WindowStyle _Style;
+		WindowBorderStyle _BorderStyle;
 		Elysium::Core::uint32_t _Width;
 		Elysium::Core::uint32_t _Height;
-		size_t _WindowHandle;
+		void* _WindowHandle;
 
-		size_t CreateNativeWindow();
+		void* CreateNativeWindow();
 	private:
 		inline static const wchar_t* _ClassName = L"Elysium::Graphics::Presentation::Window";
-		static size_t _ProgramInstanceHandle;
+		static void* _ProgramInstanceHandle;
 		
 		static LRESULT CALLBACK WindowsMessageHandlerCallback(HWND WindowHandle, UINT Message, WPARAM wParam, LPARAM lParam);
 	};

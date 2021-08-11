@@ -32,7 +32,7 @@ namespace Elysium::Graphics::Presentation
 		Elysium::Core::Event<void, const Control&> Paint;
 		Elysium::Core::Event<void, const Control&> Exiting;
 
-		virtual const size_t GetHandle() const = 0;
+		virtual const void* GetHandle() const = 0;
 
 		virtual void Show() = 0;
 		virtual void Close() = 0;

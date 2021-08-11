@@ -1,39 +1,14 @@
 #include "Window.hpp"
 
-#define IDS_APP_TITLE			103
-
-#define IDR_MAINFRAME			128
-#define IDD_WINDOWSPROJECT1_DIALOG	102
-#define IDD_ABOUTBOX			103
-#define IDM_ABOUT				104
-#define IDM_EXIT				105
-#define IDI_WINDOWSPROJECT1			107
 #define IDI_SMALL				108
 #define IDC_WINDOWSPROJECT1			109
-#define IDC_MYICON				2
-#ifndef IDC_STATIC
-#define IDC_STATIC				-1
-#endif
 
-#ifdef APSTUDIO_INVOKED
-#ifndef APSTUDIO_READONLY_SYMBOLS
-
-#define _APS_NO_MFC					130
-#define _APS_NEXT_RESOURCE_VALUE	129
-#define _APS_NEXT_COMMAND_VALUE		32771
-#define _APS_NEXT_CONTROL_VALUE		1000
-#define _APS_NEXT_SYMED_VALUE		110
-#endif
-#endif
-
-size_t Elysium::Graphics::Presentation::Window::_ProgramInstanceHandle = -1;
+void* Elysium::Graphics::Presentation::Window::_ProgramInstanceHandle = GetModuleHandle(nullptr);
 
 Elysium::Graphics::Presentation::Window::Window()
 	: Elysium::Graphics::Presentation::Control(),
-    _Style(WindowStyle::SingleBorderWindow), _Width(800), _Height(480), _WindowHandle(CreateNativeWindow())
+    _BorderStyle(WindowBorderStyle::None), _Width(800), _Height(480), _WindowHandle(CreateNativeWindow())
 {
-    CenterToMonitor();
-
 	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 Elysium::Graphics::Presentation::Window::~Window()
@@ -41,14 +16,19 @@ Elysium::Graphics::Presentation::Window::~Window()
 	ActivationChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 
-const size_t Elysium::Graphics::Presentation::Window::GetHandle() const
+const void* Elysium::Graphics::Presentation::Window::GetHandle() const
 {
     return _WindowHandle;
 }
 
 void Elysium::Graphics::Presentation::Window::Show()
 {
-    ShowWindow((HWND)_WindowHandle, 10);
+    //SetWindowLong((HWND)_WindowHandle, GWL_STYLE, WS_POPUP);
+
+    ShowWindow((HWND)_WindowHandle, SW_SHOW);
+    UpdateWindow((HWND)_WindowHandle);
+    SetForegroundWindow((HWND)_WindowHandle);
+    SetFocus((HWND)_WindowHandle);
 
     HACCEL AcceleratorTableHandle = LoadAccelerators((HINSTANCE)&_ProgramInstanceHandle, MAKEINTRESOURCE(IDC_WINDOWSPROJECT1));
     MSG Message;
@@ -67,16 +47,12 @@ void Elysium::Graphics::Presentation::Window::Close()
     throw 1;
 }
 
-size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
+void* Elysium::Graphics::Presentation::Window::CreateNativeWindow()
 {
-    if (_ProgramInstanceHandle == -1)
-    {
-        _ProgramInstanceHandle = (size_t)GetModuleHandle(nullptr);
-    }
-
     WNDCLASSEXW WindowClassDescription = WNDCLASSEXW();
     WindowClassDescription.cbSize = sizeof(WNDCLASSEXW);
-    WindowClassDescription.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    //WindowClassDescription.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    WindowClassDescription.style = CS_HREDRAW | CS_VREDRAW;
     WindowClassDescription.lpfnWndProc = WindowsMessageHandlerCallback;
     WindowClassDescription.cbClsExtra = 0;
     WindowClassDescription.cbWndExtra = 0;
@@ -94,29 +70,42 @@ size_t Elysium::Graphics::Presentation::Window::CreateNativeWindow()
         throw 1;
     }
 
-    size_t Result = (size_t)CreateWindowExW(0L, _ClassName, _ClassName, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, _Width, _Height, nullptr, nullptr,
+    DWORD Style =
+        //WS_MAXIMIZE | WS_OVERLAPPEDWINDOW;  // maximized window with borders, menu etc.
+        WS_POPUP;   // no borders etc.
+
+    HWND WindowHandle = CreateWindowExW(WS_EX_APPWINDOW, _ClassName, _ClassName, Style, 0, 0, _Width, _Height, nullptr, nullptr,
         (HINSTANCE)&_ProgramInstanceHandle, this);
+    if (WindowHandle == nullptr)
+    {   // ToDo: throw specific exception -> GetLastError()
+        throw 1;
+    }
 
     // get client bounds
     RECT Rect;
-    if (!GetClientRect((HWND)Result, &Rect))
-    {   // ToDo: throw specific exception
+    if (!GetClientRect(WindowHandle, &Rect))
+    {
+        DestroyWindow(WindowHandle);
+        
+        // ToDo: throw specific exception
         throw 1;
     }
     _Width = Rect.right - Rect.left;
     _Height = Rect.bottom - Rect.top;
 
     // "associate" instance with window handle
-    if (!SetPropW((HWND)Result, _ClassName, this))
-    {   // ToDo: throw specific exception
+    if (!SetPropW(WindowHandle, _ClassName, this))
+    {
+        DestroyWindow(WindowHandle);
+        
+        // ToDo: throw specific exception
         throw 1;
     }
 
-    return Result;
+    return WindowHandle;
 }
 
-void Elysium::Graphics::Presentation::Window::CenterToMonitor()
+void Elysium::Graphics::Presentation::Window::CenterToDisplayDevice()
 {
     const DisplayDevice& ClosestDisplayDevice = DisplayDevice::GetDisplayDeviceFromWindow(*this);
     const Elysium::Core::Math::Geometry::Rectangle& DisplayDeviceBounds = ClosestDisplayDevice.GetCurrentBounds();
@@ -144,6 +133,7 @@ LRESULT Elysium::Graphics::Presentation::Window::WindowsMessageHandlerCallback(H
     // grab window from handle
     Elysium::Graphics::Presentation::Window* Window = (Elysium::Graphics::Presentation::Window*)GetPropW(WindowHandle, _ClassName);
 
+    // process specific messages
     switch (Message)
     {
     case WM_COMMAND:
@@ -220,9 +210,8 @@ LRESULT Elysium::Graphics::Presentation::Window::WindowsMessageHandlerCallback(H
         PostQuitMessage(0);
         break;
     }
-    default:
-        return DefWindowProc(WindowHandle, Message, wParam, lParam);
     }
 
-    return 0;
+    // "auto"-process all other messages
+    return DefWindowProc(WindowHandle, Message, wParam, lParam);
 }

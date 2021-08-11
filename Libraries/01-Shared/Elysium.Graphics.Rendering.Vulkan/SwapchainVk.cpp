@@ -133,12 +133,19 @@ void Elysium::Graphics::Rendering::Vulkan::SwapchainVk::RecreateSwapchain(VkSwap
 	}
 	
 	// recreate images
-	Elysium::Core::uint32_t BackBufferImageCount;
+	Elysium::Core::uint32_t BackBufferImageCount = 0;
 	if ((Result = vkGetSwapchainImagesKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, &BackBufferImageCount, nullptr)) != VK_SUCCESS)
 	{
 		vkDestroySwapchainKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, nullptr);
 
 		throw ExceptionVk(Result);
+	}
+	if (BackBufferImageCount == 0)
+	{
+		vkDestroySwapchainKHR(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainHandle, nullptr);
+
+		// ToDo: throw specific exception
+		throw 1;
 	}
 
 	_BackBufferImages = Elysium::Core::Collections::Template::Array<VkImage>(BackBufferImageCount);

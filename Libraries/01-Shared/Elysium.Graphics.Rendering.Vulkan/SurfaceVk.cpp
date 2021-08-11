@@ -34,7 +34,7 @@ const VkSurfaceKHR Elysium::Graphics::Rendering::Vulkan::SurfaceVk::CreateNative
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	VkWin32SurfaceCreateInfoKHR SurfaceCreateInfo = VkWin32SurfaceCreateInfoKHR();
-	SurfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	SurfaceCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 	SurfaceCreateInfo.pNext = nullptr;
 	SurfaceCreateInfo.flags = 0;
 	SurfaceCreateInfo.hwnd = (HWND)_Canvas.GetHandle();

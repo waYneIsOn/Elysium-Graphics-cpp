@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_DISPLAYMODE
-#define ELYSIUM_GRAPHICS_DISPLAYMODE
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_WINDOWBORDERSTYLE
+#define ELYSIUM_GRAPHICS_PRESENTATION_WINDOWBORDERSTYLE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,33 +20,49 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/System.hpp"
 #endif
 
-namespace Elysium::Graphics
+namespace Elysium::Graphics::Presentation
 {
 	/// <summary>
 	/// 
 	/// </summary>
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class DisplayMode : Elysium::Core::uint8_t
+	enum class WindowBorderStyle : Elysium::Core::uint8_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class DisplayMode
+	enum class WindowBorderStyle
 #else
 #error "undefined os"
 #endif
 	{
 		/// <summary>
+		/// No border.
+		/// </summary>
+		None = 0,
+
+		/// <summary>
+		/// A fixed, single-line border.
+		/// </summary>
+		FixedSingle = 1,
+		/*
+		/// <summary>
 		/// 
 		/// </summary>
-		Fullscreen = 0,
+		Fixed3D = 2,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		BorderlessWindowed = 1,
+		Sizable = 4,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		Windowed = 2,
+		FixedToolWindow = 5,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		SizeableToolWindow = 6
+		*/
 	};
 }
 #endif
