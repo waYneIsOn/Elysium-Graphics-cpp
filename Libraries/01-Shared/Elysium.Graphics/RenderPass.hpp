@@ -22,12 +22,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
+	class GraphicsDevice;
+
 	class ELYSIUM_GRAPHICS_API RenderPass final
 	{
 		friend class CommandBuffer;
+		friend class FrameBuffer;
 		friend class GraphicsDevice;
 		friend class GraphicsPipeline;
 	public:
+		RenderPass(const GraphicsDevice& GraphicsDevice);
 		RenderPass(const RenderPass& Source) = delete;
 		RenderPass(RenderPass&& Right) noexcept = delete;
 		~RenderPass();
@@ -35,9 +39,9 @@ namespace Elysium::Graphics::Rendering
 		RenderPass& operator=(const RenderPass& Source) = delete;
 		RenderPass& operator=(RenderPass&& Right) noexcept = delete;
 	private:
-		RenderPass(Native::INativeRenderPass& NativeRenderPass);
+		const GraphicsDevice& _GraphicsDevice;
 
-		Native::INativeRenderPass& _NativeRenderPass;
+		Native::INativeRenderPass* _NativeRenderPass;
 	};
 }
 #endif

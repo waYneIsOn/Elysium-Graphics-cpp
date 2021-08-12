@@ -10,8 +10,6 @@
 
 Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(Native::INativeGraphicsDevice& NativeGraphicsDevice)
 	: _NativeGraphicsDevice(NativeGraphicsDevice),
-	_DefaultRenderPass((Native::INativeRenderPass&)_NativeGraphicsDevice.GetDefaultRenderPass()),
-	_FrameBuffer((Native::INativeFrameBuffer&)_NativeGraphicsDevice.GetFrameBuffer()),
 	_RenderFence((Native::INativeFence&)_NativeGraphicsDevice.GetRenderFence()),
 	_PresentationSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetPresentationSemaphore()),
 	_RenderSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetRenderSemaphore()),
@@ -23,16 +21,6 @@ Elysium::Graphics::Rendering::GraphicsDevice::~GraphicsDevice()
 Elysium::Graphics::PresentationParameters& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationParameters()
 {
 	return _NativeGraphicsDevice.GetPresentationParameters();
-}
-
-const Elysium::Graphics::Rendering::RenderPass& Elysium::Graphics::Rendering::GraphicsDevice::GetDefaultRenderPass() const
-{
-	return _DefaultRenderPass;
-}
-
-const Elysium::Graphics::Rendering::FrameBuffer& Elysium::Graphics::Rendering::GraphicsDevice::GetFrameBuffer() const
-{
-	return _FrameBuffer;
 }
 
 const Elysium::Graphics::Rendering::Fence& Elysium::Graphics::Rendering::GraphicsDevice::GetRenderFence() const

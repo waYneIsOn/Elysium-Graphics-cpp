@@ -46,7 +46,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 	public:
-		FrameBufferVk(const LogicalDeviceVk& LogicalDevice, const SwapchainVk& Swapchain, const RenderPassVk& RenderPass, PresentationParametersVk& PresentationParameters);
+		FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass, SurfaceVk& Surface);
 		FrameBufferVk(const FrameBufferVk& Source) = delete;
 		FrameBufferVk(FrameBufferVk&& Right) noexcept = delete;
 		virtual ~FrameBufferVk();
@@ -54,10 +54,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FrameBufferVk& operator=(const FrameBufferVk& Source) = delete;
 		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
 	private:
-		const LogicalDeviceVk& _LogicalDevice;
-		const SwapchainVk& _Swapchain;
+		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;
-		PresentationParametersVk& _PresentationParameters;
 		SurfaceVk& _Surface;
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeSwapchainFramebufferHandles;
 

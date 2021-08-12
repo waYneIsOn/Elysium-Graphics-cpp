@@ -44,6 +44,9 @@ private:
 	Elysium::Graphics::Rendering::CommandPool _CommandPool;
 	Elysium::Graphics::Rendering::CommandBuffer _CommandBuffer;
 	Elysium::Graphics::Rendering::CommandBuffer _SecondaryCommandBuffer;
+
+	Elysium::Graphics::Rendering::RenderPass _MainRenderPass;
+	Elysium::Graphics::Rendering::FrameBuffer _FrameBuffer;
 	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;

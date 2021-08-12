@@ -12,8 +12,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const P
 	: _PhysicalDevice(PhysicalDevice), _GraphicsInstance(GraphicsInstance), _PresentationParameters(PresentationParameters),
 	_Surface(_GraphicsInstance, _PhysicalDevice, _PresentationParameters), _LogicalDevice(_PhysicalDevice, _Surface, _PresentationParameters),
 	_GraphicsQueue(*this, _LogicalDevice.GetGraphicsQueueFamilyIndex(), 0), _PresentationQueue(*this, _LogicalDevice.GetPresentationQueueFamilyIndex(), 0),
-	_Swapchain(_LogicalDevice, _Surface, _PresentationParameters), _DefaultRenderPass(_LogicalDevice, _PresentationParameters),
-	_FrameBuffer(_LogicalDevice, _Swapchain, _DefaultRenderPass, _PresentationParameters), _DepthBuffer(_LogicalDevice, _Surface, _PresentationParameters),
+	_Swapchain(_LogicalDevice, _Surface, _PresentationParameters), _DepthBuffer(_LogicalDevice, _Surface, _PresentationParameters),
 	_RenderFence(_LogicalDevice, true), _PresentationSemaphore(_LogicalDevice), _RenderSemaphore(_LogicalDevice)
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
@@ -27,16 +26,6 @@ Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphic
 const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPhysicalDevice() const
 {
 	return _PhysicalDevice;
-}
-
-const Elysium::Graphics::Rendering::Vulkan::RenderPassVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetDefaultRenderPass() const
-{
-	return _DefaultRenderPass;
-}
-
-const Elysium::Graphics::Rendering::Vulkan::FrameBufferVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetFrameBuffer() const
-{
-	return _FrameBuffer;
 }
 
 const Elysium::Graphics::Rendering::Vulkan::FenceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetRenderFence() const
@@ -57,6 +46,18 @@ const Elysium::Graphics::Rendering::Vulkan::SemaphoreVk& Elysium::Graphics::Rend
 Elysium::Graphics::Rendering::Vulkan::QueueVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetGraphicsQueue()
 {
 	return _GraphicsQueue;
+}
+
+Elysium::Graphics::Rendering::Native::INativeRenderPass* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateRenderPass()
+{
+	return new RenderPassVk(*this);
+}
+
+Elysium::Graphics::Rendering::Native::INativeFrameBuffer* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateFrameBuffer(const Elysium::Graphics::Rendering::Native::INativeRenderPass& RenderPass)
+{
+	const RenderPassVk& VkRenderPass = reinterpret_cast<const RenderPassVk&>(RenderPass);
+
+	return new FrameBufferVk(*this, VkRenderPass, _Surface);
 }
 
 Elysium::Graphics::Rendering::Native::INativeGraphicsPipeline* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateGraphicsPipeline()

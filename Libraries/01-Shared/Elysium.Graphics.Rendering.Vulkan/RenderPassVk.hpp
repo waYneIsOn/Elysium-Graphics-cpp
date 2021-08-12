@@ -26,8 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class LogicalDeviceVk;
-	class PresentationParametersVk;
+	class GraphicsDeviceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API RenderPassVk final : public Native::INativeRenderPass
 	{
@@ -36,7 +35,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsPipelineVk;
 		friend class LogicalDeviceVk;
 	public:
-		RenderPassVk(const LogicalDeviceVk& LogicalDevice, PresentationParametersVk& PresentationParameters);
+		RenderPassVk(const GraphicsDeviceVk& GraphicsDevice);
 		RenderPassVk(const RenderPassVk& Source) = delete;
 		RenderPassVk(RenderPassVk&& Right) noexcept = delete;
 		virtual ~RenderPassVk();
@@ -44,8 +43,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		RenderPassVk& operator=(const RenderPassVk& Source) = delete;
 		RenderPassVk& operator=(RenderPassVk&& Right) noexcept = delete;
 	private:
-		const LogicalDeviceVk& _LogicalDevice;
-		PresentationParametersVk& _PresentationParameters;
+		const GraphicsDeviceVk& _GraphicsDevice;
 
 		VkRenderPass _NativeRenderPassHandle;
 	};

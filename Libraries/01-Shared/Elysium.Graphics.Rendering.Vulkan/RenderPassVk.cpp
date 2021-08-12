@@ -8,16 +8,12 @@
 #include "GraphicsDeviceVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
-Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDeviceVk& LogicalDevice, PresentationParametersVk& PresentationParameters)
-	: _LogicalDevice(LogicalDevice), _PresentationParameters(PresentationParameters), _NativeRenderPassHandle(VK_NULL_HANDLE)
+Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsDeviceVk& GraphicsDevice)
+	: _GraphicsDevice(GraphicsDevice), _NativeRenderPassHandle(VK_NULL_HANDLE)
 {
 	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
 	ColorAttachment.flags = 0;
-	ColorAttachment.format = (VkFormat&)_PresentationParameters.GetSurfaceFormat().Format;
+	ColorAttachment.format = (VkFormat&)_GraphicsDevice._PresentationParameters.GetSurfaceFormat().Format;
 	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
 	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
 	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;
@@ -54,7 +50,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const LogicalDe
 	CreateInfo.pDependencies = nullptr;
 
 	VkResult Result;
-	if ((Result = vkCreateRenderPass(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeRenderPassHandle)) != VK_NULL_HANDLE)
+	if ((Result = vkCreateRenderPass(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeRenderPassHandle)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
@@ -120,7 +116,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 {
 	if (_NativeRenderPassHandle != VK_NULL_HANDLE)
 	{
-		vkDestroyRenderPass(_LogicalDevice._NativeLogicalDeviceHandle, _NativeRenderPassHandle, nullptr);
+		vkDestroyRenderPass(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeRenderPassHandle, nullptr);
 		_NativeRenderPassHandle = VK_NULL_HANDLE;
 	}
 }

@@ -51,8 +51,10 @@ namespace Elysium::Graphics::Rendering
 	class ELYSIUM_GRAPHICS_API GraphicsDevice final
 	{
 		friend class CommandBuffer;
+		friend class FrameBuffer;
 		friend class GraphicsPipeline;
 		friend class Pipeline;
+		friend class RenderPass;
 		friend class ShaderModule;
 	public:
 		GraphicsDevice(Native::INativeGraphicsDevice& NativeGraphicsDevice);
@@ -64,9 +66,6 @@ namespace Elysium::Graphics::Rendering
 		GraphicsDevice& operator=(GraphicsDevice&& Right) noexcept = delete;
 
 		PresentationParameters& GetPresentationParameters();
-
-		const RenderPass& GetDefaultRenderPass() const;
-		const FrameBuffer& GetFrameBuffer() const;
 
 		const Fence& GetRenderFence() const;
 		const Semaphore& GetPresentationSemaphore() const;
@@ -80,8 +79,6 @@ namespace Elysium::Graphics::Rendering
 	private:
 		Native::INativeGraphicsDevice& _NativeGraphicsDevice;
 
-		RenderPass _DefaultRenderPass;
-		FrameBuffer _FrameBuffer;
 		Fence _RenderFence;
 		Semaphore _PresentationSemaphore;
 		Semaphore _RenderSemaphore;

@@ -76,6 +76,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 		friend class CommandPoolVk;
+		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
 		friend class QueueVk;
 		friend class RenderPassVk;
@@ -93,15 +94,14 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual PresentationParametersVk& GetPresentationParameters() const override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
-		virtual const RenderPassVk& GetDefaultRenderPass() const override;
-		virtual const FrameBufferVk& GetFrameBuffer() const override;
-
 		virtual const FenceVk& GetRenderFence() const override;
 		virtual const SemaphoreVk& GetPresentationSemaphore() const override;
 		virtual const SemaphoreVk& GetRenderSemaphore() const override;
 
 		virtual QueueVk& GetGraphicsQueue() override;
 
+		virtual Native::INativeRenderPass* CreateRenderPass() override;
+		virtual Native::INativeFrameBuffer* CreateFrameBuffer(const Native::INativeRenderPass& RenderPass) override;
 		virtual Native::INativeGraphicsPipeline* CreateGraphicsPipeline() override;
 		virtual Native::INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) override;
 
@@ -118,8 +118,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		QueueVk _GraphicsQueue;
 		QueueVk _PresentationQueue;
 		SwapchainVk _Swapchain;
-		RenderPassVk _DefaultRenderPass;
-		FrameBufferVk _FrameBuffer;
 		DepthBufferVk _DepthBuffer;
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;

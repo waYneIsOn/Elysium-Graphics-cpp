@@ -7,7 +7,7 @@ void* Elysium::Graphics::Presentation::Window::_ProgramInstanceHandle = GetModul
 
 Elysium::Graphics::Presentation::Window::Window()
 	: Elysium::Graphics::Presentation::Control(),
-    _BorderStyle(WindowBorderStyle::None), _Width(800), _Height(480), _WindowHandle(CreateNativeWindow())
+    _BorderStyle(WindowBorderStyle::None), _Width(1920), _Height(1080), _WindowHandle(CreateNativeWindow())
 {
 	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
@@ -69,6 +69,20 @@ void* Elysium::Graphics::Presentation::Window::CreateNativeWindow()
     {   // ToDo: throw specific exception
         throw 1;
     }
+
+
+
+    /*
+    DEVMODE game_screen;
+    memset(&game_screen, 0, sizeof(DEVMODE));
+    game_screen.dmPelsWidth = 1920;
+    game_screen.dmPelsHeight = 1080;&
+    game_screen.dmBitsPerPel = 32;
+    ChangeDisplaySettings(&game_screen, CDS_FULLSCREEN);
+    */
+
+
+
 
     DWORD Style =
         //WS_MAXIMIZE | WS_OVERLAPPEDWINDOW;  // maximized window with borders, menu etc.

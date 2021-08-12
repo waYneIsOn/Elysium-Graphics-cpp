@@ -27,5 +27,5 @@ void Elysium::Graphics::Rendering::GraphicsPipeline::AddShaderModule(const Shade
 
 void Elysium::Graphics::Rendering::GraphicsPipeline::Build(const RenderPass& RenderPass)
 {
-	_NativeGraphicsPipeline->Build(RenderPass._NativeRenderPass);
+	_NativeGraphicsPipeline->Build(*RenderPass._NativeRenderPass);
 }

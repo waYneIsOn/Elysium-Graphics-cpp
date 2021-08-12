@@ -67,15 +67,14 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual PresentationParameters& GetPresentationParameters() const = 0;
 		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
 
-		virtual const INativeRenderPass& GetDefaultRenderPass() const = 0;
-		virtual const INativeFrameBuffer& GetFrameBuffer() const = 0;
-
 		virtual const INativeFence& GetRenderFence() const = 0;
 		virtual const INativeSemaphore& GetPresentationSemaphore() const = 0;
 		virtual const INativeSemaphore& GetRenderSemaphore() const = 0;
 
 		virtual INativeQueue& GetGraphicsQueue() = 0;
 
+		virtual INativeRenderPass* CreateRenderPass() = 0;
+		virtual INativeFrameBuffer* CreateFrameBuffer(const INativeRenderPass& RenderPass) = 0;
 		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() = 0;
 		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) = 0;
 

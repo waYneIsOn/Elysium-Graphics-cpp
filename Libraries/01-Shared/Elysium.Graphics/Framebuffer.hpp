@@ -22,11 +22,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
+	class GraphicsDevice;
+	class RenderPass;
+
 	class ELYSIUM_GRAPHICS_API FrameBuffer final
 	{
 		friend class CommandBuffer;
 		friend class GraphicsDevice;
 	public:
+		FrameBuffer(const GraphicsDevice& GraphicsDevice, const RenderPass& RenderPass);
 		FrameBuffer(const FrameBuffer& Source) = delete;
 		FrameBuffer(FrameBuffer&& Right) noexcept = delete;
 		~FrameBuffer();
@@ -34,9 +38,9 @@ namespace Elysium::Graphics::Rendering
 		FrameBuffer& operator=(const FrameBuffer& Source) = delete;
 		FrameBuffer& operator=(FrameBuffer&& Right) noexcept = delete;
 	private:
-		FrameBuffer(Native::INativeFrameBuffer& NativeFramebuffer);
+		const GraphicsDevice& _GraphicsDevice;
 
-		Native::INativeFrameBuffer& _NativeFrameBuffer;
+		Native::INativeFrameBuffer* _NativeFrameBuffer;
 	};
 }
 #endif

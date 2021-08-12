@@ -15,7 +15,7 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_ContentManager(_GraphicsDevice, u8"Assets"),
 	_CommandPool(_GraphicsQueue.CreateCommandPool()),
 	_CommandBuffer(_CommandPool.CreateCommandBuffer(true)), _SecondaryCommandBuffer(_CommandPool.CreateCommandBuffer(false)),
-	_RenderPipeline(_GraphicsDevice),
+	_MainRenderPass(_GraphicsDevice), _FrameBuffer(_GraphicsDevice, _MainRenderPass), _RenderPipeline(_GraphicsDevice),
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
 {
@@ -63,7 +63,7 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 
 void MyGame::RecordCommandBuffer()
 {
-	_RenderPipeline.Build(_GraphicsDevice.GetDefaultRenderPass());
+	_RenderPipeline.Build(_MainRenderPass);
 	
 	/*
 	_SecondaryCommandBuffer.Reset();
@@ -73,7 +73,7 @@ void MyGame::RecordCommandBuffer()
 	*/
 	_CommandBuffer.Reset();
 	_CommandBuffer.Begin();
-	_CommandBuffer.BeginRenderPass(_GraphicsDevice.GetDefaultRenderPass(), _GraphicsDevice.GetFrameBuffer());
+	_CommandBuffer.BeginRenderPass(_MainRenderPass, _FrameBuffer);
 	//_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
 	//_CommandBuffer.ClearDepthImage(0.0f, 0);
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
