@@ -47,21 +47,23 @@ namespace Elysium::Graphics::Rendering::Native
 	public:
 		virtual ~INativeCommandBuffer() { }
 
-		virtual void Begin() = 0;
-		virtual void End() = 0;
+		virtual void BeginRecording() = 0;
+		virtual void EndRecording() = 0;
 		virtual void Reset() = 0;
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) = 0;
 
-		virtual void BeginRenderPass(const INativeRenderPass& RenderPass, const INativeFrameBuffer& FrameBuffer) = 0;
-		virtual void EndRenderPass() = 0;
+		virtual void RecordBeginRenderPass(const INativeRenderPass& RenderPass, const INativeFrameBuffer& FrameBuffer) = 0;
+		virtual void RecordEndRenderPass() = 0;
 
-		virtual void SetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) = 0;
+		virtual void RecordSetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) = 0;
 
-		virtual void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) = 0;
+		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) = 0;
+		//virtual void RecordDrawPrimitives() = 0;
+		//virtual void RecordDrawIndexedPrimitives() = 0;
 
-		virtual void ClearBackBufferImage(const Color& ClearColor) = 0;
-		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
+		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) = 0;
+		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
 	};
 }
 #endif

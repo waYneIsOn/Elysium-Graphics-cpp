@@ -9,14 +9,14 @@ Elysium::Graphics::Rendering::CommandBuffer::~CommandBuffer()
 	}
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::Begin()
+void Elysium::Graphics::Rendering::CommandBuffer::BeginRecording()
 {
-	_NativeCommandBuffer->Begin();
+	_NativeCommandBuffer->BeginRecording();
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::End()
+void Elysium::Graphics::Rendering::CommandBuffer::EndRecording()
 {
-	_NativeCommandBuffer->End();
+	_NativeCommandBuffer->EndRecording();
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::Reset()
@@ -29,34 +29,34 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSecondaryBuffer(const Co
 	_NativeCommandBuffer->RecordSecondaryBuffer(*CommandBuffer._NativeCommandBuffer);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::BeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer)
 {
-	_NativeCommandBuffer->BeginRenderPass(*RenderPass._NativeRenderPass, *FrameBuffer._NativeFrameBuffer);
+	_NativeCommandBuffer->RecordBeginRenderPass(*RenderPass._NativeRenderPass, *FrameBuffer._NativeFrameBuffer);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::EndRenderPass()
+void Elysium::Graphics::Rendering::CommandBuffer::RecordEndRenderPass()
 {
-	_NativeCommandBuffer->EndRenderPass();
+	_NativeCommandBuffer->RecordEndRenderPass();
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::SetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordSetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline)
 {
-	_NativeCommandBuffer->SetGraphicsPipeline(*GraphicsPipeline._NativeGraphicsPipeline);
+	_NativeCommandBuffer->RecordSetGraphicsPipeline(*GraphicsPipeline._NativeGraphicsPipeline);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
 {
-	_NativeCommandBuffer->Draw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	_NativeCommandBuffer->RecordDraw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::ClearBackBufferImage(const Color ClearColor)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferColorImage(const Color ClearColor)
 {
-	_NativeCommandBuffer->ClearBackBufferImage(ClearColor);
+	_NativeCommandBuffer->RecordClearBackBufferColorImage(ClearColor);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
 {
-	_NativeCommandBuffer->ClearDepthImage(Depth, Stencil);
+	_NativeCommandBuffer->RecordClearBackBufferDepthImage(Depth, Stencil);
 }
 
 Elysium::Graphics::Rendering::CommandBuffer::CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer)

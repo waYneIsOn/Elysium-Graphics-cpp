@@ -56,6 +56,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeSemaphore.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEVERTEXBUFFER
+#include "INativeVertexBuffer.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsDevice
@@ -72,15 +76,18 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual const INativeSemaphore& GetRenderSemaphore() const = 0;
 
 		virtual INativeQueue& GetGraphicsQueue() = 0;
+		virtual INativeQueue& GetPresentationQueue() = 0;
 
 		virtual INativeRenderPass* CreateRenderPass() = 0;
 		virtual INativeFrameBuffer* CreateFrameBuffer(const INativeRenderPass& RenderPass) = 0;
 		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() = 0;
+
+		virtual INativeVertexBuffer* CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage) = 0;
 		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) = 0;
 
 		virtual void Wait() const = 0;
-		virtual const bool BeginDraw() = 0;
-		virtual void EndDraw() = 0;
+		virtual const bool BeginDraw(INativeFence& RenderFence, const INativeSemaphore& PresentationSemaphore) = 0;
+		virtual void EndDraw(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) = 0;
 	};
 }
 #endif

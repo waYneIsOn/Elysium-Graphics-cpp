@@ -130,6 +130,27 @@
       <Filter>Rendering\Native</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTimer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeVertexBuffer.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeIndexBuffer.hpp">
+      <Filter>Rendering\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BufferUsage.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexElementSize.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexDeclaration.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElement.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -184,5 +205,14 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTimer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexBuffer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexDeclaration.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexElement.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

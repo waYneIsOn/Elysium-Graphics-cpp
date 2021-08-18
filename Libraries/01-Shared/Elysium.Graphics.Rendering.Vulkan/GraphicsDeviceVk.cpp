@@ -8,6 +8,10 @@
 #include "ShaderModuleVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_VERTEXBUFFERVK
+#include "VertexBufferVk.hpp"
+#endif
+
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters)
 	: _PhysicalDevice(PhysicalDevice), _GraphicsInstance(GraphicsInstance), _PresentationParameters(PresentationParameters),
 	_Surface(_GraphicsInstance, _PhysicalDevice, _PresentationParameters), _LogicalDevice(_PhysicalDevice, _Surface, _PresentationParameters),
@@ -48,6 +52,11 @@ Elysium::Graphics::Rendering::Vulkan::QueueVk& Elysium::Graphics::Rendering::Vul
 	return _GraphicsQueue;
 }
 
+Elysium::Graphics::Rendering::Vulkan::QueueVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationQueue()
+{
+	return _PresentationQueue;
+}
+
 Elysium::Graphics::Rendering::Native::INativeRenderPass* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateRenderPass()
 {
 	return new RenderPassVk(*this);
@@ -65,6 +74,11 @@ Elysium::Graphics::Rendering::Native::INativeGraphicsPipeline* Elysium::Graphics
 	return new GraphicsPipelineVk(*this);
 }
 
+Elysium::Graphics::Rendering::Native::INativeVertexBuffer* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage)
+{
+	return new VertexBufferVk(*this, Declaration, VertexCount, Usage);
+}
+
 Elysium::Graphics::Rendering::Native::INativeShaderModule* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode)
 {
 	return new ShaderModuleVk(*this, ByteCode);
@@ -75,16 +89,16 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Wait() const
 	_LogicalDevice.Wait();
 }
 
-const bool Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::BeginDraw()
+const bool Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::BeginDraw(Native::INativeFence& RenderFence, const Native::INativeSemaphore& PresentationSemaphore)
 {
-	_RenderFence.Wait(Elysium::Core::UInt64::GetMaxValue());
-	_RenderFence.Reset();
-	_Swapchain.AquireNextImage(_PresentationSemaphore, Elysium::Core::UInt64::GetMaxValue());
+	RenderFence.Wait(Elysium::Core::UInt64::GetMaxValue());
+	RenderFence.Reset();
+	_Swapchain.AquireNextImage(PresentationSemaphore, Elysium::Core::UInt64::GetMaxValue());
 
 	return true;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::EndDraw()
+void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::EndDraw(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue)
 {
-	_Swapchain.PresentFrame(_RenderSemaphore, _PresentationQueue);
+	_Swapchain.PresentFrame(RenderSemaphore, PresentationQueue);
 }

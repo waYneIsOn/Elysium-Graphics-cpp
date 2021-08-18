@@ -56,6 +56,7 @@ namespace Elysium::Graphics::Rendering
 		friend class Pipeline;
 		friend class RenderPass;
 		friend class ShaderModule;
+		friend class VertexBuffer;
 	public:
 		GraphicsDevice(Native::INativeGraphicsDevice& NativeGraphicsDevice);
 		GraphicsDevice(const GraphicsDevice& Source) = delete;
@@ -72,6 +73,7 @@ namespace Elysium::Graphics::Rendering
 		const Semaphore& GetRenderSemaphore() const;
 
 		Queue& GetGraphicsQueue();
+		Queue& GetPresentationQueue();
 
 		void Wait() const;
 		const bool BeginDraw();
@@ -82,7 +84,9 @@ namespace Elysium::Graphics::Rendering
 		Fence _RenderFence;
 		Semaphore _PresentationSemaphore;
 		Semaphore _RenderSemaphore;
+
 		Queue _GraphicsQueue;
+		Queue _PresentationQueue;
 	};
 }
 #endif

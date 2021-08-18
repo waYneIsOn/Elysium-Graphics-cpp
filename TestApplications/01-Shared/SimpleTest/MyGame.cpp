@@ -16,6 +16,7 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_CommandPool(_GraphicsQueue.CreateCommandPool()),
 	_CommandBuffer(_CommandPool.CreateCommandBuffer(true)), _SecondaryCommandBuffer(_CommandPool.CreateCommandBuffer(false)),
 	_MainRenderPass(_GraphicsDevice), _FrameBuffer(_GraphicsDevice, _MainRenderPass), _RenderPipeline(_GraphicsDevice),
+	//_VertexDeclaration(32), _VertexBuffer(_GraphicsDevice, _VertexDeclaration, 0, Elysium::Graphics::Rendering::BufferUsage::None),
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
 {
@@ -64,21 +65,22 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 void MyGame::RecordCommandBuffer()
 {
 	_RenderPipeline.Build(_MainRenderPass);
-	
 	/*
 	_SecondaryCommandBuffer.Reset();
-	_SecondaryCommandBuffer.Begin();
-	_SecondaryCommandBuffer.SetGraphicsPipeline(_RenderPipeline);
-	_SecondaryCommandBuffer.End();
+	_SecondaryCommandBuffer.BeginRecording();
+	_SecondaryCommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
+	_SecondaryCommandBuffer.EndRecording();
 	*/
 	_CommandBuffer.Reset();
-	_CommandBuffer.Begin();
-	_CommandBuffer.BeginRenderPass(_MainRenderPass, _FrameBuffer);
-	//_CommandBuffer.ClearBackBufferImage(Elysium::Graphics::Color::CornflowerBlue);
-	//_CommandBuffer.ClearDepthImage(0.0f, 0);
+	_CommandBuffer.BeginRecording();
+	_CommandBuffer.RecordClearBackBufferColorImage(Elysium::Graphics::Color::CornflowerBlue);
+	_CommandBuffer.RecordClearBackBufferDepthImage(0.0f, 0);
+	_CommandBuffer.RecordBeginRenderPass(_MainRenderPass, _FrameBuffer);
+
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
-	_CommandBuffer.SetGraphicsPipeline(_RenderPipeline);
-	_CommandBuffer.Draw(3, 1, 0, 0);
-	_CommandBuffer.EndRenderPass();
-	_CommandBuffer.End();
+	_CommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
+	_CommandBuffer.RecordDraw(3, 1, 0, 0);
+
+	_CommandBuffer.RecordEndRenderPass();
+	_CommandBuffer.EndRecording();
 }

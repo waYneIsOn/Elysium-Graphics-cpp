@@ -49,6 +49,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainVk.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexBufferVk.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CommandBufferVk.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceFormatVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SurfaceVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainVk.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexBufferVk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - ToDos.txt" />

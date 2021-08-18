@@ -36,7 +36,7 @@ Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::~CommandBufferVk()
 	DestroyNativeCommandBuffers();
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Begin()
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRecording()
 {
 	VkCommandBufferBeginInfo BeginInfo = VkCommandBufferBeginInfo();
 	BeginInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -75,7 +75,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Begin()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::End()
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRecording()
 {
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -112,34 +112,37 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSecondaryBuffe
 	throw 1;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::BeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer)
 {
 	const PresentationParametersVk& PresentationParameter = _GraphicsDevice.GetPresentationParameters();
 	const VkExtent2D& Extent = (const VkExtent2D&)PresentationParameter.GetExtent();
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 
-	VkClearValue ClearValues[1];
-	ClearValues[0].color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	ClearValues[0].depthStencil.depth = 0.0f;
-	ClearValues[0].depthStencil.stencil = 0;
+	VkClearValue ClearValues = VkClearValue();
+	ClearValues.color = { 1.0f, 0.0f, 0.0f, 1.0f };
+	//ClearValues.color = { 0.0f, 0.0f, 0.0f, 1.0f };
+	ClearValues.depthStencil.depth = 0.0f;
+	ClearValues.depthStencil.stencil = 0;
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
 		VkRenderPassBeginInfo RenderPassInfo = VkRenderPassBeginInfo();
 		RenderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		RenderPassInfo.framebuffer = VkFrameBuffer._NativeSwapchainFramebufferHandles[i];
+		RenderPassInfo.framebuffer = VkFrameBuffer._NativeFramebuffers[i];
 		RenderPassInfo.renderArea.offset = { 0, 0 };
 		RenderPassInfo.renderArea.extent = Extent;
 		RenderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
 		RenderPassInfo.clearValueCount = 1;
-		RenderPassInfo.pClearValues = &ClearValues[0];
+		RenderPassInfo.pClearValues = &ClearValues;
 
-		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &RenderPassInfo, VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE);
+		VkSubpassContents SubpassContents = _IsPrimary ? VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE : VkSubpassContents::VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS;
+
+		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &RenderPassInfo, SubpassContents);
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordEndRenderPass()
 {
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -147,7 +150,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::EndRenderPass()
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::SetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline)
 {
 	const GraphicsPipelineVk& VkPipeline = static_cast<const GraphicsPipelineVk&>(GraphicsPipeline);
 	
@@ -157,7 +160,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::SetGraphicsPipeline(
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
 {
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -165,7 +168,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::Draw(Elysium::Core::
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage(const Color& ClearColor)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBufferColorImage(const Color& ClearColor)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
 	ImageSubresourceRange.baseArrayLayer = 0;
@@ -173,6 +176,12 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 	ImageSubresourceRange.layerCount = 1;
 	ImageSubresourceRange.levelCount = 1;
 	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+
+	float Red = ClearColor.GetRed() / 255.0f;
+	float Green = ClearColor.GetGreen() / 255.0f;
+	float Blue = ClearColor.GetBlue() / 255.0f;
+	float Alpha = ClearColor.GetAlpha() / 255.0f;
+	VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
 
 	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_GraphicsDevice.GetPresentationParameters());
 	const SwapchainVk& Swapchain = _GraphicsDevice._Swapchain;
@@ -198,12 +207,6 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 			nullptr, 0, nullptr, 1, &PresentToClearBarrier);
 		
 		// ... actual command
-		float Red = ClearColor.GetRed() / 255.0f;
-		float Green = ClearColor.GetGreen() / 255.0f;
-		float Blue = ClearColor.GetBlue() / 255.0f;
-		float Alpha = ClearColor.GetAlpha() / 255.0f;
-		VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
-
 		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			&ClearColorValue, 1, &ImageSubresourceRange);
 		
@@ -226,7 +229,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearBackBufferImage
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
 	ImageSubresourceRange.baseArrayLayer = 0;

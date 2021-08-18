@@ -83,7 +83,7 @@ void Elysium::Graphics::Game::Tick()
 
 		NumberOfUpdates--;
 	}
-
+	
 	// render a frame
 	if (BeginDraw())
 	{

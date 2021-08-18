@@ -43,7 +43,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsDeviceVk;
-	class SwapchainVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public Native::INativeQueue
 	{
@@ -69,7 +68,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const Elysium::Core::uint32_t _FamilyIndex;
 		const Elysium::Core::uint32_t _Index;
-		VkQueue _NativeQueueHandle;
+		const VkQueue _NativeQueueHandle;
+
+		const VkQueue GetQueue();
 	};
 }
 #endif

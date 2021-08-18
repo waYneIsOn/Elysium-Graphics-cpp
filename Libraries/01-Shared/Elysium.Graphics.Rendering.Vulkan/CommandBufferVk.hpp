@@ -46,21 +46,21 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		CommandBufferVk& operator=(const CommandBufferVk& Source) = delete;
 		CommandBufferVk& operator=(CommandBufferVk&& Right) noexcept = delete;
 
-		virtual void Begin() override;
-		virtual void End() override;
+		virtual void BeginRecording() override;
+		virtual void EndRecording() override;
 		virtual void Reset() override;
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
 
-		virtual void BeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer) override;
-		virtual void EndRenderPass() override;
+		virtual void RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer) override;
+		virtual void RecordEndRenderPass() override;
 
-		virtual void SetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
+		virtual void RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
 
-		virtual void Draw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
-
-		virtual void ClearBackBufferImage(const Color& ClearColor) override;
-		virtual void ClearDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
+		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
+		
+		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) override;
+		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const CommandPoolVk& _CommandPool;

@@ -30,12 +30,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 	public:
 		SurfaceFormatVk();
-		SurfaceFormatVk(const SurfaceFormatVk& Source);
-		SurfaceFormatVk(SurfaceFormatVk&& Right) noexcept;
+		SurfaceFormatVk(const SurfaceFormatVk& Source) = delete;
+		SurfaceFormatVk(SurfaceFormatVk&& Right) noexcept = delete;
 		~SurfaceFormatVk();
 
-		SurfaceFormatVk& operator=(const SurfaceFormatVk& Source);
-		SurfaceFormatVk& operator=(SurfaceFormatVk&& Right) noexcept;
+		SurfaceFormatVk& operator=(const SurfaceFormatVk& Source) = delete;
+		SurfaceFormatVk& operator=(SurfaceFormatVk&& Right) noexcept = delete;
 		
 		FormatVk Format;
 		ColorSpaceVk ColorSpace;

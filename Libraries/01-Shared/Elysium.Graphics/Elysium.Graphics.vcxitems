@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BufferUsage.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Color.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandBuffer.hpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GraphicsPipeline.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeFrameBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsPipeline.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeIndexBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeRenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeShaderModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeGraphicsAPI.hpp" />
@@ -47,6 +49,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativePhysicalDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)INativeVertexBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexElementSize.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp" />
@@ -59,6 +63,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModuleType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SurfaceFormat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexDeclaration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElement.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
@@ -83,5 +90,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexBuffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexDeclaration.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexElement.cpp" />
   </ItemGroup>
 </Project>

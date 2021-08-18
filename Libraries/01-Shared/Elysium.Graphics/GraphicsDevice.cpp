@@ -13,7 +13,8 @@ Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(Native::INativeGrap
 	_RenderFence((Native::INativeFence&)_NativeGraphicsDevice.GetRenderFence()),
 	_PresentationSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetPresentationSemaphore()),
 	_RenderSemaphore((Native::INativeSemaphore&)_NativeGraphicsDevice.GetRenderSemaphore()),
-	_GraphicsQueue((Native::INativeQueue&)_NativeGraphicsDevice.GetGraphicsQueue())
+	_GraphicsQueue((Native::INativeQueue&)_NativeGraphicsDevice.GetGraphicsQueue()),
+	_PresentationQueue((Native::INativeQueue&)_NativeGraphicsDevice.GetPresentationQueue())
 { }
 Elysium::Graphics::Rendering::GraphicsDevice::~GraphicsDevice()
 { }
@@ -43,6 +44,11 @@ Elysium::Graphics::Rendering::Queue& Elysium::Graphics::Rendering::GraphicsDevic
 	return _GraphicsQueue;
 }
 
+Elysium::Graphics::Rendering::Queue& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationQueue()
+{
+	return _PresentationQueue;
+}
+
 void Elysium::Graphics::Rendering::GraphicsDevice::Wait() const
 {
 	_NativeGraphicsDevice.Wait();
@@ -50,10 +56,10 @@ void Elysium::Graphics::Rendering::GraphicsDevice::Wait() const
 
 const bool Elysium::Graphics::Rendering::GraphicsDevice::BeginDraw()
 {
-	return _NativeGraphicsDevice.BeginDraw();
+	return _NativeGraphicsDevice.BeginDraw(_RenderFence._NativeFence, _PresentationSemaphore._NativeSemaphore);
 }
 
 void Elysium::Graphics::Rendering::GraphicsDevice::EndDraw()
 {
-	_NativeGraphicsDevice.EndDraw();
+	_NativeGraphicsDevice.EndDraw(_RenderSemaphore._NativeSemaphore, _PresentationQueue._NativeQueue);
 }

@@ -14,7 +14,7 @@
 
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass, SurfaceVk& Surface)
 	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass), _Surface(Surface),
-	_NativeSwapchainFramebufferHandles(_GraphicsDevice._Swapchain._BackBufferImageViews.GetLength())
+	_NativeFramebuffers(_GraphicsDevice._Swapchain._BackBufferImageViews.GetLength())
 {
 	CreateFramebuffers();
 	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged>(*this);
@@ -30,7 +30,7 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 	const VkExtent2D& Extent = (const VkExtent2D&)_GraphicsDevice._PresentationParameters.GetExtent();
 
 	VkResult Result;
-	for (size_t i = 0; i < _NativeSwapchainFramebufferHandles.GetLength(); i++)
+	for (size_t i = 0; i < _NativeFramebuffers.GetLength(); i++)
 	{
 		const VkImageView Attachments[] = { _GraphicsDevice._Swapchain._BackBufferImageViews[i] };
 
@@ -45,7 +45,7 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 		FramebufferCreateInfo.height = Extent.height;
 		FramebufferCreateInfo.layers = 1;
 
-		if ((Result = vkCreateFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &FramebufferCreateInfo, nullptr, &_NativeSwapchainFramebufferHandles[i])) != VK_SUCCESS)
+		if ((Result = vkCreateFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &FramebufferCreateInfo, nullptr, &_NativeFramebuffers[i])) != VK_SUCCESS)
 		{
 			throw ExceptionVk(Result);
 		}
@@ -57,9 +57,9 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyFramebuffers()
 	// wait for any pending queues on the device
 	_GraphicsDevice._LogicalDevice.Wait();
 
-	for (size_t i = 0; i < _NativeSwapchainFramebufferHandles.GetLength(); i++)
+	for (size_t i = 0; i < _NativeFramebuffers.GetLength(); i++)
 	{
-		vkDestroyFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeSwapchainFramebufferHandles[i], nullptr);
+		vkDestroyFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeFramebuffers[i], nullptr);
 	}
 }
 

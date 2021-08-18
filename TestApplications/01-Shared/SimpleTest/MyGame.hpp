@@ -20,6 +20,14 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/ShaderModule.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXBUFFER
+#include "../../../Libraries/01-Shared/Elysium.Graphics/VertexBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXDECLARATION
+#include "../../../Libraries/01-Shared/Elysium.Graphics/VertexDeclaration.hpp"
+#endif
+
 class MyGame final : public Elysium::Graphics::Game
 {
 public:
@@ -49,6 +57,8 @@ private:
 	Elysium::Graphics::Rendering::FrameBuffer _FrameBuffer;
 	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
+	//Elysium::Graphics::Rendering::VertexDeclaration _VertexDeclaration;
+	//Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
 

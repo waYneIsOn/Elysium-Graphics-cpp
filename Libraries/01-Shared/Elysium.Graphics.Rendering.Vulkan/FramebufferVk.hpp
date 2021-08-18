@@ -57,7 +57,11 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;
 		SurfaceVk& _Surface;
-		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeSwapchainFramebufferHandles;
+
+		// ToDo: a framebuffer should hold it's own images to be rendered to which then can be copied to the swapchain images before presentation
+		//Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
+		//Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
+		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeFramebuffers;
 
 		void CreateFramebuffers();
 		void DestroyFramebuffers();

@@ -66,12 +66,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class CommandBufferVk;
-	class CommandPoolVk;
-	class QueueVk;
-	class RenderPassVk;
-	class ShaderModuleVk;
-
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public Native::INativeGraphicsDevice
 	{
 		friend class CommandBufferVk;
@@ -81,6 +75,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class QueueVk;
 		friend class RenderPassVk;
 		friend class ShaderModuleVk;
+		friend class VertexBufferVk;
 	public:
 		GraphicsDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
@@ -99,26 +94,32 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const SemaphoreVk& GetRenderSemaphore() const override;
 
 		virtual QueueVk& GetGraphicsQueue() override;
+		virtual QueueVk& GetPresentationQueue() override;
 
 		virtual Native::INativeRenderPass* CreateRenderPass() override;
 		virtual Native::INativeFrameBuffer* CreateFrameBuffer(const Native::INativeRenderPass& RenderPass) override;
 		virtual Native::INativeGraphicsPipeline* CreateGraphicsPipeline() override;
+
+		virtual Native::INativeVertexBuffer* CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage) override;
 		virtual Native::INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) override;
 
 		virtual void Wait() const override;
-		virtual const bool BeginDraw() override;
-		virtual void EndDraw() override;
+		virtual const bool BeginDraw(Native::INativeFence& RenderFence, const Native::INativeSemaphore& PresentationSemaphore) override;
+		virtual void EndDraw(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue) override;
 	private:
 		const PhysicalDeviceVk& _PhysicalDevice;
 		const GraphicsInstanceVk& _GraphicsInstance;
 		PresentationParametersVk& _PresentationParameters;
 
 		SurfaceVk _Surface;
+
 		LogicalDeviceVk _LogicalDevice;
 		QueueVk _GraphicsQueue;
 		QueueVk _PresentationQueue;
+
 		SwapchainVk _Swapchain;
 		DepthBufferVk _DepthBuffer;
+
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;
 		SemaphoreVk _RenderSemaphore;

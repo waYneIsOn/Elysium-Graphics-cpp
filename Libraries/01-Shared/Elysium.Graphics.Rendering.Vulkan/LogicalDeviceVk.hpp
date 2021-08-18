@@ -52,6 +52,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class SemaphoreVk;
 		friend class ShaderModuleVk;
 		friend class SwapchainVk;
+		friend class VertexBufferVk;
 	public:
 		LogicalDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const SurfaceVk& Surface, PresentationParametersVk& PresentationParameters);
 		LogicalDeviceVk(const LogicalDeviceVk& Source) = delete;
@@ -63,7 +64,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Elysium::Core::uint32_t GetGraphicsQueueFamilyIndex() const;
 		const Elysium::Core::uint32_t GetPresentationQueueFamilyIndex() const;
-
+		
 		void Wait() const;
 	private:
 		const PhysicalDeviceVk& _PhysicalDevice;
