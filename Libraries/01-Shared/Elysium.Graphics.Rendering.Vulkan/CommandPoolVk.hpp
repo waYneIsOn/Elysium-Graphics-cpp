@@ -32,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_QUEUEVK
 #include "QueueVk.hpp"
 #endif
@@ -62,9 +58,11 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const QueueVk& _Queue;
-		const VkCommandPool _NativeCommandPoolHandle;
+		VkCommandPool _NativeCommandPoolHandle;
 
-		const VkCommandPool CreateNativeCommandPool();
+		VkCommandPool CreateNativeCommandPool();
+
+		void DestroyNativeCommandPool();
 	};
 }
 #endif

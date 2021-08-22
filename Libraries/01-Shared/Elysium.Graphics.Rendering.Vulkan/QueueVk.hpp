@@ -32,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
 #include "PhysicalDeviceVk.hpp"
 #endif
@@ -47,8 +43,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public Native::INativeQueue
 	{
 		friend class Elysium::Core::Collections::Template::Array<QueueVk>;
+		friend class CommandPoolVk;
+		friend class GraphicsDeviceVk;
 		friend class PhysicalDeviceVk;
-		friend class SwapchainVk;
 	public:
 		QueueVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index);
 		QueueVk(const QueueVk& Source) = delete;
@@ -70,7 +67,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const Elysium::Core::uint32_t _Index;
 		const VkQueue _NativeQueueHandle;
 
-		const VkQueue GetQueue();
+		const VkQueue RetrieveNativeQueue();
 	};
 }
 #endif

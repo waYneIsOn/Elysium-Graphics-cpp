@@ -9,11 +9,29 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _NativeRenderPassHandle(VK_NULL_HANDLE)
+	: _GraphicsDevice(GraphicsDevice), _NativeRenderPassHandle(CreateNativeRenderPass())
+{ }
+Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 {
+	DestroyNativeRenderPass();
+}
+
+VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRenderPass()
+{
+	VkFormat ImageFormat = _GraphicsDevice._NativeSurfaceFormats[0].format;
+	for (size_t i = 0; i < _GraphicsDevice._NativeSurfaceFormats.GetLength(); i++)
+	{
+		if (_GraphicsDevice._NativeSurfaceFormats[i].format == VkFormat::VK_FORMAT_B8G8R8A8_SRGB &&
+			_GraphicsDevice._NativeSurfaceFormats[i].colorSpace == VkColorSpaceKHR::VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		{
+			ImageFormat = _GraphicsDevice._NativeSurfaceFormats[i].format;
+			break;
+		}
+	}
+
 	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
 	ColorAttachment.flags = 0;
-	ColorAttachment.format = (VkFormat&)_GraphicsDevice._PresentationParameters.GetSurfaceFormat().Format;
+	ColorAttachment.format = ImageFormat;
 	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
 	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
 	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;
@@ -21,7 +39,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsD
 	ColorAttachment.stencilStoreOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	ColorAttachment.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
 	ColorAttachment.finalLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-	
+
 	VkAttachmentReference ColorAttachmentReference = VkAttachmentReference();
 	ColorAttachmentReference.attachment = 0;
 	ColorAttachmentReference.layout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -37,7 +55,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsD
 	Subpass.pPreserveAttachments = nullptr;
 	Subpass.pDepthStencilAttachment = nullptr;
 	Subpass.pResolveAttachments = nullptr;
-	
+
 	VkRenderPassCreateInfo CreateInfo = VkRenderPassCreateInfo();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	CreateInfo.pNext = nullptr;
@@ -50,10 +68,13 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsD
 	CreateInfo.pDependencies = nullptr;
 
 	VkResult Result;
-	if ((Result = vkCreateRenderPass(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeRenderPassHandle)) != VK_NULL_HANDLE)
+	VkRenderPass RenderPass;
+	if ((Result = vkCreateRenderPass(_GraphicsDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &RenderPass)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
+
+	return RenderPass;
 	/*
 	VkAttachmentDescription2 ColorAttachment = VkAttachmentDescription2();
 	ColorAttachment.sType = VkStructureType::VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2;
@@ -112,11 +133,12 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsD
 	}
 	*/
 }
-Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
+
+void Elysium::Graphics::Rendering::Vulkan::RenderPassVk::DestroyNativeRenderPass()
 {
 	if (_NativeRenderPassHandle != VK_NULL_HANDLE)
 	{
-		vkDestroyRenderPass(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeRenderPassHandle, nullptr);
+		vkDestroyRenderPass(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeRenderPassHandle, nullptr);
 		_NativeRenderPassHandle = VK_NULL_HANDLE;
 	}
 }

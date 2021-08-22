@@ -48,19 +48,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "QueueFamilyPropertyVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public Native::INativePhysicalDevice
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
 		friend class DepthBufferVk;
+		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
-		friend class LogicalDeviceVk;
-		friend class SurfaceVk;
 	public:
 		PhysicalDeviceVk(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk(PhysicalDeviceVk&& Right) noexcept = delete;

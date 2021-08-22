@@ -15,12 +15,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/FenceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsInstanceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/GraphicsDeviceVk.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/LogicalDeviceVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/PresentationParametersVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/QueueVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/RenderPassVk.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/SemaphoreVk.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Graphics.Rendering.Vulkan/SwapchainVk.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Graphics/GraphicsDevice.hpp"
 
@@ -107,7 +105,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
 
     // ...
-    GraphicsDeviceVk GraphicsDeviceVulkan = GraphicsDeviceVk(SelectedPhysicalDevice, GraphicsAPI, PresentationParameters);
+    GraphicsDeviceVk GraphicsDeviceVulkan = GraphicsDeviceVk(GraphicsAPI, SelectedPhysicalDevice, PresentationParameters);
     GraphicsDevice WrappedGraphicsDevice = GraphicsDevice(GraphicsDeviceVulkan);
 
     // create and run the game

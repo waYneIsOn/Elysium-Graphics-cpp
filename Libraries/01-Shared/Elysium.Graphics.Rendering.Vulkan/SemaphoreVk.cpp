@@ -4,28 +4,16 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::SemaphoreVk(const LogicalDeviceVk& LogicalDevice)
-	: _LogicalDevice(LogicalDevice), _NativeSemaphoreHandle(VK_NULL_HANDLE)
-{
-	VkSemaphoreCreateInfo CreateInfo = VkSemaphoreCreateInfo();
-	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-	CreateInfo.pNext = nullptr;
-	CreateInfo.flags = 0;
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
+#include "GraphicsDeviceVk.hpp"
+#endif
 
-	VkResult Result;
-	if ((Result = vkCreateSemaphore(_LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &_NativeSemaphoreHandle)) != VK_NULL_HANDLE)
-	{
-		throw ExceptionVk(Result);
-	}
-}
-
+Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::SemaphoreVk(const GraphicsDeviceVk& GraphicsDevice)
+	: _GraphicsDevice(GraphicsDevice), _NativeSemaphoreHandle(CreateNativeSemaphore())
+{ }
 Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::~SemaphoreVk()
 {
-	if (_NativeSemaphoreHandle != VK_NULL_HANDLE)
-	{
-		vkDestroySemaphore(_LogicalDevice._NativeLogicalDeviceHandle, _NativeSemaphoreHandle, nullptr);
-		_NativeSemaphoreHandle = VK_NULL_HANDLE;
-	}
+	DestroyNativeSemaphore();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::Wait(const Elysium::Core::uint64_t Timeout)
@@ -50,4 +38,30 @@ void Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::Wait(const Elysium::Core
 		throw ExceptionVk(Result);
 	}
 	*/
+}
+
+VkSemaphore Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::CreateNativeSemaphore()
+{
+	VkSemaphoreCreateInfo CreateInfo = VkSemaphoreCreateInfo();
+	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	CreateInfo.pNext = nullptr;
+	CreateInfo.flags = 0;
+
+	VkSemaphore Semaphore;
+	VkResult Result;
+	if ((Result = vkCreateSemaphore(_GraphicsDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &Semaphore)) != VK_NULL_HANDLE)
+	{
+		throw ExceptionVk(Result);
+	}
+
+	return Semaphore;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::SemaphoreVk::DestroyNativeSemaphore()
+{
+	if (_NativeSemaphoreHandle != VK_NULL_HANDLE)
+	{
+		vkDestroySemaphore(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeSemaphoreHandle, nullptr);
+		_NativeSemaphoreHandle = VK_NULL_HANDLE;
+	}
 }

@@ -21,7 +21,7 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
-	: _GraphicsDevice(GraphicsDevice), _FamilyIndex(FamilyIndex), _Index(Index), _NativeQueueHandle(GetQueue())
+	: _GraphicsDevice(GraphicsDevice), _FamilyIndex(FamilyIndex), _Index(Index), _NativeQueueHandle(RetrieveNativeQueue())
 { }
 Elysium::Graphics::Rendering::Vulkan::QueueVk::~QueueVk()
 {
@@ -74,7 +74,7 @@ void Elysium::Graphics::Rendering::Vulkan::QueueVk::Wait() const
 	}
 }
 
-const VkQueue Elysium::Graphics::Rendering::Vulkan::QueueVk::GetQueue()
+const VkQueue Elysium::Graphics::Rendering::Vulkan::QueueVk::RetrieveNativeQueue()
 {
 	VkDeviceQueueInfo2 DeviceQueueInfo = VkDeviceQueueInfo2();
 	DeviceQueueInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2;
@@ -84,7 +84,7 @@ const VkQueue Elysium::Graphics::Rendering::Vulkan::QueueVk::GetQueue()
 	DeviceQueueInfo.queueIndex = _Index;
 
 	VkQueue NativeQueueHandle;
-	vkGetDeviceQueue2(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &DeviceQueueInfo, &NativeQueueHandle);
+	vkGetDeviceQueue2(_GraphicsDevice._NativeLogicalDeviceHandle, &DeviceQueueInfo, &NativeQueueHandle);
 	if (_NativeQueueHandle == VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(VK_ERROR_UNKNOWN);

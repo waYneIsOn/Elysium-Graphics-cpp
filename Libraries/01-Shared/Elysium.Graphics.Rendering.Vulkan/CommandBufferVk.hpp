@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVECOMMANDBUFFER
 #include "../Elysium.Graphics/INativeCommandBuffer.hpp"
 #endif
@@ -20,20 +24,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_COMMANDPOOLVK
-#include "CommandPoolVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
+	class CommandPoolVk;
+	class GraphicsDeviceVk;
+
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API CommandBufferVk : public Native::INativeCommandBuffer
 	{
 		friend class QueueVk;

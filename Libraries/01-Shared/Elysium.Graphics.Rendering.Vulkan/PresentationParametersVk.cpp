@@ -10,51 +10,9 @@ Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationPara
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }
 
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetImageArrayLayers() const
-{
-	return _ImageArrayLayers;
-}
-
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetTransform() const
-{
-	return _Transform;
-}
-
-const Elysium::Graphics::Rendering::Vulkan::Extent2DVk& Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetExtent() const
-{
-	return _Extent;
-}
-
-const Elysium::Graphics::Rendering::Vulkan::SurfaceFormatVk& Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetSurfaceFormat() const
-{
-	return _SurfaceFormat;
-}
-
 const Elysium::Graphics::Rendering::Vulkan::PresentModeVk& Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetPresentMode() const
 {
 	return _PresentMode;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height)
-{
-	_Extent.Width = Width;
-	_Extent.Height = Height;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetImageArrayLayers(const Elysium::Core::uint32_t Value)
-{
-	_ImageArrayLayers = Value;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetTransform(const Elysium::Core::uint32_t Value)
-{
-	_Transform = Value;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetSurfaceFormat(const SurfaceFormatVk& Value)
-{
-	_SurfaceFormat.ColorSpace = Value.ColorSpace;
-	_SurfaceFormat.Format = Value.Format;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetPresentMode(const PresentModeVk& Value)

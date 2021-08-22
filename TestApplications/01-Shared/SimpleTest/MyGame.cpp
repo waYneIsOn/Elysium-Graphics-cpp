@@ -8,6 +8,10 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.IO/Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
+#endif
+
 MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	: Elysium::Graphics::Game(GraphicsDevice),
 	_GraphicsQueue(_GraphicsDevice.GetGraphicsQueue()), _PresentationSemaphore(_GraphicsDevice.GetPresentationSemaphore()),
@@ -59,7 +63,7 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 	Elysium::Core::IO::BinaryReader Reader = Elysium::Core::IO::BinaryReader(Stream, Elysium::Core::Text::Encoding::UTF8(), false);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Data = Reader.ReadBytes(Stream.GetLength());
 	
-	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Object::Move(Data));
+	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Move(Data));
 }
 
 void MyGame::RecordCommandBuffer()

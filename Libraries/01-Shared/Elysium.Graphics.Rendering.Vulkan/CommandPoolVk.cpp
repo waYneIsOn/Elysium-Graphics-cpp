@@ -13,7 +13,7 @@ Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CommandPoolVk(const Graphic
 { }
 Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::~CommandPoolVk()
 {
-	vkDestroyCommandPool(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, nullptr);
+	DestroyNativeCommandPool();
 }
 
 Elysium::Graphics::Rendering::Native::INativeCommandBuffer* Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateCommandBuffer(const bool IsPrimary)
@@ -26,7 +26,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::Reset()
 	throw 1;
 	/*
 	VkResult Result;
-	if ((Result = vkResetCommandPool(_LogicalDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, 
+	if ((Result = vkResetCommandPool(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, 
 		VkCommandPoolResetFlagBits::VK_COMMAND_POOL_RESET_RELEASE_RESOURCES_BIT)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -34,7 +34,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::Reset()
 	*/
 }
 
-const VkCommandPool Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateNativeCommandPool()
+VkCommandPool Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateNativeCommandPool()
 {
 	VkCommandPoolCreateInfo CreateInfo = VkCommandPoolCreateInfo();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -44,10 +44,19 @@ const VkCommandPool Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::CreateN
 
 	VkResult Result;
 	VkCommandPool NativeCommandPoolHandle;
-	if ((Result = vkCreateCommandPool(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeCommandPoolHandle)) != VK_SUCCESS)
+	if ((Result = vkCreateCommandPool(_Queue._GraphicsDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeCommandPoolHandle)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 
 	return NativeCommandPoolHandle;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandPoolVk::DestroyNativeCommandPool()
+{
+	if (_NativeCommandPoolHandle != VK_NULL_HANDLE)
+	{
+		vkDestroyCommandPool(_Queue._GraphicsDevice._NativeLogicalDeviceHandle, _NativeCommandPoolHandle, nullptr);
+		_NativeCommandPoolHandle = VK_NULL_HANDLE;
+	}
 }

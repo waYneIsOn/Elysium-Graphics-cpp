@@ -1,7 +1,7 @@
 #include "ShaderModule.hpp"
 
-#ifndef ELYSIUM_CORE_OBJECT
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Object.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_GRAPHICSDEVICE
@@ -13,7 +13,7 @@
 #endif
 
 Elysium::Graphics::Rendering::ShaderModule::ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Collections::Template::Array<Elysium::Core::byte>&& ByteCode)
-	: _GraphicsDevice(GraphicsDevice), _ByteCode(Elysium::Core::Object::Move(ByteCode)), _NativeShaderModule(_GraphicsDevice._NativeGraphicsDevice.CreateShaderModule(_ByteCode))
+	: _GraphicsDevice(GraphicsDevice), _ByteCode(Elysium::Core::Template::Move(ByteCode)), _NativeShaderModule(_GraphicsDevice._NativeGraphicsDevice.CreateShaderModule(_ByteCode))
 { }
 Elysium::Graphics::Rendering::ShaderModule::~ShaderModule()
 {

@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DeviceQueueCreateInfoVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXTENT2DVK
-#include "Extent2DVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXTENSIONPROPERTYVK
 #include "ExtensionPropertyVk.hpp"
 #endif
@@ -48,14 +44,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentModeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEFORMATVK
-#include "SurfaceFormatVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public Elysium::Graphics::PresentationParameters
@@ -63,7 +51,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
 		friend class GraphicsPipelineVk;
-		friend class LogicalDeviceVk;
 	public:
 		PresentationParametersVk(GraphicsInstanceVk& NativeGraphicsAPI, Presentation::Control& Canvas);
 		PresentationParametersVk(const PresentationParametersVk& Source) = delete;
@@ -73,16 +60,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PresentationParametersVk& operator=(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk& operator=(PresentationParametersVk&& Right) noexcept = delete;
 
-		const Elysium::Core::uint32_t GetImageArrayLayers() const;
-		const Elysium::Core::uint32_t GetTransform() const;
-		const Extent2DVk& GetExtent() const;
-		const SurfaceFormatVk& GetSurfaceFormat() const;
 		const PresentModeVk& GetPresentMode() const;
 
-		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) override;
-		void SetImageArrayLayers(const Elysium::Core::uint32_t Value);
-		void SetTransform(const Elysium::Core::uint32_t Value);
-		void SetSurfaceFormat(const SurfaceFormatVk& Value);
 		void SetPresentMode(const PresentModeVk& Value);
 
 		void AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
@@ -96,11 +75,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		Core::Collections::Template::List<DeviceQueueCreateInfoVk> _DeviceQueueCreateInfos = Core::Collections::Template::List<DeviceQueueCreateInfoVk>(0);
 
 		// information required for creation of swapchain
-		Elysium::Core::uint32_t _ImageArrayLayers = 1;
-		Extent2DVk _Extent = Extent2DVk(_BackBufferWidth, _BackBufferHeight);
-		SurfaceFormatVk _SurfaceFormat = SurfaceFormatVk();
 		PresentModeVk _PresentMode = PresentModeVk::Fifo;
-		Elysium::Core::uint32_t _Transform = -1;
 	};
 }
 #endif

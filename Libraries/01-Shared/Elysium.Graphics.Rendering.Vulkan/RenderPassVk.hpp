@@ -33,7 +33,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class CommandBufferVk;
 		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
-		friend class LogicalDeviceVk;
 	public:
 		RenderPassVk(const GraphicsDeviceVk& GraphicsDevice);
 		RenderPassVk(const RenderPassVk& Source) = delete;
@@ -46,6 +45,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const GraphicsDeviceVk& _GraphicsDevice;
 
 		VkRenderPass _NativeRenderPassHandle;
+
+		VkRenderPass CreateNativeRenderPass();
+
+		void DestroyNativeRenderPass();
 	};
 }
 #endif

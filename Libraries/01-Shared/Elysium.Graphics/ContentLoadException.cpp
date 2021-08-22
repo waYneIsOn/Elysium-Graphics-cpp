@@ -1,7 +1,7 @@
 #include "ContentLoadException.hpp"
 
-#ifndef ELYSIUM_CORE_OBJECT
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Object.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Graphics::Content::ContentLoadException::ContentLoadException()
@@ -11,7 +11,7 @@ Elysium::Graphics::Content::ContentLoadException::ContentLoadException(const cha
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Graphics::Content::ContentLoadException::ContentLoadException(Elysium::Core::String&& Message)
-	: Elysium::Core::Exception(Elysium::Core::Object::Move(Message))
+	: Elysium::Core::Exception(Elysium::Core::Template::Move(Message))
 { }
 Elysium::Graphics::Content::ContentLoadException::~ContentLoadException()
 { }

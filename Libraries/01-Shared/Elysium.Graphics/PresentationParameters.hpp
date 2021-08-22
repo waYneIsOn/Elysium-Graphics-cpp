@@ -73,8 +73,6 @@ namespace Elysium::Graphics
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
 		void SetDesiredDepthFormat(const Rendering::DepthFormat Value);
-
-		virtual void SetExtent(const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height) = 0;
 	protected:
 		// graphics api
 		Rendering::Native::INativeGraphicsAPI& _NativeGraphicsAPI;

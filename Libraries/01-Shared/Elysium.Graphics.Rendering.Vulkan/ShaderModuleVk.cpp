@@ -11,7 +11,7 @@ Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::~ShaderModuleVk()
 {
 	if (_NativeShaderModule != VK_NULL_HANDLE)
 	{
-		vkDestroyShaderModule(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeShaderModule, nullptr);
+		vkDestroyShaderModule(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeShaderModule, nullptr);
 		_NativeShaderModule = VK_NULL_HANDLE;
 	}
 }
@@ -25,7 +25,7 @@ VkShaderModule Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::CreateShade
 
 	VkResult Result;
 	VkShaderModule NativeShaderModule;
-	if ((Result = vkCreateShaderModule(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeShaderModule)) != VK_SUCCESS)
+	if ((Result = vkCreateShaderModule(_GraphicsDevice._NativeLogicalDeviceHandle, &CreateInfo, nullptr, &NativeShaderModule)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}

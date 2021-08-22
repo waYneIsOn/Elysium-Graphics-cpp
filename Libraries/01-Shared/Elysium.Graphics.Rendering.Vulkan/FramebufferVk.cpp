@@ -12,27 +12,34 @@
 #include "GraphicsDeviceVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass, SurfaceVk& Surface)
-	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass), _Surface(Surface),
-	_NativeFramebuffers(_GraphicsDevice._Swapchain._BackBufferImageViews.GetLength())
+Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass, const VkSurfaceKHR NativeSurfaceHandle)
+	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass),
+
+
+	_NativeSurfaceHandle(NativeSurfaceHandle),
+
+
+	_NativeFramebuffers(_GraphicsDevice._BackBufferImageViews.GetLength())
 {
 	CreateFramebuffers();
-	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged>(*this);
+
+	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
 }
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 {
-	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged>(*this);
+	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
+	
 	DestroyFramebuffers();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 {
-	const VkExtent2D& Extent = (const VkExtent2D&)_GraphicsDevice._PresentationParameters.GetExtent();
+	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 
 	VkResult Result;
 	for (size_t i = 0; i < _NativeFramebuffers.GetLength(); i++)
 	{
-		const VkImageView Attachments[] = { _GraphicsDevice._Swapchain._BackBufferImageViews[i] };
+		const VkImageView Attachments[] = { _GraphicsDevice._BackBufferImageViews[i] };
 
 		VkFramebufferCreateInfo FramebufferCreateInfo = VkFramebufferCreateInfo();
 		FramebufferCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -45,7 +52,7 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 		FramebufferCreateInfo.height = Extent.height;
 		FramebufferCreateInfo.layers = 1;
 
-		if ((Result = vkCreateFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &FramebufferCreateInfo, nullptr, &_NativeFramebuffers[i])) != VK_SUCCESS)
+		if ((Result = vkCreateFramebuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &FramebufferCreateInfo, nullptr, &_NativeFramebuffers[i])) != VK_SUCCESS)
 		{
 			throw ExceptionVk(Result);
 		}
@@ -55,15 +62,15 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateFramebuffers()
 void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyFramebuffers()
 {
 	// wait for any pending queues on the device
-	_GraphicsDevice._LogicalDevice.Wait();
+	_GraphicsDevice.Wait();
 
 	for (size_t i = 0; i < _NativeFramebuffers.GetLength(); i++)
 	{
-		vkDestroyFramebuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeFramebuffers[i], nullptr);
+		vkDestroyFramebuffer(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeFramebuffers[i], nullptr);
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
+void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
 	DestroyFramebuffers();
 	CreateFramebuffers();

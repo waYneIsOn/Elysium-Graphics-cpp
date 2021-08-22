@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
+#include "../Elysium.Graphics.Presentation/Control.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSPIPELINE
 #include "../Elysium.Graphics/INativeGraphicsPipeline.hpp"
 #endif
@@ -30,10 +34,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INCLUDEVK
 #include "IncludeVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering::Vulkan
@@ -54,8 +54,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Build(const Native::INativeRenderPass& RenderPass) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
-		SurfaceVk& _Surface;
-		const VkPipelineLayout _NativePipelineLayoutHandle;
+		VkPipelineLayout _NativePipelineLayoutHandle;
 		
 		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
 		VkPipelineVertexInputStateCreateInfo _VertexInputState;
@@ -69,7 +68,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		VkPipeline _NativePipelineHandle;
 
-		const VkPipelineLayout CreatePipelineLayout();
+		VkPipelineLayout CreatePipelineLayout();
 		VkPipelineVertexInputStateCreateInfo CreateDefaultVertexInputStateCreateInfo();
 		VkPipelineInputAssemblyStateCreateInfo CreateDefaultInputAssemblyStateCreateInfo();
 		VkViewport CreateDefaultViewport();
@@ -79,7 +78,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkPipelineColorBlendAttachmentState CreateDefaultColorBlendAttachment();
 		VkPipelineColorBlendStateCreateInfo CreateDefaultColorBlendStateCreateInfo();
 
-		void Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender);
+		void DestroyNativePipeline();
+		void DestroyNativePipelineLayout();
+
+		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};
 }
 #endif

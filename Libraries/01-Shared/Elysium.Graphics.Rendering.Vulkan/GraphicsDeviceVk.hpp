@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
+#include "../Elysium.Graphics.Presentation/Control.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -36,10 +40,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "GraphicsInstanceVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PHYSICALDEVICEVK
 #include "PhysicalDeviceVk.hpp"
 #endif
@@ -56,28 +56,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SemaphoreVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SWAPCHAINVK
-#include "SwapchainVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsDeviceVk final : public Native::INativeGraphicsDevice
 	{
 		friend class CommandBufferVk;
 		friend class CommandPoolVk;
+		friend class DepthBufferVk;
+		friend class FenceVk;
 		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
 		friend class QueueVk;
 		friend class RenderPassVk;
+		friend class SemaphoreVk;
 		friend class ShaderModuleVk;
 		friend class VertexBufferVk;
 	public:
-		GraphicsDeviceVk(const PhysicalDeviceVk& PhysicalDevice, const GraphicsInstanceVk& GraphicsInstance, PresentationParametersVk& PresentationParameters);
+		GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
 		GraphicsDeviceVk(const GraphicsDeviceVk& Source) = delete;
 		GraphicsDeviceVk(GraphicsDeviceVk&& Right) noexcept = delete;
 		virtual ~GraphicsDeviceVk();
@@ -107,22 +102,58 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const bool BeginDraw(Native::INativeFence& RenderFence, const Native::INativeSemaphore& PresentationSemaphore) override;
 		virtual void EndDraw(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue) override;
 	private:
-		const PhysicalDeviceVk& _PhysicalDevice;
 		const GraphicsInstanceVk& _GraphicsInstance;
+		const PhysicalDeviceVk& _PhysicalDevice;
+		Presentation::Control& _Canvas;
 		PresentationParametersVk& _PresentationParameters;
 
-		SurfaceVk _Surface;
+		VkSurfaceKHR _NativeSurfaceHandle;
+		VkSurfaceCapabilitiesKHR _NativeSurfaceCapabilities;
+		Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> _NativeSurfaceFormats;
+		Elysium::Core::Collections::Template::Array<VkPresentModeKHR> _NativeSurfacePresentModes;
 
-		LogicalDeviceVk _LogicalDevice;
+		const Elysium::Core::uint32_t _GraphicsQueueFamilyIndex;
+		const Elysium::Core::uint32_t _PresentationQueueFamilyIndex;
+		VkDevice _NativeLogicalDeviceHandle;
 		QueueVk _GraphicsQueue;
 		QueueVk _PresentationQueue;
 
-		SwapchainVk _Swapchain;
-		DepthBufferVk _DepthBuffer;
+		VkSwapchainKHR _NativeSwapchainHandle;
+		Elysium::Core::uint32_t _CurrentBackBufferImageIndex;
+		Elysium::Core::Collections::Template::Array<VkImage> _BackBufferImages;
+		Elysium::Core::Collections::Template::Array<VkImageView> _BackBufferImageViews;
+		VkImage _NativeDepthImageHandle;
+		VkDeviceMemory _NativeDepthImageMemoryHandle;
+		VkImageView _NativeDepthImageViewHandle;
 
 		FenceVk _RenderFence;
 		SemaphoreVk _PresentationSemaphore;
 		SemaphoreVk _RenderSemaphore;
+
+		VkSurfaceKHR CreateNativeSurface();
+		VkSurfaceCapabilitiesKHR RetrieveNativeSurfaceCapabilities();
+		Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> RetrieveNativeSurfaceFormats();
+		Elysium::Core::Collections::Template::Array<VkPresentModeKHR> RetrieveNativeSurfacePresentModes();
+		const Elysium::Core::uint32_t RetrieveGraphicsQueueFamilyIndex();
+		const Elysium::Core::uint32_t RetrievePresentationQueueFamilyIndex();
+		VkDevice CreateNativeLogicalDevice();
+		VkSwapchainKHR CreateNativeSwapchain(const VkSwapchainKHR PreviousNativeSwapchainHandle);
+		Elysium::Core::Collections::Template::Array<VkImage> RetrieveNativeBackBufferImages();
+		Elysium::Core::Collections::Template::Array<VkImageView> CreateNativeBackBufferImageViews();
+		VkImage CreateNativeDepthImage();
+		VkDeviceMemory CreateNativeDepthImageMemory();
+		VkImageView CreateNativeDepthImageView();
+
+		void DestroyNativeDepthImageView();
+		void DestroyNativeDepthImageMemory();
+		void DestroyNativeDepthImage();
+		void DestroyNativeBackBufferImageViews();
+		void DestroyNativeBackBufferImages();
+		void DestroyNativeSwapchain(VkSwapchainKHR NativeSwapchainHandle);
+		void DestroyNativeLogicalDevice();
+		void DestroyNativeSurface();
+
+		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};
 }
 #endif

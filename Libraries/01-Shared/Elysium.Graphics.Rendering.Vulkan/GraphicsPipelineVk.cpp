@@ -9,26 +9,22 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::GraphicsPipelineVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _Surface((SurfaceVk&)GraphicsDevice._Surface), _NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
+	: _GraphicsDevice(GraphicsDevice), 
+	_NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
 	_VertexInputState(CreateDefaultVertexInputStateCreateInfo()), _InputAssembly(CreateDefaultInputAssemblyStateCreateInfo()),
 	_Viewport(CreateDefaultViewport()), _ScissorRectangle(CreateDefaultScissorRectangle()),
 	_Rasterizer(CreateDefaultRasterizationStateCreateInfo()), _Multisampling(CreateDefaultMultisampleStateCreateInfo()),
 	_ColorBlendAttachment(CreateDefaultColorBlendAttachment()), _ColorBlend(CreateDefaultColorBlendStateCreateInfo()),
 	_NativePipelineHandle(VK_NULL_HANDLE)
 {
-	_Surface.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged>(*this);
+	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged>(*this);
 }
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::~GraphicsPipelineVk()
 {
-	_Surface.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Rendering::Vulkan::SurfaceVk&>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged>(*this);
-	if (_NativePipelineHandle != VK_NULL_HANDLE)
-	{
-		vkDestroyPipeline(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativePipelineHandle, nullptr);
-	}
-	if (_NativePipelineLayoutHandle != VK_NULL_HANDLE)
-	{
-		vkDestroyPipelineLayout(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativePipelineLayoutHandle, nullptr);
-	}
+	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged>(*this);
+
+	DestroyNativePipeline();
+	DestroyNativePipelineLayout();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type)
@@ -78,13 +74,13 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Nativ
 	PipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 
 	VkResult Result;
-	if ((Result = vkCreateGraphicsPipelines(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &_NativePipelineHandle)) != VK_SUCCESS)
+	if ((Result = vkCreateGraphicsPipelines(_GraphicsDevice._NativeLogicalDeviceHandle, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &_NativePipelineHandle)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 }
 
-const VkPipelineLayout Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreatePipelineLayout()
+VkPipelineLayout Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreatePipelineLayout()
 {
 	VkPipelineLayoutCreateInfo PipelineLayoutCreateInfo = VkPipelineLayoutCreateInfo();
 	PipelineLayoutCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -97,7 +93,7 @@ const VkPipelineLayout Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk:
 
 	VkResult Result;
 	VkPipelineLayout Layout;
-	if ((Result = vkCreatePipelineLayout(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &PipelineLayoutCreateInfo, nullptr, &Layout)) != VK_SUCCESS)
+	if ((Result = vkCreatePipelineLayout(_GraphicsDevice._NativeLogicalDeviceHandle, &PipelineLayoutCreateInfo, nullptr, &Layout)) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
@@ -133,13 +129,13 @@ VkPipelineInputAssemblyStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Gra
 
 VkViewport Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultViewport()
 {
-	Extent2DVk& Extent = _GraphicsDevice._PresentationParameters._Extent;
+	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 
 	VkViewport Viewport = VkViewport();
 	Viewport.x = 0.0f;
 	Viewport.y = 0.0f;
-	Viewport.width = Extent.Width;
-	Viewport.height = Extent.Height;
+	Viewport.width = Extent.width;
+	Viewport.height = Extent.height;
 	Viewport.minDepth = 0.0f;
 	Viewport.maxDepth = 1.0f;
 
@@ -148,13 +144,11 @@ VkViewport Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefau
 
 VkRect2D Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultScissorRectangle()
 {
-	Extent2DVk& Extent = _GraphicsDevice._PresentationParameters._Extent;
+	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 
 	VkRect2D ScissorRectangle = VkRect2D();
 	ScissorRectangle.offset = { 0, 0 };
-	ScissorRectangle.extent = VkExtent2D();
-	ScissorRectangle.extent.width = Extent.Width;
-	ScissorRectangle.extent.height = Extent.Height;
+	ScissorRectangle.extent = Extent;
 
 	return ScissorRectangle;
 }
@@ -229,7 +223,25 @@ VkPipelineColorBlendStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Graphi
 	return CreateInfo;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Surface_OnSizeChanged(const Elysium::Graphics::Rendering::Vulkan::SurfaceVk& Sender)
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::DestroyNativePipeline()
+{
+	if (_NativePipelineHandle != VK_NULL_HANDLE)
+	{
+		vkDestroyPipeline(_GraphicsDevice._NativeLogicalDeviceHandle, _NativePipelineHandle, nullptr);
+		_NativePipelineHandle = VK_NULL_HANDLE;
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::DestroyNativePipelineLayout()
+{
+	if (_NativePipelineLayoutHandle != VK_NULL_HANDLE)
+	{
+		vkDestroyPipelineLayout(_GraphicsDevice._NativeLogicalDeviceHandle, _NativePipelineLayoutHandle, nullptr);
+		_NativePipelineLayoutHandle = VK_NULL_HANDLE;
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
 	_Viewport = CreateDefaultViewport();
 	_ScissorRectangle = CreateDefaultScissorRectangle();

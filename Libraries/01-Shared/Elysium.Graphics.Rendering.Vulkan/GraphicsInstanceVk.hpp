@@ -40,10 +40,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PresentationParametersVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SURFACEVK
-#include "SurfaceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	/// <summary>
@@ -51,7 +47,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	/// </summary>
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API GraphicsInstanceVk final : public Native::INativeGraphicsAPI
 	{
-		friend class SurfaceVk;
+		friend class GraphicsDeviceVk;
 	public:
 		GraphicsInstanceVk();
 		GraphicsInstanceVk(const GraphicsInstanceVk& Source) = delete;

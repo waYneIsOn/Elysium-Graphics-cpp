@@ -46,7 +46,7 @@ Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::VertexBufferVk(const Graph
 	//PipelineVertexInputStateCreateInfo.pVertexBindingDescriptions
 
 	VkResult Result;
-	if ((Result = vkCreateBuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &_NativeVertexBuffer)) != VK_NULL_HANDLE)
+	if ((Result = vkCreateBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &_NativeVertexBuffer)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
@@ -56,7 +56,7 @@ Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::~VertexBufferVk()
 {
 	if (_NativeVertexBuffer != VK_NULL_HANDLE)
 	{
-		vkDestroyBuffer(_GraphicsDevice._LogicalDevice._NativeLogicalDeviceHandle, _NativeVertexBuffer, nullptr);
+		vkDestroyBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeVertexBuffer, nullptr);
 		_NativeVertexBuffer = VK_NULL_HANDLE;
 	}
 }

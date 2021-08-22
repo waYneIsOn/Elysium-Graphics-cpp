@@ -24,19 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IncludeVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_LOGICALDEVICEVK
-#include "LogicalDeviceVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
-	class QueueVk;
+	class GraphicsDeviceVk;
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FenceVk final : public Native::INativeFence
 	{
+		friend class GraphicsDeviceVk;
 		friend class QueueVk;
 	public:
-		FenceVk(const LogicalDeviceVk& LogicalDevice, const bool SetSignaled = false);
+		FenceVk(const GraphicsDeviceVk& GraphicsDevice, const bool SetSignaled = false);
 		FenceVk(const FenceVk& Source) = delete;
 		FenceVk(FenceVk&& Right) noexcept = delete;
 		virtual ~FenceVk();
@@ -47,8 +44,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Wait(const Elysium::Core::uint64_t Timeout) const override;
 		virtual void Reset() override;
 	private:
-		const LogicalDeviceVk& _LogicalDevice;
+		const GraphicsDeviceVk& _GraphicsDevice;
 		VkFence _NativeFenceHandle;
+
+		VkFence CreateNativeFence(const bool SetSignaled);
+
+		void DestroyNativeFence();
 	};
 }
 #endif
