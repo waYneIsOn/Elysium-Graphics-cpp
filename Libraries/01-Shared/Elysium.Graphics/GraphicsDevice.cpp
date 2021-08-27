@@ -19,7 +19,7 @@ Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(Native::INativeGrap
 Elysium::Graphics::Rendering::GraphicsDevice::~GraphicsDevice()
 { }
 
-Elysium::Graphics::PresentationParameters& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationParameters()
+const Elysium::Graphics::PresentationParameters& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationParameters()
 {
 	return _NativeGraphicsDevice.GetPresentationParameters();
 }

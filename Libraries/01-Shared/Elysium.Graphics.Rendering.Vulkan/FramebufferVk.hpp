@@ -42,7 +42,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class CommandBufferVk;
 	public:
-		FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass, const VkSurfaceKHR NativeSurfaceHandle);
+		FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass);
 		FrameBufferVk(const FrameBufferVk& Source) = delete;
 		FrameBufferVk(FrameBufferVk&& Right) noexcept = delete;
 		virtual ~FrameBufferVk();
@@ -52,16 +52,21 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;
-		//SurfaceVk& _Surface;
-		const VkSurfaceKHR _NativeSurfaceHandle;
 
-		// ToDo: a framebuffer should hold it's own images to be rendered to which then can be copied to the swapchain images before presentation
-		//Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
-		//Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
+		Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
+		Elysium::Core::Collections::Template::Array<VkDeviceMemory> _NativeImageMemories;
+		Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeFramebuffers;
 
-		void CreateFramebuffers();
-		void DestroyFramebuffers();
+		Elysium::Core::Collections::Template::Array<VkImage> CreateNativeImages();
+		Elysium::Core::Collections::Template::Array<VkDeviceMemory> CreateNativeImageMemories();
+		Elysium::Core::Collections::Template::Array<VkImageView> CreateNativeImageViews();
+		Elysium::Core::Collections::Template::Array<VkFramebuffer> CreateNativeFramebuffers();
+
+		void DestroyNativeFramebuffers();
+		void DestroyNativeImageViews();
+		void DestroyNativeImageMemories();
+		void DestroyNativeImages();
 
 		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};

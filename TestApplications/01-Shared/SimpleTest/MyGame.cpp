@@ -20,6 +20,8 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_CommandPool(_GraphicsQueue.CreateCommandPool()),
 	_CommandBuffer(_CommandPool.CreateCommandBuffer(true)), _SecondaryCommandBuffer(_CommandPool.CreateCommandBuffer(false)),
 	_MainRenderPass(_GraphicsDevice), _FrameBuffer(_GraphicsDevice, _MainRenderPass), _RenderPipeline(_GraphicsDevice),
+	_FullScreenTriangleVertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Vertex.spv")),
+	_FullScreenTriangleFragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Fragment.spv")),
 	//_VertexDeclaration(32), _VertexBuffer(_GraphicsDevice, _VertexDeclaration, 0, Elysium::Graphics::Rendering::BufferUsage::None),
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))

@@ -54,6 +54,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
 		friend class DepthBufferVk;
+		friend class FrameBufferVk;
 		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
 	public:

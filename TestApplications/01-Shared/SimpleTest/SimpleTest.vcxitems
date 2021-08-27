@@ -20,10 +20,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MyGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)Assets\SomeShader.spv" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FragmentShader.frag" />
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FullScreenTriangle.frag" />
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FullScreenTriangle.vert" />
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.vert" />
   </ItemGroup>
 </Project>

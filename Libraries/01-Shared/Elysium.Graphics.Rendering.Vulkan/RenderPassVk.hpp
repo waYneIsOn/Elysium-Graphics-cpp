@@ -43,7 +43,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		RenderPassVk& operator=(RenderPassVk&& Right) noexcept = delete;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
-
+		VkFormat _NativeImageFormat;
 		VkRenderPass _NativeRenderPassHandle;
 
 		VkRenderPass CreateNativeRenderPass();

@@ -48,6 +48,9 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 {
 	_Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Control_SizeChanged>(*this);
 
+	// wait for pending operations before destroying any object
+	Wait();
+
 	_RenderSemaphore.DestroyNativeSemaphore();
 	_PresentationSemaphore.DestroyNativeSemaphore();
 	_RenderFence.DestroyNativeFence();
@@ -62,7 +65,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 	DestroyNativeSurface();
 }
 
-Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters() const
+const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPresentationParameters() const
 {
 	return _PresentationParameters;
 }
@@ -106,7 +109,7 @@ Elysium::Graphics::Rendering::Native::INativeFrameBuffer* Elysium::Graphics::Ren
 {
 	const RenderPassVk& VkRenderPass = reinterpret_cast<const RenderPassVk&>(RenderPass);
 
-	return new FrameBufferVk(*this, VkRenderPass, _NativeSurfaceHandle);
+	return new FrameBufferVk(*this, VkRenderPass);
 }
 
 Elysium::Graphics::Rendering::Native::INativeGraphicsPipeline* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateGraphicsPipeline()
@@ -469,13 +472,13 @@ Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rend
 		ImageViewCreateInfo.pNext = nullptr;
 		ImageViewCreateInfo.flags = 0;
 		ImageViewCreateInfo.image = _BackBufferImages[i];
-		ImageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		ImageViewCreateInfo.viewType = VkImageViewType::VK_IMAGE_VIEW_TYPE_2D;
 		ImageViewCreateInfo.format = ImageFormat;
-		ImageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-		ImageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-		ImageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-		ImageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-		ImageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		ImageViewCreateInfo.components.r = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
+		ImageViewCreateInfo.components.g = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
+		ImageViewCreateInfo.components.b = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
+		ImageViewCreateInfo.components.a = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
+		ImageViewCreateInfo.subresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
 		ImageViewCreateInfo.subresourceRange.baseMipLevel = 0;
 		ImageViewCreateInfo.subresourceRange.levelCount = 1;
 		ImageViewCreateInfo.subresourceRange.baseArrayLayer = 0;

@@ -108,6 +108,10 @@
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
 if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.vert" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Vertex.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
+
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
@@ -133,6 +137,10 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
 if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.vert" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Vertex.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
+
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
@@ -155,6 +163,10 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
 if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.vert" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Vertex.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
+
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
@@ -181,6 +193,10 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)Assets" mkdir "$(TargetDir)Assets"
 if not exist "$(TargetDir)Assets\Vulkan" mkdir "$(TargetDir)Assets\Vulkan"
+
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.vert" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Vertex.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
+
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
     </PostBuildEvent>
@@ -201,6 +217,25 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Graphics\Elysium.Graphics.vcxproj">
       <Project>{206291a0-5e5e-42d6-9dfa-f9b583c27092}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\FullScreenTriangle.vert">
+      <FileType>Document</FileType>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag">
+      <FileType>Document</FileType>
+    </None>
+    <None Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.Fragment.frag">
+      <FileType>Document</FileType>
+    </None>
+    <None Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.vert">
+      <FileType>Document</FileType>
+    </None>
+    <None Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.Vertex.vert">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Update="D:\GitHub\Repos\Elysium-Graphics-cpp\TestApplications\01-Shared\SimpleTest\Assets\SomeShader.spv">

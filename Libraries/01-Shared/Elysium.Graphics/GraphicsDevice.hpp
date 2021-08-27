@@ -66,7 +66,7 @@ namespace Elysium::Graphics::Rendering
 		GraphicsDevice& operator=(const GraphicsDevice& Source) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&& Right) noexcept = delete;
 
-		PresentationParameters& GetPresentationParameters();
+		const PresentationParameters& GetPresentationParameters();
 
 		const Fence& GetRenderFence() const;
 		const Semaphore& GetPresentationSemaphore() const;

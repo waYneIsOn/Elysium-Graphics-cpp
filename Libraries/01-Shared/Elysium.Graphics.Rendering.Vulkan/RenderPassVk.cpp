@@ -9,7 +9,7 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _NativeRenderPassHandle(CreateNativeRenderPass())
+	: _GraphicsDevice(GraphicsDevice), _NativeImageFormat(VkFormat::VK_FORMAT_R8G8B8A8_SRGB), _NativeRenderPassHandle(CreateNativeRenderPass())
 { }
 Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 {
@@ -18,20 +18,9 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 
 VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRenderPass()
 {
-	VkFormat ImageFormat = _GraphicsDevice._NativeSurfaceFormats[0].format;
-	for (size_t i = 0; i < _GraphicsDevice._NativeSurfaceFormats.GetLength(); i++)
-	{
-		if (_GraphicsDevice._NativeSurfaceFormats[i].format == VkFormat::VK_FORMAT_B8G8R8A8_SRGB &&
-			_GraphicsDevice._NativeSurfaceFormats[i].colorSpace == VkColorSpaceKHR::VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-		{
-			ImageFormat = _GraphicsDevice._NativeSurfaceFormats[i].format;
-			break;
-		}
-	}
-
 	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
 	ColorAttachment.flags = 0;
-	ColorAttachment.format = ImageFormat;
+	ColorAttachment.format = _NativeImageFormat;
 	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
 	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
 	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;

@@ -290,7 +290,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 
 Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffers()
 {
-	PresentationParameters& PresentationParameters = _GraphicsDevice.GetPresentationParameters();
+	const PresentationParameters& PresentationParameters = _GraphicsDevice.GetPresentationParameters();
 
 	VkCommandBufferAllocateInfo  AllocateInfo = VkCommandBufferAllocateInfo();
 	AllocateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;

@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/INativeGraphicsDevice.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_DEPTHBUFFERVK
-#include "DepthBufferVk.hpp"
-#endif
-
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FENCEVK
 #include "FenceVk.hpp"
 #endif
@@ -81,7 +77,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsDeviceVk& operator=(GraphicsDeviceVk&& Right) noexcept = delete;
 
 		//virtual const GraphicsInstanceVk& GetGraphicsAPI() const override;
-		virtual PresentationParametersVk& GetPresentationParameters() const override;
+		virtual const PresentationParametersVk& GetPresentationParameters() const override;
 		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
 
 		virtual const FenceVk& GetRenderFence() const override;

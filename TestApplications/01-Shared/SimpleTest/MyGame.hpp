@@ -57,6 +57,9 @@ private:
 	Elysium::Graphics::Rendering::FrameBuffer _FrameBuffer;
 	Elysium::Graphics::Rendering::GraphicsPipeline _RenderPipeline;
 
+	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleVertexShaderModule;
+	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleFragmentShaderModule;
+
 	//Elysium::Graphics::Rendering::VertexDeclaration _VertexDeclaration;
 	//Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
