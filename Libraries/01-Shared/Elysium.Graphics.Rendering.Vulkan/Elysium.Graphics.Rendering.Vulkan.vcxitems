@@ -43,7 +43,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueCapabilitiesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QueueVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SwapchainFrameBufferVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexBufferVk.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +67,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueFamilyPropertyVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QueueVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreVk.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SwapchainFrameBufferVk.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexBufferVk.cpp" />
   </ItemGroup>
   <ItemGroup>

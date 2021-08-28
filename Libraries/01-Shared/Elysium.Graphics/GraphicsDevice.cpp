@@ -68,3 +68,8 @@ void Elysium::Graphics::Rendering::GraphicsDevice::EndDraw()
 {
 	_NativeGraphicsDevice.EndDraw(_RenderSemaphore._NativeSemaphore, _PresentationQueue._NativeQueue);
 }
+
+void Elysium::Graphics::Rendering::GraphicsDevice::RecreateResources()
+{
+	_NativeGraphicsDevice.RecreateResources();
+}

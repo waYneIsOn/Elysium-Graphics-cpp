@@ -49,6 +49,11 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordDraw(Elysium::Core::uint
 	_NativeCommandBuffer->RecordDraw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
+void Elysium::Graphics::Rendering::CommandBuffer::RecordBlit(const FrameBuffer& FrameBuffer)
+{
+	_NativeCommandBuffer->RecordBlit(*FrameBuffer._NativeFrameBuffer);
+}
+
 void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferColorImage(const Color ClearColor)
 {
 	_NativeCommandBuffer->RecordClearBackBufferColorImage(ClearColor);

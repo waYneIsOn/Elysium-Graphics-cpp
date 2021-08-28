@@ -92,6 +92,8 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual void Wait() const = 0;
 		virtual const bool BeginDraw(INativeFence& RenderFence, const INativeSemaphore& PresentationSemaphore) = 0;
 		virtual void EndDraw(const INativeSemaphore& RenderSemaphore, const INativeQueue& PresentationQueue) = 0;
+
+		virtual void RecreateResources() = 0;
 	};
 }
 #endif

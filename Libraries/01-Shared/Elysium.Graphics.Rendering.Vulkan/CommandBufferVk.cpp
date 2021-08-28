@@ -168,6 +168,48 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::
 	}
 }
 
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Native::INativeFrameBuffer& FrameBuffer)
+{
+	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
+	const size_t Length = _NativeCommandBufferHandles.GetLength();
+
+	VkImageLayout SourceImageLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+	VkImageLayout TargetImageLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+
+	VkImageBlit ImageBlit = VkImageBlit();
+	VkFilter Filter = VkFilter::VK_FILTER_LINEAR;
+
+	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
+
+	for (size_t i = 0; i < Length; i++)
+	{
+		ImageBlit.srcOffsets[0].x = 0;
+		ImageBlit.srcOffsets[0].y = 0;
+		ImageBlit.srcOffsets[0].z = 0;
+		ImageBlit.srcOffsets[1].x = Extent.width;
+		ImageBlit.srcOffsets[1].y = Extent.height;
+		ImageBlit.srcOffsets[1].z = 1;
+		ImageBlit.srcSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+		ImageBlit.srcSubresource.baseArrayLayer = 0;
+		ImageBlit.srcSubresource.layerCount = 1;
+		ImageBlit.srcSubresource.mipLevel = 0;
+
+		ImageBlit.dstOffsets[0].x = 0;
+		ImageBlit.dstOffsets[0].y = 0;
+		ImageBlit.dstOffsets[0].z = 0;
+		ImageBlit.dstOffsets[1].x = Extent.width;
+		ImageBlit.dstOffsets[1].y = Extent.height;
+		ImageBlit.dstOffsets[1].z = 1;
+		ImageBlit.dstSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+		ImageBlit.dstSubresource.baseArrayLayer = 0;
+		ImageBlit.dstSubresource.layerCount = 1;
+		ImageBlit.dstSubresource.mipLevel = 0;
+
+		vkCmdBlitImage(_NativeCommandBufferHandles[i], VkFrameBuffer._NativeImages[i], SourceImageLayout, 
+			_GraphicsDevice._BackBufferImages[i], TargetImageLayout, 1, &ImageBlit, Filter);
+	}
+}
+
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBufferColorImage(const Color& ClearColor)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();

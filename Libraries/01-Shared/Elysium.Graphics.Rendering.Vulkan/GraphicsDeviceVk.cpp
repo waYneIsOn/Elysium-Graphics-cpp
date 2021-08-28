@@ -41,13 +41,9 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const G
 	_NativeDepthImageHandle(CreateNativeDepthImage()), _NativeDepthImageMemoryHandle(CreateNativeDepthImageMemory()),
 	_NativeDepthImageViewHandle(CreateNativeDepthImageView()),
 	_RenderFence(*this, true), _PresentationSemaphore(*this), _RenderSemaphore(*this)
-{
-	_Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Control_SizeChanged>(*this);
-}
+{ }
 Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::~GraphicsDeviceVk()
 {
-	_Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Control_SizeChanged>(*this);
-
 	// wait for pending operations before destroying any object
 	Wait();
 
@@ -177,6 +173,32 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::EndDraw(const Nativ
 	}
 
 	_CurrentBackBufferImageIndex = (_CurrentBackBufferImageIndex + 1) % _BackBufferImages.GetLength();
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RecreateResources()
+{
+	// wait for pending operations
+	Wait();
+
+	// retrieve surface values again as some might have changed (for instance width and height)
+	_NativeSurfaceCapabilities = RetrieveNativeSurfaceCapabilities();
+	_SelectedNativeSurfaceFormat = SelectNativeSurfaceFormat();
+
+	// recreate all required resources
+	DestroyNativeDepthImageView();
+	DestroyNativeDepthImageMemory();
+	DestroyNativeDepthImage();
+	DestroyNativeBackBufferImages();
+	DestroyNativeBackBufferImageViews();
+
+	VkSwapchainKHR NativeSwapchainHandle = CreateNativeSwapchain(_NativeSwapchainHandle);
+	DestroyNativeSwapchain(_NativeSwapchainHandle);
+	_NativeSwapchainHandle = NativeSwapchainHandle;
+	_BackBufferImages = RetrieveNativeBackBufferImages();
+	_BackBufferImageViews = CreateNativeBackBufferImageViews();
+	_NativeDepthImageHandle = CreateNativeDepthImage();
+	_NativeDepthImageMemoryHandle = CreateNativeDepthImageMemory();
+	_NativeDepthImageViewHandle = CreateNativeDepthImageView();
 }
 
 VkSurfaceKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeSurface()
@@ -667,30 +689,4 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::DestroyNativeSurfac
 		vkDestroySurfaceKHR(_GraphicsInstance._NativeInstanceHandle, _NativeSurfaceHandle, nullptr);
 		_NativeSurfaceHandle = VK_NULL_HANDLE;
 	}
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
-{
-	// wait for pending operations
-	Wait();
-
-	// retrieve surface values again as some might have changed (for instance width and height)
-	_NativeSurfaceCapabilities = RetrieveNativeSurfaceCapabilities();
-	_SelectedNativeSurfaceFormat = SelectNativeSurfaceFormat();
-
-	// recreate all required resources
-	DestroyNativeDepthImageView();
-	DestroyNativeDepthImageMemory();
-	DestroyNativeDepthImage();
-	DestroyNativeBackBufferImages();
-	DestroyNativeBackBufferImageViews();
-
-	VkSwapchainKHR NativeSwapchainHandle = CreateNativeSwapchain(_NativeSwapchainHandle);
-	DestroyNativeSwapchain(_NativeSwapchainHandle);
-	_NativeSwapchainHandle = NativeSwapchainHandle;
-	_BackBufferImages = RetrieveNativeBackBufferImages();
-	_BackBufferImageViews = CreateNativeBackBufferImageViews();
-	_NativeDepthImageHandle = CreateNativeDepthImage();
-	_NativeDepthImageMemoryHandle = CreateNativeDepthImageMemory();
-	_NativeDepthImageViewHandle = CreateNativeDepthImageView();
 }

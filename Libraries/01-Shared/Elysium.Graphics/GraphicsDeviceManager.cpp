@@ -21,8 +21,7 @@ Elysium::Graphics::Rendering::GraphicsDevice& Elysium::Graphics::GraphicsDeviceM
 
 void Elysium::Graphics::GraphicsDeviceManager::ApplyChanges()
 {
-	// ToDo:
-	//_GraphicsDevice.RecreateResources();
+	_GraphicsDevice.RecreateResources();
 }
 
 void Elysium::Graphics::GraphicsDeviceManager::Wait() const

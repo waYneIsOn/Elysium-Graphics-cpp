@@ -42,6 +42,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics
 {
+	class GraphicsDeviceManager;
 	class PresentationParameters;
 }
 
@@ -56,6 +57,7 @@ namespace Elysium::Graphics::Rendering
 	{
 		friend class CommandBuffer;
 		friend class FrameBuffer;
+		friend class GraphicsDeviceManager;
 		friend class GraphicsPipeline;
 		friend class Pipeline;
 		friend class RenderPass;
@@ -70,6 +72,7 @@ namespace Elysium::Graphics::Rendering
 		GraphicsDevice& operator=(const GraphicsDevice& Source) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&& Right) noexcept = delete;
 
+		//PresentationParameters& GetPresentationParameters();
 		const PresentationParameters& GetPresentationParameters() const;
 
 		const SurfaceFormat GetBackBufferFormat() const;
@@ -93,6 +96,8 @@ namespace Elysium::Graphics::Rendering
 
 		Queue _GraphicsQueue;
 		Queue _PresentationQueue;
+
+		void RecreateResources();
 	};
 }
 #endif

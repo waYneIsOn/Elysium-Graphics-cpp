@@ -62,6 +62,8 @@ namespace Elysium::Graphics::Rendering::Native
 		//virtual void RecordDrawPrimitives() = 0;
 		//virtual void RecordDrawIndexedPrimitives() = 0;
 
+		virtual void RecordBlit(const INativeFrameBuffer& FrameBuffer) = 0;
+
 		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) = 0;
 		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) = 0;
 	};

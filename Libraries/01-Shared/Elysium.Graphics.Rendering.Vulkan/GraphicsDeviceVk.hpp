@@ -98,6 +98,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void Wait() const override;
 		virtual const bool BeginDraw(Native::INativeFence& RenderFence, const Native::INativeSemaphore& PresentationSemaphore) override;
 		virtual void EndDraw(const Native::INativeSemaphore& RenderSemaphore, const Native::INativeQueue& PresentationQueue) override;
+
+		virtual void RecreateResources() override;
 	private:
 		const GraphicsInstanceVk& _GraphicsInstance;
 		const PhysicalDeviceVk& _PhysicalDevice;
@@ -149,8 +151,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		void DestroyNativeSwapchain(VkSwapchainKHR NativeSwapchainHandle);
 		void DestroyNativeLogicalDevice();
 		void DestroyNativeSurface();
-
-		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};
 }
 #endif

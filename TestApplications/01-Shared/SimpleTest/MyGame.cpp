@@ -82,11 +82,12 @@ void MyGame::RecordCommandBuffer()
 	_CommandBuffer.RecordClearBackBufferColorImage(Elysium::Graphics::Color::CornflowerBlue);
 	_CommandBuffer.RecordClearBackBufferDepthImage(0.0f, 0);
 	_CommandBuffer.RecordBeginRenderPass(_MainRenderPass, _FrameBuffer);
-
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
 	_CommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
 	_CommandBuffer.RecordDraw(3, 1, 0, 0);
-
 	_CommandBuffer.RecordEndRenderPass();
+
+	_CommandBuffer.RecordBlit(_FrameBuffer);
+
 	_CommandBuffer.EndRecording();
 }

@@ -58,6 +58,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
 		
+		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer) override;
+
 		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) override;
 		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
 	private:
