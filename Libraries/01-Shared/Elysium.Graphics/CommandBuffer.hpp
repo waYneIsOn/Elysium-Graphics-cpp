@@ -80,7 +80,7 @@ namespace Elysium::Graphics::Rendering
 		void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance);
 
 		/// <summary>
-		/// 
+		/// Copies a given framebuffer to swapchain, potentially performing format conversion.
 		/// </summary>
 		/// <param name="FrameBuffer"></param>
 		void RecordBlit(const FrameBuffer& FrameBuffer);

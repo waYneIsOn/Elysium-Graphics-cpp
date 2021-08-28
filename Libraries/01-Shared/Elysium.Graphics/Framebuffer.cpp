@@ -19,3 +19,23 @@ Elysium::Graphics::Rendering::FrameBuffer::~FrameBuffer()
 		_NativeFrameBuffer = nullptr;
 	}
 }
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::FrameBuffer::GetSurfaceFormat() const
+{
+	return _NativeFrameBuffer->GetSurfaceFormat();
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::FrameBuffer::GetWidth() const
+{
+	return _NativeFrameBuffer->GetWidth();
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::FrameBuffer::GetHeight() const
+{
+	return _NativeFrameBuffer->GetHeight();
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::FrameBuffer::GetDepth() const
+{
+	return _NativeFrameBuffer->GetDepth();
+}

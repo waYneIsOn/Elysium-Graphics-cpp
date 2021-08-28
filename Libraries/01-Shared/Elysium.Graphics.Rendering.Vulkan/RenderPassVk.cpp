@@ -27,17 +27,6 @@ const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::
 
 VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRenderPass()
 {
-	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
-	ColorAttachment.flags = 0;
-	ColorAttachment.format = _NativeImageFormat;
-	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
-	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
-	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;
-	ColorAttachment.stencilLoadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	ColorAttachment.stencilStoreOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	ColorAttachment.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-	ColorAttachment.finalLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-
 	VkAttachmentReference ColorAttachmentReference = VkAttachmentReference();
 	ColorAttachmentReference.attachment = 0;
 	ColorAttachmentReference.layout = VkImageLayout::VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -53,6 +42,17 @@ VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRen
 	Subpass.pPreserveAttachments = nullptr;
 	Subpass.pDepthStencilAttachment = nullptr;
 	Subpass.pResolveAttachments = nullptr;
+
+	VkAttachmentDescription ColorAttachment = VkAttachmentDescription();
+	ColorAttachment.flags = 0;
+	ColorAttachment.format = _NativeImageFormat;
+	ColorAttachment.samples = VkSampleCountFlagBits::VK_SAMPLE_COUNT_1_BIT;
+	ColorAttachment.loadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
+	ColorAttachment.storeOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;
+	ColorAttachment.stencilLoadOp = VkAttachmentLoadOp::VK_ATTACHMENT_LOAD_OP_CLEAR;
+	ColorAttachment.stencilStoreOp = VkAttachmentStoreOp::VK_ATTACHMENT_STORE_OP_STORE;
+	ColorAttachment.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
+	ColorAttachment.finalLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 	VkRenderPassCreateInfo CreateInfo = VkRenderPassCreateInfo();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;

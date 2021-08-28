@@ -26,6 +26,11 @@ Elysium::Graphics::Presentation::Control& Elysium::Graphics::PresentationParamet
 	return _Canvas;
 }
 
+const Elysium::Core::uint32_t Elysium::Graphics::PresentationParameters::GetRenderResolution() const
+{
+	return _RenderResolution;
+}
+
 const Elysium::Core::uint32_t Elysium::Graphics::PresentationParameters::GetBackBufferWidth() const
 {
 	return _BackBufferWidth;
@@ -74,6 +79,12 @@ void Elysium::Graphics::PresentationParameters::SetGraphicsDeviceIndex(const Ely
 void Elysium::Graphics::PresentationParameters::SetPresentMode(const Elysium::Graphics::PresentMode Value)
 {
 	_PresentMode = Value;
+}
+
+void Elysium::Graphics::PresentationParameters::SetRenderResolution(const Elysium::Core::uint32_t Value)
+{
+	// ToDo: bounds!!
+	_RenderResolution = Value;
 }
 
 void Elysium::Graphics::PresentationParameters::SetBackBufferWidth(const Elysium::Core::uint32_t Value)

@@ -37,6 +37,11 @@ namespace Elysium::Graphics::Rendering
 
 		FrameBuffer& operator=(const FrameBuffer& Source) = delete;
 		FrameBuffer& operator=(FrameBuffer&& Right) noexcept = delete;
+
+		const SurfaceFormat GetSurfaceFormat() const;
+		const Elysium::Core::uint32_t GetWidth() const;
+		const Elysium::Core::uint32_t GetHeight() const;
+		const Elysium::Core::uint32_t GetDepth() const;
 	private:
 		const GraphicsDevice& _GraphicsDevice;
 

@@ -120,9 +120,8 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPas
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 
 	VkClearValue ClearValues = VkClearValue();
-	ClearValues.color = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//ClearValues.color = { 0.0f, 0.0f, 0.0f, 1.0f };
-	ClearValues.depthStencil.depth = 0.0f;
+	ClearValues.color = { 0.0f, 0.0f, 0.0f, 0.0f };
+	ClearValues.depthStencil.depth = 1.0f;
 	ClearValues.depthStencil.stencil = 0;
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
@@ -131,11 +130,12 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPas
 		RenderPassInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		RenderPassInfo.framebuffer = VkFrameBuffer._NativeFramebuffers[i];
 		RenderPassInfo.renderArea.offset = { 0, 0 };
-		RenderPassInfo.renderArea.extent = Extent;
+		RenderPassInfo.renderArea.extent.width = VkFrameBuffer._Extent.width;
+		RenderPassInfo.renderArea.extent.height = VkFrameBuffer._Extent.height;
 		RenderPassInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
 		RenderPassInfo.clearValueCount = 1;
 		RenderPassInfo.pClearValues = &ClearValues;
-
+		
 		VkSubpassContents SubpassContents = _IsPrimary ? VkSubpassContents::VK_SUBPASS_CONTENTS_INLINE : VkSubpassContents::VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS;
 
 		vkCmdBeginRenderPass(_NativeCommandBufferHandles[i], &RenderPassInfo, SubpassContents);
@@ -171,7 +171,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Native::INativeFrameBuffer& FrameBuffer)
 {
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
-	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
+	const VkExtent2D& BackBufferExtent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 	const size_t Length = _NativeCommandBufferHandles.GetLength();
 
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
@@ -188,9 +188,9 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Nat
 	ImageBlit.srcOffsets[0].x = 0;
 	ImageBlit.srcOffsets[0].y = 0;
 	ImageBlit.srcOffsets[0].z = 0;
-	ImageBlit.srcOffsets[1].x = Extent.width;
-	ImageBlit.srcOffsets[1].y = Extent.height;
-	ImageBlit.srcOffsets[1].z = 1;
+	ImageBlit.srcOffsets[1].x = VkFrameBuffer._Extent.width;
+	ImageBlit.srcOffsets[1].y = VkFrameBuffer._Extent.height;
+	ImageBlit.srcOffsets[1].z = VkFrameBuffer._Extent.depth;
 	ImageBlit.srcSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
 	ImageBlit.srcSubresource.baseArrayLayer = 0;
 	ImageBlit.srcSubresource.layerCount = 1;
@@ -199,8 +199,8 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Nat
 	ImageBlit.dstOffsets[0].x = 0;
 	ImageBlit.dstOffsets[0].y = 0;
 	ImageBlit.dstOffsets[0].z = 0;
-	ImageBlit.dstOffsets[1].x = Extent.width;
-	ImageBlit.dstOffsets[1].y = Extent.height;
+	ImageBlit.dstOffsets[1].x = BackBufferExtent.width;
+	ImageBlit.dstOffsets[1].y = BackBufferExtent.height;
 	ImageBlit.dstOffsets[1].z = 1;
 	ImageBlit.dstSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
 	ImageBlit.dstSubresource.baseArrayLayer = 0;
@@ -227,9 +227,9 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Nat
 
 		// Record actual command
 		vkCmdBlitImage(CurrentCommandBuffer, CurrentFrameBufferImage, SourceImageLayout, CurrentBackBufferImage, TargetImageLayout, 1, &ImageBlit, 
-			VkFilter::VK_FILTER_LINEAR);
+			VkFilter::VK_FILTER_NEAREST);
 
-		// Transition target image (backbuffer) to "..."
+		// Transition target image (backbuffer) to "read memory"
 		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
 			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
 			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
 #endif
@@ -34,6 +38,14 @@ namespace Elysium::Graphics::Rendering::Native
 	{
 	public:
 		virtual ~INativeGraphicsPipeline() { }
+
+		virtual void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, 
+			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth) = 0;
+		virtual void ClearViewports() = 0;
+
+		virtual void AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width,
+			const Elysium::Core::uint32_t Height) = 0;
+		virtual void ClearScissorRectangles() = 0;
 
 		virtual void AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type) = 0;
 		//virtual void AddViewport() = 0;

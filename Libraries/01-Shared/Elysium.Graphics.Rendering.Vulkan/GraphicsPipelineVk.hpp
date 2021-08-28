@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FRAMEBUFFERVK
+#include "FrameBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
 #include "GraphicsDeviceVk.hpp"
 #endif
@@ -50,7 +54,16 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsPipelineVk& operator=(const GraphicsPipelineVk& Source) = delete;
 		GraphicsPipelineVk& operator=(GraphicsPipelineVk&& Right) noexcept = delete;
 
+		virtual void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width,
+			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth) override;
+		virtual void ClearViewports() override;
+
+		virtual void AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width,
+			const Elysium::Core::uint32_t Height) override;
+		virtual void ClearScissorRectangles() override;
+
 		virtual void AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type) override;
+
 		virtual void Build(const Native::INativeRenderPass& RenderPass) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
@@ -59,8 +72,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
 		VkPipelineVertexInputStateCreateInfo _VertexInputState;
 		VkPipelineInputAssemblyStateCreateInfo _InputAssembly;
-		VkViewport _Viewport;
-		VkRect2D _ScissorRectangle;
+		Elysium::Core::Collections::Template::List<VkViewport> _Viewports;
+		Elysium::Core::Collections::Template::List<VkRect2D> _ScissorRectangles;
 		VkPipelineRasterizationStateCreateInfo _Rasterizer;
 		VkPipelineMultisampleStateCreateInfo _Multisampling;
 		VkPipelineColorBlendAttachmentState _ColorBlendAttachment;
@@ -71,8 +84,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkPipelineLayout CreatePipelineLayout();
 		VkPipelineVertexInputStateCreateInfo CreateDefaultVertexInputStateCreateInfo();
 		VkPipelineInputAssemblyStateCreateInfo CreateDefaultInputAssemblyStateCreateInfo();
-		VkViewport CreateDefaultViewport();
-		VkRect2D CreateDefaultScissorRectangle();
 		VkPipelineRasterizationStateCreateInfo CreateDefaultRasterizationStateCreateInfo();
 		VkPipelineMultisampleStateCreateInfo CreateDefaultMultisampleStateCreateInfo();
 		VkPipelineColorBlendAttachmentState CreateDefaultColorBlendAttachment();
@@ -80,8 +91,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		void DestroyNativePipeline();
 		void DestroyNativePipelineLayout();
-
-		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	};
 }
 #endif

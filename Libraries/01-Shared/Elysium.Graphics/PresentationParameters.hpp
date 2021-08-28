@@ -69,6 +69,7 @@ namespace Elysium::Graphics
 		const Elysium::Graphics::Presentation::DisplayDevice& GetDisplayDevice() const;
 		const Elysium::Graphics::Rendering::Native::INativePhysicalDevice& GetPhysicalDevice() const;
 		Presentation::Control& GetCanvas() const;
+		const Elysium::Core::uint32_t GetRenderResolution() const;
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
@@ -80,6 +81,7 @@ namespace Elysium::Graphics
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
 		void SetGraphicsDeviceIndex(const Elysium::Core::uint32_t Value);
 		void SetPresentMode(const Elysium::Graphics::PresentMode Value);
+		void SetRenderResolution(const Elysium::Core::uint32_t Value);
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
@@ -94,7 +96,7 @@ namespace Elysium::Graphics
 		DisplayMode _DisplayMode = DisplayMode::Windowed;
 		Elysium::Core::uint32_t _DisplayDeviceIndex = 0;
 		Elysium::Core::uint32_t _GraphicsDeviceIndex = 0;
-		Elysium::Core::uint32_t _RenderResolution = 100;
+		Elysium::Core::uint32_t _RenderResolution = 150;
 		PresentMode _PresentMode = PresentMode::VerticalSync;
 
 		// swapchain & depthbuffer related parameters

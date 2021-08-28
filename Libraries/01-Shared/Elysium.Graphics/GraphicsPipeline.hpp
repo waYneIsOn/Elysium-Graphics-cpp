@@ -44,7 +44,16 @@ namespace Elysium::Graphics::Rendering
 		GraphicsPipeline& operator=(const GraphicsPipeline& Source) = delete;
 		GraphicsPipeline& operator=(GraphicsPipeline&& Right) noexcept = delete;
 
+		void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width,
+			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth);
+		void ClearViewports();
+
+		void AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width,
+			const Elysium::Core::uint32_t Height);
+		void ClearScissorRectangles();
+
 		void AddShaderModule(const ShaderModule& ShaderModule, const ShaderModuleType Type);
+
 		void Build(const RenderPass& RenderPass);
 	private:
 		const GraphicsDevice& _GraphicsDevice;

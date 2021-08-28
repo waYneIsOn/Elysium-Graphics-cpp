@@ -19,7 +19,8 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_ContentManager(_GraphicsDevice, u8"Assets"),
 	_CommandPool(_GraphicsQueue.CreateCommandPool()),
 	_CommandBuffer(_CommandPool.CreateCommandBuffer(true)), _SecondaryCommandBuffer(_CommandPool.CreateCommandBuffer(false)),
-	_MainRenderPass(_GraphicsDevice, Elysium::Graphics::Rendering::SurfaceFormat::R8G8B8A8_sRGB), _FrameBuffer(_GraphicsDevice, _MainRenderPass), _RenderPipeline(_GraphicsDevice),
+	_MainRenderPass(_GraphicsDevice, Elysium::Graphics::Rendering::SurfaceFormat::R8G8B8A8_sRGB), _FrameBuffer(_GraphicsDevice, _MainRenderPass), 
+	_RenderPipeline(_GraphicsDevice),
 	_FullScreenTriangleVertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Vertex.spv")),
 	_FullScreenTriangleFragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Fragment.spv")),
 	//_VertexDeclaration(32), _VertexBuffer(_GraphicsDevice, _VertexDeclaration, 0, Elysium::Graphics::Rendering::BufferUsage::None),
@@ -70,6 +71,17 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 
 void MyGame::RecordCommandBuffer()
 {
+	const Elysium::Core::uint32_t FrameBufferWidth = _FrameBuffer.GetWidth();
+	const Elysium::Core::uint32_t FrameBufferHeight = _FrameBuffer.GetHeight();
+
+	_RenderPipeline.ClearViewports();
+	_RenderPipeline.AddViewport(0, 0, FrameBufferWidth, FrameBufferHeight, 0.0f, 1.0f);
+	//_RenderPipeline.AddViewport(0, 0, FrameBufferWidth / 2, FrameBufferHeight / 2, 0.0f, 1.0f);
+
+	_RenderPipeline.ClearScissorRectangles();
+	_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth, FrameBufferHeight);
+	//_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth / 2, FrameBufferHeight / 2);
+
 	_RenderPipeline.Build(_MainRenderPass);
 	/*
 	_SecondaryCommandBuffer.Reset();

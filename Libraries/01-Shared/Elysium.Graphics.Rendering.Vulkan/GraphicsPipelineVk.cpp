@@ -12,19 +12,47 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::GraphicsPipelineVk(con
 	: _GraphicsDevice(GraphicsDevice), 
 	_NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
 	_VertexInputState(CreateDefaultVertexInputStateCreateInfo()), _InputAssembly(CreateDefaultInputAssemblyStateCreateInfo()),
-	_Viewport(CreateDefaultViewport()), _ScissorRectangle(CreateDefaultScissorRectangle()),
+	_Viewports(), _ScissorRectangles(),
 	_Rasterizer(CreateDefaultRasterizationStateCreateInfo()), _Multisampling(CreateDefaultMultisampleStateCreateInfo()),
 	_ColorBlendAttachment(CreateDefaultColorBlendAttachment()), _ColorBlend(CreateDefaultColorBlendStateCreateInfo()),
 	_NativePipelineHandle(VK_NULL_HANDLE)
-{
-	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged>(*this);
-}
+{ }
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::~GraphicsPipelineVk()
 {
-	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk, &Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged>(*this);
-
 	DestroyNativePipeline();
 	DestroyNativePipelineLayout();
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth)
+{
+	VkViewport Viewport = VkViewport();
+	Viewport.x = X;
+	Viewport.y = Y;
+	Viewport.width = Width;
+	Viewport.height = Height;
+	Viewport.minDepth = MinimumDepth;
+	Viewport.maxDepth = MaximumDepth;
+
+	_Viewports.Add(Viewport);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearViewports()
+{
+	_Viewports.Clear();
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height)
+{
+	VkRect2D ScissorRectangle = VkRect2D();
+	ScissorRectangle.offset = { X, Y };
+	ScissorRectangle.extent = { Width, Height };
+
+	_ScissorRectangles.Add(ScissorRectangle);
+}
+
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearScissorRectangles()
+{
+	_ScissorRectangles.Clear();
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type)
@@ -51,10 +79,10 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Nativ
 	ViewportStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	ViewportStateCreateInfo.pNext = nullptr;
 	ViewportStateCreateInfo.flags = 0;
-	ViewportStateCreateInfo.viewportCount = 1;
-	ViewportStateCreateInfo.pViewports = &_Viewport;
-	ViewportStateCreateInfo.scissorCount = 1;
-	ViewportStateCreateInfo.pScissors = &_ScissorRectangle;
+	ViewportStateCreateInfo.viewportCount = _Viewports.GetCount();
+	ViewportStateCreateInfo.pViewports = ViewportStateCreateInfo.viewportCount == 0 ? nullptr : &_Viewports[0];
+	ViewportStateCreateInfo.scissorCount = _ScissorRectangles.GetCount();
+	ViewportStateCreateInfo.pScissors = ViewportStateCreateInfo.scissorCount == 0 ? nullptr : &_ScissorRectangles[0];
 
 	VkGraphicsPipelineCreateInfo PipelineCreateInfo = VkGraphicsPipelineCreateInfo();
 	PipelineCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -125,32 +153,6 @@ VkPipelineInputAssemblyStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Gra
 	CreateInfo.topology = VkPrimitiveTopology::VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 	return CreateInfo;
-}
-
-VkViewport Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultViewport()
-{
-	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
-
-	VkViewport Viewport = VkViewport();
-	Viewport.x = 0.0f;
-	Viewport.y = 0.0f;
-	Viewport.width = Extent.width;
-	Viewport.height = Extent.height;
-	Viewport.minDepth = 0.0f;
-	Viewport.maxDepth = 1.0f;
-
-	return Viewport;
-}
-
-VkRect2D Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultScissorRectangle()
-{
-	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
-
-	VkRect2D ScissorRectangle = VkRect2D();
-	ScissorRectangle.offset = { 0, 0 };
-	ScissorRectangle.extent = Extent;
-
-	return ScissorRectangle;
 }
 
 VkPipelineRasterizationStateCreateInfo Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultRasterizationStateCreateInfo()
@@ -239,10 +241,4 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::DestroyNativePipe
 		vkDestroyPipelineLayout(_GraphicsDevice._NativeLogicalDeviceHandle, _NativePipelineLayoutHandle, nullptr);
 		_NativePipelineLayoutHandle = VK_NULL_HANDLE;
 	}
-}
-
-void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
-{
-	_Viewport = CreateDefaultViewport();
-	_ScissorRectangle = CreateDefaultScissorRectangle();
 }

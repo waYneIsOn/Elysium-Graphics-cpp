@@ -20,6 +20,26 @@ Elysium::Graphics::Rendering::GraphicsPipeline::~GraphicsPipeline()
 	}
 }
 
+void Elysium::Graphics::Rendering::GraphicsPipeline::AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth)
+{
+	_NativeGraphicsPipeline->AddViewport(X, Y, Width, Height, MinimumDepth, MaximumDepth);
+}
+
+void Elysium::Graphics::Rendering::GraphicsPipeline::ClearViewports()
+{
+	_NativeGraphicsPipeline->ClearViewports();
+}
+
+void Elysium::Graphics::Rendering::GraphicsPipeline::AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height)
+{
+	_NativeGraphicsPipeline->AddScissorRectangle(X, Y, Width, Height);
+}
+
+void Elysium::Graphics::Rendering::GraphicsPipeline::ClearScissorRectangles()
+{
+	_NativeGraphicsPipeline->ClearScissorRectangles();
+}
+
 void Elysium::Graphics::Rendering::GraphicsPipeline::AddShaderModule(const ShaderModule& ShaderModule, const ShaderModuleType Type)
 {
 	_NativeGraphicsPipeline->AddShaderModule(*ShaderModule._NativeShaderModule, Type);

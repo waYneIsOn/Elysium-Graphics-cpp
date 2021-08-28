@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
 #endif
@@ -28,6 +32,9 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual ~INativeFrameBuffer() { }
 
 		virtual const SurfaceFormat GetSurfaceFormat() const = 0;
+		virtual const Elysium::Core::uint32_t GetWidth() const = 0;
+		virtual const Elysium::Core::uint32_t GetHeight() const = 0;
+		virtual const Elysium::Core::uint32_t GetDepth() const = 0;
 	};
 }
 #endif

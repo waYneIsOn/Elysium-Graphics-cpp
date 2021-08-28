@@ -17,7 +17,7 @@
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass)
-	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass),
+	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass), _Extent(RetrieveExtent()),
 	_NativeImages(CreateNativeImages()), _NativeImageMemories(CreateNativeImageMemories()), _NativeImageViews(CreateNativeImageViews()),
 	_NativeFramebuffers(CreateNativeFramebuffers())
 {
@@ -38,9 +38,36 @@ const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::
 	return FormatConverterVk::Convert(_RenderPass._NativeImageFormat);
 }
 
-Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImages()
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetWidth() const
+{
+	return _Extent.width;
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetHeight() const
+{
+	return _Extent.height;
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetDepth() const
+{
+	return _Extent.depth;
+}
+
+VkExtent3D Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::RetrieveExtent()
 {
 	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
+	const Elysium::Core::uint32_t RenderResolution = _GraphicsDevice._PresentationParameters.GetRenderResolution();
+
+	VkExtent3D Result = VkExtent3D();
+	Result.width = Extent.width * RenderResolution / 100.0f;
+	Result.height = Extent.height * RenderResolution / 100.0f;
+	Result.depth = 1;
+
+	return Result;
+}
+
+Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImages()
+{
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
 	Elysium::Core::Collections::Template::Array<VkImage> Images = Elysium::Core::Collections::Template::Array<VkImage>(Length);
@@ -52,9 +79,7 @@ Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Renderin
 		ImageCreateInfo.pNext = nullptr;
 		ImageCreateInfo.flags = 0;
 		ImageCreateInfo.imageType = VkImageType::VK_IMAGE_TYPE_2D;
-		ImageCreateInfo.extent.width = Extent.width;
-		ImageCreateInfo.extent.height = Extent.height;
-		ImageCreateInfo.extent.depth = 1;
+		ImageCreateInfo.extent = _Extent;
 		ImageCreateInfo.mipLevels = 1;
 		ImageCreateInfo.arrayLayers = 1;
 		ImageCreateInfo.format = _RenderPass._NativeImageFormat;
@@ -160,7 +185,6 @@ Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rend
 
 Elysium::Core::Collections::Template::Array<VkFramebuffer> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeFramebuffers()
 {
-	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
 	Elysium::Core::Collections::Template::Array<VkFramebuffer> Framebuffers = Elysium::Core::Collections::Template::Array<VkFramebuffer>(Length);
@@ -176,8 +200,8 @@ Elysium::Core::Collections::Template::Array<VkFramebuffer> Elysium::Graphics::Re
 		FramebufferCreateInfo.renderPass = _RenderPass._NativeRenderPassHandle;
 		FramebufferCreateInfo.attachmentCount = 1;
 		FramebufferCreateInfo.pAttachments = &Attachments[0];
-		FramebufferCreateInfo.width = Extent.width;
-		FramebufferCreateInfo.height = Extent.height;
+		FramebufferCreateInfo.width = _Extent.width;
+		FramebufferCreateInfo.height = _Extent.height;
 		FramebufferCreateInfo.layers = 1;
 
 		if ((Result = vkCreateFramebuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &FramebufferCreateInfo, nullptr, &Framebuffers[i])) != VK_SUCCESS)
@@ -244,6 +268,7 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged(co
 	DestroyNativeImageMemories();
 	DestroyNativeImages();
 
+	_Extent = RetrieveExtent();
 	_NativeImages = CreateNativeImages();
 	_NativeImageMemories = CreateNativeImageMemories();
 	_NativeImageViews = CreateNativeImageViews();

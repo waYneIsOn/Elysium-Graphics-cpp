@@ -41,6 +41,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API FrameBufferVk final : public Native::INativeFrameBuffer
 	{
 		friend class CommandBufferVk;
+		friend class GraphicsPipelineVk;
 	public:
 		FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass);
 		FrameBufferVk(const FrameBufferVk& Source) = delete;
@@ -51,15 +52,20 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
 
 		virtual const SurfaceFormat GetSurfaceFormat() const override;
+		virtual const Elysium::Core::uint32_t GetWidth() const override;
+		virtual const Elysium::Core::uint32_t GetHeight() const override;
+		virtual const Elysium::Core::uint32_t GetDepth() const override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;
+		VkExtent3D _Extent;
 
 		Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
 		Elysium::Core::Collections::Template::Array<VkDeviceMemory> _NativeImageMemories;
 		Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeFramebuffers;
 
+		VkExtent3D RetrieveExtent();
 		Elysium::Core::Collections::Template::Array<VkImage> CreateNativeImages();
 		Elysium::Core::Collections::Template::Array<VkDeviceMemory> CreateNativeImageMemories();
 		Elysium::Core::Collections::Template::Array<VkImageView> CreateNativeImageViews();
