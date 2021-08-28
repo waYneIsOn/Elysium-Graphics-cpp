@@ -171,42 +171,75 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Native::INativeFrameBuffer& FrameBuffer)
 {
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
+	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 	const size_t Length = _NativeCommandBufferHandles.GetLength();
+
+	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
+	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+	ImageSubresourceRange.baseArrayLayer = 0;
+	ImageSubresourceRange.baseMipLevel = 0;
+	ImageSubresourceRange.layerCount = 1;
+	ImageSubresourceRange.levelCount = 1;
 
 	VkImageLayout SourceImageLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
 	VkImageLayout TargetImageLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 
 	VkImageBlit ImageBlit = VkImageBlit();
-	VkFilter Filter = VkFilter::VK_FILTER_LINEAR;
+	ImageBlit.srcOffsets[0].x = 0;
+	ImageBlit.srcOffsets[0].y = 0;
+	ImageBlit.srcOffsets[0].z = 0;
+	ImageBlit.srcOffsets[1].x = Extent.width;
+	ImageBlit.srcOffsets[1].y = Extent.height;
+	ImageBlit.srcOffsets[1].z = 1;
+	ImageBlit.srcSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+	ImageBlit.srcSubresource.baseArrayLayer = 0;
+	ImageBlit.srcSubresource.layerCount = 1;
+	ImageBlit.srcSubresource.mipLevel = 0;
 
-	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
+	ImageBlit.dstOffsets[0].x = 0;
+	ImageBlit.dstOffsets[0].y = 0;
+	ImageBlit.dstOffsets[0].z = 0;
+	ImageBlit.dstOffsets[1].x = Extent.width;
+	ImageBlit.dstOffsets[1].y = Extent.height;
+	ImageBlit.dstOffsets[1].z = 1;
+	ImageBlit.dstSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
+	ImageBlit.dstSubresource.baseArrayLayer = 0;
+	ImageBlit.dstSubresource.layerCount = 1;
+	ImageBlit.dstSubresource.mipLevel = 0;
 
 	for (size_t i = 0; i < Length; i++)
 	{
-		ImageBlit.srcOffsets[0].x = 0;
-		ImageBlit.srcOffsets[0].y = 0;
-		ImageBlit.srcOffsets[0].z = 0;
-		ImageBlit.srcOffsets[1].x = Extent.width;
-		ImageBlit.srcOffsets[1].y = Extent.height;
-		ImageBlit.srcOffsets[1].z = 1;
-		ImageBlit.srcSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
-		ImageBlit.srcSubresource.baseArrayLayer = 0;
-		ImageBlit.srcSubresource.layerCount = 1;
-		ImageBlit.srcSubresource.mipLevel = 0;
+		VkCommandBuffer CurrentCommandBuffer = _NativeCommandBufferHandles[i];
+		VkImage CurrentBackBufferImage = _GraphicsDevice._BackBufferImages[i];
+		VkImage CurrentFrameBufferImage = VkFrameBuffer._NativeImages[i];
 
-		ImageBlit.dstOffsets[0].x = 0;
-		ImageBlit.dstOffsets[0].y = 0;
-		ImageBlit.dstOffsets[0].z = 0;
-		ImageBlit.dstOffsets[1].x = Extent.width;
-		ImageBlit.dstOffsets[1].y = Extent.height;
-		ImageBlit.dstOffsets[1].z = 1;
-		ImageBlit.dstSubresource.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
-		ImageBlit.dstSubresource.baseArrayLayer = 0;
-		ImageBlit.dstSubresource.layerCount = 1;
-		ImageBlit.dstSubresource.mipLevel = 0;
+		// Transition source image (framebuffer) to "read transfer"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentFrameBufferImage,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
 
-		vkCmdBlitImage(_NativeCommandBufferHandles[i], VkFrameBuffer._NativeImages[i], SourceImageLayout, 
-			_GraphicsDevice._BackBufferImages[i], TargetImageLayout, 1, &ImageBlit, Filter);
+		// Transition target image (backbuffer) to "write transfer"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
+			0, VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
+
+		// Record actual command
+		vkCmdBlitImage(CurrentCommandBuffer, CurrentFrameBufferImage, SourceImageLayout, CurrentBackBufferImage, TargetImageLayout, 1, &ImageBlit, 
+			VkFilter::VK_FILTER_LINEAR);
+
+		// Transition target image (backbuffer) to "..."
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
+
+		// Transition source image (framebuffer) to "read memory"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentFrameBufferImage,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_GENERAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
 	}
 }
 
@@ -225,49 +258,26 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 	float Alpha = ClearColor.GetAlpha() / 255.0f;
 	VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
 
-	const PresentationParametersVk& PresentationParameters = static_cast<const PresentationParametersVk&>(_GraphicsDevice.GetPresentationParameters());
-	//const SwapchainVk& Swapchain = _GraphicsDevice._Swapchain;
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
-		VkImage BackbufferImage = _GraphicsDevice._BackBufferImages[i];
-		
-		// ... "write transfer"
-		VkImageMemoryBarrier PresentToClearBarrier = VkImageMemoryBarrier();
-		PresentToClearBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-		PresentToClearBarrier.pNext = nullptr;
-		PresentToClearBarrier.image = BackbufferImage;
-		PresentToClearBarrier.subresourceRange = ImageSubresourceRange;
-		PresentToClearBarrier.srcQueueFamilyIndex = _GraphicsDevice._GraphicsQueueFamilyIndex;
-		PresentToClearBarrier.dstQueueFamilyIndex = _GraphicsDevice._PresentationQueueFamilyIndex;
-		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
-		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+		VkCommandBuffer CurrentCommandBuffer = _NativeCommandBufferHandles[i];
+		VkImage CurrentBackBufferImage = _GraphicsDevice._BackBufferImages[i];
 
-		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
-			nullptr, 0, nullptr, 1, &PresentToClearBarrier);
-		
-		// ... actual command
-		vkCmdClearColorImage(_NativeCommandBufferHandles[i], BackbufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		// Transition backbuffer-image to "write transfer"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
+
+		// Record actual command
+		vkCmdClearColorImage(_NativeCommandBufferHandles[i], CurrentBackBufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			&ClearColorValue, 1, &ImageSubresourceRange);
-		
-		// ... "read memory"
-		VkImageMemoryBarrier ClearToPresentBarrier = VkImageMemoryBarrier();
-		ClearToPresentBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-		ClearToPresentBarrier.pNext = nullptr;
-		ClearToPresentBarrier.image = BackbufferImage;
-		ClearToPresentBarrier.subresourceRange = ImageSubresourceRange;
-		ClearToPresentBarrier.srcQueueFamilyIndex = _GraphicsDevice._GraphicsQueueFamilyIndex;
-		ClearToPresentBarrier.dstQueueFamilyIndex = _GraphicsDevice._PresentationQueueFamilyIndex;
-		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
-		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
-		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0,
-			nullptr, 0, nullptr, 1, &ClearToPresentBarrier);
+		// Transition backbuffer-image to "read memory"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+			ImageSubresourceRange);
 	}
 }
 
@@ -285,24 +295,15 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
-		// ... "write transfer"
-		VkImageMemoryBarrier PresentToClearBarrier = VkImageMemoryBarrier();
-		PresentToClearBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-		PresentToClearBarrier.pNext = nullptr;
-		PresentToClearBarrier.image = DepthBufferImage;
-		PresentToClearBarrier.subresourceRange = ImageSubresourceRange;
-		PresentToClearBarrier.srcQueueFamilyIndex = _GraphicsDevice._GraphicsQueueFamilyIndex;
-		PresentToClearBarrier.dstQueueFamilyIndex = _GraphicsDevice._PresentationQueueFamilyIndex;
-		PresentToClearBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		PresentToClearBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
-		PresentToClearBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
-		PresentToClearBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+		VkCommandBuffer CurrentCommandBuffer = _NativeCommandBufferHandles[i];
 
-		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0,
-			nullptr, 0, nullptr, 1, &PresentToClearBarrier);
-
-		// ... actual command
+		// Transition backbuffer-image to "write transfer"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, DepthBufferImage,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			ImageSubresourceRange);
+		
+		// Record actual command
 		VkClearDepthStencilValue ClearDepthStencilValue = VkClearDepthStencilValue();
 		ClearDepthStencilValue.depth = Depth;
 		ClearDepthStencilValue.stencil = Stencil;
@@ -310,22 +311,11 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 		vkCmdClearDepthStencilImage(_NativeCommandBufferHandles[i], DepthBufferImage, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			&ClearDepthStencilValue, 1, &ImageSubresourceRange);
 
-		// ... "read memory"
-		VkImageMemoryBarrier ClearToPresentBarrier = VkImageMemoryBarrier();
-		ClearToPresentBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-		ClearToPresentBarrier.pNext = nullptr;
-		ClearToPresentBarrier.image = DepthBufferImage;
-		ClearToPresentBarrier.subresourceRange = ImageSubresourceRange;
-		ClearToPresentBarrier.srcQueueFamilyIndex = _GraphicsDevice._GraphicsQueueFamilyIndex;
-		ClearToPresentBarrier.dstQueueFamilyIndex = _GraphicsDevice._PresentationQueueFamilyIndex;
-		ClearToPresentBarrier.srcAccessMask = VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT;
-		ClearToPresentBarrier.dstAccessMask = VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT;
-		ClearToPresentBarrier.oldLayout = VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-		ClearToPresentBarrier.newLayout = VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-
-		vkCmdPipelineBarrier(_NativeCommandBufferHandles[i], VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
-			VkPipelineStageFlagBits::VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0,
-			nullptr, 0, nullptr, 1, &ClearToPresentBarrier);
+		// Transition backbuffer-image to "read memory"
+		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, DepthBufferImage,
+			VkAccessFlagBits::VK_ACCESS_TRANSFER_WRITE_BIT, VkImageLayout::VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_TRANSFER_BIT,
+			VkAccessFlagBits::VK_ACCESS_MEMORY_READ_BIT, VkImageLayout::VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+			ImageSubresourceRange);
 	}
 
 }
@@ -350,6 +340,26 @@ Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::
 	}
 
 	return NativeCommandBufferHandles;
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordInsertImageMemoryBarrier(const VkCommandBuffer CommandBuffer, const VkImage Image,
+	const VkAccessFlags SourceAccessMask, const VkImageLayout OldLayout, const VkPipelineStageFlags SourceStageFlags,
+	const VkAccessFlags TargetAccessMask, const VkImageLayout NewLayout, const VkPipelineStageFlags TargetStageFlags,
+	const VkImageSubresourceRange ImageSubresourceRange)
+{
+	VkImageMemoryBarrier ImageMemoryBarrier = VkImageMemoryBarrier();
+	ImageMemoryBarrier.sType = VkStructureType::VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+	ImageMemoryBarrier.pNext = nullptr;
+	ImageMemoryBarrier.srcQueueFamilyIndex = _GraphicsDevice._GraphicsQueueFamilyIndex;
+	ImageMemoryBarrier.dstQueueFamilyIndex = _GraphicsDevice._PresentationQueueFamilyIndex;
+	ImageMemoryBarrier.image = Image;
+	ImageMemoryBarrier.subresourceRange = ImageSubresourceRange;
+	ImageMemoryBarrier.srcAccessMask = SourceAccessMask;
+	ImageMemoryBarrier.dstAccessMask = TargetAccessMask;
+	ImageMemoryBarrier.oldLayout = OldLayout;
+	ImageMemoryBarrier.newLayout = NewLayout;
+
+	vkCmdPipelineBarrier(CommandBuffer, SourceStageFlags, TargetStageFlags, 0, 0, nullptr, 0, nullptr, 1, &ImageMemoryBarrier);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::DestroyNativeCommandBuffers()

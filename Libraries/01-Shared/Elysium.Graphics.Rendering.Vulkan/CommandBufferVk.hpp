@@ -69,6 +69,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const Elysium::Core::Collections::Template::Array<VkCommandBuffer> _NativeCommandBufferHandles;
 
 		Elysium::Core::Collections::Template::Array<VkCommandBuffer> CreateNativeCommandBuffers();
+
+		void RecordInsertImageMemoryBarrier(const VkCommandBuffer CommandBuffer, const VkImage Image, 
+			const VkAccessFlags SourceAccessMask, const VkImageLayout OldLayout, const VkPipelineStageFlags SourceStageFlags,
+			const VkAccessFlags TargetAccessMask, const VkImageLayout NewLayout, const VkPipelineStageFlags TargetStageFlags,
+			const VkImageSubresourceRange ImageSubresourceRange);
+
 		void DestroyNativeCommandBuffers();
 	};
 }
