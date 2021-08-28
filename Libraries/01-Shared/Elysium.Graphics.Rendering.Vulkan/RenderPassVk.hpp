@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/INativeRenderPass.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
+#include "../Elysium.Graphics/SurfaceFormat.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
 #endif
@@ -34,13 +38,15 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
 	public:
-		RenderPassVk(const GraphicsDeviceVk& GraphicsDevice);
+		RenderPassVk(const GraphicsDeviceVk& GraphicsDevice, const SurfaceFormat SurfaceFormat);
 		RenderPassVk(const RenderPassVk& Source) = delete;
 		RenderPassVk(RenderPassVk&& Right) noexcept = delete;
 		virtual ~RenderPassVk();
 
 		RenderPassVk& operator=(const RenderPassVk& Source) = delete;
 		RenderPassVk& operator=(RenderPassVk&& Right) noexcept = delete;
+
+		virtual const SurfaceFormat GetSurfaceFormat() const override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		VkFormat _NativeImageFormat;

@@ -19,9 +19,14 @@ Elysium::Graphics::Rendering::GraphicsDevice::GraphicsDevice(Native::INativeGrap
 Elysium::Graphics::Rendering::GraphicsDevice::~GraphicsDevice()
 { }
 
-const Elysium::Graphics::PresentationParameters& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationParameters()
+const Elysium::Graphics::PresentationParameters& Elysium::Graphics::Rendering::GraphicsDevice::GetPresentationParameters() const
 {
 	return _NativeGraphicsDevice.GetPresentationParameters();
+}
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::GraphicsDevice::GetBackBufferFormat() const
+{
+	return _NativeGraphicsDevice.GetBackBufferFormat();
 }
 
 const Elysium::Graphics::Rendering::Fence& Elysium::Graphics::Rendering::GraphicsDevice::GetRenderFence() const

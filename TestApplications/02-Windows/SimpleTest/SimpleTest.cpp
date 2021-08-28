@@ -88,8 +88,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     PresentationParameters.SetDisplayMode(DisplayMode::Windowed);
     PresentationParameters.SetDisplayDeviceIndex(PrimaryDisplayDeviceIndex);
     PresentationParameters.SetGraphicsDeviceIndex(MostSuitablePhysicalDeviceIndex);
-
-    //PresentationParameters.SetPresentMode(PresentModeVk::SharedContinuousRefresh);
+    //PresentationParameters.SetPresentMode(PresentMode::Immediate);
 
     // ...
     const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitablePhysicalDeviceIndex];

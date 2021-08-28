@@ -128,12 +128,12 @@ void Elysium::Graphics::Game::Control_OnResume(const Presentation::Control& Send
 
 void Elysium::Graphics::Game::Control_OnSizeChanged(const Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
 {
-	// ...
+	_GraphicsDeviceManager.ApplyChanges();
 }
 
 void Elysium::Graphics::Game::Control_OnOrientationChanged(const Presentation::Control& Sender, const DisplayOrientation e)
 {
-	// ...
+	_GraphicsDeviceManager.ApplyChanges();
 }
 
 void Elysium::Graphics::Game::Control_OnPaint(const Presentation::Control& Sender)

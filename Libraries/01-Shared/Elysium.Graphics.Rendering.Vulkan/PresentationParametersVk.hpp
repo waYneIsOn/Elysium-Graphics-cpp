@@ -40,10 +40,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "LayerPropertyVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_PRESENTMODEVK
-#include "PresentModeVk.hpp"
-#endif
-
 namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PresentationParametersVk final : public Elysium::Graphics::PresentationParameters
@@ -60,10 +56,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PresentationParametersVk& operator=(const PresentationParametersVk& Source) = delete;
 		PresentationParametersVk& operator=(PresentationParametersVk&& Right) noexcept = delete;
 
-		const PresentModeVk& GetPresentMode() const;
-
-		void SetPresentMode(const PresentModeVk& Value);
-
 		void AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty);
 		void ClearDeviceExtensionProperties();
 
@@ -73,9 +65,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		// information required for creation of device and queues
 		Core::Collections::Template::List<char*> _DeviceExtensionPropertyNames = Core::Collections::Template::List<char*>(0);
 		Core::Collections::Template::List<DeviceQueueCreateInfoVk> _DeviceQueueCreateInfos = Core::Collections::Template::List<DeviceQueueCreateInfoVk>(0);
-
-		// information required for creation of swapchain
-		PresentModeVk _PresentMode = PresentModeVk::Fifo;
 	};
 }
 #endif

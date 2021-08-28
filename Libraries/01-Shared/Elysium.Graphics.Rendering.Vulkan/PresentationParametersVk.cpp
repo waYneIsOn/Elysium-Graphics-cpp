@@ -10,15 +10,6 @@ Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationPara
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }
 
-const Elysium::Graphics::Rendering::Vulkan::PresentModeVk& Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::GetPresentMode() const
-{
-	return _PresentMode;
-}
-
-void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::SetPresentMode(const PresentModeVk& Value)
-{
-	_PresentMode = Value;
-}
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
 {

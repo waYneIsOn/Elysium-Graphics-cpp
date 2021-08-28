@@ -36,12 +36,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics.Presentation/DisplayDevice.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
-#include "INativeGraphicsAPI.hpp"
+#ifndef ELYSIUM_GRAPHICS_PRESENTMODE
+#include "PresentMode.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
 #include "DepthFormat.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEGRAPHICSAPI
+#include "INativeGraphicsAPI.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
+#include "SurfaceFormat.hpp"
 #endif
 
 namespace Elysium::Graphics
@@ -64,14 +72,18 @@ namespace Elysium::Graphics
 		const Elysium::Core::uint32_t GetBackBufferWidth() const;
 		const Elysium::Core::uint32_t GetBackBufferHeight() const;
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
+		const Elysium::Graphics::PresentMode GetPresentMode() const;
+		const Rendering::SurfaceFormat GetDesiredSurfaceFormat() const;
 		const Rendering::DepthFormat GetDesiredDepthFormat() const;
 
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
 		void SetGraphicsDeviceIndex(const Elysium::Core::uint32_t Value);
+		void SetPresentMode(const Elysium::Graphics::PresentMode Value);
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
+		void SetDesiredSurfaceFormat(const Rendering::SurfaceFormat Value);
 		void SetDesiredDepthFormat(const Rendering::DepthFormat Value);
 	protected:
 		// graphics api
@@ -83,17 +95,19 @@ namespace Elysium::Graphics
 		Elysium::Core::uint32_t _DisplayDeviceIndex = 0;
 		Elysium::Core::uint32_t _GraphicsDeviceIndex = 0;
 		Elysium::Core::uint32_t _RenderResolution = 100;
-		bool _EnableVSync = false;
+		PresentMode _PresentMode = PresentMode::VerticalSync;
 
 		// swapchain & depthbuffer related parameters
 		Elysium::Core::uint32_t _BackBufferWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
 		Elysium::Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
 		Elysium::Core::uint32_t _BackBufferCount = GraphicsDeviceManager::DefaultBackBufferCount;
+		Rendering::SurfaceFormat _DesiredSurfaceFormat = Rendering::SurfaceFormat::B8G8R8A8_sRGB;
 		Rendering::DepthFormat _DesiredDepthFormat = Rendering::DepthFormat::Depth32Stencil8;
 
 		// ...
 		Elysium::Core::uint32_t _GameFramerateLimit = 240;
 		Elysium::Core::uint32_t _MenuFramerateLimit = 60;
+		Elysium::Core::uint32_t _InactiveFramerateLimit = 15;
 	};
 }
 #endif

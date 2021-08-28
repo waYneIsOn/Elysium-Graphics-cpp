@@ -4,18 +4,35 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotImplementedException.hpp"
 #endif
 
-const VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const SurfaceFormat Format)
+VkPresentModeKHR Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const PresentMode Value)
+{
+	switch (Value)
+	{
+	case PresentMode::Immediate:
+		return VkPresentModeKHR::VK_PRESENT_MODE_IMMEDIATE_KHR;
+	case PresentMode::VerticalSync:
+		return VkPresentModeKHR::VK_PRESENT_MODE_FIFO_KHR;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled PresentMode.");
+	}
+}
+
+VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const SurfaceFormat Format)
 {
 	switch (Format)
 	{
 	case SurfaceFormat::Undefined:
 		return VkFormat::VK_FORMAT_UNDEFINED;
+	case SurfaceFormat::B8G8R8A8_sRGB:
+		return VkFormat::VK_FORMAT_B8G8R8A8_SRGB;
+	case SurfaceFormat::R8G8B8A8_sRGB:
+		return VkFormat::VK_FORMAT_R8G8B8A8_SRGB;
 	default:
 		throw Elysium::Core::NotImplementedException(u8"Unhandled SurfaceFormat.");
 	}
 }
 
-const VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const DepthFormat Format)
+VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const DepthFormat Format)
 {
 	switch (Format)
 	{
@@ -33,5 +50,20 @@ const VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(
 		return VkFormat::VK_FORMAT_D32_SFLOAT_S8_UINT;
 	default:
 		throw Elysium::Core::NotImplementedException(u8"Unhandled DepthFormat.");
+	}
+}
+
+Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VkFormat Format)
+{
+	switch (Format)
+	{
+	case VkFormat::VK_FORMAT_UNDEFINED:
+		return SurfaceFormat::Undefined;
+	case VkFormat::VK_FORMAT_B8G8R8A8_SRGB:
+		return SurfaceFormat::B8G8R8A8_sRGB;
+	case VkFormat::VK_FORMAT_R8G8B8A8_SRGB:
+		return SurfaceFormat::R8G8B8A8_sRGB;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled VkFormat.");
 	}
 }

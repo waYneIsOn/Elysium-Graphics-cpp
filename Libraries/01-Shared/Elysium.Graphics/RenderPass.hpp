@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeRenderPass.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
+#include "SurfaceFormat.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class GraphicsDevice;
@@ -31,13 +35,15 @@ namespace Elysium::Graphics::Rendering
 		friend class GraphicsDevice;
 		friend class GraphicsPipeline;
 	public:
-		RenderPass(const GraphicsDevice& GraphicsDevice);
+		RenderPass(const GraphicsDevice& GraphicsDevice, const SurfaceFormat SurfaceFormat);
 		RenderPass(const RenderPass& Source) = delete;
 		RenderPass(RenderPass&& Right) noexcept = delete;
 		~RenderPass();
 
 		RenderPass& operator=(const RenderPass& Source) = delete;
 		RenderPass& operator=(RenderPass&& Right) noexcept = delete;
+
+		const SurfaceFormat GetSurfaceFormat() const;
 	private:
 		const GraphicsDevice& _GraphicsDevice;
 

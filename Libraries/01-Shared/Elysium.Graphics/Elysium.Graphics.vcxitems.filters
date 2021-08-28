@@ -151,6 +151,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexElement.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PresentMode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />

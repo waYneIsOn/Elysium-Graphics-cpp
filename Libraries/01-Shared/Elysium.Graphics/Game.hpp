@@ -61,7 +61,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 
-
 namespace Elysium::Graphics
 {
 	class ELYSIUM_GRAPHICS_API Game

@@ -4,16 +4,25 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#include "FormatConverterVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
 #include "GraphicsDeviceVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _NativeImageFormat(VkFormat::VK_FORMAT_R8G8B8A8_SRGB), _NativeRenderPassHandle(CreateNativeRenderPass())
+Elysium::Graphics::Rendering::Vulkan::RenderPassVk::RenderPassVk(const GraphicsDeviceVk & GraphicsDevice, const SurfaceFormat SurfaceFormat)
+	: _GraphicsDevice(GraphicsDevice), _NativeImageFormat(FormatConverterVk::Convert(SurfaceFormat)), _NativeRenderPassHandle(CreateNativeRenderPass())
 { }
 Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 {
 	DestroyNativeRenderPass();
+}
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::RenderPassVk::GetSurfaceFormat() const
+{
+	return FormatConverterVk::Convert(_NativeImageFormat);
 }
 
 VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRenderPass()

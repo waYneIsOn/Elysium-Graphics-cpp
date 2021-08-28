@@ -5,11 +5,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERT
-#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERT
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
 
 #ifdef _MSC_VER
 #pragma once
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_PRESENTMODE
+#include "../Elysium.Graphics/PresentMode.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
@@ -19,7 +23,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
 #include "../Elysium.Graphics/SurfaceFormat.hpp"
 #endif
-
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
 #include "API.hpp"
@@ -42,8 +45,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FormatConverterVk& operator=(const FormatConverterVk& Source) = delete;
 		FormatConverterVk& operator=(FormatConverterVk&& Right) noexcept = delete;
 
-		static const VkFormat Convert(const SurfaceFormat Format);
-		static const VkFormat Convert(const DepthFormat Format);
+		static VkPresentModeKHR Convert(const PresentMode Value);
+		static VkFormat Convert(const SurfaceFormat Format);
+		static VkFormat Convert(const DepthFormat Format);
+
+		static SurfaceFormat Convert(const VkFormat Format);
+		//static DepthFormat Convert(const VkFormat Format);
 	};
 }
 #endif

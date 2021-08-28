@@ -8,6 +8,10 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#include "FormatConverterVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_GRAPHICSDEVICEVK
 #include "GraphicsDeviceVk.hpp"
 #endif
@@ -27,6 +31,11 @@ Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 	DestroyNativeImageViews();
 	DestroyNativeImageMemories();
 	DestroyNativeImages();
+}
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetSurfaceFormat() const
+{
+	return FormatConverterVk::Convert(_RenderPass._NativeImageFormat);
 }
 
 Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImages()

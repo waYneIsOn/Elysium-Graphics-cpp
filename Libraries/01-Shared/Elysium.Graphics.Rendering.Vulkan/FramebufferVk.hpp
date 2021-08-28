@@ -49,6 +49,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		FrameBufferVk& operator=(const FrameBufferVk& Source) = delete;
 		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
+
+		virtual const SurfaceFormat GetSurfaceFormat() const override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;

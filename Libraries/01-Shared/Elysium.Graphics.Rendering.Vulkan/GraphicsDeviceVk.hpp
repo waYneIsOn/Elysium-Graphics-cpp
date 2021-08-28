@@ -66,6 +66,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class RenderPassVk;
 		friend class SemaphoreVk;
 		friend class ShaderModuleVk;
+		friend class SwapchainFrameBufferVk;
 		friend class VertexBufferVk;
 	public:
 		GraphicsDeviceVk(const GraphicsInstanceVk& GraphicsInstance, const PhysicalDeviceVk& PhysicalDevice, PresentationParametersVk& PresentationParameters);
@@ -76,9 +77,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsDeviceVk& operator=(const GraphicsDeviceVk& Source) = delete;
 		GraphicsDeviceVk& operator=(GraphicsDeviceVk&& Right) noexcept = delete;
 
-		//virtual const GraphicsInstanceVk& GetGraphicsAPI() const override;
 		virtual const PresentationParametersVk& GetPresentationParameters() const override;
-		virtual const PhysicalDeviceVk& GetPhysicalDevice() const override;
+
+		virtual const SurfaceFormat GetBackBufferFormat() const override;
 
 		virtual const FenceVk& GetRenderFence() const override;
 		virtual const SemaphoreVk& GetPresentationSemaphore() const override;
@@ -87,7 +88,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual QueueVk& GetGraphicsQueue() override;
 		virtual QueueVk& GetPresentationQueue() override;
 
-		virtual Native::INativeRenderPass* CreateRenderPass() override;
+		virtual Native::INativeRenderPass* CreateRenderPass(const SurfaceFormat SurfaceFormat) override;
 		virtual Native::INativeFrameBuffer* CreateFrameBuffer(const Native::INativeRenderPass& RenderPass) override;
 		virtual Native::INativeGraphicsPipeline* CreateGraphicsPipeline() override;
 
@@ -105,8 +106,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		VkSurfaceKHR _NativeSurfaceHandle;
 		VkSurfaceCapabilitiesKHR _NativeSurfaceCapabilities;
-		Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> _NativeSurfaceFormats;
-		Elysium::Core::Collections::Template::Array<VkPresentModeKHR> _NativeSurfacePresentModes;
+		VkSurfaceFormatKHR _SelectedNativeSurfaceFormat;
 
 		const Elysium::Core::uint32_t _GraphicsQueueFamilyIndex;
 		const Elysium::Core::uint32_t _PresentationQueueFamilyIndex;
@@ -128,8 +128,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		VkSurfaceKHR CreateNativeSurface();
 		VkSurfaceCapabilitiesKHR RetrieveNativeSurfaceCapabilities();
-		Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> RetrieveNativeSurfaceFormats();
-		Elysium::Core::Collections::Template::Array<VkPresentModeKHR> RetrieveNativeSurfacePresentModes();
+		VkSurfaceFormatKHR SelectNativeSurfaceFormat();
 		const Elysium::Core::uint32_t RetrieveGraphicsQueueFamilyIndex();
 		const Elysium::Core::uint32_t RetrievePresentationQueueFamilyIndex();
 		VkDevice CreateNativeLogicalDevice();
@@ -139,6 +138,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkImage CreateNativeDepthImage();
 		VkDeviceMemory CreateNativeDepthImageMemory();
 		VkImageView CreateNativeDepthImageView();
+
+		VkPresentModeKHR SelectNativePresentMode();
 
 		void DestroyNativeDepthImageView();
 		void DestroyNativeDepthImageMemory();

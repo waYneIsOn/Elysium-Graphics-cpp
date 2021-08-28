@@ -59,7 +59,16 @@ namespace Elysium::Graphics
 		/// </summary>
 		static const Core::uint32_t DefaultBackBufferCount = 3;
 
+		/// <summary>
+		/// Gets the GraphicsDevice associated with the GraphicsDeviceManager.
+		/// </summary>
+		/// <returns></returns>
 		Rendering::GraphicsDevice& GetGraphicsDevice();
+
+		/// <summary>
+		/// Applies any changes to device-related properties, changing the graphics device as necessary.
+		/// </summary>
+		void ApplyChanges();
 	private:
 		const Game& _Game;
 		Rendering::GraphicsDevice& _GraphicsDevice;

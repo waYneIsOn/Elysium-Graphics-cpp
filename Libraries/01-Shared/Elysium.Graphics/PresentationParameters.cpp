@@ -41,6 +41,16 @@ const Elysium::Core::uint32_t Elysium::Graphics::PresentationParameters::GetBack
 	return _BackBufferCount;
 }
 
+const Elysium::Graphics::PresentMode Elysium::Graphics::PresentationParameters::GetPresentMode() const
+{
+	return _PresentMode;
+}
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::PresentationParameters::GetDesiredSurfaceFormat() const
+{
+	return _DesiredSurfaceFormat;
+}
+
 const Elysium::Graphics::Rendering::DepthFormat Elysium::Graphics::PresentationParameters::GetDesiredDepthFormat() const
 {
 	return _DesiredDepthFormat;
@@ -61,6 +71,11 @@ void Elysium::Graphics::PresentationParameters::SetGraphicsDeviceIndex(const Ely
 	_GraphicsDeviceIndex = Value;
 }
 
+void Elysium::Graphics::PresentationParameters::SetPresentMode(const Elysium::Graphics::PresentMode Value)
+{
+	_PresentMode = Value;
+}
+
 void Elysium::Graphics::PresentationParameters::SetBackBufferWidth(const Elysium::Core::uint32_t Value)
 {
 	_BackBufferWidth = Value;
@@ -74,6 +89,11 @@ void Elysium::Graphics::PresentationParameters::SetBackBufferHeight(const Elysiu
 void Elysium::Graphics::PresentationParameters::SetBackBufferCount(const Elysium::Core::uint32_t Value)
 {
 	_BackBufferCount = Value;
+}
+
+void Elysium::Graphics::PresentationParameters::SetDesiredSurfaceFormat(const Rendering::SurfaceFormat Value)
+{
+	_DesiredSurfaceFormat = Value;
 }
 
 void Elysium::Graphics::PresentationParameters::SetDesiredDepthFormat(const Rendering::DepthFormat Value)

@@ -12,7 +12,7 @@
 #include "ExceptionVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERT
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
 #include "FormatConverterVk.hpp"
 #endif
 
@@ -32,7 +32,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GraphicsDeviceVk(const G
 	: _GraphicsInstance(GraphicsInstance), _PhysicalDevice(PhysicalDevice), _Canvas(PresentationParameters._Canvas),
 	_PresentationParameters(PresentationParameters),
 	_NativeSurfaceHandle(CreateNativeSurface()), _NativeSurfaceCapabilities(RetrieveNativeSurfaceCapabilities()),
-	_NativeSurfaceFormats(RetrieveNativeSurfaceFormats()), _NativeSurfacePresentModes(RetrieveNativeSurfacePresentModes()),
+	_SelectedNativeSurfaceFormat(SelectNativeSurfaceFormat()),
 	_GraphicsQueueFamilyIndex(RetrieveGraphicsQueueFamilyIndex()), _PresentationQueueFamilyIndex(RetrievePresentationQueueFamilyIndex()),
 	_NativeLogicalDeviceHandle(CreateNativeLogicalDevice()), _GraphicsQueue(*this, _GraphicsQueueFamilyIndex, 0), 
 	_PresentationQueue(*this, _PresentationQueueFamilyIndex, 0),
@@ -70,9 +70,9 @@ const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::G
 	return _PresentationParameters;
 }
 
-const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetPhysicalDevice() const
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetBackBufferFormat() const
 {
-	return _PhysicalDevice;
+	return FormatConverterVk::Convert(_SelectedNativeSurfaceFormat.format);
 }
 
 const Elysium::Graphics::Rendering::Vulkan::FenceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetRenderFence() const
@@ -100,9 +100,9 @@ Elysium::Graphics::Rendering::Vulkan::QueueVk& Elysium::Graphics::Rendering::Vul
 	return _PresentationQueue;
 }
 
-Elysium::Graphics::Rendering::Native::INativeRenderPass* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateRenderPass()
+Elysium::Graphics::Rendering::Native::INativeRenderPass* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateRenderPass(const SurfaceFormat SurfaceFormat)
 {
-	return new RenderPassVk(*this);
+	return new RenderPassVk(*this, SurfaceFormat);
 }
 
 Elysium::Graphics::Rendering::Native::INativeFrameBuffer* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateFrameBuffer(const Elysium::Graphics::Rendering::Native::INativeRenderPass& RenderPass)
@@ -221,7 +221,7 @@ VkSurfaceCapabilitiesKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk:
 	return SurfaceCapabilities;
 }
 
-Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveNativeSurfaceFormats()
+VkSurfaceFormatKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::SelectNativeSurfaceFormat()
 {
 	VkResult Result;
 	Elysium::Core::uint32_t SurfaceFormatCount;
@@ -237,26 +237,20 @@ Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> Elysium::Graphic
 		throw ExceptionVk(Result);
 	}
 
-	return SurfaceFormats;
-}
+	const VkFormat DesiredSurfaceFormat = FormatConverterVk::Convert(_PresentationParameters._DesiredSurfaceFormat);
+	const VkColorSpaceKHR DesiredColorSpace = VkColorSpaceKHR::VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
 
-Elysium::Core::Collections::Template::Array<VkPresentModeKHR> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveNativeSurfacePresentModes()
-{
-	VkResult Result;
-	Elysium::Core::uint32_t PresentModeCount;
-	if ((Result = vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, nullptr)) != VK_SUCCESS)
+	VkSurfaceFormatKHR SurfaceFormat = SurfaceFormats[0];
+	for (size_t i = 0; i < SurfaceFormats.GetLength(); i++)
 	{
-		throw ExceptionVk(Result);
+		if (SurfaceFormats[i].format == DesiredSurfaceFormat && SurfaceFormats[i].colorSpace == DesiredColorSpace)
+		{
+			SurfaceFormat = SurfaceFormats[i];
+			break;
+		}
 	}
-
-	Elysium::Core::Collections::Template::Array<VkPresentModeKHR> PresentModes =
-		Elysium::Core::Collections::Template::Array<VkPresentModeKHR>(PresentModeCount);
-	if ((Result = vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, &PresentModes[0])) != VK_SUCCESS)
-	{
-		throw ExceptionVk(Result);
-	}
-
-	return PresentModes;
+	
+	return SurfaceFormat;
 }
 
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveGraphicsQueueFamilyIndex()
@@ -295,6 +289,7 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDevi
 
 	return Result;
 }
+
 
 VkDevice Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeLogicalDevice()
 {
@@ -368,36 +363,20 @@ VkSwapchainKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNat
 		BackBufferCount = _NativeSurfaceCapabilities.maxImageCount;
 	}
 
-	VkFormat ImageFormat = _NativeSurfaceFormats[0].format;
-	VkColorSpaceKHR ColorSpace = _NativeSurfaceFormats[0].colorSpace;
-	for (size_t i = 0; i < _NativeSurfaceFormats.GetLength(); i++)
-	{
-		if (_NativeSurfaceFormats[i].format == VkFormat::VK_FORMAT_B8G8R8A8_SRGB && 
-			_NativeSurfaceFormats[i].colorSpace == VkColorSpaceKHR::VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-		{
-			ImageFormat = _NativeSurfaceFormats[i].format;
-			ColorSpace = _NativeSurfaceFormats[i].colorSpace;
-			break;
-		}
-	}
-
-	//VkPresentModeKHR PresentMode = (VkPresentModeKHR)_PresentationParameters.GetPresentMode();
-	VkPresentModeKHR PresentMode = VkPresentModeKHR::VK_PRESENT_MODE_FIFO_KHR;
-
 	VkSwapchainCreateInfoKHR CreateInfo = VkSwapchainCreateInfoKHR();
 	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	CreateInfo.pNext = nullptr;
 	CreateInfo.flags = 0;
 	CreateInfo.surface = _NativeSurfaceHandle;
 	CreateInfo.minImageCount = BackBufferCount;
-	CreateInfo.imageFormat = ImageFormat;
-	CreateInfo.imageColorSpace = ColorSpace;
+	CreateInfo.imageFormat = _SelectedNativeSurfaceFormat.format;
+	CreateInfo.imageColorSpace = _SelectedNativeSurfaceFormat.colorSpace;
 	CreateInfo.imageExtent = _NativeSurfaceCapabilities.currentExtent;
 	CreateInfo.imageArrayLayers = 1;
 	CreateInfo.imageUsage = VkImageUsageFlagBits::VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	CreateInfo.preTransform = _NativeSurfaceCapabilities.currentTransform;
 	CreateInfo.compositeAlpha = VkCompositeAlphaFlagBitsKHR::VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-	CreateInfo.presentMode = PresentMode;
+	CreateInfo.presentMode = SelectNativePresentMode();
 	CreateInfo.clipped = VK_TRUE;
 	CreateInfo.oldSwapchain = PreviousNativeSwapchainHandle;
 	if (_GraphicsQueueFamilyIndex != _PresentationQueueFamilyIndex)
@@ -452,17 +431,6 @@ Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rend
 {
 	Elysium::Core::uint32_t BackBufferImageCount = _BackBufferImages.GetLength();
 
-	VkFormat ImageFormat = _NativeSurfaceFormats[0].format;
-	for (size_t i = 0; i < _NativeSurfaceFormats.GetLength(); i++)
-	{
-		if (_NativeSurfaceFormats[i].format == VkFormat::VK_FORMAT_B8G8R8A8_SRGB &&
-			_NativeSurfaceFormats[i].colorSpace == VkColorSpaceKHR::VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-		{
-			ImageFormat = _NativeSurfaceFormats[i].format;
-			break;
-		}
-	}
-
 	Elysium::Core::Collections::Template::Array<VkImageView> BackBufferImageViews = 
 		Elysium::Core::Collections::Template::Array<VkImageView>(BackBufferImageCount);
 	for (size_t i = 0; i < BackBufferImageCount; i++)
@@ -473,7 +441,7 @@ Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rend
 		ImageViewCreateInfo.flags = 0;
 		ImageViewCreateInfo.image = _BackBufferImages[i];
 		ImageViewCreateInfo.viewType = VkImageViewType::VK_IMAGE_VIEW_TYPE_2D;
-		ImageViewCreateInfo.format = ImageFormat;
+		ImageViewCreateInfo.format = _SelectedNativeSurfaceFormat.format;
 		ImageViewCreateInfo.components.r = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
 		ImageViewCreateInfo.components.g = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
 		ImageViewCreateInfo.components.b = VkComponentSwizzle::VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -506,7 +474,7 @@ VkImage Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeDept
 	ImageCreateInfo.extent.depth = 1;
 	ImageCreateInfo.mipLevels = 1;
 	ImageCreateInfo.arrayLayers = 1;
-	ImageCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters.GetDesiredDepthFormat());
+	ImageCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters._DesiredDepthFormat);
 	ImageCreateInfo.tiling = VkImageTiling::VK_IMAGE_TILING_OPTIMAL;
 	ImageCreateInfo.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
 	ImageCreateInfo.usage = VkImageUsageFlagBits::VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
@@ -590,6 +558,37 @@ VkImageView Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNative
 	}
 
 	return DepthImageView;
+}
+
+VkPresentModeKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::SelectNativePresentMode()
+{
+	VkResult Result;
+	Elysium::Core::uint32_t PresentModeCount;
+	if ((Result = vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, nullptr)) != VK_SUCCESS)
+	{
+		throw ExceptionVk(Result);
+	}
+
+	Elysium::Core::Collections::Template::Array<VkPresentModeKHR> PresentModes =
+		Elysium::Core::Collections::Template::Array<VkPresentModeKHR>(PresentModeCount);
+	if ((Result = vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, &PresentModes[0])) != VK_SUCCESS)
+	{
+		throw ExceptionVk(Result);
+	}
+
+	const VkPresentModeKHR DesiredPresentMode = FormatConverterVk::Convert(_PresentationParameters._PresentMode);
+
+	VkPresentModeKHR PresentMode = PresentModes[0];
+	for (size_t i = 0; i < PresentModes.GetLength(); i++)
+	{
+		if (PresentModes[i] == DesiredPresentMode)
+		{
+			PresentMode = PresentModes[i];
+			break;
+		}
+	}
+
+	return PresentMode;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::DestroyNativeDepthImageView()
@@ -677,8 +676,7 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Control_SizeChanged
 
 	// retrieve surface values again as some might have changed (for instance width and height)
 	_NativeSurfaceCapabilities = RetrieveNativeSurfaceCapabilities();
-	_NativeSurfaceFormats = RetrieveNativeSurfaceFormats();
-	_NativeSurfacePresentModes = RetrieveNativeSurfacePresentModes();
+	_SelectedNativeSurfaceFormat = SelectNativeSurfaceFormat();
 
 	// recreate all required resources
 	DestroyNativeDepthImageView();

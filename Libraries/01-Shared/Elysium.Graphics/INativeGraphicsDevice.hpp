@@ -60,6 +60,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeVertexBuffer.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
+#include "SurfaceFormat.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeGraphicsDevice
@@ -67,9 +71,9 @@ namespace Elysium::Graphics::Rendering::Native
 	public:
 		virtual ~INativeGraphicsDevice() { }
 		
-		//virtual const INativeGraphicsAPI& GetGraphicsAPI() const = 0;
 		virtual const PresentationParameters& GetPresentationParameters() const = 0;
-		virtual const INativePhysicalDevice& GetPhysicalDevice() const = 0;
+
+		virtual const SurfaceFormat GetBackBufferFormat() const = 0;
 
 		virtual const INativeFence& GetRenderFence() const = 0;
 		virtual const INativeSemaphore& GetPresentationSemaphore() const = 0;
@@ -78,7 +82,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual INativeQueue& GetGraphicsQueue() = 0;
 		virtual INativeQueue& GetPresentationQueue() = 0;
 
-		virtual INativeRenderPass* CreateRenderPass() = 0;
+		virtual INativeRenderPass* CreateRenderPass(const SurfaceFormat SurfaceFormat) = 0;
 		virtual INativeFrameBuffer* CreateFrameBuffer(const INativeRenderPass& RenderPass) = 0;
 		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() = 0;
 

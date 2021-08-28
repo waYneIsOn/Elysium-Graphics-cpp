@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Semaphore.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
+#include "SurfaceFormat.hpp"
+#endif
+
 namespace Elysium::Graphics
 {
 	class PresentationParameters;
@@ -66,7 +70,9 @@ namespace Elysium::Graphics::Rendering
 		GraphicsDevice& operator=(const GraphicsDevice& Source) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&& Right) noexcept = delete;
 
-		const PresentationParameters& GetPresentationParameters();
+		const PresentationParameters& GetPresentationParameters() const;
+
+		const SurfaceFormat GetBackBufferFormat() const;
 
 		const Fence& GetRenderFence() const;
 		const Semaphore& GetPresentationSemaphore() const;

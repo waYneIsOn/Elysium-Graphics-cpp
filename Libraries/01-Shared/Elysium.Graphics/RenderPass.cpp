@@ -8,8 +8,8 @@
 #include "INativeGraphicsDevice.hpp"
 #endif
 
-Elysium::Graphics::Rendering::RenderPass::RenderPass(const GraphicsDevice& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), _NativeRenderPass(_GraphicsDevice._NativeGraphicsDevice.CreateRenderPass())
+Elysium::Graphics::Rendering::RenderPass::RenderPass(const GraphicsDevice & GraphicsDevice, const SurfaceFormat SurfaceFormat)
+	: _GraphicsDevice(GraphicsDevice), _NativeRenderPass(_GraphicsDevice._NativeGraphicsDevice.CreateRenderPass(SurfaceFormat))
 { }
 Elysium::Graphics::Rendering::RenderPass::~RenderPass()
 {
@@ -18,5 +18,10 @@ Elysium::Graphics::Rendering::RenderPass::~RenderPass()
 		delete _NativeRenderPass;
 		_NativeRenderPass = nullptr;
 	}
+}
+
+const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::RenderPass::GetSurfaceFormat() const
+{
+	return _NativeRenderPass->GetSurfaceFormat();
 }
 
