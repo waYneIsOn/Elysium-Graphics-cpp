@@ -65,7 +65,8 @@ namespace Elysium::Graphics::Rendering
 
 		void RecordSecondaryBuffer(const CommandBuffer& CommandBuffer);
 
-		void RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer);
+		void RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer, const Color& ClearColor, const float Depth, 
+			const Elysium::Core::int32_t Stencil);
 		void RecordEndRenderPass();
 
 		void RecordSetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline);

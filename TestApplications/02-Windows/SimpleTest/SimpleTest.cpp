@@ -62,7 +62,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         const PhysicalDeviceFeaturesVk& Features = PhysicalGraphicsDevices[i].GetFeatures();
 
         size_t Score = 0;
-        if (Properties.GetPhysicalGraphicsDeviceType() == PhysicalDeviceTypeVk::DiscreteGPU)
+        if (Properties.GetPhysicalGraphicsDeviceType() == PhysicalDeviceType::DiscreteGPU)
         {
             Score += 1000;
         }
@@ -90,7 +90,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     PresentationParameters.SetGraphicsDeviceIndex(MostSuitablePhysicalDeviceIndex);
     //PresentationParameters.SetPresentMode(PresentMode::Immediate);
     //PresentationParameters.SetRenderResolution(20);
-    //PresentationParameters.SetRenderResolution(200);
+    PresentationParameters.SetRenderResolution(150);
 
     // ...
     const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitablePhysicalDeviceIndex];

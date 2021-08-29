@@ -20,11 +20,6 @@ Elysium::Graphics::Rendering::FrameBuffer::~FrameBuffer()
 	}
 }
 
-const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::FrameBuffer::GetSurfaceFormat() const
-{
-	return _NativeFrameBuffer->GetSurfaceFormat();
-}
-
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::FrameBuffer::GetWidth() const
 {
 	return _NativeFrameBuffer->GetWidth();

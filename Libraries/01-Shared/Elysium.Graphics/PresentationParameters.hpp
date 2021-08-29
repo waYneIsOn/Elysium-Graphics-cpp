@@ -96,7 +96,7 @@ namespace Elysium::Graphics
 		DisplayMode _DisplayMode = DisplayMode::Windowed;
 		Elysium::Core::uint32_t _DisplayDeviceIndex = 0;
 		Elysium::Core::uint32_t _GraphicsDeviceIndex = 0;
-		Elysium::Core::uint32_t _RenderResolution = 150;
+		Elysium::Core::uint32_t _RenderResolution = 100;
 		PresentMode _PresentMode = PresentMode::VerticalSync;
 
 		// swapchain & depthbuffer related parameters

@@ -4,6 +4,25 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotImplementedException.hpp"
 #endif
 
+Elysium::Graphics::Rendering::PhysicalDeviceType Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VkPhysicalDeviceType Value)
+{
+	switch (Value)
+	{
+	case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_OTHER:
+		return PhysicalDeviceType::Other;
+	case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+		return PhysicalDeviceType::IntegratedGPU;
+	case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+		return PhysicalDeviceType::DiscreteGPU;
+	case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+		return PhysicalDeviceType::VirtualGPU;
+	case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_CPU:
+		return PhysicalDeviceType::CPU;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled VkPhysicalDeviceType.");
+	}
+}
+
 VkPresentModeKHR Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const PresentMode Value)
 {
 	switch (Value)
@@ -17,9 +36,9 @@ VkPresentModeKHR Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Conver
 	}
 }
 
-VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const SurfaceFormat Format)
+VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const SurfaceFormat Value)
 {
-	switch (Format)
+	switch (Value)
 	{
 	case SurfaceFormat::Undefined:
 		return VkFormat::VK_FORMAT_UNDEFINED;
@@ -32,9 +51,9 @@ VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 	}
 }
 
-VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const DepthFormat Format)
+VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const DepthFormat Value)
 {
-	switch (Format)
+	switch (Value)
 	{
 	case DepthFormat::None:
 		return VkFormat::VK_FORMAT_UNDEFINED;
@@ -53,9 +72,9 @@ VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 	}
 }
 
-Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VkFormat Format)
+Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VkFormat Value)
 {
-	switch (Format)
+	switch (Value)
 	{
 	case VkFormat::VK_FORMAT_UNDEFINED:
 		return SurfaceFormat::Undefined;

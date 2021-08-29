@@ -76,11 +76,9 @@ void MyGame::RecordCommandBuffer()
 
 	_RenderPipeline.ClearViewports();
 	_RenderPipeline.AddViewport(0, 0, FrameBufferWidth, FrameBufferHeight, 0.0f, 1.0f);
-	//_RenderPipeline.AddViewport(0, 0, FrameBufferWidth / 2, FrameBufferHeight / 2, 0.0f, 1.0f);
 
 	_RenderPipeline.ClearScissorRectangles();
 	_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth, FrameBufferHeight);
-	//_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth / 2, FrameBufferHeight / 2);
 
 	_RenderPipeline.Build(_MainRenderPass);
 	/*
@@ -91,9 +89,9 @@ void MyGame::RecordCommandBuffer()
 	*/
 	_CommandBuffer.Reset();
 	_CommandBuffer.BeginRecording();
-	_CommandBuffer.RecordClearBackBufferColorImage(Elysium::Graphics::Color::CornflowerBlue);
-	_CommandBuffer.RecordClearBackBufferDepthImage(0.0f, 0);
-	_CommandBuffer.RecordBeginRenderPass(_MainRenderPass, _FrameBuffer);
+	//_CommandBuffer.RecordClearBackBufferColorImage(Elysium::Graphics::Color::CornflowerBlue);
+	//_CommandBuffer.RecordClearBackBufferDepthImage(0.0f, 0);
+	_CommandBuffer.RecordBeginRenderPass(_MainRenderPass, _FrameBuffer, Elysium::Graphics::Color::CornflowerBlue, 0.0f, 0);
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
 	_CommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
 	_CommandBuffer.RecordDraw(3, 1, 0, 0);

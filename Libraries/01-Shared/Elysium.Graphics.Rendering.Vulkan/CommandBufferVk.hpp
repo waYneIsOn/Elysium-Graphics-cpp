@@ -51,7 +51,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
 
-		virtual void RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer) override;
+		virtual void RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer,
+			const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil) override;
 		virtual void RecordEndRenderPass() override;
 
 		virtual void RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;

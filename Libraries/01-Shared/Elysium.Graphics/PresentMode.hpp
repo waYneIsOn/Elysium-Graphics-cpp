@@ -34,12 +34,17 @@ namespace Elysium::Graphics
 #endif
 	{
 		/// <summary>
-		/// 
+		/// Present a frame whenever the display-device allows it.
 		/// </summary>
 		VerticalSync = 1,
 
 		/// <summary>
-		/// 
+		/// (GSync/FreeSync)
+		/// </summary>
+		//Adaptive = 2,
+
+		/// <summary>
+		/// Presents a frame whenever possible. (Will most likely cause tearing.)
 		/// </summary>
 		Immediate = 255,
 	};

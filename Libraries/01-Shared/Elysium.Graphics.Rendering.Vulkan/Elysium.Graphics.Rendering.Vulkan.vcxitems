@@ -34,7 +34,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IncludeVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceFeaturesVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDevicePropertiesVk.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceTypeVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParametersVk.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LayerPropertyVk.hpp" />

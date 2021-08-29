@@ -29,9 +29,10 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSecondaryBuffer(const Co
 	_NativeCommandBuffer->RecordSecondaryBuffer(*CommandBuffer._NativeCommandBuffer);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer,
+	const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil)
 {
-	_NativeCommandBuffer->RecordBeginRenderPass(*RenderPass._NativeRenderPass, *FrameBuffer._NativeFrameBuffer);
+	_NativeCommandBuffer->RecordBeginRenderPass(*RenderPass._NativeRenderPass, *FrameBuffer._NativeFrameBuffer, ClearColor, Depth, Stencil);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::RecordEndRenderPass()

@@ -83,6 +83,20 @@ void Elysium::Graphics::PresentationParameters::SetPresentMode(const Elysium::Gr
 
 void Elysium::Graphics::PresentationParameters::SetRenderResolution(const Elysium::Core::uint32_t Value)
 {
+	/*
+	if (Value < 50)
+	{
+		_RenderResolution = 50;
+	}
+	else if (Value > 200)
+	{
+		_RenderResolution = 200;
+	}
+	else
+	{
+		_RenderResolution = Value;
+	}
+	*/
 	// ToDo: bounds!!
 	_RenderResolution = Value;
 }

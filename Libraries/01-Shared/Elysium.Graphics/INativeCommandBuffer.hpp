@@ -53,7 +53,8 @@ namespace Elysium::Graphics::Rendering::Native
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) = 0;
 
-		virtual void RecordBeginRenderPass(const INativeRenderPass& RenderPass, const INativeFrameBuffer& FrameBuffer) = 0;
+		virtual void RecordBeginRenderPass(const INativeRenderPass& RenderPass, const INativeFrameBuffer& FrameBuffer, const Color& ClearColor, 
+			const float Depth, const Elysium::Core::int32_t Stencil) = 0;
 		virtual void RecordEndRenderPass() = 0;
 
 		virtual void RecordSetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) = 0;

@@ -10,7 +10,29 @@
 
 Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::VertexBufferVk(const GraphicsDeviceVk& GraphicsDevice, const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage)
 	: _GraphicsDevice(GraphicsDevice), _Declaration(Declaration), _VertexCount(VertexCount), _Usage(Usage),
-	_NativeVertexBuffer(VK_NULL_HANDLE)
+	_NativeVertexBuffer(CreateNativeVertexBuffer())
+{ }
+Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::~VertexBufferVk()
+{
+	DestroyNativeVertexBuffer();
+}
+
+const Elysium::Graphics::Rendering::BufferUsage Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetBufferUsage() const
+{
+	return _Usage;
+}
+
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetVertexCount() const
+{
+	return _VertexCount;
+}
+
+const Elysium::Graphics::Rendering::VertexDeclaration& Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetVertexDeclaration() const
+{
+	return _Declaration;
+}
+
+VkBuffer Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::CreateNativeVertexBuffer()
 {
 	VkVertexInputBindingDescription InputBindingDescription = VkVertexInputBindingDescription();
 	InputBindingDescription.binding = 0;
@@ -46,32 +68,20 @@ Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::VertexBufferVk(const Graph
 	//PipelineVertexInputStateCreateInfo.pVertexBindingDescriptions
 
 	VkResult Result;
-	if ((Result = vkCreateBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &_NativeVertexBuffer)) != VK_NULL_HANDLE)
+	VkBuffer Buffer;
+	if ((Result = vkCreateBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &Buffer)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
 
+	return Buffer;
 }
-Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::~VertexBufferVk()
+
+void Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::DestroyNativeVertexBuffer()
 {
 	if (_NativeVertexBuffer != VK_NULL_HANDLE)
 	{
 		vkDestroyBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeVertexBuffer, nullptr);
 		_NativeVertexBuffer = VK_NULL_HANDLE;
 	}
-}
-
-const Elysium::Graphics::Rendering::BufferUsage Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetBufferUsage() const
-{
-	return _Usage;
-}
-
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetVertexCount() const
-{
-	return _VertexCount;
-}
-
-const Elysium::Graphics::Rendering::VertexDeclaration& Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::GetVertexDeclaration() const
-{
-	return _Declaration;
 }

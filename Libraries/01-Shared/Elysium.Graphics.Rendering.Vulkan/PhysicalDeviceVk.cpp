@@ -4,6 +4,10 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#include "FormatConverterVk.hpp"
+#endif
+
 Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::~PhysicalDeviceVk()
 { }
 
@@ -14,7 +18,7 @@ const Elysium::Core::String Elysium::Graphics::Rendering::Vulkan::PhysicalDevice
 
 const Elysium::Graphics::Rendering::PhysicalDeviceType Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetDeviceType() const
 {
-	return (Elysium::Graphics::Rendering::PhysicalDeviceType)_Properties._NativeProperties.deviceType;
+	return FormatConverterVk::Convert(_Properties._NativeProperties.deviceType);
 }
 
 const Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk& Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetProperties() const

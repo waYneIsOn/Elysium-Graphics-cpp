@@ -18,7 +18,7 @@
 
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass)
 	: _GraphicsDevice(GraphicsDevice), _RenderPass(RenderPass), _Extent(RetrieveExtent()),
-	_NativeImages(CreateNativeImages()), _NativeImageMemories(CreateNativeImageMemories()), _NativeImageViews(CreateNativeImageViews()),
+	_NativeImages(CreateNativeImages()), _NativeImageMemory(CreateNativeImageMemory()), _NativeImageViews(CreateNativeImageViews()),
 	_NativeFramebuffers(CreateNativeFramebuffers())
 {
 	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
@@ -29,13 +29,8 @@ Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 
 	DestroyNativeFramebuffers();
 	DestroyNativeImageViews();
-	DestroyNativeImageMemories();
+	DestroyNativeImageMemory();
 	DestroyNativeImages();
-}
-
-const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetSurfaceFormat() const
-{
-	return FormatConverterVk::Convert(_RenderPass._NativeImageFormat);
 }
 
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::GetWidth() const
@@ -99,53 +94,61 @@ Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Renderin
 	return Images;
 }
 
-Elysium::Core::Collections::Template::Array<VkDeviceMemory> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImageMemories()
+VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImageMemory()
 {
-	// ToDo: does it make sense to create a single VkDeviceMemory for all images?
-	// see https://stackoverflow.com/questions/64632038/how-to-ensure-correct-destruction-of-vkuniquebuffer-and-vkuniquedevicememory
-	// "Also, it's pretty much always a bad idea to allocate memory for just one buffer or image"
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkDeviceMemory> ImageMemories = Elysium::Core::Collections::Template::Array<VkDeviceMemory>(Length);
-	VkResult Result;
+	Elysium::Core::Collections::Template::Array<VkMemoryRequirements> MemoryRequirements = 
+		Elysium::Core::Collections::Template::Array<VkMemoryRequirements>(Length);
+
+	size_t TotallyRequiredSize = 0;
+	Elysium::Core::uint32_t MemoryTypeIndex = -1;
+
 	for (size_t i = 0; i < Length; i++)
 	{
-		VkMemoryRequirements MemoryRequirements;
-		vkGetImageMemoryRequirements(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImages[i], &MemoryRequirements);
+		vkGetImageMemoryRequirements(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImages[i], &MemoryRequirements[i]);
 
 		VkPhysicalDeviceMemoryProperties MemoryProperties;
 		vkGetPhysicalDeviceMemoryProperties(_GraphicsDevice._PhysicalDevice._NativePhysicalDeviceHandle, &MemoryProperties);
 
-		Elysium::Core::uint32_t MemoryTypeIndex = -1;
-		for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++)
+		for (uint32_t j = 0; j < MemoryProperties.memoryTypeCount; j++)
 		{
-			if ((MemoryRequirements.memoryTypeBits & (1 << i)) &&
-				(MemoryProperties.memoryTypes[i].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+			if ((MemoryRequirements[i].memoryTypeBits & (1 << j)) &&
+				(MemoryProperties.memoryTypes[j].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
 			{
-				MemoryTypeIndex = i;
+				MemoryTypeIndex = j;
 				break;
 			}
 		}
 
-		VkMemoryAllocateInfo MemoryAllocateInfo = VkMemoryAllocateInfo();
-		MemoryAllocateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		MemoryAllocateInfo.pNext = nullptr;
-		MemoryAllocateInfo.allocationSize = MemoryRequirements.size;
-		MemoryAllocateInfo.memoryTypeIndex = MemoryTypeIndex;
+		TotallyRequiredSize += MemoryRequirements[i].size;
+	}
+	
+	VkMemoryAllocateInfo MemoryAllocateInfo = VkMemoryAllocateInfo();
+	MemoryAllocateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+	MemoryAllocateInfo.pNext = nullptr;
+	MemoryAllocateInfo.allocationSize = TotallyRequiredSize;
+	MemoryAllocateInfo.memoryTypeIndex = MemoryTypeIndex;
 
-		VkResult Result;
-		if ((Result = vkAllocateMemory(_GraphicsDevice._NativeLogicalDeviceHandle, &MemoryAllocateInfo, nullptr, &ImageMemories[i])) != VK_SUCCESS)
-		{
-			throw ExceptionVk(Result);
-		}
-
-		if ((Result = vkBindImageMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImages[i], ImageMemories[i], 0)) != VK_SUCCESS)
-		{
-			throw ExceptionVk(Result);
-		}
+	VkDeviceMemory ImageMemory;
+	VkResult Result;
+	if ((Result = vkAllocateMemory(_GraphicsDevice._NativeLogicalDeviceHandle, &MemoryAllocateInfo, nullptr, &ImageMemory)) != VK_SUCCESS)
+	{
+		throw ExceptionVk(Result);
 	}
 
-	return ImageMemories;
+	size_t Offset = 0;
+	for (size_t i = 0; i < Length; i++)
+	{
+		if ((Result = vkBindImageMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImages[i], ImageMemory, Offset)) != VK_SUCCESS)
+		{
+			throw ExceptionVk(Result);
+		}
+
+		Offset += MemoryRequirements[i].size;
+	}
+	
+	return ImageMemory;
 }
 
 Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImageViews()
@@ -237,15 +240,12 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyNativeImageView
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyNativeImageMemories()
+void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::DestroyNativeImageMemory()
 {
-	for (size_t i = 0; i < _NativeImageMemories.GetLength(); i++)
+	if (_NativeImageMemory != VK_NULL_HANDLE)
 	{
-		if (_NativeImageMemories[i] != VK_NULL_HANDLE)
-		{
-			vkFreeMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImageMemories[i], nullptr);
-			_NativeImageMemories[i] = VK_NULL_HANDLE;
-		}
+		vkFreeMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImageMemory, nullptr);
+		_NativeImageMemory = VK_NULL_HANDLE;
 	}
 }
 
@@ -265,12 +265,12 @@ void Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged(co
 {
 	DestroyNativeFramebuffers();
 	DestroyNativeImageViews();
-	DestroyNativeImageMemories();
+	DestroyNativeImageMemory();
 	DestroyNativeImages();
 
 	_Extent = RetrieveExtent();
 	_NativeImages = CreateNativeImages();
-	_NativeImageMemories = CreateNativeImageMemories();
+	_NativeImageMemory = CreateNativeImageMemory();
 	_NativeImageViews = CreateNativeImageViews();
 	_NativeFramebuffers = CreateNativeFramebuffers();
 }

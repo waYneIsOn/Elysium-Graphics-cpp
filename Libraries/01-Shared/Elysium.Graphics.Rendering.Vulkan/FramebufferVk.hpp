@@ -51,7 +51,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FrameBufferVk& operator=(const FrameBufferVk& Source) = delete;
 		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
 
-		virtual const SurfaceFormat GetSurfaceFormat() const override;
 		virtual const Elysium::Core::uint32_t GetWidth() const override;
 		virtual const Elysium::Core::uint32_t GetHeight() const override;
 		virtual const Elysium::Core::uint32_t GetDepth() const override;
@@ -61,19 +60,19 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkExtent3D _Extent;
 
 		Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
-		Elysium::Core::Collections::Template::Array<VkDeviceMemory> _NativeImageMemories;
+		VkDeviceMemory _NativeImageMemory;
 		Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeFramebuffers;
 
 		VkExtent3D RetrieveExtent();
 		Elysium::Core::Collections::Template::Array<VkImage> CreateNativeImages();
-		Elysium::Core::Collections::Template::Array<VkDeviceMemory> CreateNativeImageMemories();
+		VkDeviceMemory CreateNativeImageMemory();
 		Elysium::Core::Collections::Template::Array<VkImageView> CreateNativeImageViews();
 		Elysium::Core::Collections::Template::Array<VkFramebuffer> CreateNativeFramebuffers();
 
 		void DestroyNativeFramebuffers();
 		void DestroyNativeImageViews();
-		void DestroyNativeImageMemories();
+		void DestroyNativeImageMemory();
 		void DestroyNativeImages();
 
 		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);

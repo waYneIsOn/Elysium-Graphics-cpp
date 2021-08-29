@@ -112,7 +112,8 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSecondaryBuffe
 	throw 1;
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass,
+	const Native::INativeFrameBuffer& FrameBuffer, const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil)
 {
 	const PresentationParametersVk& PresentationParameter = _GraphicsDevice.GetPresentationParameters();
 	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
@@ -120,9 +121,9 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPas
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 
 	VkClearValue ClearValues = VkClearValue();
-	ClearValues.color = { 0.0f, 0.0f, 0.0f, 0.0f };
-	ClearValues.depthStencil.depth = 1.0f;
-	ClearValues.depthStencil.stencil = 0;
+	ClearValues.color = { ClearColor.GetRed() / 255.0f, ClearColor.GetGreen() / 255.0f, ClearColor.GetBlue() / 255.0f, ClearColor.GetAlpha() / 255.0f };
+	//ClearValues.depthStencil.depth = Depth;
+	//ClearValues.depthStencil.stencil = Stencil;
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -252,11 +253,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 	ImageSubresourceRange.levelCount = 1;
 	ImageSubresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_COLOR_BIT;
 
-	float Red = ClearColor.GetRed() / 255.0f;
-	float Green = ClearColor.GetGreen() / 255.0f;
-	float Blue = ClearColor.GetBlue() / 255.0f;
-	float Alpha = ClearColor.GetAlpha() / 255.0f;
-	VkClearColorValue ClearColorValue = { Red, Green, Blue, Alpha };
+	VkClearColorValue ClearColorValue = { ClearColor.GetRed() / 255.0f, ClearColor.GetGreen() / 255.0f, ClearColor.GetBlue() / 255.0f, ClearColor.GetAlpha() / 255.0f };
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{

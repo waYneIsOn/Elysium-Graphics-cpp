@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/DepthFormat.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
+#include "../Elysium.Graphics/PhysicalDeviceType.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
 #include "../Elysium.Graphics/SurfaceFormat.hpp"
 #endif
@@ -45,12 +49,13 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		FormatConverterVk& operator=(const FormatConverterVk& Source) = delete;
 		FormatConverterVk& operator=(FormatConverterVk&& Right) noexcept = delete;
 
+		static PhysicalDeviceType Convert(const VkPhysicalDeviceType Value);
 		static VkPresentModeKHR Convert(const PresentMode Value);
-		static VkFormat Convert(const SurfaceFormat Format);
-		static VkFormat Convert(const DepthFormat Format);
+		static VkFormat Convert(const SurfaceFormat Value);
+		static VkFormat Convert(const DepthFormat Value);
 
-		static SurfaceFormat Convert(const VkFormat Format);
-		//static DepthFormat Convert(const VkFormat Format);
+		static SurfaceFormat Convert(const VkFormat Value);
+		//static DepthFormat Convert(const VkFormat Value);
 	};
 }
 #endif

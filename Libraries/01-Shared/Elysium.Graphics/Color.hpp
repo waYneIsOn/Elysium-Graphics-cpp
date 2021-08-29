@@ -22,7 +22,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics
 {
-	// Represents a four-component color using red, green, blue, and alpha data.
+	/// <summary>
+	/// Represents a four-component color using red, green, blue, and alpha data.
+	/// </summary>
 	class ELYSIUM_GRAPHICS_API Color final
 	{
 	public:

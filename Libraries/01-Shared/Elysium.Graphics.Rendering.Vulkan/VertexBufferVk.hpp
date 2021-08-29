@@ -49,6 +49,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const BufferUsage _Usage;
 
 		VkBuffer _NativeVertexBuffer;
+
+		VkBuffer CreateNativeVertexBuffer();
+
+		void DestroyNativeVertexBuffer();
 	};
 }
 #endif

@@ -1,5 +1,9 @@
 #include "PhysicalDevicePropertiesVk.hpp"
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#include "FormatConverterVk.hpp"
+#endif
+
 Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::~PhysicalDevicePropertiesVk()
 { }
 
@@ -8,9 +12,9 @@ const Elysium::Core::StringView Elysium::Graphics::Rendering::Vulkan::PhysicalDe
 	return Core::StringView((char8_t*)_NativeProperties.deviceName);
 }
 
-const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceTypeVk Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetPhysicalGraphicsDeviceType() const
+const Elysium::Graphics::Rendering::PhysicalDeviceType Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetPhysicalGraphicsDeviceType() const
 {
-	return (Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceTypeVk)_NativeProperties.deviceType;
+	return FormatConverterVk::Convert(_NativeProperties.deviceType);
 }
 
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetApiVersion() const
