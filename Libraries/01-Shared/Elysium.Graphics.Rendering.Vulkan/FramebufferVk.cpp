@@ -8,7 +8,7 @@
 #include "ExceptionVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
 #include "FormatConverterVk.hpp"
 #endif
 

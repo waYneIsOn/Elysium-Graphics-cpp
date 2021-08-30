@@ -152,6 +152,9 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BlitFilter.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />

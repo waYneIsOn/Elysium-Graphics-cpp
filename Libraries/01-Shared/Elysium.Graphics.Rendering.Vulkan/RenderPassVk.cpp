@@ -4,7 +4,7 @@
 #include "ExceptionVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
 #include "FormatConverterVk.hpp"
 #endif
 
@@ -22,7 +22,7 @@ Elysium::Graphics::Rendering::Vulkan::RenderPassVk::~RenderPassVk()
 
 const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::RenderPassVk::GetSurfaceFormat() const
 {
-	return FormatConverterVk::Convert(_NativeImageFormat);
+	return FormatConverterVk::ToSurfaceFormat(_NativeImageFormat);
 }
 
 VkRenderPass Elysium::Graphics::Rendering::Vulkan::RenderPassVk::CreateNativeRenderPass()

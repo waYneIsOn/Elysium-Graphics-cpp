@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
-#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
+#define ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
 
 #ifdef _MSC_VER
 #pragma once
@@ -14,6 +14,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_PRESENTMODE
 #include "../Elysium.Graphics/PresentMode.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_BLITFILTER
+#include "../Elysium.Graphics/BlitFilter.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
@@ -53,9 +57,10 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		static VkPresentModeKHR Convert(const PresentMode Value);
 		static VkFormat Convert(const SurfaceFormat Value);
 		static VkFormat Convert(const DepthFormat Value);
+		static VkFilter Convert(const BlitFilter Value);
 
-		static SurfaceFormat Convert(const VkFormat Value);
-		//static DepthFormat Convert(const VkFormat Value);
+		static SurfaceFormat ToSurfaceFormat(const VkFormat Value);
+		static DepthFormat ToDepthFormat(const VkFormat Value);
 	};
 }
 #endif

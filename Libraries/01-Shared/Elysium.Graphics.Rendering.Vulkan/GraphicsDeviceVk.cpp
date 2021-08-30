@@ -12,7 +12,7 @@
 #include "ExceptionVk.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTER
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
 #include "FormatConverterVk.hpp"
 #endif
 
@@ -68,7 +68,7 @@ const Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk& Elysium::G
 
 const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetBackBufferFormat() const
 {
-	return FormatConverterVk::Convert(_SelectedNativeSurfaceFormat.format);
+	return FormatConverterVk::ToSurfaceFormat(_SelectedNativeSurfaceFormat.format);
 }
 
 const Elysium::Graphics::Rendering::Vulkan::FenceVk& Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::GetRenderFence() const

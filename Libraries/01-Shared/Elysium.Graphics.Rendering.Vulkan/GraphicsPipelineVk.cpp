@@ -71,26 +71,39 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(c
 	_ShaderStages.Add(ShaderStageCreateInfo);
 }
 
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearShaderModules()
+{
+	_ShaderStages.Clear();
+}
+
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Native::INativeRenderPass& RenderPass)
 {
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
+
+	const size_t ViewportCount = _Viewports.GetCount();
+	const size_t ScissorRectangleCount = _ScissorRectangles.GetCount();
+	if (ViewportCount != ScissorRectangleCount)
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+	const size_t ShaderCount = _ShaderStages.GetCount();
 
 	VkPipelineViewportStateCreateInfo ViewportStateCreateInfo = VkPipelineViewportStateCreateInfo();
 	ViewportStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	ViewportStateCreateInfo.pNext = nullptr;
 	ViewportStateCreateInfo.flags = 0;
-	ViewportStateCreateInfo.viewportCount = _Viewports.GetCount();
-	ViewportStateCreateInfo.pViewports = ViewportStateCreateInfo.viewportCount == 0 ? nullptr : &_Viewports[0];
-	ViewportStateCreateInfo.scissorCount = _ScissorRectangles.GetCount();
-	ViewportStateCreateInfo.pScissors = ViewportStateCreateInfo.scissorCount == 0 ? nullptr : &_ScissorRectangles[0];
+	ViewportStateCreateInfo.viewportCount = ViewportCount;
+	ViewportStateCreateInfo.pViewports = ViewportCount == 0 ? nullptr : &_Viewports[0];
+	ViewportStateCreateInfo.scissorCount = ScissorRectangleCount;
+	ViewportStateCreateInfo.pScissors = ScissorRectangleCount == 0 ? nullptr : &_ScissorRectangles[0];
 
 	VkGraphicsPipelineCreateInfo PipelineCreateInfo = VkGraphicsPipelineCreateInfo();
 	PipelineCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	PipelineCreateInfo.pNext = nullptr;
 	PipelineCreateInfo.flags = 0;
 	PipelineCreateInfo.layout = _NativePipelineLayoutHandle;
-	PipelineCreateInfo.stageCount = _ShaderStages.GetCount();
-	PipelineCreateInfo.pStages = &_ShaderStages[0];
+	PipelineCreateInfo.stageCount = ShaderCount;
+	PipelineCreateInfo.pStages = ShaderCount == 0 ? nullptr : &_ShaderStages[0];
 	PipelineCreateInfo.pVertexInputState = &_VertexInputState;
 	PipelineCreateInfo.pInputAssemblyState = &_InputAssembly;
 	PipelineCreateInfo.pViewportState = &ViewportStateCreateInfo;

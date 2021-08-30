@@ -52,17 +52,17 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
 
 		virtual void RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer,
-			const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil) override;
+			const Color& ClearColor, const float Depth, const Elysium::Core::uint32_t Stencil) override;
 		virtual void RecordEndRenderPass() override;
 
 		virtual void RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
 
 		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
 		
-		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer) override;
+		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer, const BlitFilter Filter) override;
 
 		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) override;
-		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil) override;
+		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const CommandPoolVk& _CommandPool;

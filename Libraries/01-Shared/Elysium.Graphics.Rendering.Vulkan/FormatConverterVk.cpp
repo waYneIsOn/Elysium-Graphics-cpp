@@ -72,7 +72,22 @@ VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 	}
 }
 
-Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VkFormat Value)
+VkFilter Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const BlitFilter Value)
+{
+	switch (Value)
+	{
+	case BlitFilter::Nearest:
+		return VkFilter::VK_FILTER_NEAREST;
+	case BlitFilter::Linear:
+		return VkFilter::VK_FILTER_LINEAR;
+	case BlitFilter::Cubic:
+		return VkFilter::VK_FILTER_CUBIC_IMG;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled BlitFilter.");
+	}
+}
+
+Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::ToSurfaceFormat(const VkFormat Value)
 {
 	switch (Value)
 	{
@@ -82,6 +97,27 @@ Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan
 		return SurfaceFormat::B8G8R8A8_sRGB;
 	case VkFormat::VK_FORMAT_R8G8B8A8_SRGB:
 		return SurfaceFormat::R8G8B8A8_sRGB;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled VkFormat.");
+	}
+}
+
+Elysium::Graphics::Rendering::DepthFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::ToDepthFormat(const VkFormat Value)
+{
+	switch (Value)
+	{
+	case VkFormat::VK_FORMAT_UNDEFINED:
+		return DepthFormat::None;
+	case VkFormat::VK_FORMAT_D16_UNORM:
+		return DepthFormat::Depth16;
+	case VkFormat::VK_FORMAT_D16_UNORM_S8_UINT:
+		return DepthFormat::Depth16Stencil8;
+	case VkFormat::VK_FORMAT_D24_UNORM_S8_UINT:
+		return DepthFormat::Depth24Stencil8;
+	case VkFormat::VK_FORMAT_D32_SFLOAT:
+		return DepthFormat::Depth32;
+	case VkFormat::VK_FORMAT_D32_SFLOAT_S8_UINT:
+		return DepthFormat::Depth32Stencil8;
 	default:
 		throw Elysium::Core::NotImplementedException(u8"Unhandled VkFormat.");
 	}

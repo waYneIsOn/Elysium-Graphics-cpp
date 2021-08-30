@@ -8,6 +8,10 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
+#include "FormatConverterVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FRAMEBUFFERVK
 #include "FramebufferVk.hpp"
 #endif
@@ -113,7 +117,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSecondaryBuffe
 }
 
 void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass,
-	const Native::INativeFrameBuffer& FrameBuffer, const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil)
+	const Native::INativeFrameBuffer& FrameBuffer, const Color& ClearColor, const float Depth, const Elysium::Core::uint32_t Stencil)
 {
 	const PresentationParametersVk& PresentationParameter = _GraphicsDevice.GetPresentationParameters();
 	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
@@ -121,9 +125,9 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBeginRenderPas
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 
 	VkClearValue ClearValues = VkClearValue();
+	ClearValues.depthStencil.depth = Depth;
+	ClearValues.depthStencil.stencil = Stencil;
 	ClearValues.color = { ClearColor.GetRed() / 255.0f, ClearColor.GetGreen() / 255.0f, ClearColor.GetBlue() / 255.0f, ClearColor.GetAlpha() / 255.0f };
-	//ClearValues.depthStencil.depth = Depth;
-	//ClearValues.depthStencil.stencil = Stencil;
 
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
@@ -169,7 +173,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Native::INativeFrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Native::INativeFrameBuffer& FrameBuffer, const BlitFilter Filter)
 {
 	const FrameBufferVk& VkFrameBuffer = static_cast<const FrameBufferVk&>(FrameBuffer);
 	const VkExtent2D& BackBufferExtent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
@@ -228,7 +232,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordBlit(const Nat
 
 		// Record actual command
 		vkCmdBlitImage(CurrentCommandBuffer, CurrentFrameBufferImage, SourceImageLayout, CurrentBackBufferImage, TargetImageLayout, 1, &ImageBlit, 
-			VkFilter::VK_FILTER_NEAREST);
+			FormatConverterVk::Convert(Filter));
 
 		// Transition target image (backbuffer) to "read memory"
 		RecordInsertImageMemoryBarrier(CurrentCommandBuffer, CurrentBackBufferImage,
@@ -278,7 +282,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil)
 {
 	VkImageSubresourceRange ImageSubresourceRange = VkImageSubresourceRange();
 	ImageSubresourceRange.baseArrayLayer = 0;

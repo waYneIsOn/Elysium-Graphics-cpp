@@ -48,8 +48,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual void ClearScissorRectangles() = 0;
 
 		virtual void AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type) = 0;
-		//virtual void AddViewport() = 0;
-		//virtual void AddScissorRectangle() = 0;
+		virtual void ClearShaderModules() = 0;
 
 		virtual void Build(const INativeRenderPass& RenderPass) = 0;
 	};

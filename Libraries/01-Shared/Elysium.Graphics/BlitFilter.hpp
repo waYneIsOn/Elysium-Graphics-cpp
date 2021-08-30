@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_BUFFERUSAGE
-#define ELYSIUM_GRAPHICS_RENDERING_BUFFERUSAGE
+#ifndef ELYSIUM_GRAPHICS_RENDERING_BLITFILTER
+#define ELYSIUM_GRAPHICS_RENDERING_BLITFILTER
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,16 +23,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class BufferUsage : Elysium::Core::uint8_t
+	enum class BlitFilter : Elysium::Core::uint8_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class BufferUsage
+	enum class BlitFilter
 #else
 #error "undefined os"
 #endif
 	{
-		None,
+		Nearest = 0,
 
-		WriteOnly
+		Linear = 1,
+
+		Cubic = 2,
 	};
 }
 #endif

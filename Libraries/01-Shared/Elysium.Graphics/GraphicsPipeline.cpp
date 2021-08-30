@@ -45,6 +45,11 @@ void Elysium::Graphics::Rendering::GraphicsPipeline::AddShaderModule(const Shade
 	_NativeGraphicsPipeline->AddShaderModule(*ShaderModule._NativeShaderModule, Type);
 }
 
+void Elysium::Graphics::Rendering::GraphicsPipeline::ClearShaderModules()
+{
+	_NativeGraphicsPipeline->ClearShaderModules();
+}
+
 void Elysium::Graphics::Rendering::GraphicsPipeline::Build(const RenderPass& RenderPass)
 {
 	_NativeGraphicsPipeline->Build(*RenderPass._NativeRenderPass);

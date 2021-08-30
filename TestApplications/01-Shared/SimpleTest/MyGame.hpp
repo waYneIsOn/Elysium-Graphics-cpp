@@ -67,7 +67,8 @@ private:
 
 	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
 
-	void RecordCommandBuffer();
+	void PrepareGraphicsPipeline();
+	void PreparePrimaryCommandBuffer();
 
 	void Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 };

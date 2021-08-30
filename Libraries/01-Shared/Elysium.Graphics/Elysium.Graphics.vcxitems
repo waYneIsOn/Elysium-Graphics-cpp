@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)APINotAvailableException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BlitFilter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BufferUsage.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ClearOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Color.hpp" />

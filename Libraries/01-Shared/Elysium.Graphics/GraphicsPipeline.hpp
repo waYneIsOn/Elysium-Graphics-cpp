@@ -53,6 +53,7 @@ namespace Elysium::Graphics::Rendering
 		void ClearScissorRectangles();
 
 		void AddShaderModule(const ShaderModule& ShaderModule, const ShaderModuleType Type);
+		void ClearShaderModules();
 
 		void Build(const RenderPass& RenderPass);
 	private:

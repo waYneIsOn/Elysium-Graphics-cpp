@@ -63,6 +63,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void ClearScissorRectangles() override;
 
 		virtual void AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type) override;
+		virtual void ClearShaderModules() override;
 
 		virtual void Build(const Native::INativeRenderPass& RenderPass) override;
 	private:

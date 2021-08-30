@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_BLITFILTER
+#include "BlitFilter.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_FRAMEBUFFER
 #include "Framebuffer.hpp"
 #endif
@@ -66,7 +70,7 @@ namespace Elysium::Graphics::Rendering
 		void RecordSecondaryBuffer(const CommandBuffer& CommandBuffer);
 
 		void RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer, const Color& ClearColor, const float Depth, 
-			const Elysium::Core::int32_t Stencil);
+			const Elysium::Core::uint32_t Stencil);
 		void RecordEndRenderPass();
 
 		void RecordSetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline);
@@ -84,7 +88,8 @@ namespace Elysium::Graphics::Rendering
 		/// Copies a given framebuffer to swapchain, potentially performing format conversion.
 		/// </summary>
 		/// <param name="FrameBuffer"></param>
-		void RecordBlit(const FrameBuffer& FrameBuffer);
+		/// <param name="Filter"></param>
+		void RecordBlit(const FrameBuffer& FrameBuffer, const BlitFilter Filter);
 
 		/// <summary>
 		/// Clear color image of back buffer.
@@ -97,7 +102,7 @@ namespace Elysium::Graphics::Rendering
 		/// </summary>
 		/// <param name="Depth"></param>
 		/// <param name="Stencil"></param>
-		void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil);
+		void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil);
 	private:
 		CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer);
 

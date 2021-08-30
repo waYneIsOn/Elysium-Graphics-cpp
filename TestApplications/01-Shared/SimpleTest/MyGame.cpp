@@ -38,7 +38,8 @@ void MyGame::LoadContent()
 {
 	_RenderPipeline.AddShaderModule(_VertexShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::VertexShader);
 	_RenderPipeline.AddShaderModule(_FragmentShaderModule, Elysium::Graphics::Rendering::ShaderModuleType::FragmentShader);
-	RecordCommandBuffer();
+	PrepareGraphicsPipeline();
+	PreparePrimaryCommandBuffer();
 }
 
 void MyGame::Draw(const Elysium::Graphics::GameTime& GameTime)
@@ -55,11 +56,6 @@ void MyGame::Update(const Elysium::Graphics::GameTime& GameTime)
 	int a = 45;
 }
 
-void MyGame::Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
-{
-	RecordCommandBuffer();
-}
-
 Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysium::Core::String& Path)
 {
 	Elysium::Core::IO::FileStream Stream = Elysium::Core::IO::FileStream(Path, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
@@ -69,7 +65,7 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Move(Data));
 }
 
-void MyGame::RecordCommandBuffer()
+void MyGame::PrepareGraphicsPipeline()
 {
 	const Elysium::Core::uint32_t FrameBufferWidth = _FrameBuffer.GetWidth();
 	const Elysium::Core::uint32_t FrameBufferHeight = _FrameBuffer.GetHeight();
@@ -81,6 +77,10 @@ void MyGame::RecordCommandBuffer()
 	_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth, FrameBufferHeight);
 
 	_RenderPipeline.Build(_MainRenderPass);
+}
+
+void MyGame::PreparePrimaryCommandBuffer()
+{
 	/*
 	_SecondaryCommandBuffer.Reset();
 	_SecondaryCommandBuffer.BeginRecording();
@@ -97,7 +97,13 @@ void MyGame::RecordCommandBuffer()
 	_CommandBuffer.RecordDraw(3, 1, 0, 0);
 	_CommandBuffer.RecordEndRenderPass();
 
-	_CommandBuffer.RecordBlit(_FrameBuffer);
+	_CommandBuffer.RecordBlit(_FrameBuffer, Elysium::Graphics::Rendering::BlitFilter::Nearest);
 
 	_CommandBuffer.EndRecording();
+}
+
+void MyGame::Control_OnSizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height)
+{
+	PrepareGraphicsPipeline();
+	PreparePrimaryCommandBuffer();
 }

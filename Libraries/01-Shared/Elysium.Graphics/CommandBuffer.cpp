@@ -30,7 +30,7 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSecondaryBuffer(const Co
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::RecordBeginRenderPass(const RenderPass& RenderPass, const FrameBuffer& FrameBuffer,
-	const Color& ClearColor, const float Depth, const Elysium::Core::int32_t Stencil)
+	const Color& ClearColor, const float Depth, const Elysium::Core::uint32_t Stencil)
 {
 	_NativeCommandBuffer->RecordBeginRenderPass(*RenderPass._NativeRenderPass, *FrameBuffer._NativeFrameBuffer, ClearColor, Depth, Stencil);
 }
@@ -50,9 +50,9 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordDraw(Elysium::Core::uint
 	_NativeCommandBuffer->RecordDraw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::RecordBlit(const FrameBuffer& FrameBuffer)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordBlit(const FrameBuffer& FrameBuffer, const BlitFilter Filter)
 {
-	_NativeCommandBuffer->RecordBlit(*FrameBuffer._NativeFrameBuffer);
+	_NativeCommandBuffer->RecordBlit(*FrameBuffer._NativeFrameBuffer, Filter);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferColorImage(const Color ClearColor)
@@ -60,7 +60,7 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferColorImag
 	_NativeCommandBuffer->RecordClearBackBufferColorImage(ClearColor);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::int32_t Stencil)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil)
 {
 	_NativeCommandBuffer->RecordClearBackBufferDepthImage(Depth, Stencil);
 }
