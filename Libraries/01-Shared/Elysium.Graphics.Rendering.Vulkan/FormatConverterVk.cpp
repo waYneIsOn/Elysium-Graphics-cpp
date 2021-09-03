@@ -122,12 +122,8 @@ VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 		return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
 	case VertexElementFormat::Vector4Double:
 		return VkFormat::VK_FORMAT_R64G64B64A64_SFLOAT;
-
-
 	case VertexElementFormat::Color:
-		return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
-
-
+		return VkFormat::VK_FORMAT_R8G8B8A8_UNORM;
 		/*
 	case VertexElementFormat::Byte4:
 		return VkFormat::VK_FORMAT_UNDEFINED;

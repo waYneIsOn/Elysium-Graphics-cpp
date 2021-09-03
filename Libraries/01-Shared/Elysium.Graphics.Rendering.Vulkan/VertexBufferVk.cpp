@@ -37,10 +37,6 @@ const Elysium::Graphics::Rendering::VertexDeclaration& Elysium::Graphics::Render
 	return _Declaration;
 }
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXPOSITIONCOLOR
-#include "../Elysium.Graphics/VertexPositionColor.hpp"
-#endif
-
 void Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::SetData(const void* First, const size_t Length)
 {
 	VkResult Result;

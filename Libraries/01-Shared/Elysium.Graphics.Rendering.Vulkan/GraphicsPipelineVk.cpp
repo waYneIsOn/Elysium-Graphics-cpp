@@ -122,11 +122,11 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::SetVertexBuffer(c
 	_PipelineVertexInputStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	_PipelineVertexInputStateCreateInfo.pNext = nullptr;
 	_PipelineVertexInputStateCreateInfo.flags = 0;
-	_PipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = VertexElementsLength;
-	_PipelineVertexInputStateCreateInfo.pVertexAttributeDescriptions = VertexElementsLength  == 0 ? nullptr : &_InputAttributeDescriptions[0];
 	_PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = _InputBindingDescriptions.GetCount();
 	_PipelineVertexInputStateCreateInfo.pVertexBindingDescriptions = _PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount == 0 ?
 		nullptr : &_InputBindingDescriptions[0];
+	_PipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = VertexElementsLength;
+	_PipelineVertexInputStateCreateInfo.pVertexAttributeDescriptions = VertexElementsLength  == 0 ? nullptr : &_InputAttributeDescriptions[0];
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Native::INativeRenderPass& RenderPass)

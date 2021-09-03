@@ -70,9 +70,9 @@ Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vertex
 {
 	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> Vertices =
 	{
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.0f, -0.9f, 0.0f), Elysium::Graphics::Color::Red),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.0f, -0.9f, 0.0f), Elysium::Graphics::Color::Blue),
 		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Green),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Blue)
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Red)
 	};
 
 	return Vertices;

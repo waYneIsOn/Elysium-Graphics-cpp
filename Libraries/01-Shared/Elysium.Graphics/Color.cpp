@@ -25,7 +25,7 @@ Elysium::Graphics::Color::Color(float Red, float Green, float Blue, float Alpha)
 Elysium::Graphics::Color::Color(Elysium::Core::uint32_t Red, Elysium::Core::uint32_t Green, Elysium::Core::uint32_t Blue, Elysium::Core::uint32_t Alpha) noexcept
 	: Elysium::Graphics::Color::Color((Elysium::Core::uint8_t)Red, (Elysium::Core::uint8_t)Green, (Elysium::Core::uint8_t)Blue, (Elysium::Core::uint8_t)Alpha)
 { }
-Elysium::Graphics::Color::Color(Elysium::Core::uint8_t Red, Elysium::Core::uint8_t Green, Elysium::Core::uint8_t Blue, Elysium::Core::uint8_t Alpha)noexcept
+Elysium::Graphics::Color::Color(Elysium::Core::uint8_t Red, Elysium::Core::uint8_t Green, Elysium::Core::uint8_t Blue, Elysium::Core::uint8_t Alpha) noexcept
 	: _PackedValue(((Red | Green << 8) | Blue << 16) | Alpha << 24)
 { }
 Elysium::Graphics::Color::Color(const Color & Source) noexcept
