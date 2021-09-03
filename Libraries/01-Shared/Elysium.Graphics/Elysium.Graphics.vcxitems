@@ -55,7 +55,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeVertexBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexElementSize.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IVertexType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp" />

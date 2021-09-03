@@ -41,32 +41,17 @@ const Elysium::Graphics::Rendering::VertexDeclaration& Elysium::Graphics::Render
 #include "../Elysium.Graphics/VertexPositionColor.hpp"
 #endif
 
-void Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::SetData(const IVertexType* First, const size_t Length)
+void Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::SetData(const void* First, const size_t Length)
 {
 	VkResult Result;
 	const size_t ByteLength = _Declaration.GetVertexStride() * Length;
-	void* Data;
-	if ((Result = vkMapMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeVertexBufferMemory, 0, ByteLength, 0, &Data)) != VK_NULL_HANDLE)
+	Elysium::Core::byte* Data;
+	if ((Result = vkMapMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeVertexBufferMemory, 0, ByteLength, 0, (void**)&Data)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
 
-
-
-
-
-
-	// ToDo: cannot be done when class is derived from IVertexType due to virtual table etc.
-	const IVertexType& Test = *First;
-	const VertexPositionColor& Test2 = (VertexPositionColor&)Test;
-	const size_t Test3 = sizeof(VertexPositionColor);	// is 24, should be 16 (3 floats for position, 1 uint32_t for color)
-
 	std::memcpy(Data, First, ByteLength);
-
-
-
-
-
 
 	vkUnmapMemory(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeVertexBufferMemory);
 }

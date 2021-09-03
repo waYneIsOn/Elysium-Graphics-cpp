@@ -35,7 +35,7 @@ const Elysium::Graphics::Rendering::VertexDeclaration& Elysium::Graphics::Render
 	return _NativeVertexBuffer->GetVertexDeclaration();
 }
 
-void Elysium::Graphics::Rendering::VertexBuffer::SetData(const IVertexType* First, const size_t Length)
+void Elysium::Graphics::Rendering::VertexBuffer::SetData(const void* First, const size_t Length)
 {
 	if (First == nullptr)
 	{	// ToDo: throw specific exception

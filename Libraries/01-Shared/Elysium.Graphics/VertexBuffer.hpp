@@ -49,7 +49,7 @@ namespace Elysium::Graphics::Rendering
 		const Elysium::Core::uint32_t GetVertexCount() const;
 		const VertexDeclaration& GetVertexDeclaration() const;
 
-		void SetData(const IVertexType* First, const size_t Length);
+		void SetData(const void* First, const size_t Length);
 	private:
 		const GraphicsDevice& _GraphicsDevice;
 

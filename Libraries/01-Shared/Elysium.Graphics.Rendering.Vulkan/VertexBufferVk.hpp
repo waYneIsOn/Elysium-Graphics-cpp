@@ -45,7 +45,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual const Elysium::Core::uint32_t GetVertexCount() const override;
 		virtual const VertexDeclaration& GetVertexDeclaration() const override;
 
-		virtual void SetData(const IVertexType* First, const size_t Length) override;
+		virtual void SetData(const void* First, const size_t Length) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const VertexDeclaration& _Declaration;

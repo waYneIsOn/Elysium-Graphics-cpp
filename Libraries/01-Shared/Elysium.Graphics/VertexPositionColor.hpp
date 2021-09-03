@@ -28,20 +28,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Color.hpp"
 #endif
 
-#ifndef ELYSIUM_GRAPHICS_RENDERING_IVERTEXTYPE
-#include "IVertexType.hpp"
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXDECLARATION
+#include "VertexDeclaration.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering
 {
-	class ELYSIUM_GRAPHICS_API VertexPositionColor final : public IVertexType
+	class ELYSIUM_GRAPHICS_API VertexPositionColor final
 	{
 		friend class Elysium::Core::Collections::Template::Array<VertexPositionColor>;
 	public:
 		VertexPositionColor(const Elysium::Core::Math::Numerics::Vector3<float>& Position, const Color Color);
 		VertexPositionColor(const VertexPositionColor& Source);
 		VertexPositionColor(VertexPositionColor&& Right) noexcept = delete;
-		virtual ~VertexPositionColor();
+		~VertexPositionColor();
 	private:
 		VertexPositionColor();
 	public:
@@ -51,7 +51,7 @@ namespace Elysium::Graphics::Rendering
 		Elysium::Core::Math::Numerics::Vector3<float> Position;
 		Color Color;
 
-		virtual const VertexDeclaration& GetVertexDeclaration() const override;
+		const VertexDeclaration& GetVertexDeclaration() const;
 	private:
 		static const VertexDeclaration _Declaration;
 
