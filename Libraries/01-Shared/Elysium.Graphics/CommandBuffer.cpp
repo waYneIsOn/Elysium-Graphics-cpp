@@ -45,6 +45,11 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSetGraphicsPipeline(cons
 	_NativeCommandBuffer->RecordSetGraphicsPipeline(*GraphicsPipeline._NativeGraphicsPipeline);
 }
 
+void Elysium::Graphics::Rendering::CommandBuffer::RecordSetVertexBuffer(const VertexBuffer& VertexBuffer)
+{
+	_NativeCommandBuffer->RecordSetVertexBuffer(*VertexBuffer._NativeVertexBuffer);
+}
+
 void Elysium::Graphics::Rendering::CommandBuffer::RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
 {
 	_NativeCommandBuffer->RecordDraw(VertexCount, InstanceCount, FirstVertex, FirstInstance);

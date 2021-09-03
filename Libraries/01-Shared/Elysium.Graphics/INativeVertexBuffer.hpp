@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "BufferUsage.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_IVERTEXTYPE
+#include "IVertexType.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXDECLARATION
 #include "VertexDeclaration.hpp"
 #endif
@@ -38,10 +42,8 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual const BufferUsage GetBufferUsage() const = 0;
 		virtual const Elysium::Core::uint32_t GetVertexCount() const = 0;
 		virtual const VertexDeclaration& GetVertexDeclaration() const = 0;
-		/*
-		template <class T>
-		virtual void SetData() = 0;
-		*/
+		
+		virtual void SetData(const IVertexType* First, const size_t Length) = 0;
 	};
 }
 #endif

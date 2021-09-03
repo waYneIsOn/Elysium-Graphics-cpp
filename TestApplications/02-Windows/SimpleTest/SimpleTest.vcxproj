@@ -113,7 +113,9 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
 
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
-D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.Buffer.Vert.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.Buffer.Vert.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,7 +144,9 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
 
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
-D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.Buffer.Vert.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.Buffer.Vert.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -168,7 +172,9 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
 
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
-D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.Buffer.Vert.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.Buffer.Vert.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -198,7 +204,9 @@ D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\S
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FullScreenTriangle.frag" -o "$(TargetDir)Assets\Vulkan\FullScreenTriangle.Fragment.spv"
 
 D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.spv"
-D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"</Command>
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\VertexShader.Buffer.Vert.vert" -o "$(TargetDir)Assets\Vulkan\VertexShader.Buffer.Vert.spv"
+D:\VulkanSDK\1.2.162.1\Bin\glslc.exe "$(SolutionDir)TestApplications\01-Shared\SimpleTest\Assets\Vulkan\FragmentShader.frag" -o "$(TargetDir)Assets\Vulkan\FragmentShader.spv"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

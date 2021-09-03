@@ -28,6 +28,10 @@
 #include "RenderPassVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_VERTEXBUFFERVK
+#include "VertexBufferVk.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -162,6 +166,18 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSetGraphicsPip
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
 		vkCmdBindPipeline(_NativeCommandBufferHandles[i], VkPipelineBindPoint::VK_PIPELINE_BIND_POINT_GRAPHICS, VkPipeline._NativePipelineHandle);
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSetVertexBuffer(const Native::INativeVertexBuffer& VertexBuffer)
+{
+	const VertexBufferVk& VkVertexBuffer = static_cast<const VertexBufferVk&>(VertexBuffer);
+
+	VkBuffer VertexBuffers[] = { VkVertexBuffer._NativeVertexBuffer };
+	VkDeviceSize Offsets[] = { 0 };
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdBindVertexBuffers(_NativeCommandBufferHandles[i], 0, 1, VertexBuffers, Offsets);
 	}
 }
 

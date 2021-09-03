@@ -23,6 +23,7 @@
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FragmentShader.frag" />
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FullScreenTriangle.frag" />
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FullScreenTriangle.vert" />
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.Buffer.Vert.vert" />
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.vert" />
   </ItemGroup>
 </Project>

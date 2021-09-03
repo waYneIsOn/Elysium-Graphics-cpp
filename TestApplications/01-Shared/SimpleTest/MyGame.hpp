@@ -28,6 +28,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/VertexDeclaration.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXPOSITIONCOLOR
+#include "../../../Libraries/01-Shared/Elysium.Graphics/VertexPositionColor.hpp"
+#endif
+
 class MyGame final : public Elysium::Graphics::Game
 {
 public:
@@ -60,12 +64,16 @@ private:
 	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleVertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleFragmentShaderModule;
 
-	//Elysium::Graphics::Rendering::VertexDeclaration _VertexDeclaration;
-	//Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
+	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> _Vertices;
+	Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
+
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
 
 	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
+
+	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> CreateVertices();
+	Elysium::Graphics::Rendering::VertexBuffer CreateVertexBuffer();
 
 	void PrepareGraphicsPipeline();
 	void PreparePrimaryCommandBuffer();

@@ -20,6 +20,11 @@ Elysium::Graphics::Rendering::GraphicsPipeline::~GraphicsPipeline()
 	}
 }
 
+Elysium::Graphics::Rendering::RasterizerState& Elysium::Graphics::Rendering::GraphicsPipeline::GetRasterizerState()
+{
+	return _NativeGraphicsPipeline->GetRasterizerState();
+}
+
 void Elysium::Graphics::Rendering::GraphicsPipeline::AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth)
 {
 	_NativeGraphicsPipeline->AddViewport(X, Y, Width, Height, MinimumDepth, MaximumDepth);
@@ -48,6 +53,16 @@ void Elysium::Graphics::Rendering::GraphicsPipeline::AddShaderModule(const Shade
 void Elysium::Graphics::Rendering::GraphicsPipeline::ClearShaderModules()
 {
 	_NativeGraphicsPipeline->ClearShaderModules();
+}
+
+void Elysium::Graphics::Rendering::GraphicsPipeline::SetVertexBuffer(const VertexBuffer& VertexBuffer)
+{
+	_NativeGraphicsPipeline->SetVertexBuffer(*VertexBuffer._NativeVertexBuffer, 0);
+}
+
+void Elysium::Graphics::Rendering::GraphicsPipeline::SetVertexBuffer(const VertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset)
+{
+	_NativeGraphicsPipeline->SetVertexBuffer(*VertexBuffer._NativeVertexBuffer, VertexOffset);
 }
 
 void Elysium::Graphics::Rendering::GraphicsPipeline::Build(const RenderPass& RenderPass)

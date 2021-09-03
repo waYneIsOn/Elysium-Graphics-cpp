@@ -496,7 +496,7 @@ VkImage Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeDept
 	ImageCreateInfo.extent.depth = 1;
 	ImageCreateInfo.mipLevels = 1;
 	ImageCreateInfo.arrayLayers = 1;
-	ImageCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters._DesiredDepthFormat);
+	ImageCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters._DesiredDepthStencilFormat);
 	ImageCreateInfo.tiling = VkImageTiling::VK_IMAGE_TILING_OPTIMAL;
 	ImageCreateInfo.initialLayout = VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED;
 	ImageCreateInfo.usage = VkImageUsageFlagBits::VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VkImageUsageFlagBits::VK_IMAGE_USAGE_TRANSFER_DST_BIT;
@@ -518,14 +518,11 @@ VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNat
 	VkMemoryRequirements MemoryRequirements;
 	vkGetImageMemoryRequirements(_NativeLogicalDeviceHandle, _NativeDepthImageHandle, &MemoryRequirements);
 
-	VkPhysicalDeviceMemoryProperties MemoryProperties;
-	vkGetPhysicalDeviceMemoryProperties(_PhysicalDevice._NativePhysicalDeviceHandle, &MemoryProperties);
-
 	Elysium::Core::uint32_t MemoryTypeIndex = -1;
-	for (uint32_t i = 0; i < MemoryProperties.memoryTypeCount; i++)
+	for (uint32_t i = 0; i < _PhysicalDevice._NativeMemoryProperties.memoryTypeCount; i++)
 	{
 		if ((MemoryRequirements.memoryTypeBits & (1 << i)) &&
-			(MemoryProperties.memoryTypes[i].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+			(_PhysicalDevice._NativeMemoryProperties.memoryTypes[i].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
 		{
 			MemoryTypeIndex = i;
 			break;
@@ -561,7 +558,7 @@ VkImageView Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNative
 	ImageViewCreateInfo.flags = 0;
 	ImageViewCreateInfo.image = _NativeDepthImageHandle;
 	ImageViewCreateInfo.viewType = VkImageViewType::VK_IMAGE_VIEW_TYPE_2D;
-	ImageViewCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters.GetDesiredDepthFormat());
+	ImageViewCreateInfo.format = FormatConverterVk::Convert(_PresentationParameters._DesiredDepthStencilFormat);
 	ImageViewCreateInfo.subresourceRange.aspectMask = VkImageAspectFlagBits::VK_IMAGE_ASPECT_DEPTH_BIT;
 	ImageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
 	ImageViewCreateInfo.subresourceRange.baseMipLevel = 0;

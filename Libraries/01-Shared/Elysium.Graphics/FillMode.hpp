@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_CLEAROPTIONS
-#define ELYSIUM_GRAPHICS_RENDERING_CLEAROPTIONS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_FILLMODE
+#define ELYSIUM_GRAPHICS_RENDERING_FILLMODE
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,39 +23,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering
 {
 	/// <summary>
-	/// 
+	/// Describes options for filling the vertices and lines that define a primitive.
 	/// </summary>
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class ClearOptions : Elysium::Core::uint32_t
+	enum class FillMode : Elysium::Core::uint8_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class ClearOptions
+	enum class FillMode
 #else
 #error "undefined os"
 #endif
 	{
 		/// <summary>
-		/// 
+		/// ... solid
 		/// </summary>
-		Target = 1,
+		Fill = 0,
+
+		/// <summary>
+		/// ... wireframe
+		/// </summary>
+		Line = 1,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		DepthBuffer = 2,
-
-		/// <summary>
-		/// 
-		/// </summary>
-		Stencil = 4,
+		Point = 2,
 	};
-
-	inline ClearOptions operator|(const ClearOptions Left, const ClearOptions Right)
-	{
-		return static_cast<ClearOptions>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));
-	}
-	inline ClearOptions operator&(const ClearOptions Left, const ClearOptions Right)
-	{
-		return static_cast<ClearOptions>(static_cast<Elysium::Core::uint32_t>(Left) & static_cast<Elysium::Core::uint32_t>(Right));
-	}
 }
 #endif

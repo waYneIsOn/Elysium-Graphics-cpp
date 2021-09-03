@@ -75,7 +75,7 @@ namespace Elysium::Graphics
 		const Elysium::Core::uint32_t GetBackBufferCount() const;
 		const Elysium::Graphics::PresentMode GetPresentMode() const;
 		const Rendering::SurfaceFormat GetDesiredSurfaceFormat() const;
-		const Rendering::DepthFormat GetDesiredDepthFormat() const;
+		const Rendering::DepthFormat GetDesiredDepthStencilFormat() const;
 
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
@@ -86,7 +86,7 @@ namespace Elysium::Graphics
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
 		void SetDesiredSurfaceFormat(const Rendering::SurfaceFormat Value);
-		void SetDesiredDepthFormat(const Rendering::DepthFormat Value);
+		void SetDesiredDepthStencilFormat(const Rendering::DepthFormat Value);
 	protected:
 		// graphics api
 		Rendering::Native::INativeGraphicsAPI& _NativeGraphicsAPI;
@@ -104,11 +104,10 @@ namespace Elysium::Graphics
 		Elysium::Core::uint32_t _BackBufferHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
 		Elysium::Core::uint32_t _BackBufferCount = GraphicsDeviceManager::DefaultBackBufferCount;
 		Rendering::SurfaceFormat _DesiredSurfaceFormat = Rendering::SurfaceFormat::B8G8R8A8_sRGB;
-		Rendering::DepthFormat _DesiredDepthFormat = Rendering::DepthFormat::Depth32Stencil8;
+		Rendering::DepthFormat _DesiredDepthStencilFormat = Rendering::DepthFormat::Depth32Stencil8;
 
 		// ...
-		Elysium::Core::uint32_t _GameFramerateLimit = 240;
-		Elysium::Core::uint32_t _MenuFramerateLimit = 60;
+		Elysium::Core::uint32_t _ActiveFramerateLimit = 240;
 		Elysium::Core::uint32_t _InactiveFramerateLimit = 15;
 	};
 }

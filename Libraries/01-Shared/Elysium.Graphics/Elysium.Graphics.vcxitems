@@ -26,10 +26,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentLoadException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ContentReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CullMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DepthFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DisplayOrientation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FillMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FrameBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTime.hpp" />
@@ -53,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeVertexBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexElementSize.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IVertexType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyboardState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyState.hpp" />
@@ -60,6 +63,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RasterizerState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShaderModule.hpp" />
@@ -68,6 +72,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexDeclaration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexElement.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElementFormat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElementUsage.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexPositionColor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)APINotAvailableException.cpp" />
@@ -89,11 +96,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyboardState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Queue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RasterizerState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShaderModule.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexDeclaration.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexElement.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexPositionColor.cpp" />
   </ItemGroup>
 </Project>

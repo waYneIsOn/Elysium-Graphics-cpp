@@ -57,6 +57,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
 
+		virtual void RecordSetVertexBuffer(const Native::INativeVertexBuffer& VertexBuffer) override;
+
 		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
 		
 		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer, const BlitFilter Filter) override;

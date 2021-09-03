@@ -57,6 +57,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class FrameBufferVk;
 		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
+		friend class VertexBufferVk;
 	public:
 		PhysicalDeviceVk(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk(PhysicalDeviceVk&& Right) noexcept = delete;
@@ -80,6 +81,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkPhysicalDevice _NativePhysicalDeviceHandle;
 		PhysicalDevicePropertiesVk _Properties;
 		PhysicalDeviceFeaturesVk _Features;
+		VkPhysicalDeviceMemoryProperties _NativeMemoryProperties;
 	};
 }
 #endif

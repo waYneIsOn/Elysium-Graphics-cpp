@@ -108,13 +108,10 @@ VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNative
 	{
 		vkGetImageMemoryRequirements(_GraphicsDevice._NativeLogicalDeviceHandle, _NativeImages[i], &MemoryRequirements[i]);
 
-		VkPhysicalDeviceMemoryProperties MemoryProperties;
-		vkGetPhysicalDeviceMemoryProperties(_GraphicsDevice._PhysicalDevice._NativePhysicalDeviceHandle, &MemoryProperties);
-
-		for (uint32_t j = 0; j < MemoryProperties.memoryTypeCount; j++)
+		for (uint32_t j = 0; j < _GraphicsDevice._PhysicalDevice._NativeMemoryProperties.memoryTypeCount; j++)
 		{
 			if ((MemoryRequirements[i].memoryTypeBits & (1 << j)) &&
-				(MemoryProperties.memoryTypes[j].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+				(_GraphicsDevice._PhysicalDevice._NativeMemoryProperties.memoryTypes[j].propertyFlags & VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) == VkMemoryPropertyFlagBits::VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
 			{
 				MemoryTypeIndex = j;
 				break;

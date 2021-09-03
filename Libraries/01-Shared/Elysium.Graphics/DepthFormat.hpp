@@ -22,6 +22,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Graphics::Rendering
 {
+	/// <summary>
+	/// 
+	/// </summary>
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	enum class DepthFormat : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
@@ -30,16 +33,34 @@ namespace Elysium::Graphics::Rendering
 #error "undefined os"
 #endif
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		None,
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Depth16,
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Depth16Stencil8,
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Depth24Stencil8,
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Depth32,
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Depth32Stencil8,
 	};
 }

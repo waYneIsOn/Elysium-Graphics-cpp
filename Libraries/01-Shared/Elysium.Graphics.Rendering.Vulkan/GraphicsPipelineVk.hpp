@@ -54,6 +54,8 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		GraphicsPipelineVk& operator=(const GraphicsPipelineVk& Source) = delete;
 		GraphicsPipelineVk& operator=(GraphicsPipelineVk&& Right) noexcept = delete;
 
+		virtual RasterizerState& GetRasterizerState() override;
+
 		virtual void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width,
 			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth) override;
 		virtual void ClearViewports() override;
@@ -65,27 +67,33 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void AddShaderModule(const Native::INativeShaderModule& ShaderModule, const ShaderModuleType Type) override;
 		virtual void ClearShaderModules() override;
 
+		virtual void SetVertexBuffer(const Native::INativeVertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset) override;
+
 		virtual void Build(const Native::INativeRenderPass& RenderPass) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
+		RasterizerState _RasterizerState;
+
 		VkPipelineLayout _NativePipelineLayoutHandle;
-		
-		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
-		VkPipelineVertexInputStateCreateInfo _VertexInputState;
-		VkPipelineInputAssemblyStateCreateInfo _InputAssembly;
+		VkPipeline _NativePipelineHandle;
+
 		Elysium::Core::Collections::Template::List<VkViewport> _Viewports;
 		Elysium::Core::Collections::Template::List<VkRect2D> _ScissorRectangles;
-		VkPipelineRasterizationStateCreateInfo _Rasterizer;
+		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
+
+		Elysium::Core::Collections::Template::List<VkVertexInputBindingDescription> _InputBindingDescriptions;
+		Elysium::Core::Collections::Template::List<VkVertexInputAttributeDescription> _InputAttributeDescriptions;
+		VkPipelineVertexInputStateCreateInfo _PipelineVertexInputStateCreateInfo;
+
+		VkPipelineInputAssemblyStateCreateInfo _InputAssembly;
 		VkPipelineMultisampleStateCreateInfo _Multisampling;
 		VkPipelineColorBlendAttachmentState _ColorBlendAttachment;
 		VkPipelineColorBlendStateCreateInfo _ColorBlend;
 
-		VkPipeline _NativePipelineHandle;
-
 		VkPipelineLayout CreatePipelineLayout();
+
 		VkPipelineVertexInputStateCreateInfo CreateDefaultVertexInputStateCreateInfo();
 		VkPipelineInputAssemblyStateCreateInfo CreateDefaultInputAssemblyStateCreateInfo();
-		VkPipelineRasterizationStateCreateInfo CreateDefaultRasterizationStateCreateInfo();
 		VkPipelineMultisampleStateCreateInfo CreateDefaultMultisampleStateCreateInfo();
 		VkPipelineColorBlendAttachmentState CreateDefaultColorBlendAttachment();
 		VkPipelineColorBlendStateCreateInfo CreateDefaultColorBlendStateCreateInfo();

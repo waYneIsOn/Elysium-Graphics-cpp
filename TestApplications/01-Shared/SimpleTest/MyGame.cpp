@@ -23,8 +23,9 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_RenderPipeline(_GraphicsDevice),
 	_FullScreenTriangleVertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Vertex.spv")),
 	_FullScreenTriangleFragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Fragment.spv")),
-	//_VertexDeclaration(32), _VertexBuffer(_GraphicsDevice, _VertexDeclaration, 0, Elysium::Graphics::Rendering::BufferUsage::None),
-	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.spv")),
+	_Vertices(CreateVertices()), _VertexBuffer(CreateVertexBuffer()),
+
+	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.Buffer.Vert.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
 {
 	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
@@ -65,8 +66,31 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Move(Data));
 }
 
+Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> MyGame::CreateVertices()
+{
+	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> Vertices =
+	{
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.0f, -0.9f, 0.0f), Elysium::Graphics::Color::Red),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Green),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Blue)
+	};
+
+	return Vertices;
+}
+
+Elysium::Graphics::Rendering::VertexBuffer MyGame::CreateVertexBuffer()
+{
+	return Elysium::Graphics::Rendering::VertexBuffer(_GraphicsDevice, _Vertices[0].GetVertexDeclaration(), 
+		_Vertices.GetLength(), Elysium::Graphics::Rendering::BufferUsage::WriteOnly);
+}
+
 void MyGame::PrepareGraphicsPipeline()
 {
+	/*
+	Elysium::Graphics::Rendering::RasterizerState& RasterizerState = _RenderPipeline.GetRasterizerState();
+	RasterizerState.SetFillMode(Elysium::Graphics::Rendering::FillMode::Line);
+	RasterizerState.SetLineWidth(20.0f);
+	*/
 	const Elysium::Core::uint32_t FrameBufferWidth = _FrameBuffer.GetWidth();
 	const Elysium::Core::uint32_t FrameBufferHeight = _FrameBuffer.GetHeight();
 
@@ -75,7 +99,10 @@ void MyGame::PrepareGraphicsPipeline()
 
 	_RenderPipeline.ClearScissorRectangles();
 	_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth, FrameBufferHeight);
-
+	
+	_VertexBuffer.SetData(&_Vertices[0], _Vertices.GetLength());
+	_RenderPipeline.SetVertexBuffer(_VertexBuffer);
+	
 	_RenderPipeline.Build(_MainRenderPass);
 }
 
@@ -94,7 +121,9 @@ void MyGame::PreparePrimaryCommandBuffer()
 	_CommandBuffer.RecordBeginRenderPass(_MainRenderPass, _FrameBuffer, Elysium::Graphics::Color::CornflowerBlue, 0.0f, 0);
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
 	_CommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
-	_CommandBuffer.RecordDraw(3, 1, 0, 0);
+	_CommandBuffer.RecordSetVertexBuffer(_VertexBuffer);
+	_CommandBuffer.RecordDraw(_Vertices.GetLength(), 1, 0, 0);
+	//_CommandBuffer.RecordDraw(3, 1, 0, 0);
 	_CommandBuffer.RecordEndRenderPass();
 
 	_CommandBuffer.RecordBlit(_FrameBuffer, Elysium::Graphics::Rendering::BlitFilter::Nearest);

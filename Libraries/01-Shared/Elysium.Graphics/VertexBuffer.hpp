@@ -33,8 +33,11 @@ namespace Elysium::Graphics::Rendering
 	/// </summary>
 	class ELYSIUM_GRAPHICS_API VertexBuffer final
 	{
+		friend class CommandBuffer;
+		friend class GraphicsPipeline;
 	public:
-		VertexBuffer(const GraphicsDevice& GraphicsDevice, const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage);
+		VertexBuffer(const GraphicsDevice& GraphicsDevice, const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, 
+			const BufferUsage Usage);
 		VertexBuffer(const VertexBuffer& Source) = delete;
 		VertexBuffer(VertexBuffer&& Right) noexcept = delete;
 		~VertexBuffer();
@@ -45,10 +48,8 @@ namespace Elysium::Graphics::Rendering
 		const BufferUsage GetBufferUsage() const;
 		const Elysium::Core::uint32_t GetVertexCount() const;
 		const VertexDeclaration& GetVertexDeclaration() const;
-		/*
-		template <class T>
-		void SetData();
-		*/
+
+		void SetData(const IVertexType* First, const size_t Length);
 	private:
 		const GraphicsDevice& _GraphicsDevice;
 

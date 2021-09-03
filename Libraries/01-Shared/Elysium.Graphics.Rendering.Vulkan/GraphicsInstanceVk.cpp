@@ -197,12 +197,11 @@ Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan
 		PhysicalGraphicsDevices[i]._NativePhysicalDeviceHandle = Devices[i];
 		vkGetPhysicalDeviceProperties(PhysicalGraphicsDevices[i]._NativePhysicalDeviceHandle, &PhysicalGraphicsDevices[i]._Properties._NativeProperties);
 		vkGetPhysicalDeviceFeatures(PhysicalGraphicsDevices[i]._NativePhysicalDeviceHandle, &PhysicalGraphicsDevices[i]._Features._NativeFeatures);
-
+		vkGetPhysicalDeviceMemoryProperties(PhysicalGraphicsDevices[i]._NativePhysicalDeviceHandle, &PhysicalGraphicsDevices[i]._NativeMemoryProperties);
 		// ToDo:
 		//vkGetPhysicalDeviceFormatProperties()
 		//vkGetPhysicalDeviceImageFormatProperties()
 		//vkGetPhysicalDeviceQueueFamilyProperties()
-		//vkGetPhysicalDeviceMemoryProperties()
 		// etc.
 	}
 

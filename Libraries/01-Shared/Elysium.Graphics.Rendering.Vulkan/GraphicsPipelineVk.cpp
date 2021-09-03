@@ -4,23 +4,38 @@
 #include "ExceptionVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_FORMATCONVERTERVK
+#include "FormatConverterVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SHADERMODULEVK
 #include "ShaderModuleVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_VERTEXBUFFERVK
+#include "VertexBufferVk.hpp"
+#endif
+
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::GraphicsPipelineVk(const GraphicsDeviceVk& GraphicsDevice)
-	: _GraphicsDevice(GraphicsDevice), 
-	_NativePipelineLayoutHandle(CreatePipelineLayout()), _ShaderStages(),
-	_VertexInputState(CreateDefaultVertexInputStateCreateInfo()), _InputAssembly(CreateDefaultInputAssemblyStateCreateInfo()),
-	_Viewports(), _ScissorRectangles(),
-	_Rasterizer(CreateDefaultRasterizationStateCreateInfo()), _Multisampling(CreateDefaultMultisampleStateCreateInfo()),
-	_ColorBlendAttachment(CreateDefaultColorBlendAttachment()), _ColorBlend(CreateDefaultColorBlendStateCreateInfo()),
-	_NativePipelineHandle(VK_NULL_HANDLE)
+	: _GraphicsDevice(GraphicsDevice), _RasterizerState(),
+	_NativePipelineLayoutHandle(CreatePipelineLayout()), _NativePipelineHandle(VK_NULL_HANDLE),
+	_Viewports(), _ScissorRectangles(), _ShaderStages(),
+
+	_InputBindingDescriptions(), _InputAttributeDescriptions(),	_PipelineVertexInputStateCreateInfo(CreateDefaultVertexInputStateCreateInfo()),
+	
+	_InputAssembly(CreateDefaultInputAssemblyStateCreateInfo()),
+	_Multisampling(CreateDefaultMultisampleStateCreateInfo()), _ColorBlendAttachment(CreateDefaultColorBlendAttachment()), 
+	_ColorBlend(CreateDefaultColorBlendStateCreateInfo())
 { }
 Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::~GraphicsPipelineVk()
 {
 	DestroyNativePipeline();
 	DestroyNativePipelineLayout();
+}
+
+Elysium::Graphics::Rendering::RasterizerState& Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::GetRasterizerState()
+{
+	return _RasterizerState;
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth)
@@ -76,8 +91,48 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearShaderModule
 	_ShaderStages.Clear();
 }
 
+void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::SetVertexBuffer(const Native::INativeVertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset)
+{
+	const VertexBufferVk& VkVertexBuffer = static_cast<const VertexBufferVk&>(VertexBuffer);
+	const Elysium::Graphics::Rendering::VertexDeclaration& VertexDeclaration = VkVertexBuffer.GetVertexDeclaration();
+
+	_InputBindingDescriptions.Clear();
+	_InputAttributeDescriptions.Clear();
+
+	VkVertexInputBindingDescription InputBindingDescription = VkVertexInputBindingDescription();
+	InputBindingDescription.binding = 0;
+	InputBindingDescription.stride = VertexDeclaration.GetVertexStride();
+	InputBindingDescription.inputRate = VkVertexInputRate::VK_VERTEX_INPUT_RATE_VERTEX;
+	_InputBindingDescriptions.Add(InputBindingDescription);
+
+	const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexElement>& VertexElements = VertexDeclaration.GetElements();
+	const size_t VertexElementsLength = VertexElements.GetLength();
+	Elysium::Core::Collections::Template::Array<VkVertexInputAttributeDescription> InputAttributeDescriptions =
+		Elysium::Core::Collections::Template::Array<VkVertexInputAttributeDescription>(VertexElementsLength);
+	for (size_t i = 0; i < VertexElementsLength; i++)
+	{
+		InputAttributeDescriptions[i].location = i;
+		InputAttributeDescriptions[i].offset = VertexElements[i].GetOffset();
+		InputAttributeDescriptions[i].binding = VertexElements[i].GetUsageIndex();
+		InputAttributeDescriptions[i].format = FormatConverterVk::Convert(VertexElements[i].GetFormat());
+	}
+	_InputAttributeDescriptions.AddRange(&InputAttributeDescriptions[0], InputAttributeDescriptions.GetLength());
+
+	_PipelineVertexInputStateCreateInfo = VkPipelineVertexInputStateCreateInfo();
+	_PipelineVertexInputStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	_PipelineVertexInputStateCreateInfo.pNext = nullptr;
+	_PipelineVertexInputStateCreateInfo.flags = 0;
+	_PipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = VertexElementsLength;
+	_PipelineVertexInputStateCreateInfo.pVertexAttributeDescriptions = VertexElementsLength  == 0 ? nullptr : &_InputAttributeDescriptions[0];
+	_PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = _InputBindingDescriptions.GetCount();
+	_PipelineVertexInputStateCreateInfo.pVertexBindingDescriptions = _PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount == 0 ?
+		nullptr : &_InputBindingDescriptions[0];
+}
+
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Native::INativeRenderPass& RenderPass)
 {
+	DestroyNativePipeline();
+
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 
 	const size_t ViewportCount = _Viewports.GetCount();
@@ -97,6 +152,22 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Nativ
 	ViewportStateCreateInfo.scissorCount = ScissorRectangleCount;
 	ViewportStateCreateInfo.pScissors = ScissorRectangleCount == 0 ? nullptr : &_ScissorRectangles[0];
 
+	VkPipelineRasterizationStateCreateInfo PipelineRasterizationStateCreateInfo = VkPipelineRasterizationStateCreateInfo();
+	PipelineRasterizationStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+	PipelineRasterizationStateCreateInfo.pNext = nullptr;
+	PipelineRasterizationStateCreateInfo.flags = 0;
+	PipelineRasterizationStateCreateInfo.polygonMode = FormatConverterVk::Convert(_RasterizerState.GetFillMode());
+	PipelineRasterizationStateCreateInfo.lineWidth = _RasterizerState.GetLineWidth();
+	// ToDo: _RasterizerState -> PipelineRasterizationStateCreateInfo
+	PipelineRasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
+	PipelineRasterizationStateCreateInfo.rasterizerDiscardEnable = VK_FALSE;
+	PipelineRasterizationStateCreateInfo.cullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
+	PipelineRasterizationStateCreateInfo.frontFace = VkFrontFace::VK_FRONT_FACE_CLOCKWISE;
+	PipelineRasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
+	PipelineRasterizationStateCreateInfo.depthBiasClamp = 0.0f;
+	PipelineRasterizationStateCreateInfo.depthBiasConstantFactor = 0.0f;
+	PipelineRasterizationStateCreateInfo.depthBiasSlopeFactor = 0.0f;
+
 	VkGraphicsPipelineCreateInfo PipelineCreateInfo = VkGraphicsPipelineCreateInfo();
 	PipelineCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	PipelineCreateInfo.pNext = nullptr;
@@ -104,10 +175,10 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Nativ
 	PipelineCreateInfo.layout = _NativePipelineLayoutHandle;
 	PipelineCreateInfo.stageCount = ShaderCount;
 	PipelineCreateInfo.pStages = ShaderCount == 0 ? nullptr : &_ShaderStages[0];
-	PipelineCreateInfo.pVertexInputState = &_VertexInputState;
+	PipelineCreateInfo.pVertexInputState = &_PipelineVertexInputStateCreateInfo;
 	PipelineCreateInfo.pInputAssemblyState = &_InputAssembly;
 	PipelineCreateInfo.pViewportState = &ViewportStateCreateInfo;
-	PipelineCreateInfo.pRasterizationState = &_Rasterizer;
+	PipelineCreateInfo.pRasterizationState = &PipelineRasterizationStateCreateInfo;
 	PipelineCreateInfo.pMultisampleState = &_Multisampling;
 	PipelineCreateInfo.pColorBlendState = &_ColorBlend;
 	PipelineCreateInfo.renderPass = VkRenderPass._NativeRenderPassHandle;
@@ -164,26 +235,6 @@ VkPipelineInputAssemblyStateCreateInfo Elysium::Graphics::Rendering::Vulkan::Gra
 	CreateInfo.flags = 0;
 	CreateInfo.primitiveRestartEnable = VK_FALSE;
 	CreateInfo.topology = VkPrimitiveTopology::VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-	return CreateInfo;
-}
-
-VkPipelineRasterizationStateCreateInfo Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::CreateDefaultRasterizationStateCreateInfo()
-{
-	VkPipelineRasterizationStateCreateInfo CreateInfo = VkPipelineRasterizationStateCreateInfo();
-	CreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-	CreateInfo.pNext = nullptr;
-	CreateInfo.flags = 0;
-	CreateInfo.depthClampEnable = VK_FALSE;
-	CreateInfo.rasterizerDiscardEnable = VK_FALSE;
-	CreateInfo.cullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
-	CreateInfo.frontFace = VkFrontFace::VK_FRONT_FACE_CLOCKWISE;
-	CreateInfo.depthBiasEnable = VK_FALSE;
-	CreateInfo.depthBiasClamp = 0.0f;
-	CreateInfo.depthBiasConstantFactor = 0.0f;
-	CreateInfo.depthBiasSlopeFactor = 0.0f;
-	CreateInfo.lineWidth = 1.0f;
-	CreateInfo.polygonMode = VkPolygonMode::VK_POLYGON_MODE_FILL;
 
 	return CreateInfo;
 }

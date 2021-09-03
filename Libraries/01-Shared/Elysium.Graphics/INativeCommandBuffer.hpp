@@ -44,6 +44,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeShaderModule.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEVERTEXBUFFER
+#include "INativeVertexBuffer.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering::Native
 {
 	class ELYSIUM_GRAPHICS_API INativeCommandBuffer
@@ -62,6 +66,8 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual void RecordEndRenderPass() = 0;
 
 		virtual void RecordSetGraphicsPipeline(const INativeGraphicsPipeline& GraphicsPipeline) = 0;
+
+		virtual void RecordSetVertexBuffer(const INativeVertexBuffer& VertexBuffer) = 0;
 
 		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) = 0;
 		//virtual void RecordDrawPrimitives() = 0;

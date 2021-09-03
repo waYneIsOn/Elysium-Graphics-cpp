@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_GRAPHICS_RENDERING_CLEAROPTIONS
-#define ELYSIUM_GRAPHICS_RENDERING_CLEAROPTIONS
+#ifndef ELYSIUM_GRAPHICS_RENDERING_CULLMODE
+#define ELYSIUM_GRAPHICS_RENDERING_CULLMODE
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,39 +23,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Graphics::Rendering
 {
 	/// <summary>
-	/// 
+	/// Defines winding orders that may be used to identify back faces for culling.
 	/// </summary>
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class ClearOptions : Elysium::Core::uint32_t
+	enum class CullMode : Elysium::Core::uint8_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class ClearOptions
+	enum class CullMode
 #else
 #error "undefined os"
 #endif
 	{
 		/// <summary>
-		/// 
+		/// Do not cull back faces.
 		/// </summary>
-		Target = 1,
+		None = 0,
 
 		/// <summary>
-		/// 
+		/// Cull back faces with clockwise vertices.
 		/// </summary>
-		DepthBuffer = 2,
+		CullClockwiseFace = 1,
 
 		/// <summary>
-		/// 
+		/// Cull back faces with counterclockwise vertices.
 		/// </summary>
-		Stencil = 4,
+		CullCounterClockwiseFace = 2,
 	};
-
-	inline ClearOptions operator|(const ClearOptions Left, const ClearOptions Right)
-	{
-		return static_cast<ClearOptions>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));
-	}
-	inline ClearOptions operator&(const ClearOptions Left, const ClearOptions Right)
-	{
-		return static_cast<ClearOptions>(static_cast<Elysium::Core::uint32_t>(Left) & static_cast<Elysium::Core::uint32_t>(Right));
-	}
 }
 #endif

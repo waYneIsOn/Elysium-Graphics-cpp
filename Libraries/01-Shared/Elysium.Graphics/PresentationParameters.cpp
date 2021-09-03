@@ -56,9 +56,9 @@ const Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Presentatio
 	return _DesiredSurfaceFormat;
 }
 
-const Elysium::Graphics::Rendering::DepthFormat Elysium::Graphics::PresentationParameters::GetDesiredDepthFormat() const
+const Elysium::Graphics::Rendering::DepthFormat Elysium::Graphics::PresentationParameters::GetDesiredDepthStencilFormat() const
 {
-	return _DesiredDepthFormat;
+	return _DesiredDepthStencilFormat;
 }
 
 void Elysium::Graphics::PresentationParameters::SetDisplayMode(const Elysium::Graphics::DisplayMode Value)
@@ -121,7 +121,7 @@ void Elysium::Graphics::PresentationParameters::SetDesiredSurfaceFormat(const Re
 	_DesiredSurfaceFormat = Value;
 }
 
-void Elysium::Graphics::PresentationParameters::SetDesiredDepthFormat(const Rendering::DepthFormat Value)
+void Elysium::Graphics::PresentationParameters::SetDesiredDepthStencilFormat(const Rendering::DepthFormat Value)
 {
-	_DesiredDepthFormat = Value;
+	_DesiredDepthStencilFormat = Value;
 }

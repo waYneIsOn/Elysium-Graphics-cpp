@@ -20,8 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/BlitFilter.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_CULLMODE
+#include "../Elysium.Graphics/CullMode.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_DEPTHFORMAT
 #include "../Elysium.Graphics/DepthFormat.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_FILLMODE
+#include "../Elysium.Graphics/FillMode.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
@@ -30,6 +38,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SURFACEFORMAT
 #include "../Elysium.Graphics/SurfaceFormat.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXELEMENTFORMAT
+#include "../Elysium.Graphics/VertexElementFormat.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
@@ -58,6 +70,9 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		static VkFormat Convert(const SurfaceFormat Value);
 		static VkFormat Convert(const DepthFormat Value);
 		static VkFilter Convert(const BlitFilter Value);
+		//static VkPolygonMode Convert(const CullMode Value);
+		static VkPolygonMode Convert(const FillMode Value);
+		static VkFormat Convert(const VertexElementFormat Value);
 
 		static SurfaceFormat ToSurfaceFormat(const VkFormat Value);
 		static DepthFormat ToDepthFormat(const VkFormat Value);

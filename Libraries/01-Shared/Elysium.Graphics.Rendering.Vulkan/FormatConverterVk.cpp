@@ -87,6 +87,62 @@ VkFilter Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 	}
 }
 
+VkPolygonMode Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const FillMode Value)
+{
+	switch (Value)
+	{
+	case FillMode::Fill:
+		return VkPolygonMode::VK_POLYGON_MODE_FILL;
+	case FillMode::Line:
+		return VkPolygonMode::VK_POLYGON_MODE_LINE;
+	case FillMode::Point:
+		return VkPolygonMode::VK_POLYGON_MODE_POINT;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled FillMode.");
+	}
+}
+
+VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const VertexElementFormat Value)
+{
+	switch (Value)
+	{
+	case VertexElementFormat::Single:
+		return VkFormat::VK_FORMAT_R32_SFLOAT;
+	case VertexElementFormat::Double:
+		return VkFormat::VK_FORMAT_R64_SFLOAT;
+	case VertexElementFormat::Vector2Single:
+		return VkFormat::VK_FORMAT_R32G32_SFLOAT;
+	case VertexElementFormat::Vector2Double:
+		return VkFormat::VK_FORMAT_R64G64_SFLOAT;
+	case VertexElementFormat::Vector3Single:
+		return VkFormat::VK_FORMAT_R32G32B32_SFLOAT;
+	case VertexElementFormat::Vector3Double:
+		return VkFormat::VK_FORMAT_R64G64B64_SFLOAT;
+	case VertexElementFormat::Vector4Single:
+		return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
+	case VertexElementFormat::Vector4Double:
+		return VkFormat::VK_FORMAT_R64G64B64A64_SFLOAT;
+
+
+	case VertexElementFormat::Color:
+		return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
+
+
+		/*
+	case VertexElementFormat::Byte4:
+		return VkFormat::VK_FORMAT_UNDEFINED;
+	case VertexElementFormat::Short4:
+		return VkFormat::VK_FORMAT_UNDEFINED;
+	case VertexElementFormat::NormalizedShort2:
+		return VkFormat::VK_FORMAT_UNDEFINED;
+	case VertexElementFormat::NormalizedShort4:
+		return VkFormat::VK_FORMAT_UNDEFINED;
+		*/
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled VertexElementFormat.");
+	}
+}
+
 Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::ToSurfaceFormat(const VkFormat Value)
 {
 	switch (Value)

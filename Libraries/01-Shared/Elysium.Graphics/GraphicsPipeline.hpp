@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ShaderModule.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXBUFFER
+#include "VertexBuffer.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class GraphicsDevice;
@@ -44,6 +48,8 @@ namespace Elysium::Graphics::Rendering
 		GraphicsPipeline& operator=(const GraphicsPipeline& Source) = delete;
 		GraphicsPipeline& operator=(GraphicsPipeline&& Right) noexcept = delete;
 
+		RasterizerState& GetRasterizerState();
+
 		void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width,
 			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth);
 		void ClearViewports();
@@ -54,6 +60,9 @@ namespace Elysium::Graphics::Rendering
 
 		void AddShaderModule(const ShaderModule& ShaderModule, const ShaderModuleType Type);
 		void ClearShaderModules();
+
+		void SetVertexBuffer(const VertexBuffer& VertexBuffer);
+		void SetVertexBuffer(const VertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset);
 
 		void Build(const RenderPass& RenderPass);
 	private:

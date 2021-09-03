@@ -20,12 +20,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_RASTERIZERSTATE
+#include "RasterizerState.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
 #include "INativeShaderModule.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEVERTEXBUFFER
+#include "INativeVertexBuffer.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SHADERMODULETYPE
@@ -39,6 +47,8 @@ namespace Elysium::Graphics::Rendering::Native
 	public:
 		virtual ~INativeGraphicsPipeline() { }
 
+		virtual RasterizerState& GetRasterizerState() = 0;
+
 		virtual void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width, 
 			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth) = 0;
 		virtual void ClearViewports() = 0;
@@ -49,6 +59,8 @@ namespace Elysium::Graphics::Rendering::Native
 
 		virtual void AddShaderModule(const INativeShaderModule& ShaderModule, const ShaderModuleType Type) = 0;
 		virtual void ClearShaderModules() = 0;
+
+		virtual void SetVertexBuffer(const INativeVertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset) = 0;
 
 		virtual void Build(const INativeRenderPass& RenderPass) = 0;
 	};

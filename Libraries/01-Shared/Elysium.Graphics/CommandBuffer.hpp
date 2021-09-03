@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RenderPass.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXBUFFER
+#include "VertexBuffer.hpp"
+#endif
+
 namespace Elysium::Graphics::Rendering
 {
 	class GraphicsDevice;
@@ -74,6 +78,8 @@ namespace Elysium::Graphics::Rendering
 		void RecordEndRenderPass();
 
 		void RecordSetGraphicsPipeline(const GraphicsPipeline& GraphicsPipeline);
+
+		void RecordSetVertexBuffer(const VertexBuffer& VertexBuffer);
 
 		/// <summary>
 		/// Renders a sequence of non-indexed geometric primitives of the specified type from the current set of data input streams.

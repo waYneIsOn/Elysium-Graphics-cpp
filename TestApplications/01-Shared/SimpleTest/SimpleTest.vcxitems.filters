@@ -27,5 +27,8 @@
     <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\FullScreenTriangle.vert">
       <Filter>Assets\Vulkan</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Assets\Vulkan\VertexShader.Buffer.Vert.vert">
+      <Filter>Assets\Vulkan</Filter>
+    </None>
   </ItemGroup>
 </Project>

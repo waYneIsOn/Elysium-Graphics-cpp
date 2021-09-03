@@ -155,6 +155,27 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BlitFilter.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RasterizerState.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FillMode.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CullMode.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexPositionColor.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IVertexType.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElementFormat.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VertexElementUsage.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -216,6 +237,12 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexElement.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RasterizerState.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VertexPositionColor.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
