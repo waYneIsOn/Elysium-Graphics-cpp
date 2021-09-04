@@ -50,9 +50,21 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordSetVertexBuffer(const Ve
 	_NativeCommandBuffer->RecordSetVertexBuffer(*VertexBuffer._NativeVertexBuffer);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordSetIndexBuffer(const IndexBuffer& IndexBuffer)
 {
-	_NativeCommandBuffer->RecordDraw(VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	_NativeCommandBuffer->RecordSetIndexBuffer(*IndexBuffer._NativeIndexBuffer);
+}
+
+void Elysium::Graphics::Rendering::CommandBuffer::RecordDrawPrimitives(const Elysium::Core::uint32_t VertexCount, const Elysium::Core::uint32_t InstanceCount, const Elysium::Core::uint32_t FirstVertex, const Elysium::Core::uint32_t FirstInstance)
+{
+	_NativeCommandBuffer->RecordDrawPrimitives(VertexCount, InstanceCount, FirstVertex, FirstInstance);
+}
+
+void Elysium::Graphics::Rendering::CommandBuffer::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType,
+	const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices,
+	const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
+{
+	_NativeCommandBuffer->RecordDrawIndexedPrimitives(PrimitiveType, BaseVertex, MinimumVertexIndex, NumberVertices, StartIndex, NumberIndices);
 }
 
 void Elysium::Graphics::Rendering::CommandBuffer::RecordBlit(const FrameBuffer& FrameBuffer, const BlitFilter Filter)

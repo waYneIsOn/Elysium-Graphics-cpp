@@ -24,6 +24,10 @@
 #include "GraphicsPipelineVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INDEXBUFFERVK
+#include "IndexBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_RENDERPASSVK
 #include "RenderPassVk.hpp"
 #endif
@@ -181,11 +185,32 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSetVertexBuffe
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordSetIndexBuffer(const Native::INativeIndexBuffer& IndexBuffer)
+{
+	const IndexBufferVk& VkIndexBuffer = static_cast<const IndexBufferVk&>(IndexBuffer);
+
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdBindIndexBuffer(_NativeCommandBufferHandles[i], VkIndexBuffer._NativeIndexBuffer, 0, FormatConverterVk::Convert(VkIndexBuffer.GetIndexElementSize()));
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDrawPrimitives(const Elysium::Core::uint32_t VertexCount, const Elysium::Core::uint32_t InstanceCount, const Elysium::Core::uint32_t FirstVertex, const Elysium::Core::uint32_t FirstInstance)
 {
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
 	{
 		vkCmdDraw(_NativeCommandBufferHandles[i], VertexCount, InstanceCount, FirstVertex, FirstInstance);
+	}
+}
+
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType,
+	const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, 
+	const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
+{
+	// ToDo: match parameters to vkCmdDrawIndexed-parameters
+	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)
+	{
+		vkCmdDrawIndexed(_NativeCommandBufferHandles[i], NumberIndices, 1, StartIndex, 0, 0);
 	}
 }
 

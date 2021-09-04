@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeGraphicsPipeline.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INDEXBUFFER
+#include "IndexBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_RENDERPASS
 #include "RenderPass.hpp"
 #endif

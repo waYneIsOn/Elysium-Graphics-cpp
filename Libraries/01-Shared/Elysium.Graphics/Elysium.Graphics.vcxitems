@@ -53,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeSemaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)INativeVertexBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexElementSize.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Key.hpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PhysicalDeviceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentationParameters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PresentMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PrimitiveType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RasterizerState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RenderPass.hpp" />
@@ -91,6 +93,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsDeviceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GraphicsPipeline.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IndexBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InputFrame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyboardState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PresentationParameters.cpp" />

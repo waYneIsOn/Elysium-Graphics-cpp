@@ -173,6 +173,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VertexElementUsage.hpp">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexBuffer.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PrimitiveType.hpp">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
@@ -240,6 +246,9 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)VertexPositionColor.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)IndexBuffer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>

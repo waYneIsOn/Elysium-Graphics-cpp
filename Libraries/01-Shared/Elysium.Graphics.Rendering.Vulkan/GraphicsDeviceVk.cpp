@@ -20,6 +20,10 @@
 #include "GraphicsPipelineVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INDEXBUFFERVK
+#include "IndexBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SHADERMODULEVK
 #include "ShaderModuleVk.hpp"
 #endif
@@ -116,6 +120,11 @@ Elysium::Graphics::Rendering::Native::INativeGraphicsPipeline* Elysium::Graphics
 Elysium::Graphics::Rendering::Native::INativeVertexBuffer* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage)
 {
 	return new VertexBufferVk(*this, Declaration, VertexCount, Usage);
+}
+
+Elysium::Graphics::Rendering::Native::INativeIndexBuffer* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateIndexBuffer(const IndexElementSize ElementSize, const Elysium::Core::uint32_t IndexCount, const BufferUsage Usage)
+{
+	return new IndexBufferVk(*this, ElementSize, IndexCount, Usage);
 }
 
 Elysium::Graphics::Rendering::Native::INativeShaderModule* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode)

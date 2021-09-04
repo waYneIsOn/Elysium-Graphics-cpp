@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RasterizerState.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEINDEXBUFFER
+#include "INativeIndexBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif

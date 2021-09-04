@@ -139,6 +139,19 @@ VkFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const 
 	}
 }
 
+VkIndexType Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::Convert(const IndexElementSize Value)
+{
+	switch (Value)
+	{
+	case IndexElementSize::SixteenBits:
+		return VkIndexType::VK_INDEX_TYPE_UINT16;
+	case IndexElementSize::ThirtyTwoBits:
+		return VkIndexType::VK_INDEX_TYPE_UINT32;
+	default:
+		throw Elysium::Core::NotImplementedException(u8"Unhandled IndexElementSize.");
+	}
+}
+
 Elysium::Graphics::Rendering::SurfaceFormat Elysium::Graphics::Rendering::Vulkan::FormatConverterVk::ToSurfaceFormat(const VkFormat Value)
 {
 	switch (Value)

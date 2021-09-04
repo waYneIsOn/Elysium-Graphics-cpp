@@ -59,6 +59,7 @@ namespace Elysium::Graphics::Rendering
 		friend class FrameBuffer;
 		friend class GraphicsDeviceManager;
 		friend class GraphicsPipeline;
+		friend class IndexBuffer;
 		friend class Pipeline;
 		friend class RenderPass;
 		friend class ShaderModule;

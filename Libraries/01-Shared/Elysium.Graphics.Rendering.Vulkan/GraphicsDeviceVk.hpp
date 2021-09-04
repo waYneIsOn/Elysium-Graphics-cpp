@@ -62,6 +62,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class FenceVk;
 		friend class FrameBufferVk;
 		friend class GraphicsPipelineVk;
+		friend class IndexBufferVk;
 		friend class QueueVk;
 		friend class RenderPassVk;
 		friend class SemaphoreVk;
@@ -93,6 +94,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual Native::INativeGraphicsPipeline* CreateGraphicsPipeline() override;
 
 		virtual Native::INativeVertexBuffer* CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage) override;
+		virtual Native::INativeIndexBuffer* CreateIndexBuffer(const IndexElementSize ElementSize, const Elysium::Core::uint32_t IndexCount, const BufferUsage Usage) override;
 		virtual Native::INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) override;
 
 		virtual void Wait() const override;

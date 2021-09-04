@@ -24,6 +24,7 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_FullScreenTriangleVertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Vertex.spv")),
 	_FullScreenTriangleFragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FullScreenTriangle.Fragment.spv")),
 	_Vertices(CreateVertices()), _VertexBuffer(CreateVertexBuffer()),
+	_Indices(CreateIndices()), _IndexBuffer(CreateIndexBuffer()),
 
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.Buffer.Vert.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
@@ -68,20 +69,33 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 
 Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> MyGame::CreateVertices()
 {
-	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> Vertices =
+	return Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor>
 	{
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.0f, -0.9f, 0.0f), Elysium::Graphics::Color::Blue),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Green),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Red)
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, -0.5f, 0.0f), Elysium::Graphics::Color::White),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, -0.5f, 0.0f), Elysium::Graphics::Color::Gray),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, 0.5f, 0.0f), Elysium::Graphics::Color::Silver),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, 0.5f, 0.0f), Elysium::Graphics::Color::Black),
 	};
-
-	return Vertices;
 }
 
 Elysium::Graphics::Rendering::VertexBuffer MyGame::CreateVertexBuffer()
 {
 	return Elysium::Graphics::Rendering::VertexBuffer(_GraphicsDevice, _Vertices[0].GetVertexDeclaration(), 
 		_Vertices.GetLength(), Elysium::Graphics::Rendering::BufferUsage::WriteOnly);
+}
+
+Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> MyGame::CreateIndices()
+{
+	return Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t>
+	{
+		0, 1, 2, 2, 3, 0
+	};
+}
+
+Elysium::Graphics::Rendering::IndexBuffer MyGame::CreateIndexBuffer()
+{
+	return Elysium::Graphics::Rendering::IndexBuffer(_GraphicsDevice, Elysium::Graphics::Rendering::IndexElementSize::SixteenBits, _Indices.GetLength(),
+		Elysium::Graphics::Rendering::BufferUsage::WriteOnly);
 }
 
 void MyGame::PrepareGraphicsPipeline()
@@ -102,6 +116,8 @@ void MyGame::PrepareGraphicsPipeline()
 	
 	_VertexBuffer.SetData(&_Vertices[0], _Vertices.GetLength());
 	_RenderPipeline.SetVertexBuffer(_VertexBuffer);
+
+	_IndexBuffer.SetData(&_Indices[0], _Indices.GetLength());
 	
 	_RenderPipeline.Build(_MainRenderPass);
 }
@@ -122,8 +138,10 @@ void MyGame::PreparePrimaryCommandBuffer()
 	//_CommandBuffer.RecordSecondaryBuffer(_SecondaryCommandBuffer);
 	_CommandBuffer.RecordSetGraphicsPipeline(_RenderPipeline);
 	_CommandBuffer.RecordSetVertexBuffer(_VertexBuffer);
-	_CommandBuffer.RecordDraw(_Vertices.GetLength(), 1, 0, 0);
-	//_CommandBuffer.RecordDraw(3, 1, 0, 0);
+	//_CommandBuffer.RecordDrawPrimitives(_Vertices.GetLength(), 1, 0, 0);
+	//_CommandBuffer.RecordDrawPrimitives(3, 1, 0, 0);
+	_CommandBuffer.RecordSetIndexBuffer(_IndexBuffer);
+	_CommandBuffer.RecordDrawIndexedPrimitives(Elysium::Graphics::Rendering::PrimitiveType::TriangleList, 0, 0, _Vertices.GetLength(), 0, _Indices.GetLength());
 	_CommandBuffer.RecordEndRenderPass();
 
 	_CommandBuffer.RecordBlit(_FrameBuffer, Elysium::Graphics::Rendering::BlitFilter::Nearest);

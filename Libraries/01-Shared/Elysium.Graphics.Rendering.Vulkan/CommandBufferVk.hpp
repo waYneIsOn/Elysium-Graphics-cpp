@@ -59,7 +59,14 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		virtual void RecordSetVertexBuffer(const Native::INativeVertexBuffer& VertexBuffer) override;
 
-		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) override;
+		virtual void RecordSetIndexBuffer(const Native::INativeIndexBuffer& IndexBuffer) override;
+
+		virtual void RecordDrawPrimitives(const Elysium::Core::uint32_t VertexCount, const Elysium::Core::uint32_t InstanceCount, 
+			const Elysium::Core::uint32_t FirstVertex, const Elysium::Core::uint32_t FirstInstance) override;
+
+		virtual void RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType, const Elysium::Core::uint32_t BaseVertex,
+			const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, const Elysium::Core::uint32_t StartIndex,
+			const Elysium::Core::uint32_t NumberIndices) override;
 		
 		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer, const BlitFilter Filter) override;
 

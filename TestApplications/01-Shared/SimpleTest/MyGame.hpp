@@ -16,6 +16,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/CommandPool.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INDEXBUFFER
+#include "../../../Libraries/01-Shared/Elysium.Graphics/IndexBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_SHADERMODULE
 #include "../../../Libraries/01-Shared/Elysium.Graphics/ShaderModule.hpp"
 #endif
@@ -66,6 +70,8 @@ private:
 
 	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> _Vertices;
 	Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
+	Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> _Indices;
+	Elysium::Graphics::Rendering::IndexBuffer _IndexBuffer;
 
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
@@ -74,6 +80,8 @@ private:
 
 	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> CreateVertices();
 	Elysium::Graphics::Rendering::VertexBuffer CreateVertexBuffer();
+	Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> CreateIndices();
+	Elysium::Graphics::Rendering::IndexBuffer CreateIndexBuffer();
 
 	void PrepareGraphicsPipeline();
 	void PreparePrimaryCommandBuffer();

@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_BUFFERUSAGE
+#include "BufferUsage.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VERTEXDECLARATION
 #include "VertexDeclaration.hpp"
 #endif

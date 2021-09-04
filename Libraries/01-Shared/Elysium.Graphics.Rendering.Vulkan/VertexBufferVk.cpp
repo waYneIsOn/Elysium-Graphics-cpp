@@ -68,13 +68,13 @@ VkBuffer Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::CreateNativeVerte
 	BufferCreateInfo.pQueueFamilyIndices = nullptr;
 
 	VkResult Result;
-	VkBuffer Buffer;
-	if ((Result = vkCreateBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &Buffer)) != VK_NULL_HANDLE)
+	VkBuffer VertexBuffer;
+	if ((Result = vkCreateBuffer(_GraphicsDevice._NativeLogicalDeviceHandle, &BufferCreateInfo, nullptr, &VertexBuffer)) != VK_NULL_HANDLE)
 	{
 		throw ExceptionVk(Result);
 	}
 
-	return Buffer;
+	return VertexBuffer;
 }
 
 VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::CreateNativeVertexBufferMemory()

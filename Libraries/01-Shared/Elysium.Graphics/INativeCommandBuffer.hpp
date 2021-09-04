@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeGraphicsPipeline.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEINDEXBUFFER
+#include "INativeIndexBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVERENDERPASS
 #include "INativeRenderPass.hpp"
 #endif
@@ -46,6 +50,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEVERTEXBUFFER
 #include "INativeVertexBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_GRAPHICS_RENDERING_PRIMITIVETYPE
+#include "PrimitiveType.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering::Native
@@ -69,9 +77,14 @@ namespace Elysium::Graphics::Rendering::Native
 
 		virtual void RecordSetVertexBuffer(const INativeVertexBuffer& VertexBuffer) = 0;
 
-		virtual void RecordDraw(Elysium::Core::uint32_t VertexCount, Elysium::Core::uint32_t InstanceCount, Elysium::Core::uint32_t FirstVertex, Elysium::Core::uint32_t FirstInstance) = 0;
-		//virtual void RecordDrawPrimitives() = 0;
-		//virtual void RecordDrawIndexedPrimitives() = 0;
+		virtual void RecordSetIndexBuffer(const INativeIndexBuffer& IndexBuffer) = 0;
+
+		virtual void RecordDrawPrimitives(const Elysium::Core::uint32_t VertexCount, const Elysium::Core::uint32_t InstanceCount, 
+			const Elysium::Core::uint32_t FirstVertex, const Elysium::Core::uint32_t FirstInstance) = 0;
+
+		virtual void RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType, const Elysium::Core::uint32_t BaseVertex,
+			const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, const Elysium::Core::uint32_t StartIndex, 
+			const Elysium::Core::uint32_t NumberIndices) = 0;
 
 		virtual void RecordBlit(const INativeFrameBuffer& FrameBuffer, const BlitFilter Filter) = 0;
 

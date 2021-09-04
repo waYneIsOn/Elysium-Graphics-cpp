@@ -8,6 +8,10 @@
 #include "FormatConverterVk.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_INDEXBUFFERVK
+#include "IndexBufferVk.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_SHADERMODULEVK
 #include "ShaderModuleVk.hpp"
 #endif

@@ -28,7 +28,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class GraphicsDeviceVk;
 
-	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API VertexBufferVk : public Native::INativeVertexBuffer
+	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API VertexBufferVk final : public Native::INativeVertexBuffer
 	{
 		friend class CommandBufferVk;
 	public:

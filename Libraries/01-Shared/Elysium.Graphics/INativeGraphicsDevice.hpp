@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "INativeGraphicsAPI.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEINDEXBUFFER
+#include "INativeIndexBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
 #include "INativePhysicalDevice.hpp"
 #endif
@@ -87,6 +91,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual INativeGraphicsPipeline* CreateGraphicsPipeline() = 0;
 
 		virtual INativeVertexBuffer* CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage) = 0;
+		virtual INativeIndexBuffer* CreateIndexBuffer(const IndexElementSize ElementSize, const Elysium::Core::uint32_t IndexCount, const BufferUsage Usage) = 0;
 		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) = 0;
 
 		virtual void Wait() const = 0;

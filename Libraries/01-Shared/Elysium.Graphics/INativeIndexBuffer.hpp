@@ -39,7 +39,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual const Elysium::Core::uint32_t GetIndexCount() const = 0;
 		virtual const IndexElementSize GetIndexElementSize() const = 0;
 
-		//virtual void SetData() = 0;
+		virtual void SetData(const void* First, const size_t Length) = 0;
 	};
 }
 #endif

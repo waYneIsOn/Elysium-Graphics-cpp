@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Graphics/FillMode.hpp"
 #endif
 
+#ifndef ELYSIUM_GRAPHICS_RENDERING_INDEXELEMENTSIZE
+#include "../Elysium.Graphics/IndexElementSize.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_RENDERING_PHYSICALDEVICETYPE
 #include "../Elysium.Graphics/PhysicalDeviceType.hpp"
 #endif
@@ -73,6 +77,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		//static VkPolygonMode Convert(const CullMode Value);
 		static VkPolygonMode Convert(const FillMode Value);
 		static VkFormat Convert(const VertexElementFormat Value);
+		static VkIndexType Convert(const IndexElementSize Value);
 
 		static SurfaceFormat ToSurfaceFormat(const VkFormat Value);
 		static DepthFormat ToDepthFormat(const VkFormat Value);
