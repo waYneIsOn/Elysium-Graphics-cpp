@@ -13,7 +13,7 @@
 #endif
 
 Elysium::Graphics::Rendering::ShaderModule::ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Collections::Template::Array<Elysium::Core::byte>&& ByteCode)
-	: _GraphicsDevice(GraphicsDevice), _ByteCode(Elysium::Core::Template::Move(ByteCode)), _NativeShaderModule(_GraphicsDevice._NativeGraphicsDevice.CreateShaderModule(_ByteCode))
+	: _GraphicsDevice(GraphicsDevice), _ByteCode(Elysium::Core::Template::Functional::Move(ByteCode)), _NativeShaderModule(_GraphicsDevice._NativeGraphicsDevice.CreateShaderModule(_ByteCode))
 { }
 Elysium::Graphics::Rendering::ShaderModule::~ShaderModule()
 {

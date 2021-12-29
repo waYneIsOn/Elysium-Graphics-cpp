@@ -11,7 +11,7 @@
 Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::~PhysicalDeviceVk()
 { }
 
-const Elysium::Core::String Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetName() const
+const Elysium::Core::Utf8String Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetName() const
 {
 	return (char8_t*)_Properties._NativeProperties.deviceName;
 }

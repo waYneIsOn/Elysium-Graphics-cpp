@@ -66,9 +66,9 @@ namespace Elysium::Graphics::Presentation
 
 		virtual const void* GetHandle() const override;
 		//virtual const bool GetIsActive() const = 0;
-		//const Elysium::Core::String& GetName() const;
+		//const Elysium::Core::Utf8String& GetName() const;
 
-		//void SetName(const Elysium::Core::String& Value);
+		//void SetName(const Elysium::Core::Utf8String& Value);
 
 		virtual void Show() override;
 		//const bool ShowDialog();

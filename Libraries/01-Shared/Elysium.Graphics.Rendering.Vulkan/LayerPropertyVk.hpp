@@ -33,17 +33,24 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsInstanceVk;
 	public:
 		LayerPropertyVk();
+
 		LayerPropertyVk(const LayerPropertyVk& Source) = delete;
+
 		LayerPropertyVk(LayerPropertyVk&& Right) noexcept = delete;
+
 		~LayerPropertyVk();
-
+	public:
 		LayerPropertyVk& operator=(const LayerPropertyVk& Source) = delete;
-		LayerPropertyVk& operator=(LayerPropertyVk&& Right) noexcept = delete;
 
-		const Core::StringView GetName() const;
+		LayerPropertyVk& operator=(LayerPropertyVk&& Right) noexcept = delete;
+	public:
+		const Core::Utf8StringView GetName() const;
+
 		const Core::uint32_t GetSpecVersion() const;
+
 		const Core::uint32_t GetImplementationVersion() const;
-		const Core::StringView GetDescription() const;
+
+		const Core::Utf8StringView GetDescription() const;
 	private:
 		VkLayerProperties _NativeProperty;
 	};

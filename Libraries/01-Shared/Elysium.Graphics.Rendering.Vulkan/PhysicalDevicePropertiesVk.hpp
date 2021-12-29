@@ -49,7 +49,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PhysicalDevicePropertiesVk& operator=(const PhysicalDevicePropertiesVk& Source) = delete;
 		PhysicalDevicePropertiesVk& operator=(PhysicalDevicePropertiesVk&& Right) noexcept = delete;
 		
-		const Elysium::Core::StringView GetName() const;
+		const Elysium::Core::Utf8StringView GetName() const;
 		const PhysicalDeviceType GetPhysicalGraphicsDeviceType() const;
 		const Elysium::Core::uint32_t GetApiVersion() const;
 		const Elysium::Core::uint32_t GetDriverVersion() const;

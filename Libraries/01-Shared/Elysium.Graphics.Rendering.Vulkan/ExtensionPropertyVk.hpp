@@ -33,15 +33,20 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsInstanceVk;
 	public:
 		ExtensionPropertyVk();
+
 		ExtensionPropertyVk(const ExtensionPropertyVk& Source) = delete;
+
 		ExtensionPropertyVk(ExtensionPropertyVk&& Right) noexcept = delete;
+
 		~ExtensionPropertyVk();
-
+	public:
 		ExtensionPropertyVk& operator=(const ExtensionPropertyVk& Source) = delete;
-		ExtensionPropertyVk& operator=(ExtensionPropertyVk&& Right) noexcept = delete;
 
-		const Core::StringView GetName() const;
-		const Core::uint32_t& GetSpecVersion() const;
+		ExtensionPropertyVk& operator=(ExtensionPropertyVk&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::Utf8StringView GetName() const;
+
+		const Elysium::Core::uint32_t& GetSpecVersion() const;
 	private:
 		VkExtensionProperties _NativeProperty;
 	};

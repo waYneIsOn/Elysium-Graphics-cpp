@@ -60,9 +60,7 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordDrawPrimitives(const Ely
 	_NativeCommandBuffer->RecordDrawPrimitives(VertexCount, InstanceCount, FirstVertex, FirstInstance);
 }
 
-void Elysium::Graphics::Rendering::CommandBuffer::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType,
-	const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices,
-	const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
+void Elysium::Graphics::Rendering::CommandBuffer::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType, const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
 {
 	_NativeCommandBuffer->RecordDrawIndexedPrimitives(PrimitiveType, BaseVertex, MinimumVertexIndex, NumberVertices, StartIndex, NumberIndices);
 }

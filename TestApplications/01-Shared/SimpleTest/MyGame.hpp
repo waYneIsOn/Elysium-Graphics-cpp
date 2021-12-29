@@ -76,7 +76,7 @@ private:
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FragmentShaderModule;
 
-	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::String& Path);
+	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::Utf8String& Path);
 
 	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> CreateVertices();
 	Elysium::Graphics::Rendering::VertexBuffer CreateVertexBuffer();

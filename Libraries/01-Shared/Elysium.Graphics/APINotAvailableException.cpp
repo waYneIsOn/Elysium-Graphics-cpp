@@ -10,7 +10,7 @@ Elysium::Graphics::APINotAvailableException::APINotAvailableException()
 Elysium::Graphics::APINotAvailableException::APINotAvailableException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
-Elysium::Graphics::APINotAvailableException::APINotAvailableException(Elysium::Core::String&& Message)
+Elysium::Graphics::APINotAvailableException::APINotAvailableException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(std::move(Message))
 { }
 Elysium::Graphics::APINotAvailableException::~APINotAvailableException()

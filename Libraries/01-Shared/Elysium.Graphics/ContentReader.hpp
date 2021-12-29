@@ -46,15 +46,15 @@ namespace Elysium::Graphics::Content
 		ContentReader& operator=(const ContentReader& Source) noexcept = delete;
 		ContentReader& operator=(ContentReader&& Right) noexcept = delete;
 
-		static ContentReader Create(const ContentManager& Manager, Elysium::Core::IO::Stream& Input, const Elysium::Core::String& AssetName);
+		static ContentReader Create(const ContentManager& Manager, Elysium::Core::IO::Stream& Input, const Elysium::Core::Utf8String& AssetName);
 
 		template <class T>
 		T ReadAsset();
 	private:
-		ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::String& AssetName) noexcept;
+		ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept;
 
 		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
-		const Elysium::Core::String& _AssetName;
+		const Elysium::Core::Utf8String& _AssetName;
 		Elysium::Core::IO::BinaryReader& _InputReader;
 	};
 

@@ -9,10 +9,10 @@
 #endif
 
 Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(Elysium::Core::Collections::Template::Array<VertexElement>&& Elements)
-	: _Stride(GetElementStride(Elements)), _Elements(Elysium::Core::Template::Move(Elements))
+	: _Stride(GetElementStride(Elements)), _Elements(Elysium::Core::Template::Functional::Move(Elements))
 { }
 Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(const Elysium::Core::uint32_t Stride, Elysium::Core::Collections::Template::Array<VertexElement>&& Elements)
-	: _Stride(Stride), _Elements(Elysium::Core::Template::Move(Elements))
+	: _Stride(Stride), _Elements(Elysium::Core::Template::Functional::Move(Elements))
 { }
 Elysium::Graphics::Rendering::VertexDeclaration::~VertexDeclaration()
 { }

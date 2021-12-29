@@ -29,11 +29,11 @@ MyGame::MyGame(Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice)
 	_VertexShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/VertexShader.Buffer.Vert.spv")),
 	_FragmentShaderModule(LoadShaderModule(u8"../../../../bin/Debug/x64/Assets/Vulkan/FragmentShader.spv"))
 {
-	_Control.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
+	_Control.SizeChanged += Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
 }
 MyGame::~MyGame()
 {
-	_Control.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
+	_Control.SizeChanged -= Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<MyGame, &MyGame::Control_OnSizeChanged>(*this);
 }
 
 void MyGame::LoadContent()
@@ -58,23 +58,24 @@ void MyGame::Update(const Elysium::Graphics::GameTime& GameTime)
 	int a = 45;
 }
 
-Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysium::Core::String& Path)
+Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysium::Core::Utf8String& Path)
 {
 	Elysium::Core::IO::FileStream Stream = Elysium::Core::IO::FileStream(Path, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
 	Elysium::Core::IO::BinaryReader Reader = Elysium::Core::IO::BinaryReader(Stream, Elysium::Core::Text::Encoding::UTF8(), false);
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Data = Reader.ReadBytes(Stream.GetLength());
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(Stream.GetLength());
+	Elysium::Core::size BytesReceived = Reader.ReadBytes(&Buffer[0], Buffer.GetLength());
 	
-	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Move(Data));
+	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Functional::Move(Buffer));
 }
 
 Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> MyGame::CreateVertices()
 {
 	return Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor>
 	{
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, -0.5f, 0.0f), Elysium::Graphics::Color::White),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, -0.5f, 0.0f), Elysium::Graphics::Color::Gray),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, 0.5f, 0.0f), Elysium::Graphics::Color::Silver),
-		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, 0.5f, 0.0f), Elysium::Graphics::Color::Black),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, -0.9f, 0.0f), Elysium::Graphics::Color::White),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, -0.9f, 0.0f), Elysium::Graphics::Color::Gray),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Silver),
+		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.9f, 0.9f, 0.0f), Elysium::Graphics::Color::Black),
 	};
 }
 
@@ -115,9 +116,8 @@ void MyGame::PrepareGraphicsPipeline()
 	_RenderPipeline.AddScissorRectangle(0, 0, FrameBufferWidth, FrameBufferHeight);
 	
 	_VertexBuffer.SetData(&_Vertices[0], _Vertices.GetLength());
-	_RenderPipeline.SetVertexBuffer(_VertexBuffer);
-
 	_IndexBuffer.SetData(&_Indices[0], _Indices.GetLength());
+	_RenderPipeline.SetVertexBuffer(_VertexBuffer);
 	
 	_RenderPipeline.Build(_MainRenderPass);
 }
@@ -141,7 +141,8 @@ void MyGame::PreparePrimaryCommandBuffer()
 	//_CommandBuffer.RecordDrawPrimitives(_Vertices.GetLength(), 1, 0, 0);
 	//_CommandBuffer.RecordDrawPrimitives(3, 1, 0, 0);
 	_CommandBuffer.RecordSetIndexBuffer(_IndexBuffer);
-	_CommandBuffer.RecordDrawIndexedPrimitives(Elysium::Graphics::Rendering::PrimitiveType::TriangleList, 0, 0, _Vertices.GetLength(), 0, _Indices.GetLength());
+	_CommandBuffer.RecordDrawIndexedPrimitives(Elysium::Graphics::Rendering::PrimitiveType::TriangleList, 0, 0, _Vertices.GetLength(), 0, 
+		_Indices.GetLength());
 	_CommandBuffer.RecordEndRenderPass();
 
 	_CommandBuffer.RecordBlit(_FrameBuffer, Elysium::Graphics::Rendering::BlitFilter::Nearest);

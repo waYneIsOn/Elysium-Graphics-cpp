@@ -67,7 +67,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		PhysicalDeviceVk& operator=(const PhysicalDeviceVk& Source) = delete;
 		PhysicalDeviceVk& operator=(PhysicalDeviceVk&& Right) noexcept = delete;
 
-		virtual const Elysium::Core::String GetName() const override;
+		virtual const Elysium::Core::Utf8String GetName() const override;
 		virtual const PhysicalDeviceType GetDeviceType() const override;
 
 		const PhysicalDevicePropertiesVk& GetProperties() const;

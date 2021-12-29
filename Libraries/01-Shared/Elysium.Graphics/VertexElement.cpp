@@ -12,7 +12,7 @@ Elysium::Graphics::Rendering::VertexElement::VertexElement(const VertexElement &
 { }
 Elysium::Graphics::Rendering::VertexElement::VertexElement(VertexElement && Right) noexcept
 {
-	*this = Elysium::Core::Template::Move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Graphics::Rendering::VertexElement::~VertexElement()
 { }

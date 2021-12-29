@@ -9,11 +9,11 @@ Elysium::Graphics::Presentation::Window::Window()
 	: Elysium::Graphics::Presentation::Control(),
     _BorderStyle(WindowBorderStyle::None), _Width(800), _Height(480), _WindowHandle(CreateNativeWindow())
 {
-	ActivationChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
+	ActivationChanged += Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 Elysium::Graphics::Presentation::Window::~Window()
 {
-	ActivationChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
+	ActivationChanged -= Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const bool>::Bind<Elysium::Graphics::Presentation::Window, &Elysium::Graphics::Presentation::Window::OnActivationChanged>(*this);
 }
 
 const void* Elysium::Graphics::Presentation::Window::GetHandle() const

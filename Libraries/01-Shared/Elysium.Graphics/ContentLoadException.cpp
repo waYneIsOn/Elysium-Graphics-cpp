@@ -7,11 +7,14 @@
 Elysium::Graphics::Content::ContentLoadException::ContentLoadException()
 	: Elysium::Core::Exception(u8"SystemException")
 { }
+
 Elysium::Graphics::Content::ContentLoadException::ContentLoadException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
-Elysium::Graphics::Content::ContentLoadException::ContentLoadException(Elysium::Core::String&& Message)
-	: Elysium::Core::Exception(Elysium::Core::Template::Move(Message))
+
+Elysium::Graphics::Content::ContentLoadException::ContentLoadException(Elysium::Core::Utf8String&& Message)
+	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Graphics::Content::ContentLoadException::~ContentLoadException()
 { }

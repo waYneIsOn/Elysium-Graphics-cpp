@@ -32,7 +32,7 @@ namespace Elysium::Graphics::Rendering::Native
 	public:
 		virtual ~INativePhysicalDevice() { }
 
-		virtual const Elysium::Core::String GetName() const = 0;
+		virtual const Elysium::Core::Utf8String GetName() const = 0;
 
 		virtual const PhysicalDeviceType GetDeviceType() const = 0;
 	};

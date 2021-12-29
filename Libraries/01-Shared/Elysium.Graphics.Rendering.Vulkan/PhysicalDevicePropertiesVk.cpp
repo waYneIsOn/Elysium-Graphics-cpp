@@ -7,9 +7,9 @@
 Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::~PhysicalDevicePropertiesVk()
 { }
 
-const Elysium::Core::StringView Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetName() const
+const Elysium::Core::Utf8StringView Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetName() const
 {
-	return Core::StringView((char8_t*)_NativeProperties.deviceName);
+	return Elysium::Core::Utf8StringView((char8_t*)_NativeProperties.deviceName);
 }
 
 const Elysium::Graphics::Rendering::PhysicalDeviceType Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::GetPhysicalGraphicsDeviceType() const

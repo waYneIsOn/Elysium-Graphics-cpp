@@ -11,7 +11,7 @@
 Elysium::Graphics::Content::ContentReader::~ContentReader() noexcept
 { }
 
-Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentReader::Create(const ContentManager& Manager, Elysium::Core::IO::Stream& Input, const Elysium::Core::String& AssetName)
+Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentReader::Create(const ContentManager& Manager, Elysium::Core::IO::Stream& Input, const Elysium::Core::Utf8String& AssetName)
 {
     // file header
     // +--------+----------------------+--------------------------------
@@ -53,6 +53,6 @@ Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentRea
     return ContentReader(Manager, Reader, AssetName);
 }
 
-Elysium::Graphics::Content::ContentReader::ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::String& AssetName) noexcept
+Elysium::Graphics::Content::ContentReader::ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept
     : _GraphicsDevice(Manager.GetGraphicsDevice()), _AssetName(AssetName), _InputReader(InputReader)
 { }

@@ -42,6 +42,6 @@ const Elysium::Graphics::Rendering::VertexDeclaration Elysium::Graphics::Renderi
 		VertexElement(12, VertexElementFormat::Color, VertexElementUsage::Color, 0),
 	};
 
-	return VertexDeclaration(16, Elysium::Core::Template::Move(Elements));
+	return VertexDeclaration(16, Elysium::Core::Template::Functional::Move(Elements));
 }
 

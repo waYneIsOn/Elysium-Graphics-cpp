@@ -203,9 +203,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDrawPrimitives
 	}
 }
 
-void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType,
-	const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, 
-	const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
+void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordDrawIndexedPrimitives(const PrimitiveType PrimitiveType, const Elysium::Core::uint32_t BaseVertex, const Elysium::Core::uint32_t MinimumVertexIndex, const Elysium::Core::uint32_t NumberVertices, const Elysium::Core::uint32_t StartIndex, const Elysium::Core::uint32_t NumberIndices)
 {
 	// ToDo: match parameters to vkCmdDrawIndexed-parameters
 	for (size_t i = 0; i < _NativeCommandBufferHandles.GetLength(); i++)

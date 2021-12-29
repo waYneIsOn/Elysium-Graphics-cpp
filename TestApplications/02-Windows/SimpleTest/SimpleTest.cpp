@@ -98,7 +98,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     const Array<ExtensionPropertyVk> AvailableDeviceExtensions = SelectedPhysicalDevice.GetAvailableExtensions();
     for (size_t i = 0; i < AvailableDeviceExtensions.GetLength(); i++)
     {
-        const StringView ExtensionName = AvailableDeviceExtensions[i].GetName();
+        const Utf8StringView ExtensionName = AvailableDeviceExtensions[i].GetName();
         if (ExtensionName != u8"VK_EXT_buffer_device_address")
         {
             PresentationParameters.AddDeviceExtensionProperty(AvailableDeviceExtensions[i]);

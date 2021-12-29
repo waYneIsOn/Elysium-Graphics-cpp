@@ -27,7 +27,7 @@ namespace Elysium::Graphics
 	public:
 		APINotAvailableException();
 		APINotAvailableException(const char8_t* Message);
-		APINotAvailableException(Elysium::Core::String&& Message);
+		APINotAvailableException(Elysium::Core::Utf8String&& Message);
 		virtual ~APINotAvailableException();
 	};
 }

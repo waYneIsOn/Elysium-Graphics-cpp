@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_DICTIONARY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Dictionary.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #endif
@@ -41,7 +37,7 @@ namespace Elysium::Graphics::Content
 	class ELYSIUM_GRAPHICS_API ContentManager final
 	{
 	public:
-		ContentManager(const Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice, const Elysium::Core::String& RootDirectory) noexcept;
+		ContentManager(const Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice, const Elysium::Core::Utf8String& RootDirectory) noexcept;
 		ContentManager(const ContentManager& Source) noexcept = delete;
 		ContentManager(ContentManager&& Right) noexcept = delete;
 		~ContentManager() noexcept;
@@ -52,27 +48,27 @@ namespace Elysium::Graphics::Content
 		const Elysium::Graphics::Rendering::GraphicsDevice& GetGraphicsDevice() const;
 
 		template <class T>
-		const T Load(const Elysium::Core::String& AssetName);
+		const T Load(const Elysium::Core::Utf8String& AssetName);
 
 		void Unload();
 	private:
 		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
-		const Elysium::Core::String _RootDirectory;
-		//Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, void*> _LoadedAssets;
+		const Elysium::Core::Utf8String _RootDirectory;
+		//Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, void*> _LoadedAssets;
 
 		template <class T>
-		const T ReadAsset(const Elysium::Core::String& AssetName);
+		const T ReadAsset(const Elysium::Core::Utf8String& AssetName);
 	};
 
 	template<class T>
-	inline const T ContentManager::Load(const Elysium::Core::String& AssetName)
+	inline const T ContentManager::Load(const Elysium::Core::Utf8String& AssetName)
 	{
 		// ToDo: use the dictionary as to not load the same asset multiple times
 		return ReadAsset<T>(AssetName);
 	}
 
 	template<class T>
-	inline const T ContentManager::ReadAsset(const Elysium::Core::String& AssetName)
+	inline const T ContentManager::ReadAsset(const Elysium::Core::Utf8String& AssetName)
 	{
 		// ToDo: combine executing directory, _RootDirectory and AssetName via Elysium::Core::IO::Path::Combine(...)
 		Elysium::Core::IO::FileStream Stream = 

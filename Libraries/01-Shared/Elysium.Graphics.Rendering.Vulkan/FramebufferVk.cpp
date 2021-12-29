@@ -1,7 +1,7 @@
 #include "FrameBufferVk.hpp"
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Delegate.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_EXCEPTIONVK
@@ -21,11 +21,11 @@ Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const Graphic
 	_NativeImages(CreateNativeImages()), _NativeImageMemory(CreateNativeImageMemory()), _NativeImageViews(CreateNativeImageViews()),
 	_NativeFramebuffers(CreateNativeFramebuffers())
 {
-	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
+	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
 }
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 {
-	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
+	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
 
 	DestroyNativeFramebuffers();
 	DestroyNativeImageViews();

@@ -7,9 +7,9 @@ Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::LayerPropertyVk()
 Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::~LayerPropertyVk()
 { }
 
-const Elysium::Core::StringView Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::GetName() const
+const Elysium::Core::Utf8StringView Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::GetName() const
 {
-	return Core::StringView((char8_t*)_NativeProperty.layerName);
+	return Elysium::Core::Utf8StringView((char8_t*)_NativeProperty.layerName);
 }
 
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::GetSpecVersion() const
@@ -22,7 +22,7 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::LayerPropert
 	return _NativeProperty.implementationVersion;
 }
 
-const Elysium::Core::StringView Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::GetDescription() const
+const Elysium::Core::Utf8StringView Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk::GetDescription() const
 {
-	return Core::StringView((char8_t*)_NativeProperty.description);
+	return Elysium::Core::Utf8StringView((char8_t*)_NativeProperty.description);
 }

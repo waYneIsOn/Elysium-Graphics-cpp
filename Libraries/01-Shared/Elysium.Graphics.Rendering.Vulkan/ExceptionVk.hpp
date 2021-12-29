@@ -31,7 +31,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	public:
 		ExceptionVk() = delete;
 		ExceptionVk(const char8_t* Message) = delete;
-		ExceptionVk(Elysium::Core::String&& Message) = delete;
+		ExceptionVk(Elysium::Core::Utf8String&& Message) = delete;
 		ExceptionVk(const VkResult Result);
 		virtual ~ExceptionVk();
 	private:

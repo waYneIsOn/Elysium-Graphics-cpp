@@ -27,7 +27,7 @@ namespace Elysium::Graphics::Content
 	public:
 		ContentLoadException();
 		ContentLoadException(const char8_t* Message);
-		ContentLoadException(Elysium::Core::String&& Message);
+		ContentLoadException(Elysium::Core::Utf8String&& Message);
 		virtual ~ContentLoadException();
 	};
 }
