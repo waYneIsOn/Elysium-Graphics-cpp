@@ -7,13 +7,13 @@
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::PresentationParametersVk(GraphicsInstanceVk& NativeGraphicsAPI, Presentation::Control& Canvas)
 	: Elysium::Graphics::PresentationParameters(NativeGraphicsAPI, Canvas)
 { }
+
 Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::~PresentationParametersVk()
 { }
 
-
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceExtensionProperty(const ExtensionPropertyVk& ExtensionProperty)
 {
-	_DeviceExtensionPropertyNames.Add((char*)&ExtensionProperty.GetName()[0]);
+	_DeviceExtensionPropertyNames.PushBack(const_cast<char*>(reinterpret_cast<const char*>(&ExtensionProperty.GetName()[0])));
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearDeviceExtensionProperties()
@@ -23,7 +23,7 @@ void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearDevice
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::AddDeviceQueueCreateInfo(DeviceQueueCreateInfoVk&& CreateInfo)
 {
-	_DeviceQueueCreateInfos.Add(CreateInfo);
+	_DeviceQueueCreateInfos.PushBack(CreateInfo);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::PresentationParametersVk::ClearDeviceQueueCreateInfo()

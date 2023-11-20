@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_API
@@ -92,7 +92,7 @@ namespace Elysium::Graphics::Rendering::Native
 
 		virtual INativeVertexBuffer* CreateVertexBuffer(const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount, const BufferUsage Usage) = 0;
 		virtual INativeIndexBuffer* CreateIndexBuffer(const IndexElementSize ElementSize, const Elysium::Core::uint32_t IndexCount, const BufferUsage Usage) = 0;
-		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode) = 0;
+		virtual INativeShaderModule* CreateShaderModule(const Elysium::Core::Template::Container::Vector<Elysium::Core::byte>& ByteCode) = 0;
 
 		virtual void Wait() const = 0;
 		virtual const bool BeginDraw(INativeFence& RenderFence, const INativeSemaphore& PresentationSemaphore) = 0;

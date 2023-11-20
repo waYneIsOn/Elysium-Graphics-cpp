@@ -1,5 +1,9 @@
 #include "CommandBuffer.hpp"
 
+Elysium::Graphics::Rendering::CommandBuffer::CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer)
+	: _NativeCommandBuffer(NativeCommandBuffer)
+{ }
+
 Elysium::Graphics::Rendering::CommandBuffer::~CommandBuffer()
 {
 	if (_NativeCommandBuffer != nullptr)
@@ -79,7 +83,3 @@ void Elysium::Graphics::Rendering::CommandBuffer::RecordClearBackBufferDepthImag
 {
 	_NativeCommandBuffer->RecordClearBackBufferDepthImage(Depth, Stencil);
 }
-
-Elysium::Graphics::Rendering::CommandBuffer::CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer)
-	: _NativeCommandBuffer(NativeCommandBuffer)
-{ }

@@ -7,13 +7,16 @@
 Elysium::Graphics::Rendering::VertexElement::VertexElement(const Elysium::Core::uint32_t Offset, const VertexElementFormat Format, const VertexElementUsage Usage, const Elysium::Core::uint32_t UsageIndex)
 	: _Offset(Offset), _Format(Format), _Usage(Usage), _UsageIndex(UsageIndex)
 { }
+
 Elysium::Graphics::Rendering::VertexElement::VertexElement(const VertexElement & Source)
 	: _Offset(Source._Offset), _Format(Source._Format), _Usage(Source._Usage), _UsageIndex(Source._UsageIndex)
 { }
+
 Elysium::Graphics::Rendering::VertexElement::VertexElement(VertexElement && Right) noexcept
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Graphics::Rendering::VertexElement::~VertexElement()
 { }
 

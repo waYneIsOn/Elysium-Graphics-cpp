@@ -12,6 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #endif

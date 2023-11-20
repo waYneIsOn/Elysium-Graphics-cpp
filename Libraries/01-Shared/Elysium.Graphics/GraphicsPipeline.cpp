@@ -11,6 +11,7 @@
 Elysium::Graphics::Rendering::GraphicsPipeline::GraphicsPipeline(const GraphicsDevice& GraphicsDevice)
 	: _GraphicsDevice(GraphicsDevice), _NativeGraphicsPipeline(_GraphicsDevice._NativeGraphicsDevice.CreateGraphicsPipeline())
 { }
+
 Elysium::Graphics::Rendering::GraphicsPipeline::~GraphicsPipeline()
 {
 	if (_NativeGraphicsPipeline != nullptr)

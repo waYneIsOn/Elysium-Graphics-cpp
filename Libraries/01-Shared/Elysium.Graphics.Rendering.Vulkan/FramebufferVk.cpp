@@ -23,6 +23,7 @@ Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::FrameBufferVk(const Graphic
 {
 	_GraphicsDevice._Canvas.SizeChanged += Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
 }
+
 Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::~FrameBufferVk()
 {
 	_GraphicsDevice._Canvas.SizeChanged -= Elysium::Core::Template::Container::Delegate<void, const Elysium::Graphics::Presentation::Control&, const Elysium::Core::int32_t, const Elysium::Core::int32_t>::Bind<Elysium::Graphics::Rendering::Vulkan::FrameBufferVk, &Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::Control_SizeChanged>(*this);
@@ -61,11 +62,11 @@ VkExtent3D Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::RetrieveExtent()
 	return Result;
 }
 
-Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImages()
+Elysium::Core::Template::Container::Vector<VkImage> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImages()
 {
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkImage> Images = Elysium::Core::Collections::Template::Array<VkImage>(Length);
+	Elysium::Core::Template::Container::Vector<VkImage> Images = Elysium::Core::Template::Container::Vector<VkImage>(Length);
 	VkResult Result;
 	for (size_t i = 0; i < Length; i++)
 	{
@@ -98,8 +99,8 @@ VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNative
 {
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkMemoryRequirements> MemoryRequirements = 
-		Elysium::Core::Collections::Template::Array<VkMemoryRequirements>(Length);
+	Elysium::Core::Template::Container::Vector<VkMemoryRequirements> MemoryRequirements =
+		Elysium::Core::Template::Container::Vector<VkMemoryRequirements>(Length);
 
 	size_t TotallyRequiredSize = 0;
 	Elysium::Core::uint32_t MemoryTypeIndex = -1;
@@ -148,12 +149,12 @@ VkDeviceMemory Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNative
 	return ImageMemory;
 }
 
-Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImageViews()
+Elysium::Core::Template::Container::Vector<VkImageView> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeImageViews()
 {
 	const VkExtent2D& Extent = _GraphicsDevice._NativeSurfaceCapabilities.currentExtent;
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkImageView> ImageViews = Elysium::Core::Collections::Template::Array<VkImageView>(Length);
+	Elysium::Core::Template::Container::Vector<VkImageView> ImageViews = Elysium::Core::Template::Container::Vector<VkImageView>(Length);
 	VkResult Result;
 	for (size_t i = 0; i < Length; i++)
 	{
@@ -183,11 +184,11 @@ Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rend
 	return ImageViews;
 }
 
-Elysium::Core::Collections::Template::Array<VkFramebuffer> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeFramebuffers()
+Elysium::Core::Template::Container::Vector<VkFramebuffer> Elysium::Graphics::Rendering::Vulkan::FrameBufferVk::CreateNativeFramebuffers()
 {
 	const size_t Length = _GraphicsDevice._BackBufferImageViews.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkFramebuffer> Framebuffers = Elysium::Core::Collections::Template::Array<VkFramebuffer>(Length);
+	Elysium::Core::Template::Container::Vector<VkFramebuffer> Framebuffers = Elysium::Core::Template::Container::Vector<VkFramebuffer>(Length);
 	VkResult Result;
 	for (size_t i = 0; i < Length; i++)
 	{

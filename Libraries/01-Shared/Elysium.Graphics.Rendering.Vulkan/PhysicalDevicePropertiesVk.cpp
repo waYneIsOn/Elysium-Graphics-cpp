@@ -4,6 +4,9 @@
 #include "FormatConverterVk.hpp"
 #endif
 
+Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::PhysicalDevicePropertiesVk()
+{ }
+
 Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::~PhysicalDevicePropertiesVk()
 { }
 
@@ -561,6 +564,3 @@ const Elysium::Core::uint64_t Elysium::Graphics::Rendering::Vulkan::PhysicalDevi
 {
 	return _NativeProperties.limits.nonCoherentAtomSize;
 }
-
-Elysium::Graphics::Rendering::Vulkan::PhysicalDevicePropertiesVk::PhysicalDevicePropertiesVk()
-{ }

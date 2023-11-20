@@ -34,17 +34,23 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	public:
 		VertexBufferVk(const GraphicsDeviceVk& GraphicsDevice, const VertexDeclaration& Declaration, const Elysium::Core::uint32_t VertexCount,
 			const BufferUsage Usage);
+
 		VertexBufferVk(const VertexBufferVk& Source) = delete;
+
 		VertexBufferVk(VertexBufferVk&& Right) noexcept = delete;
+
 		virtual ~VertexBufferVk();
-
+	public:
 		VertexBufferVk& operator=(const VertexBufferVk& Source) = delete;
+
 		VertexBufferVk& operator=(VertexBufferVk&& Right) noexcept = delete;
-
+	public:
 		virtual const BufferUsage GetBufferUsage() const override;
-		virtual const Elysium::Core::uint32_t GetVertexCount() const override;
-		virtual const VertexDeclaration& GetVertexDeclaration() const override;
 
+		virtual const Elysium::Core::uint32_t GetVertexCount() const override;
+
+		virtual const VertexDeclaration& GetVertexDeclaration() const override;
+	public:
 		virtual void SetData(const void* First, const size_t Length) override;
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
@@ -54,11 +60,13 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		VkBuffer _NativeVertexBuffer;
 		VkDeviceMemory _NativeVertexBufferMemory;
-
+	public:
 		VkBuffer CreateNativeVertexBuffer();
+
 		VkDeviceMemory CreateNativeVertexBufferMemory();
 
 		void DestroyNativeVertexBufferMemory();
+
 		void DestroyNativeVertexBuffer();
 	};
 }

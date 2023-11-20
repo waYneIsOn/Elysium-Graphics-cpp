@@ -45,27 +45,35 @@ namespace Elysium::Graphics::Rendering
 		friend class CommandBuffer;
 	public:
 		GraphicsPipeline(const GraphicsDevice& GraphicsDevice);
+
 		GraphicsPipeline(const GraphicsPipeline& Source) = delete;
+
 		GraphicsPipeline(GraphicsPipeline&& Right) noexcept = delete;
+
 		~GraphicsPipeline();
-
+	public:
 		GraphicsPipeline& operator=(const GraphicsPipeline& Source) = delete;
+
 		GraphicsPipeline& operator=(GraphicsPipeline&& Right) noexcept = delete;
-
+	public:
 		RasterizerState& GetRasterizerState();
-
+	public:
 		void AddViewport(const Elysium::Core::uint32_t X, const Elysium::Core::uint32_t Y, const Elysium::Core::uint32_t Width,
 			const Elysium::Core::uint32_t Height, const float MinimumDepth, const float MaximumDepth);
+
 		void ClearViewports();
 
 		void AddScissorRectangle(const Elysium::Core::int32_t X, const Elysium::Core::int32_t Y, const Elysium::Core::uint32_t Width,
 			const Elysium::Core::uint32_t Height);
+
 		void ClearScissorRectangles();
 
 		void AddShaderModule(const ShaderModule& ShaderModule, const ShaderModuleType Type);
+
 		void ClearShaderModules();
 
 		void SetVertexBuffer(const VertexBuffer& VertexBuffer);
+
 		void SetVertexBuffer(const VertexBuffer& VertexBuffer, const Elysium::Core::uint32_t VertexOffset);
 
 		void Build(const RenderPass& RenderPass);

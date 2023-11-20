@@ -3,6 +3,7 @@
 Elysium::Graphics::PresentationParameters::PresentationParameters(Rendering::Native::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas)
 	: _NativeGraphicsAPI(NativeGraphicsAPI), _Canvas(Canvas)
 { }
+
 Elysium::Graphics::PresentationParameters::~PresentationParameters()
 { }
 

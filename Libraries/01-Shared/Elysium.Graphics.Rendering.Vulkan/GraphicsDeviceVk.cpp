@@ -127,7 +127,7 @@ Elysium::Graphics::Rendering::Native::INativeIndexBuffer* Elysium::Graphics::Ren
 	return new IndexBufferVk(*this, ElementSize, IndexCount, Usage);
 }
 
-Elysium::Graphics::Rendering::Native::INativeShaderModule* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateShaderModule(const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& ByteCode)
+Elysium::Graphics::Rendering::Native::INativeShaderModule* Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateShaderModule(const Elysium::Core::Template::Container::Vector<Elysium::Core::byte>& ByteCode)
 {
 	return new ShaderModuleVk(*this, ByteCode);
 }
@@ -261,8 +261,8 @@ VkSurfaceFormatKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Selec
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR> SurfaceFormats =
-		Elysium::Core::Collections::Template::Array<VkSurfaceFormatKHR>(SurfaceFormatCount);
+	Elysium::Core::Template::Container::Vector<VkSurfaceFormatKHR> SurfaceFormats =
+		Elysium::Core::Template::Container::Vector<VkSurfaceFormatKHR>(SurfaceFormatCount);
 	if ((Result = vkGetPhysicalDeviceSurfaceFormatsKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &SurfaceFormatCount, &SurfaceFormats[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -287,7 +287,7 @@ VkSurfaceFormatKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::Selec
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveGraphicsQueueFamilyIndex()
 {
 	Elysium::Core::uint32_t Result = -1;
-	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
+	const Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
 	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
 	{
 		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
@@ -304,7 +304,7 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDevi
 const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrievePresentationQueueFamilyIndex()
 {
 	Elysium::Core::uint32_t Result = -1;
-	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
+	const Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
 	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
 	{
 		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
@@ -325,9 +325,10 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::Vulkan::GraphicsDevi
 VkDevice Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeLogicalDevice()
 {
 	// check for queue familys to be used (in this case we're looking for graphics capabilities only) and create a logical device as well as queues required
-	const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
+	const Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk> QueueFamilyProperties = _PhysicalDevice.GetQueueFamilyProperties();
 	const float Priority = 1.0f;
-	Elysium::Core::Collections::Template::List<VkDeviceQueueCreateInfo> QueueCreateInfos = Elysium::Core::Collections::Template::List<VkDeviceQueueCreateInfo>();
+	Elysium::Core::Template::Container::Vector<VkDeviceQueueCreateInfo> QueueCreateInfos = 
+		Elysium::Core::Template::Container::Vector<VkDeviceQueueCreateInfo>();
 	for (size_t i = 0; i < QueueFamilyProperties.GetLength(); i++)
 	{
 		QueueCapabilitiesVk Capabilities = QueueFamilyProperties[i].GetSupportedOperations();
@@ -341,11 +342,11 @@ VkDevice Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeLog
 			QueueCreateInfo.queueCount = 1;
 			QueueCreateInfo.pQueuePriorities = &Priority;
 
-			QueueCreateInfos.Add(QueueCreateInfo);
+			QueueCreateInfos.PushBack(QueueCreateInfo);
 		}
 	}
 
-	const size_t QueueCreateInfosCount = QueueCreateInfos.GetCount();
+	const size_t QueueCreateInfosCount = QueueCreateInfos.GetLength();
 	if (QueueCreateInfosCount == 0)
 	{
 		throw Elysium::Core::InvalidOperationException(u8"Request at least one queue.");
@@ -356,10 +357,10 @@ VkDevice Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeLog
 	DeviceCreateInfo.pQueueCreateInfos = &QueueCreateInfos[0];
 	DeviceCreateInfo.queueCreateInfoCount = QueueCreateInfosCount;
 	DeviceCreateInfo.pEnabledFeatures = &_PhysicalDevice._Features._NativeFeatures;
-	if (_PresentationParameters._DeviceExtensionPropertyNames.GetCount() > 0)
+	if (_PresentationParameters._DeviceExtensionPropertyNames.GetLength() > 0)
 	{
 		DeviceCreateInfo.ppEnabledExtensionNames = &_PresentationParameters._DeviceExtensionPropertyNames[0];
-		DeviceCreateInfo.enabledExtensionCount = _PresentationParameters._DeviceExtensionPropertyNames.GetCount();
+		DeviceCreateInfo.enabledExtensionCount = _PresentationParameters._DeviceExtensionPropertyNames.GetLength();
 	}
 	else
 	{
@@ -435,7 +436,7 @@ VkSwapchainKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNat
 	return NativeSwapchainHandle;
 }
 
-Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveNativeBackBufferImages()
+Elysium::Core::Template::Container::Vector<VkImage> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::RetrieveNativeBackBufferImages()
 {
 	VkResult Result;
 	Elysium::Core::uint32_t BackBufferImageCount = 0;
@@ -449,7 +450,7 @@ Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Renderin
 		throw 1;
 	}
 
-	Elysium::Core::Collections::Template::Array<VkImage> BackBufferImages = Elysium::Core::Collections::Template::Array<VkImage>(BackBufferImageCount);
+	Elysium::Core::Template::Container::Vector<VkImage> BackBufferImages = Elysium::Core::Template::Container::Vector<VkImage>(BackBufferImageCount);
 	if ((Result = vkGetSwapchainImagesKHR(_NativeLogicalDeviceHandle, _NativeSwapchainHandle, &BackBufferImageCount, &BackBufferImages[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -458,12 +459,12 @@ Elysium::Core::Collections::Template::Array<VkImage> Elysium::Graphics::Renderin
 	return BackBufferImages;
 }
 
-Elysium::Core::Collections::Template::Array<VkImageView> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeBackBufferImageViews()
+Elysium::Core::Template::Container::Vector<VkImageView> Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::CreateNativeBackBufferImageViews()
 {
 	Elysium::Core::uint32_t BackBufferImageCount = _BackBufferImages.GetLength();
 
-	Elysium::Core::Collections::Template::Array<VkImageView> BackBufferImageViews = 
-		Elysium::Core::Collections::Template::Array<VkImageView>(BackBufferImageCount);
+	Elysium::Core::Template::Container::Vector<VkImageView> BackBufferImageViews =
+		Elysium::Core::Template::Container::Vector<VkImageView>(BackBufferImageCount);
 	for (size_t i = 0; i < BackBufferImageCount; i++)
 	{
 		VkImageViewCreateInfo ImageViewCreateInfo = VkImageViewCreateInfo();
@@ -597,8 +598,8 @@ VkPresentModeKHR Elysium::Graphics::Rendering::Vulkan::GraphicsDeviceVk::SelectN
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<VkPresentModeKHR> PresentModes =
-		Elysium::Core::Collections::Template::Array<VkPresentModeKHR>(PresentModeCount);
+	Elysium::Core::Template::Container::Vector<VkPresentModeKHR> PresentModes =
+		Elysium::Core::Template::Container::Vector<VkPresentModeKHR>(PresentModeCount);
 	if ((Result = vkGetPhysicalDeviceSurfacePresentModesKHR(_PhysicalDevice._NativePhysicalDeviceHandle, _NativeSurfaceHandle, &PresentModeCount, &PresentModes[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);

@@ -1,9 +1,5 @@
 #include "GraphicsInstanceVk.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
@@ -27,6 +23,7 @@
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GraphicsInstanceVk()
 	: _NativeInstanceHandle(CreateInstance()), _NativeDebugUtilsMessengerHandle(VK_NULL_HANDLE), _PhysicalDevices(RetrievePhysicalDevices())
 { }
+
 Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 {
 	DisableDebugging();
@@ -37,7 +34,7 @@ Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::~GraphicsInstanceVk()
 	}
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetAvailableExtensions()
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetAvailableExtensions()
 {
 	VkResult Result;
 
@@ -47,8 +44,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> Extensions =
-		Elysium::Core::Collections::Template::Array<ExtensionPropertyVk>(ExtensionCount);
+	Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> Extensions =
+		Elysium::Core::Template::Container::Vector<ExtensionPropertyVk>(ExtensionCount);
 	if ((Result = vkEnumerateInstanceExtensionProperties(nullptr, &ExtensionCount, (VkExtensionProperties*)&Extensions[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -57,7 +54,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	return Extensions;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetAvailableLayers()
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::LayerPropertyVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetAvailableLayers()
 {
 	VkResult Result;
 
@@ -67,8 +64,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<LayerPropertyVk> Layers =
-		Elysium::Core::Collections::Template::Array<LayerPropertyVk>(LayerCount);
+	Elysium::Core::Template::Container::Vector<LayerPropertyVk> Layers =
+		Elysium::Core::Template::Container::Vector<LayerPropertyVk>(LayerCount);
 	if ((Result = vkEnumerateInstanceLayerProperties(&LayerCount, (VkLayerProperties*)&Layers[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -82,7 +79,7 @@ const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk& Elysium::Graphics:
 	return _PhysicalDevices[Index];
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk>& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalDevices()
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk>& Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::GetPhysicalDevices()
 {
 	return _PhysicalDevices;
 }
@@ -126,19 +123,19 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::DisableDebugging(
 VkInstance Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateInstance()
 {
 	// ToDo: currently all extensions and layers get added - make this configurable
-	const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstanceVk::GetAvailableExtensions();
-	const Elysium::Core::Collections::Template::Array<LayerPropertyVk> AvailableLayers = GraphicsInstanceVk::GetAvailableLayers();
+	const Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsInstanceVk::GetAvailableExtensions();
+	const Elysium::Core::Template::Container::Vector<LayerPropertyVk> AvailableLayers = GraphicsInstanceVk::GetAvailableLayers();
 
-	Elysium::Core::Collections::Template::List<char*> ExtensionPropertyNames = Elysium::Core::Collections::Template::List<char*>(0);
+	Elysium::Core::Template::Container::Vector<char*> ExtensionPropertyNames = Elysium::Core::Template::Container::Vector<char*>(0);
 	for (size_t i = 0; i < AvailableInstanceExtensions.GetLength(); i++)
 	{
-		ExtensionPropertyNames.Add((char*)&AvailableInstanceExtensions[i].GetName()[0]);
+		ExtensionPropertyNames.PushBack((char*)&AvailableInstanceExtensions[i].GetName()[0]);
 	}
 
-	Elysium::Core::Collections::Template::List<char*> LayerNames = Elysium::Core::Collections::Template::List<char*>(0);
+	Elysium::Core::Template::Container::Vector<char*> LayerNames = Elysium::Core::Template::Container::Vector<char*>(0);
 	for (size_t i = 0; i < AvailableLayers.GetLength(); i++)
 	{
-		LayerNames.Add((char*)&AvailableLayers[i].GetName()[0]);
+		LayerNames.PushBack((char*)&AvailableLayers[i].GetName()[0]);
 	}
 
 	VkApplicationInfo ApplicationInfo = VkApplicationInfo();
@@ -153,8 +150,8 @@ VkInstance Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateInsta
 	VkInstanceCreateInfo InstanceCreateInfo = VkInstanceCreateInfo();
 	InstanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	InstanceCreateInfo.pApplicationInfo = &ApplicationInfo;
-	InstanceCreateInfo.enabledExtensionCount = ExtensionPropertyNames.GetCount();
-	InstanceCreateInfo.enabledLayerCount = LayerNames.GetCount();
+	InstanceCreateInfo.enabledExtensionCount = ExtensionPropertyNames.GetLength();
+	InstanceCreateInfo.enabledLayerCount = LayerNames.GetLength();
 	if (InstanceCreateInfo.enabledExtensionCount > 0)
 	{
 		InstanceCreateInfo.ppEnabledExtensionNames = &ExtensionPropertyNames[0];
@@ -174,7 +171,7 @@ VkInstance Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::CreateInsta
 	return NativeInstanceHandle;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::RetrievePhysicalDevices()
+Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk> Elysium::Graphics::Rendering::Vulkan::GraphicsInstanceVk::RetrievePhysicalDevices()
 {
 	VkResult Result;
 
@@ -184,14 +181,15 @@ Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<VkPhysicalDevice> Devices =
-		Elysium::Core::Collections::Template::Array<VkPhysicalDevice>(DeviceCount);
+	Elysium::Core::Template::Container::Vector<VkPhysicalDevice> Devices =
+		Elysium::Core::Template::Container::Vector<VkPhysicalDevice>(DeviceCount);
 	if ((Result = vkEnumeratePhysicalDevices(_NativeInstanceHandle, &DeviceCount, &Devices[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<PhysicalDeviceVk> PhysicalGraphicsDevices = Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>(DeviceCount);
+	Elysium::Core::Template::Container::Vector<PhysicalDeviceVk> PhysicalGraphicsDevices = 
+		Elysium::Core::Template::Container::Vector<PhysicalDeviceVk>(DeviceCount);
 	for (size_t i = 0; i < DeviceCount; i++)
 	{
 		PhysicalGraphicsDevices[i]._NativePhysicalDeviceHandle = Devices[i];

@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEPHYSICALDEVICE
@@ -52,33 +52,40 @@ namespace Elysium::Graphics::Rendering::Vulkan
 {
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API PhysicalDeviceVk final : public Native::INativePhysicalDevice
 	{
-		friend class Elysium::Core::Collections::Template::Array<PhysicalDeviceVk>;
+		friend class Elysium::Core::Template::Container::Vector<PhysicalDeviceVk>;
 		friend class DepthBufferVk;
 		friend class FrameBufferVk;
 		friend class GraphicsDeviceVk;
 		friend class GraphicsInstanceVk;
 		friend class IndexBufferVk;
 		friend class VertexBufferVk;
+	private:
+		PhysicalDeviceVk();
 	public:
 		PhysicalDeviceVk(const PhysicalDeviceVk& Source) = delete;
+
 		PhysicalDeviceVk(PhysicalDeviceVk&& Right) noexcept = delete;
+
 		virtual ~PhysicalDeviceVk();
-
+	public:
 		PhysicalDeviceVk& operator=(const PhysicalDeviceVk& Source) = delete;
-		PhysicalDeviceVk& operator=(PhysicalDeviceVk&& Right) noexcept = delete;
 
+		PhysicalDeviceVk& operator=(PhysicalDeviceVk&& Right) noexcept = delete;
+	public:
 		virtual const Elysium::Core::Utf8String GetName() const override;
+
 		virtual const PhysicalDeviceType GetDeviceType() const override;
 
 		const PhysicalDevicePropertiesVk& GetProperties() const;
+
 		const PhysicalDeviceFeaturesVk& GetFeatures() const;
-		const Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> GetQueueFamilyProperties() const;
-		const Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> GetAvailableExtensions() const;
+
+		const Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk> GetQueueFamilyProperties() const;
+
+		const Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> GetAvailableExtensions() const;
 	private:
-		PhysicalDeviceVk();
-
 		const bool SupportsPresentation(const VkSurfaceKHR NativeSurfaceHandle, const Elysium::Core::uint32_t FamilyIndex) const;
-
+	private:
 		VkPhysicalDevice _NativePhysicalDeviceHandle;
 		PhysicalDevicePropertiesVk _Properties;
 		PhysicalDeviceFeaturesVk _Features;

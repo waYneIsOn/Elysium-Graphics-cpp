@@ -36,12 +36,12 @@
 #include "VertexBufferVk.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const CommandPoolVk& CommandPool, const bool IsPrimary)
-	: _GraphicsDevice(GraphicsDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(std::move(CreateNativeCommandBuffers()))
+	: _GraphicsDevice(GraphicsDevice), _CommandPool(CommandPool), _IsPrimary(IsPrimary), _NativeCommandBufferHandles(Elysium::Core::Template::Functional::Move(CreateNativeCommandBuffers()))
 { }
 Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::~CommandBufferVk()
 {
@@ -360,7 +360,7 @@ void Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::RecordClearBackBuffe
 
 }
 
-Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffers()
+Elysium::Core::Template::Container::Vector<VkCommandBuffer> Elysium::Graphics::Rendering::Vulkan::CommandBufferVk::CreateNativeCommandBuffers()
 {
 	const PresentationParameters& PresentationParameters = _GraphicsDevice.GetPresentationParameters();
 
@@ -372,8 +372,8 @@ Elysium::Core::Collections::Template::Array<VkCommandBuffer> Elysium::Graphics::
 	AllocateInfo.commandBufferCount = PresentationParameters.GetBackBufferCount();
 
 	VkResult Result;
-	Elysium::Core::Collections::Template::Array<VkCommandBuffer> NativeCommandBufferHandles = 
-		Elysium::Core::Collections::Template::Array<VkCommandBuffer>(AllocateInfo.commandBufferCount);
+	Elysium::Core::Template::Container::Vector<VkCommandBuffer> NativeCommandBufferHandles =
+		Elysium::Core::Template::Container::Vector<VkCommandBuffer>(AllocateInfo.commandBufferCount);
 	if ((Result = vkAllocateCommandBuffers(_CommandPool._GraphicsDevice._NativeLogicalDeviceHandle, &AllocateInfo, &NativeCommandBufferHandles[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);

@@ -62,15 +62,16 @@ Elysium::Graphics::Rendering::ShaderModule MyGame::LoadShaderModule(const Elysiu
 {
 	Elysium::Core::IO::FileStream Stream = Elysium::Core::IO::FileStream(Path, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
 	Elysium::Core::IO::BinaryReader Reader = Elysium::Core::IO::BinaryReader(Stream, Elysium::Core::Text::Encoding::UTF8(), false);
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(Stream.GetLength());
+	Elysium::Core::Template::Container::Vector<Elysium::Core::byte> Buffer = 
+		Elysium::Core::Template::Container::Vector<Elysium::Core::byte>(Stream.GetLength());
 	Elysium::Core::size BytesReceived = Reader.ReadBytes(&Buffer[0], Buffer.GetLength());
 	
 	return Elysium::Graphics::Rendering::ShaderModule(_GraphicsDevice, Elysium::Core::Template::Functional::Move(Buffer));
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> MyGame::CreateVertices()
+Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexPositionColor> MyGame::CreateVertices()
 {
-	return Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor>
+	return Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexPositionColor>
 	{
 		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(-0.5f, -0.9f, 0.0f), Elysium::Graphics::Color::White),
 		Elysium::Graphics::Rendering::VertexPositionColor(Elysium::Core::Math::Numerics::Vector3<float>(0.5f, -0.9f, 0.0f), Elysium::Graphics::Color::Gray),
@@ -85,9 +86,9 @@ Elysium::Graphics::Rendering::VertexBuffer MyGame::CreateVertexBuffer()
 		_Vertices.GetLength(), Elysium::Graphics::Rendering::BufferUsage::WriteOnly);
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> MyGame::CreateIndices()
+Elysium::Core::Template::Container::Vector<Elysium::Core::uint16_t> MyGame::CreateIndices()
 {
-	return Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t>
+	return Elysium::Core::Template::Container::Vector<Elysium::Core::uint16_t>
 	{
 		0, 1, 2, 2, 3, 0
 	};

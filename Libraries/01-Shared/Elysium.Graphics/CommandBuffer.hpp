@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_GRAPHICS_API
 #include "API.hpp"
 #endif
@@ -52,14 +56,19 @@ namespace Elysium::Graphics::Rendering
 	{
 		friend class CommandPool;
 		friend class Queue;
+	private:
+		CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer);
 	public:
 		CommandBuffer(const CommandBuffer& Source) = delete;
+
 		CommandBuffer(CommandBuffer&& Right) noexcept = delete;
+
 		~CommandBuffer();
-
+	public:
 		CommandBuffer& operator=(const CommandBuffer& Source) = delete;
-		CommandBuffer& operator=(CommandBuffer&& Right) noexcept = delete;
 
+		CommandBuffer& operator=(CommandBuffer&& Right) noexcept = delete;
+	public:
 		/// <summary>
 		/// Starts recording a command buffer.
 		/// </summary>
@@ -130,8 +139,6 @@ namespace Elysium::Graphics::Rendering
 		/// <param name="Stencil"></param>
 		void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil);
 	private:
-		CommandBuffer(Native::INativeCommandBuffer* NativeCommandBuffer);
-
 		Native::INativeCommandBuffer* _NativeCommandBuffer;
 	};
 }

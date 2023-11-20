@@ -8,6 +8,10 @@
 #include "ContentManager.hpp"
 #endif
 
+Elysium::Graphics::Content::ContentReader::ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept
+    : _GraphicsDevice(Manager.GetGraphicsDevice()), _AssetName(AssetName), _InputReader(InputReader)
+{ }
+
 Elysium::Graphics::Content::ContentReader::~ContentReader() noexcept
 { }
 
@@ -52,7 +56,3 @@ Elysium::Graphics::Content::ContentReader Elysium::Graphics::Content::ContentRea
 
     return ContentReader(Manager, Reader, AssetName);
 }
-
-Elysium::Graphics::Content::ContentReader::ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept
-    : _GraphicsDevice(Manager.GetGraphicsDevice()), _AssetName(AssetName), _InputReader(InputReader)
-{ }

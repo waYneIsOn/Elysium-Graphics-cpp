@@ -32,7 +32,7 @@ namespace Elysium::Graphics::Rendering::Native
 		virtual ~INativeGraphicsAPI() { }
 
 		virtual const INativePhysicalDevice& GetPhysicalDevice(const Elysium::Core::uint32_t Index) const = 0;
-		//virtual const Elysium::Core::Collections::Template::Array<INativePhysicalDevice> GetPhysicalGraphicsDevices() const = 0;
+		//virtual const Elysium::Core::Template::Container::Vector<INativePhysicalDevice> GetPhysicalGraphicsDevices() const = 0;
 
 		virtual void EnableDebugging() = 0;
 		virtual void DisableDebugging() = 0;

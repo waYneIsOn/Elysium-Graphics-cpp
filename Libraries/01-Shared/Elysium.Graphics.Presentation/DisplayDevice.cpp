@@ -4,23 +4,51 @@
 #include "Window.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice> Elysium::Graphics::Presentation::DisplayDevice::_DisplayDevices = RetrieveDisplayDevices();
+Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice> Elysium::Graphics::Presentation::DisplayDevice::_DisplayDevices = RetrieveDisplayDevices();
+
+Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice()
+    : Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(-1)
+{ }
+
+Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(const Elysium::Core::uint32_t Handle)
+    : _DisplayDeviceHandle(Handle), _IsPrimaryDisplayDevice(false), _CurrentBounds()
+{ }
+
+Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(DisplayDevice && Right) noexcept
+    : _DisplayDeviceHandle(-1), _IsPrimaryDisplayDevice(false), _CurrentBounds()
+{
+    *this = Elysium::Core::Template::Functional::Move(Right);
+}
 
 Elysium::Graphics::Presentation::DisplayDevice::~DisplayDevice()
 { }
 
-const Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice>& Elysium::Graphics::Presentation::DisplayDevice::GetActiveDisplayDevices()
+Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Presentation::DisplayDevice::operator=(DisplayDevice&& Right) noexcept
+{
+    if (this != &Right)
+    {
+        _DisplayDeviceHandle = Right._DisplayDeviceHandle;
+        _IsPrimaryDisplayDevice = Right._IsPrimaryDisplayDevice;
+        _CurrentBounds = Elysium::Core::Template::Functional::Move(Right._CurrentBounds);
+
+        Right._DisplayDeviceHandle = -1;
+        Right._IsPrimaryDisplayDevice = false;
+    }
+    return *this;
+}
+
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice>& Elysium::Graphics::Presentation::DisplayDevice::GetActiveDisplayDevices()
 {
 	return _DisplayDevices;
 }
 
 const Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Presentation::DisplayDevice::GetPrimaryDisplayDevice()
 {
-    if (_DisplayDevices.GetCount() == 0)
+    if (_DisplayDevices.GetLength() == 0)
     {   // ToDo: throw specific exception
         throw 1;
     }
@@ -32,7 +60,7 @@ const Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Present
 const Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Presentation::DisplayDevice::GetDisplayDeviceFromWindow(const Window& Window)
 {
     HMONITOR MonitorHandle = MonitorFromWindow((HWND)Window._WindowHandle, MONITOR_DEFAULTTONEAREST);
-    for (size_t i = 0; i < _DisplayDevices.GetCount(); i++)
+    for (size_t i = 0; i < _DisplayDevices.GetLength(); i++)
     {
         if ((HMONITOR)_DisplayDevices[i]._DisplayDeviceHandle == MonitorHandle)
         {
@@ -49,33 +77,6 @@ const bool& Elysium::Graphics::Presentation::DisplayDevice::GetIsPrimaryDisplayD
 const Elysium::Core::Math::Geometry::Rectangle& Elysium::Graphics::Presentation::DisplayDevice::GetCurrentBounds() const
 {
     return _CurrentBounds;
-}
-
-Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice()
-    : Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(-1)
-{ }
-Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(const Elysium::Core::uint32_t Handle)
-    : _DisplayDeviceHandle(Handle), _IsPrimaryDisplayDevice(false), _CurrentBounds()
-{ }
-
-Elysium::Graphics::Presentation::DisplayDevice::DisplayDevice(DisplayDevice&& Right) noexcept
-    : _DisplayDeviceHandle(-1), _IsPrimaryDisplayDevice(false), _CurrentBounds()
-{
-    *this = std::move(Right);
-}
-
-Elysium::Graphics::Presentation::DisplayDevice& Elysium::Graphics::Presentation::DisplayDevice::operator=(DisplayDevice&& Right) noexcept
-{
-    if (this != &Right)
-    {
-        _DisplayDeviceHandle = Right._DisplayDeviceHandle;
-        _IsPrimaryDisplayDevice = Right._IsPrimaryDisplayDevice;
-        _CurrentBounds = std::move(Right._CurrentBounds);
-
-        Right._DisplayDeviceHandle = -1;
-        Right._IsPrimaryDisplayDevice = false;
-    }
-    return *this;
 }
 
 void Elysium::Graphics::Presentation::DisplayDevice::RefreshValues()
@@ -110,10 +111,10 @@ void Elysium::Graphics::Presentation::DisplayDevice::RefreshValues()
     int sdf = 45;
 }
 
-Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice> Elysium::Graphics::Presentation::DisplayDevice::RetrieveDisplayDevices()
+Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice> Elysium::Graphics::Presentation::DisplayDevice::RetrieveDisplayDevices()
 {
-    Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice> Monitors =
-        Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice>();
+    Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice> Monitors =
+        Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice>();
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
     if (!EnumDisplayMonitors(nullptr, nullptr, EnumDisplayDevicesCallback, (LPARAM)&Monitors))
@@ -121,7 +122,7 @@ Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Disp
         throw 1;
     }
 
-    for (size_t i = 0; i < Monitors.GetCount(); i++)
+    for (size_t i = 0; i < Monitors.GetLength(); i++)
     {
         Monitors[i].RefreshValues();
     }
@@ -134,8 +135,9 @@ Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::Disp
 
 Elysium::Core::int32_t Elysium::Graphics::Presentation::DisplayDevice::EnumDisplayDevicesCallback(HMONITOR Handle, HDC Dc, RECT* Rectangle, LPARAM Data)
 {
-    Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice>* Monitors = (Elysium::Core::Collections::Template::List<Elysium::Graphics::Presentation::DisplayDevice>*)Data;
-    Monitors->Add((Elysium::Core::uint32_t)Handle);
+    Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice>* Monitors =
+        reinterpret_cast<Elysium::Core::Template::Container::Vector<Elysium::Graphics::Presentation::DisplayDevice>*>(Data);
+    Monitors->PushBack((Elysium::Core::uint32_t)Handle);
 
     return 1;
 }

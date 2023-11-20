@@ -57,13 +57,17 @@ namespace Elysium::Graphics::Presentation
 		friend class DisplayDevice;
 	public:
 		Window();
+
 		Window(Window&& Right) noexcept = delete;
+
 		Window(const Window& Source) = delete;
+
 		virtual ~Window();
-
+	public:
 		Window& operator=(Window&& Right) noexcept = delete;
-		Window& operator=(const Window& Source) = delete;
 
+		Window& operator=(const Window& Source) = delete;
+	public:
 		virtual const void* GetHandle() const override;
 		//virtual const bool GetIsActive() const = 0;
 		//const Elysium::Core::Utf8String& GetName() const;

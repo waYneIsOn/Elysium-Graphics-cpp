@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_API
@@ -32,16 +32,20 @@ namespace Elysium::Graphics::Rendering
 	{
 		friend class GraphicsPipeline;
 	public:
-		ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Collections::Template::Array<Elysium::Core::byte>&& ByteCode);
-		ShaderModule(const ShaderModule& Source) = delete;
-		ShaderModule(ShaderModule&& Right) noexcept = delete;
-		~ShaderModule();
+		ShaderModule(const GraphicsDevice& GraphicsDevice, Elysium::Core::Template::Container::Vector<Elysium::Core::byte>&& ByteCode);
 
+		ShaderModule(const ShaderModule& Source) = delete;
+
+		ShaderModule(ShaderModule&& Right) noexcept = delete;
+
+		~ShaderModule();
+	public:
 		ShaderModule& operator=(const ShaderModule& Source) = delete;
+
 		ShaderModule& operator=(ShaderModule&& Right) noexcept = delete;
 	private:
 		const GraphicsDevice& _GraphicsDevice;
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _ByteCode;
+		const Elysium::Core::Template::Container::Vector<Elysium::Core::byte> _ByteCode;
 
 		Native::INativeShaderModule* _NativeShaderModule;
 	};

@@ -23,7 +23,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Graphics/GraphicsDevice.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
+using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Graphics;
 using namespace Elysium::Graphics::Presentation;
 using namespace Elysium::Graphics::Rendering;
@@ -34,9 +34,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
     // instantiate a window to be used as canvas and find the primary display device index
     Window Canvas = Window();
-    const List<DisplayDevice>& DisplayDevices = DisplayDevice::GetActiveDisplayDevices();
+    const Vector<DisplayDevice>& DisplayDevices = DisplayDevice::GetActiveDisplayDevices();
     size_t PrimaryDisplayDeviceIndex = -1;
-    for (size_t i = 0; i < DisplayDevices.GetCount(); i++)
+    for (size_t i = 0; i < DisplayDevices.GetLength(); i++)
     {
         if (DisplayDevices[i].GetIsPrimaryDisplayDevice())
         {
@@ -49,11 +49,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     GraphicsInstanceVk GraphicsAPI = GraphicsInstanceVk();
     GraphicsAPI.EnableDebugging();
 
-    const Array<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsAPI.GetAvailableExtensions();
-    const Array<LayerPropertyVk> AvailableLayers = GraphicsAPI.GetAvailableLayers();
+    const Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> AvailableInstanceExtensions = GraphicsAPI.GetAvailableExtensions();
+    const Elysium::Core::Template::Container::Vector<LayerPropertyVk> AvailableLayers = GraphicsAPI.GetAvailableLayers();
 
     // get the most suitable graphics device
-    const Array<PhysicalDeviceVk>& PhysicalGraphicsDevices = GraphicsAPI.GetPhysicalDevices();
+    const Elysium::Core::Template::Container::Vector<PhysicalDeviceVk>& PhysicalGraphicsDevices = GraphicsAPI.GetPhysicalDevices();
     size_t MostSuitablePhysicalDeviceIndex = -1;
     size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
@@ -95,7 +95,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // ...
     const PhysicalDeviceVk& SelectedPhysicalDevice = PhysicalGraphicsDevices[MostSuitablePhysicalDeviceIndex];
 
-    const Array<ExtensionPropertyVk> AvailableDeviceExtensions = SelectedPhysicalDevice.GetAvailableExtensions();
+    const Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> AvailableDeviceExtensions = SelectedPhysicalDevice.GetAvailableExtensions();
     for (size_t i = 0; i < AvailableDeviceExtensions.GetLength(); i++)
     {
         const Utf8StringView ExtensionName = AvailableDeviceExtensions[i].GetName();
@@ -130,7 +130,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     //SurfaceDX12 Surface = GraphicsInstance.CreateSurface(PresentationParameters);
     //PresentationParameters.SetSurfaceHandle(Surface);
 
-    const Array<PhysicalDeviceDX12> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
+    const Elysium::Core::Template::Container::Vector<PhysicalDeviceDX12> PhysicalGraphicsDevices = GraphicsInstance.GetPhysicalGraphicsDevices();
     size_t MostSuitableGraphicsDeviceIndex = -1;
     size_t HighestScore = 0;
     for (size_t i = 0; i < PhysicalGraphicsDevices.GetLength(); i++)
@@ -157,7 +157,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     GraphicsQueueCreateInfo.SetPriority(CommandQueuePriorityDX12::Normal);
     GraphicsQueueCreateInfo.SetType(CommandQueueTypeDX12::Direct);
 
-    PresentationParameters.AddDeviceQueueCreateInfo(std::move(GraphicsQueueCreateInfo));
+    PresentationParameters.AddDeviceQueueCreateInfo(Elysium::Core::Template::Functional::Move(GraphicsQueueCreateInfo));
 
     // ...
     LogicalDeviceDX12 LogicalDevice = LogicalDeviceDX12(SelectedPhysicalDevice, PresentationParameters);

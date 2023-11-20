@@ -8,8 +8,8 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/OverflowException.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
 #ifndef _LIMITS_
@@ -33,7 +33,7 @@ Elysium::Graphics::Color::Color(const Color & Source) noexcept
 { }
 Elysium::Graphics::Color::Color(Color&& Right) noexcept
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Graphics::Color::~Color() noexcept
 { }
@@ -51,7 +51,7 @@ Elysium::Graphics::Color& Elysium::Graphics::Color::operator=(Color&& Right) noe
 {
 	if (this != &Right)
 	{
-		_PackedValue = std::move(Right._PackedValue);
+		_PackedValue = Elysium::Core::Template::Functional::Move(Right._PackedValue);
 
 		Right._PackedValue = 0;
 	}

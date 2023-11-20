@@ -38,21 +38,24 @@ namespace Elysium::Graphics::Content
 
 	class ELYSIUM_GRAPHICS_API ContentReader final
 	{
+	private:
+		ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept;
 	public:
 		ContentReader(const ContentReader& Source) noexcept = delete;
+
 		ContentReader(ContentReader&& Right) noexcept = delete;
+
 		~ContentReader() noexcept;
-
+	public:
 		ContentReader& operator=(const ContentReader& Source) noexcept = delete;
-		ContentReader& operator=(ContentReader&& Right) noexcept = delete;
 
+		ContentReader& operator=(ContentReader&& Right) noexcept = delete;
+	public:
 		static ContentReader Create(const ContentManager& Manager, Elysium::Core::IO::Stream& Input, const Elysium::Core::Utf8String& AssetName);
 
 		template <class T>
 		T ReadAsset();
 	private:
-		ContentReader(const ContentManager& Manager, Elysium::Core::IO::BinaryReader& InputReader, const Elysium::Core::Utf8String& AssetName) noexcept;
-
 		const Elysium::Graphics::Rendering::GraphicsDevice& _GraphicsDevice;
 		const Elysium::Core::Utf8String& _AssetName;
 		Elysium::Core::IO::BinaryReader& _InputReader;

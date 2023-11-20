@@ -8,12 +8,14 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(Elysium::Core::Collections::Template::Array<VertexElement>&& Elements)
+Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(Elysium::Core::Template::Container::Vector<VertexElement>&& Elements)
 	: _Stride(GetElementStride(Elements)), _Elements(Elysium::Core::Template::Functional::Move(Elements))
 { }
-Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(const Elysium::Core::uint32_t Stride, Elysium::Core::Collections::Template::Array<VertexElement>&& Elements)
+
+Elysium::Graphics::Rendering::VertexDeclaration::VertexDeclaration(const Elysium::Core::uint32_t Stride, Elysium::Core::Template::Container::Vector<VertexElement>&& Elements)
 	: _Stride(Stride), _Elements(Elysium::Core::Template::Functional::Move(Elements))
 { }
+
 Elysium::Graphics::Rendering::VertexDeclaration::~VertexDeclaration()
 { }
 
@@ -22,12 +24,12 @@ const Elysium::Core::uint32_t Elysium::Graphics::Rendering::VertexDeclaration::G
 	return _Stride;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexElement>& Elysium::Graphics::Rendering::VertexDeclaration::GetElements() const
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexElement>& Elysium::Graphics::Rendering::VertexDeclaration::GetElements() const
 {
 	return _Elements;
 }
 
-const Elysium::Core::uint32_t Elysium::Graphics::Rendering::VertexDeclaration::GetElementStride(const Elysium::Core::Collections::Template::Array<VertexElement>& Elements)
+const Elysium::Core::uint32_t Elysium::Graphics::Rendering::VertexDeclaration::GetElementStride(const Elysium::Core::Template::Container::Vector<VertexElement>& Elements)
 {
 	Elysium::Core::uint32_t Result = 0;
 

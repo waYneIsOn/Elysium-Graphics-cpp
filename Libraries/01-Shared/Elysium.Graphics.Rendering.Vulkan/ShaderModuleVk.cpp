@@ -4,7 +4,7 @@
 #include "ExceptionVk.hpp"
 #endif
 
-Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
+Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Template::Container::Vector<Elysium::Core::byte>& Data)
 	: _GraphicsDevice(GraphicsDevice), _NativeShaderModule(CreateShaderModule(&Data[0], Data.GetLength()))
 { }
 Elysium::Graphics::Rendering::Vulkan::ShaderModuleVk::~ShaderModuleVk()

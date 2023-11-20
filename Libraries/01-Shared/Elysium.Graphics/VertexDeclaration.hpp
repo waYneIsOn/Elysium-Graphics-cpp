@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
@@ -36,15 +36,20 @@ namespace Elysium::Graphics::Rendering
 	class ELYSIUM_GRAPHICS_API VertexDeclaration final
 	{
 	public:
-		VertexDeclaration(Elysium::Core::Collections::Template::Array<VertexElement>&& Elements);
-		VertexDeclaration(const Elysium::Core::uint32_t Stride, Elysium::Core::Collections::Template::Array<VertexElement>&& Elements);
+		VertexDeclaration(Elysium::Core::Template::Container::Vector<VertexElement>&& Elements);
+
+		VertexDeclaration(const Elysium::Core::uint32_t Stride, Elysium::Core::Template::Container::Vector<VertexElement>&& Elements);
+
 		VertexDeclaration(const VertexDeclaration& Source) = delete;
+
 		VertexDeclaration(VertexDeclaration&& Right) noexcept = delete;
+
 		~VertexDeclaration();
-
+	public:
 		VertexDeclaration& operator=(const VertexDeclaration& Source) = delete;
-		VertexDeclaration& operator=(VertexDeclaration&& Right) noexcept = delete;
 
+		VertexDeclaration& operator=(VertexDeclaration&& Right) noexcept = delete;
+	public:
 		/// <summary>
 		/// Gets the number of bytes from one vertex to the next.
 		/// </summary>
@@ -55,13 +60,13 @@ namespace Elysium::Graphics::Rendering
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::Collections::Template::Array<VertexElement>& GetElements() const;
+		const Elysium::Core::Template::Container::Vector<VertexElement>& GetElements() const;
+	private:
+		static const Elysium::Core::uint32_t GetElementStride(const Elysium::Core::Template::Container::Vector<VertexElement>& Elements);
+		static const Elysium::Core::uint32_t GetElementStride(const VertexElementFormat Format);
 	private:
 		const Elysium::Core::uint32_t _Stride;
-		const Elysium::Core::Collections::Template::Array<VertexElement> _Elements;
-
-		static const Elysium::Core::uint32_t GetElementStride(const Elysium::Core::Collections::Template::Array<VertexElement>& Elements);
-		static const Elysium::Core::uint32_t GetElementStride(const VertexElementFormat Format);
+		const Elysium::Core::Template::Container::Vector<VertexElement> _Elements;
 	};
 }
 #endif

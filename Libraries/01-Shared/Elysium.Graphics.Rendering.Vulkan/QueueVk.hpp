@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEQUEUE
@@ -42,7 +42,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 	class ELYSIUM_GRAPHICS_RENDERING_VULKAN_API QueueVk final : public Native::INativeQueue
 	{
-		friend class Elysium::Core::Collections::Template::Array<QueueVk>;
+		friend class Elysium::Core::Template::Container::Vector<QueueVk>;
 		friend class CommandPoolVk;
 		friend class GraphicsDeviceVk;
 		friend class PhysicalDeviceVk;

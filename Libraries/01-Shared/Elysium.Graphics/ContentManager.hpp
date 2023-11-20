@@ -38,15 +38,19 @@ namespace Elysium::Graphics::Content
 	{
 	public:
 		ContentManager(const Elysium::Graphics::Rendering::GraphicsDevice& GraphicsDevice, const Elysium::Core::Utf8String& RootDirectory) noexcept;
+
 		ContentManager(const ContentManager& Source) noexcept = delete;
+
 		ContentManager(ContentManager&& Right) noexcept = delete;
+
 		~ContentManager() noexcept;
-
+	public:
 		ContentManager& operator=(const ContentManager& Source) noexcept = delete;
+
 		ContentManager& operator=(ContentManager&& Right) noexcept = delete;
-
+	public:
 		const Elysium::Graphics::Rendering::GraphicsDevice& GetGraphicsDevice() const;
-
+	public:
 		template <class T>
 		const T Load(const Elysium::Core::Utf8String& AssetName);
 

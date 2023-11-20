@@ -16,10 +16,6 @@
 #include "SemaphoreVk.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 Elysium::Graphics::Rendering::Vulkan::QueueVk::QueueVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::uint32_t FamilyIndex, Elysium::Core::uint32_t Index)
 	: _GraphicsDevice(GraphicsDevice), _FamilyIndex(FamilyIndex), _Index(Index), _NativeQueueHandle(RetrieveNativeQueue())
 { }

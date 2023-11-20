@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVESHADERMODULE
@@ -38,7 +38,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class GraphicsPipelineVk;
 	public:
-		ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
+		ShaderModuleVk(const GraphicsDeviceVk& GraphicsDevice, const Elysium::Core::Template::Container::Vector<Elysium::Core::byte>& Data);
 		ShaderModuleVk(const ShaderModuleVk& Source) = delete;
 		ShaderModuleVk(ShaderModuleVk&& Right) noexcept = delete;
 		virtual ~ShaderModuleVk();

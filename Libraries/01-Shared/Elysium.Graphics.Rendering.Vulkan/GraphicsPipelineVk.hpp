@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_PRESENTATION_CONTROL
@@ -77,12 +77,12 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		VkPipelineLayout _NativePipelineLayoutHandle;
 		VkPipeline _NativePipelineHandle;
 
-		Elysium::Core::Collections::Template::List<VkViewport> _Viewports;
-		Elysium::Core::Collections::Template::List<VkRect2D> _ScissorRectangles;
-		Elysium::Core::Collections::Template::List<VkPipelineShaderStageCreateInfo> _ShaderStages;
+		Elysium::Core::Template::Container::Vector<VkViewport> _Viewports;
+		Elysium::Core::Template::Container::Vector<VkRect2D> _ScissorRectangles;
+		Elysium::Core::Template::Container::Vector<VkPipelineShaderStageCreateInfo> _ShaderStages;
 
-		Elysium::Core::Collections::Template::List<VkVertexInputBindingDescription> _InputBindingDescriptions;
-		Elysium::Core::Collections::Template::List<VkVertexInputAttributeDescription> _InputAttributeDescriptions;
+		Elysium::Core::Template::Container::Vector<VkVertexInputBindingDescription> _InputBindingDescriptions;
+		Elysium::Core::Template::Container::Vector<VkVertexInputAttributeDescription> _InputAttributeDescriptions;
 		VkPipelineVertexInputStateCreateInfo _PipelineVertexInputStateCreateInfo;
 
 		VkPipelineInputAssemblyStateCreateInfo _InputAssembly;

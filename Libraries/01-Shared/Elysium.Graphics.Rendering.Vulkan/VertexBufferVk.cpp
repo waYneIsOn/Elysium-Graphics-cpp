@@ -16,6 +16,7 @@ Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::VertexBufferVk(const Graph
 	: _GraphicsDevice(GraphicsDevice), _Declaration(Declaration), _VertexCount(VertexCount), _Usage(Usage),
 	_NativeVertexBuffer(CreateNativeVertexBuffer()), _NativeVertexBufferMemory(CreateNativeVertexBufferMemory())
 { }
+
 Elysium::Graphics::Rendering::Vulkan::VertexBufferVk::~VertexBufferVk()
 {
 	DestroyNativeVertexBufferMemory();

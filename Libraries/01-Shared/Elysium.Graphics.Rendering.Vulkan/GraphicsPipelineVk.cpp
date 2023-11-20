@@ -52,7 +52,7 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddViewport(const
 	Viewport.minDepth = MinimumDepth;
 	Viewport.maxDepth = MaximumDepth;
 
-	_Viewports.Add(Viewport);
+	_Viewports.PushBack(Viewport);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearViewports()
@@ -66,7 +66,7 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddScissorRectang
 	ScissorRectangle.offset = { X, Y };
 	ScissorRectangle.extent = { Width, Height };
 
-	_ScissorRectangles.Add(ScissorRectangle);
+	_ScissorRectangles.PushBack(ScissorRectangle);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearScissorRectangles()
@@ -87,7 +87,7 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::AddShaderModule(c
 	ShaderStageCreateInfo.pSpecializationInfo = nullptr;
 	ShaderStageCreateInfo.stage = (VkShaderStageFlagBits)Type;
 
-	_ShaderStages.Add(ShaderStageCreateInfo);
+	_ShaderStages.PushBack(ShaderStageCreateInfo);
 }
 
 void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::ClearShaderModules()
@@ -107,12 +107,12 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::SetVertexBuffer(c
 	InputBindingDescription.binding = 0;
 	InputBindingDescription.stride = VertexDeclaration.GetVertexStride();
 	InputBindingDescription.inputRate = VkVertexInputRate::VK_VERTEX_INPUT_RATE_VERTEX;
-	_InputBindingDescriptions.Add(InputBindingDescription);
+	_InputBindingDescriptions.PushBack(InputBindingDescription);
 
-	const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexElement>& VertexElements = VertexDeclaration.GetElements();
+	const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexElement>& VertexElements = VertexDeclaration.GetElements();
 	const size_t VertexElementsLength = VertexElements.GetLength();
-	Elysium::Core::Collections::Template::Array<VkVertexInputAttributeDescription> InputAttributeDescriptions =
-		Elysium::Core::Collections::Template::Array<VkVertexInputAttributeDescription>(VertexElementsLength);
+	Elysium::Core::Template::Container::Vector<VkVertexInputAttributeDescription> InputAttributeDescriptions =
+		Elysium::Core::Template::Container::Vector<VkVertexInputAttributeDescription>(VertexElementsLength);
 	for (size_t i = 0; i < VertexElementsLength; i++)
 	{
 		InputAttributeDescriptions[i].location = i;
@@ -120,13 +120,13 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::SetVertexBuffer(c
 		InputAttributeDescriptions[i].binding = VertexElements[i].GetUsageIndex();
 		InputAttributeDescriptions[i].format = FormatConverterVk::Convert(VertexElements[i].GetFormat());
 	}
-	_InputAttributeDescriptions.AddRange(&InputAttributeDescriptions[0], InputAttributeDescriptions.GetLength());
+	_InputAttributeDescriptions.PushBackRange(&InputAttributeDescriptions[0], InputAttributeDescriptions.GetLength());
 
 	_PipelineVertexInputStateCreateInfo = VkPipelineVertexInputStateCreateInfo();
 	_PipelineVertexInputStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	_PipelineVertexInputStateCreateInfo.pNext = nullptr;
 	_PipelineVertexInputStateCreateInfo.flags = 0;
-	_PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = _InputBindingDescriptions.GetCount();
+	_PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = _InputBindingDescriptions.GetLength();
 	_PipelineVertexInputStateCreateInfo.pVertexBindingDescriptions = _PipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount == 0 ?
 		nullptr : &_InputBindingDescriptions[0];
 	_PipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = VertexElementsLength;
@@ -139,13 +139,13 @@ void Elysium::Graphics::Rendering::Vulkan::GraphicsPipelineVk::Build(const Nativ
 
 	const RenderPassVk& VkRenderPass = static_cast<const RenderPassVk&>(RenderPass);
 
-	const size_t ViewportCount = _Viewports.GetCount();
-	const size_t ScissorRectangleCount = _ScissorRectangles.GetCount();
+	const size_t ViewportCount = _Viewports.GetLength();
+	const size_t ScissorRectangleCount = _ScissorRectangles.GetLength();
 	if (ViewportCount != ScissorRectangleCount)
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
-	const size_t ShaderCount = _ShaderStages.GetCount();
+	const size_t ShaderCount = _ShaderStages.GetLength();
 
 	VkPipelineViewportStateCreateInfo ViewportStateCreateInfo = VkPipelineViewportStateCreateInfo();
 	ViewportStateCreateInfo.sType = VkStructureType::VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;

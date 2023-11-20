@@ -4,8 +4,8 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/ArgumentOutOfRangeException.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk()
@@ -17,7 +17,7 @@ Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreate
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::DeviceQueueCreateInfoVk(DeviceQueueCreateInfoVk&& Right) noexcept
 	: _Priorities(), _FamilyIndex(-1), _Capabilities(Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::~DeviceQueueCreateInfoVk()
 { }
@@ -37,9 +37,9 @@ Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk& Elysium::Graphics
 {
 	if (this != &Right)
 	{
-		_Priorities = std::move(Right._Priorities);
-		_FamilyIndex = std::move(Right._FamilyIndex);
-		_Capabilities = std::move(Right._Capabilities);
+		_Priorities = Elysium::Core::Template::Functional::Move(Right._Priorities);
+		_FamilyIndex = Elysium::Core::Template::Functional::Move(Right._FamilyIndex);
+		_Capabilities = Elysium::Core::Template::Functional::Move(Right._Capabilities);
 
 		Right._FamilyIndex = -1;
 		Right._Capabilities = Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk::None;
@@ -57,7 +57,7 @@ const Elysium::Graphics::Rendering::Vulkan::QueueCapabilitiesVk& Elysium::Graphi
 	return _Capabilities;
 }
 
-const Elysium::Core::Collections::Template::List<float>& Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::GetPriorities() const
+const Elysium::Core::Template::Container::Vector<float>& Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::GetPriorities() const
 {
 	return _Priorities;
 }
@@ -79,7 +79,7 @@ const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::AddPri
 		throw Elysium::Core::ArgumentOutOfRangeException(u8"Priority needs to be between 0.0f and 1.0f.");
 	}
 
-	_Priorities.Add(Value);
+	_Priorities.PushBack(Value);
 }
 
 const void Elysium::Graphics::Rendering::Vulkan::DeviceQueueCreateInfoVk::ClearPriorities()

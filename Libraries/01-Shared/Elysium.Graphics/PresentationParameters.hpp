@@ -58,34 +58,57 @@ namespace Elysium::Graphics
 	{
 	public:
 		PresentationParameters(Rendering::Native::INativeGraphicsAPI& NativeGraphicsAPI, Presentation::Control& Canvas);
+
 		PresentationParameters(const PresentationParameters& Source) = delete;
+
 		PresentationParameters(PresentationParameters&& Right) noexcept = delete;
+
 		virtual ~PresentationParameters();
-
+	public:
 		PresentationParameters& operator=(const PresentationParameters& Source) = delete;
+
 		PresentationParameters& operator=(PresentationParameters&& Right) noexcept = delete;
-
+	public:
 		const Elysium::Graphics::DisplayMode GetDisplayMode() const;
-		const Elysium::Graphics::Presentation::DisplayDevice& GetDisplayDevice() const;
-		const Elysium::Graphics::Rendering::Native::INativePhysicalDevice& GetPhysicalDevice() const;
-		Presentation::Control& GetCanvas() const;
-		const Elysium::Core::uint32_t GetRenderResolution() const;
-		const Elysium::Core::uint32_t GetBackBufferWidth() const;
-		const Elysium::Core::uint32_t GetBackBufferHeight() const;
-		const Elysium::Core::uint32_t GetBackBufferCount() const;
-		const Elysium::Graphics::PresentMode GetPresentMode() const;
-		const Rendering::SurfaceFormat GetDesiredSurfaceFormat() const;
-		const Rendering::DepthFormat GetDesiredDepthStencilFormat() const;
 
+		const Elysium::Graphics::Presentation::DisplayDevice& GetDisplayDevice() const;
+
+		const Elysium::Graphics::Rendering::Native::INativePhysicalDevice& GetPhysicalDevice() const;
+
+		Presentation::Control& GetCanvas() const;
+
+		const Elysium::Core::uint32_t GetRenderResolution() const;
+
+		const Elysium::Core::uint32_t GetBackBufferWidth() const;
+
+		const Elysium::Core::uint32_t GetBackBufferHeight() const;
+
+		const Elysium::Core::uint32_t GetBackBufferCount() const;
+
+		const Elysium::Graphics::PresentMode GetPresentMode() const;
+
+		const Rendering::SurfaceFormat GetDesiredSurfaceFormat() const;
+
+		const Rendering::DepthFormat GetDesiredDepthStencilFormat() const;
+	public:
 		void SetDisplayMode(const Elysium::Graphics::DisplayMode Value);
+
 		void SetDisplayDeviceIndex(const Elysium::Core::uint32_t Value);
+
 		void SetGraphicsDeviceIndex(const Elysium::Core::uint32_t Value);
+
 		void SetPresentMode(const Elysium::Graphics::PresentMode Value);
+
 		void SetRenderResolution(const Elysium::Core::uint32_t Value);
+
 		void SetBackBufferWidth(const Elysium::Core::uint32_t Value);
+
 		void SetBackBufferHeight(const Elysium::Core::uint32_t Value);
+
 		void SetBackBufferCount(const Elysium::Core::uint32_t Value);
+
 		void SetDesiredSurfaceFormat(const Rendering::SurfaceFormat Value);
+
 		void SetDesiredDepthStencilFormat(const Rendering::DepthFormat Value);
 	protected:
 		// graphics api

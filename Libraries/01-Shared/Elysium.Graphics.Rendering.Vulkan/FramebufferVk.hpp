@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_NATIVE_INATIVEFRAMEBUFFER
@@ -44,38 +44,51 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class GraphicsPipelineVk;
 	public:
 		FrameBufferVk(const GraphicsDeviceVk& GraphicsDevice, const RenderPassVk& RenderPass);
+
 		FrameBufferVk(const FrameBufferVk& Source) = delete;
+
 		FrameBufferVk(FrameBufferVk&& Right) noexcept = delete;
+
 		virtual ~FrameBufferVk();
-
+	public:
 		FrameBufferVk& operator=(const FrameBufferVk& Source) = delete;
-		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
 
+		FrameBufferVk& operator=(FrameBufferVk&& Right) noexcept = delete;
+	public:
 		virtual const Elysium::Core::uint32_t GetWidth() const override;
+
 		virtual const Elysium::Core::uint32_t GetHeight() const override;
+
 		virtual const Elysium::Core::uint32_t GetDepth() const override;
+	private:
+		VkExtent3D RetrieveExtent();
+
+		Elysium::Core::Template::Container::Vector<VkImage> CreateNativeImages();
+
+		VkDeviceMemory CreateNativeImageMemory();
+
+		Elysium::Core::Template::Container::Vector<VkImageView> CreateNativeImageViews();
+
+		Elysium::Core::Template::Container::Vector<VkFramebuffer> CreateNativeFramebuffers();
+
+		void DestroyNativeFramebuffers();
+
+		void DestroyNativeImageViews();
+
+		void DestroyNativeImageMemory();
+
+		void DestroyNativeImages();
+
+		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
 	private:
 		const GraphicsDeviceVk& _GraphicsDevice;
 		const RenderPassVk& _RenderPass;
 		VkExtent3D _Extent;
 
-		Elysium::Core::Collections::Template::Array<VkImage> _NativeImages;
+		Elysium::Core::Template::Container::Vector<VkImage> _NativeImages;
 		VkDeviceMemory _NativeImageMemory;
-		Elysium::Core::Collections::Template::Array<VkImageView> _NativeImageViews;
-		Elysium::Core::Collections::Template::Array<VkFramebuffer> _NativeFramebuffers;
-
-		VkExtent3D RetrieveExtent();
-		Elysium::Core::Collections::Template::Array<VkImage> CreateNativeImages();
-		VkDeviceMemory CreateNativeImageMemory();
-		Elysium::Core::Collections::Template::Array<VkImageView> CreateNativeImageViews();
-		Elysium::Core::Collections::Template::Array<VkFramebuffer> CreateNativeFramebuffers();
-
-		void DestroyNativeFramebuffers();
-		void DestroyNativeImageViews();
-		void DestroyNativeImageMemory();
-		void DestroyNativeImages();
-
-		void Control_SizeChanged(const Elysium::Graphics::Presentation::Control& Sender, const Elysium::Core::int32_t Width, const Elysium::Core::int32_t Height);
+		Elysium::Core::Template::Container::Vector<VkImageView> _NativeImageViews;
+		Elysium::Core::Template::Container::Vector<VkFramebuffer> _NativeFramebuffers;
 	};
 }
 #endif

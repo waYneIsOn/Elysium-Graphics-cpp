@@ -30,9 +30,11 @@ namespace Elysium::Graphics::Rendering::Native
 	{
 	public:
 		virtual ~INativeFrameBuffer() { }
-
+	public:
 		virtual const Elysium::Core::uint32_t GetWidth() const = 0;
+
 		virtual const Elysium::Core::uint32_t GetHeight() const = 0;
+
 		virtual const Elysium::Core::uint32_t GetDepth() const = 0;
 	};
 }

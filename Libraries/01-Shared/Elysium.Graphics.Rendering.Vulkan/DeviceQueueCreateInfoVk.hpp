@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
@@ -30,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_GRAPHICS_RENDERING_VULKAN_QUEUECAPABILITIESVK
 #include "QueueCapabilitiesVk.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Graphics::Rendering::Vulkan
@@ -47,7 +47,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 
 		const Elysium::Core::uint32_t& GetFamilyIndex() const;
 		const QueueCapabilitiesVk& GetCapabilities() const;
-		const Elysium::Core::Collections::Template::List<float>& GetPriorities() const;
+		const Elysium::Core::Template::Container::Vector<float>& GetPriorities() const;
 
 		const void SetFamilyIndex(const Elysium::Core::uint32_t Value);
 		const void SetCapabilities(const QueueCapabilitiesVk Value);
@@ -55,7 +55,7 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const void AddPriority(const float Value);
 		const void ClearPriorities();
 	private:
-		Elysium::Core::Collections::Template::List<float> _Priorities;
+		Elysium::Core::Template::Container::Vector<float> _Priorities;
 		Elysium::Core::uint32_t _FamilyIndex;
 		QueueCapabilitiesVk _Capabilities;
 	};

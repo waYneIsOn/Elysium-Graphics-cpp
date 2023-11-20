@@ -11,6 +11,7 @@
 Elysium::Graphics::Rendering::FrameBuffer::FrameBuffer(const GraphicsDevice& GraphicsDevice, const RenderPass& RenderPass)
 	: _GraphicsDevice(GraphicsDevice), _NativeFrameBuffer(_GraphicsDevice._NativeGraphicsDevice.CreateFrameBuffer(*RenderPass._NativeRenderPass))
 { }
+
 Elysium::Graphics::Rendering::FrameBuffer::~FrameBuffer()
 {
 	if (_NativeFrameBuffer != nullptr)

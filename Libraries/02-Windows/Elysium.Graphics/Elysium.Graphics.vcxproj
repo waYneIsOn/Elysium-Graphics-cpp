@@ -179,6 +179,11 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Elysium.Graphics.Presentation\Elysium.Graphics.Presentation.vcxproj">
+      <Project>{67a641bb-b207-4c58-88e9-a5ae39f8cff0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

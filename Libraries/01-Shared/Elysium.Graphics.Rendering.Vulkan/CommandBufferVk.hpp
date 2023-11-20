@@ -38,21 +38,28 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		friend class QueueVk;
 	public:
 		CommandBufferVk(const GraphicsDeviceVk& GraphicsDevice, const CommandPoolVk& CommandPool, const bool IsPrimary);
+
 		CommandBufferVk(const CommandBufferVk& Source) = delete;
+
 		CommandBufferVk(CommandBufferVk&& Right) noexcept = delete;
+
 		virtual ~CommandBufferVk();
-
+	public:
 		CommandBufferVk& operator=(const CommandBufferVk& Source) = delete;
-		CommandBufferVk& operator=(CommandBufferVk&& Right) noexcept = delete;
 
+		CommandBufferVk& operator=(CommandBufferVk&& Right) noexcept = delete;
+	public:
 		virtual void BeginRecording() override;
+
 		virtual void EndRecording() override;
+
 		virtual void Reset() override;
 
 		virtual void RecordSecondaryBuffer(const INativeCommandBuffer& CommandBuffer) override;
 
 		virtual void RecordBeginRenderPass(const Native::INativeRenderPass& RenderPass, const Native::INativeFrameBuffer& FrameBuffer,
 			const Color& ClearColor, const float Depth, const Elysium::Core::uint32_t Stencil) override;
+
 		virtual void RecordEndRenderPass() override;
 
 		virtual void RecordSetGraphicsPipeline(const Native::INativeGraphicsPipeline& GraphicsPipeline) override;
@@ -71,21 +78,22 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		virtual void RecordBlit(const Native::INativeFrameBuffer& FrameBuffer, const BlitFilter Filter) override;
 
 		virtual void RecordClearBackBufferColorImage(const Color& ClearColor) override;
+
 		virtual void RecordClearBackBufferDepthImage(const float Depth, const Elysium::Core::uint32_t Stencil) override;
 	private:
-		const GraphicsDeviceVk& _GraphicsDevice;
-		const CommandPoolVk& _CommandPool;
-		const bool _IsPrimary;
-		const Elysium::Core::Collections::Template::Array<VkCommandBuffer> _NativeCommandBufferHandles;
+		Elysium::Core::Template::Container::Vector<VkCommandBuffer> CreateNativeCommandBuffers();
 
-		Elysium::Core::Collections::Template::Array<VkCommandBuffer> CreateNativeCommandBuffers();
-
-		void RecordInsertImageMemoryBarrier(const VkCommandBuffer CommandBuffer, const VkImage Image, 
+		void RecordInsertImageMemoryBarrier(const VkCommandBuffer CommandBuffer, const VkImage Image,
 			const VkAccessFlags SourceAccessMask, const VkImageLayout OldLayout, const VkPipelineStageFlags SourceStageFlags,
 			const VkAccessFlags TargetAccessMask, const VkImageLayout NewLayout, const VkPipelineStageFlags TargetStageFlags,
 			const VkImageSubresourceRange ImageSubresourceRange);
 
 		void DestroyNativeCommandBuffers();
+	private:
+		const GraphicsDeviceVk& _GraphicsDevice;
+		const CommandPoolVk& _CommandPool;
+		const bool _IsPrimary;
+		const Elysium::Core::Template::Container::Vector<VkCommandBuffer> _NativeCommandBufferHandles;
 	};
 }
 #endif

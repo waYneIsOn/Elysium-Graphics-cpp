@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #endif
@@ -41,14 +45,19 @@ namespace Elysium::Graphics::Rendering::Vulkan
 	{
 		friend class GraphicsInstanceVk;
 		friend class PhysicalDeviceVk;
+	private:
+		PhysicalDevicePropertiesVk();
 	public:
 		PhysicalDevicePropertiesVk(const PhysicalDevicePropertiesVk& Source) = delete;
-		PhysicalDevicePropertiesVk(PhysicalDevicePropertiesVk&& Right) noexcept = delete;
-		~PhysicalDevicePropertiesVk();
 
+		PhysicalDevicePropertiesVk(PhysicalDevicePropertiesVk&& Right) noexcept = delete;
+
+		~PhysicalDevicePropertiesVk();
+	public:
 		PhysicalDevicePropertiesVk& operator=(const PhysicalDevicePropertiesVk& Source) = delete;
+
 		PhysicalDevicePropertiesVk& operator=(PhysicalDevicePropertiesVk&& Right) noexcept = delete;
-		
+	public:
 		const Elysium::Core::Utf8StringView GetName() const;
 		const PhysicalDeviceType GetPhysicalGraphicsDeviceType() const;
 		const Elysium::Core::uint32_t GetApiVersion() const;
@@ -170,8 +179,6 @@ namespace Elysium::Graphics::Rendering::Vulkan
 		const Elysium::Core::uint64_t GetOptimalBufferCopyRowPitchAlignment() const;
 		const Elysium::Core::uint64_t GetNonCoherentAtomSize() const;
 	private:
-		PhysicalDevicePropertiesVk();
-
 		VkPhysicalDeviceProperties _NativeProperties = VkPhysicalDeviceProperties();
 	};
 }

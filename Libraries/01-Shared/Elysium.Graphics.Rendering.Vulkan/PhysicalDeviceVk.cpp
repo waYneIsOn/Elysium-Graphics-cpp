@@ -8,6 +8,10 @@
 #include "FormatConverterVk.hpp"
 #endif
 
+Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::PhysicalDeviceVk()
+	: _NativePhysicalDeviceHandle(VK_NULL_HANDLE), _Properties(), _Features()
+{ }
+
 Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::~PhysicalDeviceVk()
 { }
 
@@ -31,7 +35,7 @@ const Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceFeaturesVk& Elysium::G
 	return _Features;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::QueueFamilyPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetQueueFamilyProperties() const
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::QueueFamilyPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetQueueFamilyProperties() const
 {
 	VkResult Result;
 
@@ -40,20 +44,20 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 
 	if (QueueFamilyPropertiesCount == 0)
 	{
-		return Core::Collections::Template::Array<QueueFamilyPropertyVk>(0);
+		return Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk>(0);
 	}
 	else
 	{
-		Elysium::Core::Collections::Template::Array<VkQueueFamilyProperties> NativeQueueFamilyProperties =
-			Elysium::Core::Collections::Template::Array<VkQueueFamilyProperties>(QueueFamilyPropertiesCount);
+		Elysium::Core::Template::Container::Vector<VkQueueFamilyProperties> NativeQueueFamilyProperties =
+			Elysium::Core::Template::Container::Vector<VkQueueFamilyProperties>(QueueFamilyPropertiesCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(_NativePhysicalDeviceHandle, &QueueFamilyPropertiesCount, &NativeQueueFamilyProperties[0]);
 
 		//vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR
 		//vkGetPhysicalDeviceQueueFamilyProperties2
 		//vkGetPhysicalDeviceQueueFamilyProperties2KHR
 
-		Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk> QueueFamilyProperties =
-			Elysium::Core::Collections::Template::Array<QueueFamilyPropertyVk>(QueueFamilyPropertiesCount);
+		Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk> QueueFamilyProperties =
+			Elysium::Core::Template::Container::Vector<QueueFamilyPropertyVk>(QueueFamilyPropertiesCount);
 		for (size_t i = 0; i < QueueFamilyPropertiesCount; i++)
 		{
 			QueueFamilyProperties[i]._Index = i;
@@ -64,7 +68,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 	}
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetAvailableExtensions() const
+const Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::Vulkan::ExtensionPropertyVk> Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::GetAvailableExtensions() const
 {
 	VkResult Result;
 
@@ -74,8 +78,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 		throw ExceptionVk(Result);
 	}
 
-	Elysium::Core::Collections::Template::Array<ExtensionPropertyVk> Extensions =
-		Elysium::Core::Collections::Template::Array<ExtensionPropertyVk>(ExtensionCount);
+	Elysium::Core::Template::Container::Vector<ExtensionPropertyVk> Extensions =
+		Elysium::Core::Template::Container::Vector<ExtensionPropertyVk>(ExtensionCount);
 	if ((Result = vkEnumerateDeviceExtensionProperties(_NativePhysicalDeviceHandle, nullptr, &ExtensionCount, (VkExtensionProperties*)&Extensions[0])) != VK_SUCCESS)
 	{
 		throw ExceptionVk(Result);
@@ -83,11 +87,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::
 
 	return Extensions;
 }
-
-Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::PhysicalDeviceVk()
-	: _NativePhysicalDeviceHandle(VK_NULL_HANDLE), _Properties(), _Features()
-{ }
-
 const bool Elysium::Graphics::Rendering::Vulkan::PhysicalDeviceVk::SupportsPresentation(const VkSurfaceKHR NativeSurfaceHandle, const Elysium::Core::uint32_t FamilyIndex) const
 {
 	Elysium::Core::uint32_t SupportsPresentation;

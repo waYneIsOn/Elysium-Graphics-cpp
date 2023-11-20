@@ -68,9 +68,9 @@ private:
 	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleVertexShaderModule;
 	Elysium::Graphics::Rendering::ShaderModule _FullScreenTriangleFragmentShaderModule;
 
-	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> _Vertices;
+	Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexPositionColor> _Vertices;
 	Elysium::Graphics::Rendering::VertexBuffer _VertexBuffer;
-	Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> _Indices;
+	Elysium::Core::Template::Container::Vector<Elysium::Core::uint16_t> _Indices;
 	Elysium::Graphics::Rendering::IndexBuffer _IndexBuffer;
 
 	Elysium::Graphics::Rendering::ShaderModule _VertexShaderModule;
@@ -78,9 +78,9 @@ private:
 
 	Elysium::Graphics::Rendering::ShaderModule LoadShaderModule(const Elysium::Core::Utf8String& Path);
 
-	Elysium::Core::Collections::Template::Array<Elysium::Graphics::Rendering::VertexPositionColor> CreateVertices();
+	Elysium::Core::Template::Container::Vector<Elysium::Graphics::Rendering::VertexPositionColor> CreateVertices();
 	Elysium::Graphics::Rendering::VertexBuffer CreateVertexBuffer();
-	Elysium::Core::Collections::Template::Array<Elysium::Core::uint16_t> CreateIndices();
+	Elysium::Core::Template::Container::Vector<Elysium::Core::uint16_t> CreateIndices();
 	Elysium::Graphics::Rendering::IndexBuffer CreateIndexBuffer();
 
 	void PrepareGraphicsPipeline();
